@@ -21,7 +21,7 @@ class _WorkOrderListScreenState extends State<WorkOrderListScreen> {
     try {
       final dio = Dio(BaseOptions(baseUrl: ApiConfig.webUrl));
       String url = '/work-orders/?limit=100';
-      if (statusFilter != null) url += '&status=';
+      if (statusFilter != null) url += '&status=$statusFilter';
       final res = await dio.get(url);
       setState(() { items = (res.data as List).map((e) => WorkOrder.fromJson(e)).toList(); isLoading = false; });
     } catch (e) { setState(() => isLoading = false); }
