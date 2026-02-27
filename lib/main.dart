@@ -7,6 +7,7 @@ import 'screens/dashboard/dashboard_screen.dart';
 import 'screens/equipment/equipment_list_screen.dart';
 import 'screens/work_orders/work_order_list_screen.dart';
 import 'screens/work_orders/create_work_order_screen.dart';
+import 'screens/inspections/inspection_list_screen.dart';
 
 void main() {
   runApp(const ProviderScope(child: OrientProApp()));
@@ -27,6 +28,7 @@ class OrientProApp extends StatelessWidget {
         '/dashboard': (context) => const DashboardScreen(),
         '/equipment': (context) => const EquipmentListScreen(),
         '/work-orders': (context) => const WorkOrderListScreen(),
+        '/inspections': (context) => const InspectionListScreen(),
       },
       onGenerateRoute: (settings) {
         if (settings.name == '/create-work-order') {
