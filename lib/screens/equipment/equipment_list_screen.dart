@@ -2,6 +2,7 @@
 import 'package:dio/dio.dart';
 import '../../core/config/api_config.dart';
 import '../../models/equipment.dart';
+import 'equipment_detail_screen.dart';
 
 class EquipmentListScreen extends StatefulWidget {
   const EquipmentListScreen({super.key});
@@ -26,7 +27,7 @@ class _EquipmentListScreenState extends State<EquipmentListScreen> {
     try {
       final dio = Dio(BaseOptions(baseUrl: ApiConfig.webUrl));
       String url = '/equipment/?limit=100';
-      if (searchQuery.isNotEmpty) url += '&search=';
+      if (searchQuery.isNotEmpty) url += '&search=$searchQuery';
       final res = await dio.get(url);
       setState(() {
         items = (res.data as List).map((e) => Equipment.fromJson(e)).toList();
@@ -84,7 +85,7 @@ class _EquipmentListScreenState extends State<EquipmentListScreen> {
                         child: Icon(Icons.build, color: _statusColor(eq.status)),
                       ),
                       title: Text(eq.name, style: const TextStyle(fontWeight: FontWeight.w600)),
-                      subtitle: Text(' \n'),
+                      subtitle: Text('${eq.manufacturer ?? ""} ${eq.model ?? ""}\n${eq.locationDetail ?? ""}'),
                       isThreeLine: true,
                       trailing: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -94,6 +95,9 @@ class _EquipmentListScreenState extends State<EquipmentListScreen> {
                         ),
                         child: Text(eq.statusText, style: TextStyle(fontSize: 11, color: _statusColor(eq.status), fontWeight: FontWeight.bold)),
                       ),
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => EquipmentDetailScreen(equipment: eq)));
+                      },
                     ),
                   );
                 },
