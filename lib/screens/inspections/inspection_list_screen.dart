@@ -67,6 +67,12 @@ class _InspectionListScreenState extends State<InspectionListScreen> with Single
           Tab(icon: Icon(Icons.history), text: 'Gecmis'),
         ]),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.pushNamed(context, '/chatbot'),
+        backgroundColor: Colors.cyanAccent,
+        child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
+        tooltip: 'AI Asistan',
+      ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : TabBarView(controller: _tabController, children: [

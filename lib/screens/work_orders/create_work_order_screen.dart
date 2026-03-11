@@ -35,6 +35,12 @@ class _CreateWorkOrderScreenState extends ConsumerState<CreateWorkOrderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Yeni Is Emri')),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.pushNamed(context, '/chatbot'),
+        backgroundColor: Colors.cyanAccent,
+        child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
+        tooltip: 'AI Asistan',
+      ),
       body: ListView(padding: const EdgeInsets.all(16), children: [
         Card(color: const Color(0xFFE8F5E9), child: ListTile(leading: const Icon(Icons.build, color: Color(0xFF1B5E20)), title: Text(widget.equipment.name, style: const TextStyle(fontWeight: FontWeight.bold)), subtitle: Text(widget.equipment.categoryText))),
         const SizedBox(height: 16),

@@ -10,6 +10,12 @@ class EquipmentDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(equipment.name)),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.pushNamed(context, '/chatbot'),
+        backgroundColor: Colors.cyanAccent,
+        child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
+        tooltip: 'AI Asistan',
+      ),
       body: ListView(padding: const EdgeInsets.all(16), children: [
         Card(child: Padding(padding: const EdgeInsets.all(20), child: Column(children: [
           Icon(Icons.build, size: 48, color: _statusColor(equipment.status)),
