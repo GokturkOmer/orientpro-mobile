@@ -143,17 +143,10 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
   }
 
   Color _getRoleColor(String role) {
-    switch (role) {
-      case 'admin':
-        return ScadaColors.red;
-      case 'facility_manager':
-        return ScadaColors.amber;
-      case 'chief_technician':
-      case 'hk_supervisor':
-        return ScadaColors.cyan;
-      default:
-        return ScadaColors.green;
-    }
+    if (role == 'admin') return ScadaColors.red;
+    if (role.endsWith('_mudur')) return ScadaColors.amber;
+    if (role.endsWith('_sefi')) return ScadaColors.cyan;
+    return ScadaColors.green;
   }
 
   void _showCreateUserSheet(BuildContext context) {
@@ -162,29 +155,42 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
     final emailCtrl = TextEditingController();
     final passwordCtrl = TextEditingController();
     final phoneCtrl = TextEditingController();
-    String selectedRole = 'technician';
-    String selectedDept = 'teknik';
+    String selectedRole = 'hk_staff';
+    String selectedDept = 'hk';
 
     const roles = {
       'admin': 'Admin',
-      'facility_manager': 'Tesis Muduru',
-      'chief_technician': 'Teknik Sef',
-      'technician': 'Teknisyen',
-      'electrician': 'Elektrikci',
-      'mechanic': 'Mekanik',
-      'hk_supervisor': 'HK Amiri',
+      'teknik_mudur': 'Teknik Mudur',
+      'resepsiyon_mudur': 'Resepsiyon Muduru',
+      'hk_mudur': 'HK Muduru',
+      'guvenlik_mudur': 'Guvenlik Muduru',
+      'mutfak_mudur': 'Mutfak Muduru',
+      'fb_mudur': 'Yiyecek Icecek Muduru',
+      'spa_mudur': 'SPA Muduru',
+      'elektrik_sefi': 'Elektrik Sefi',
+      'mekanik_sefi': 'Mekanik Sefi',
+      'tesisat_sefi': 'Tesisat Sefi',
+      'elektrikci': 'Elektrikci',
+      'mekanikci': 'Mekanikci',
+      'tesisatci': 'Tesisatci',
+      'teknik_staff': 'Teknik Personel',
       'hk_staff': 'HK Personeli',
-      'ordertaker': 'Ordertaker',
-      'readonly': 'Izleme',
+      'resepsiyon_staff': 'Resepsiyon Personeli',
+      'guvenlik_staff': 'Guvenlik Personeli',
+      'mutfak_staff': 'Mutfak Personeli',
+      'fb_staff': 'Yiyecek Icecek Personeli',
+      'spa_staff': 'SPA Personeli',
     };
 
     const departments = {
+      'yonetim': 'Yonetim',
       'teknik': 'Teknik Servis',
       'hk': 'Kat Hizmetleri',
-      'fb': 'Yiyecek & Icecek',
       'on_buro': 'Resepsiyon',
+      'fb': 'Yiyecek & Icecek',
+      'guvenlik': 'Guvenlik',
+      'mutfak': 'Mutfak',
       'spa': 'SPA & Wellness',
-      'yonetim': 'Yonetim',
     };
 
     showModalBottomSheet(

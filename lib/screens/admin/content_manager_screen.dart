@@ -4,7 +4,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/auth/role_helper.dart';
 import '../../providers/admin_provider.dart';
+import '../../providers/auth_provider.dart';
 import '../../models/training.dart';
 
 class ContentManagerScreen extends ConsumerStatefulWidget {
@@ -213,8 +215,16 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
           Expanded(
             child: admin.isLoading && admin.departments.isEmpty
                 ? const Center(child: CircularProgressIndicator(color: ScadaColors.cyan, strokeWidth: 2))
-                : admin.departments.isEmpty
-                    ? Center(
+                : Builder(builder: (context) {
+                    // Departman filtreleme: sadece duzenlenebilir departmanlari goster
+                    final auth = ref.watch(authProvider);
+                    final userRole = auth.user?.role;
+                    final editDepts = RoleHelper.editableDepartments(userRole);
+                    final depts = editDepts == null
+                        ? admin.departments
+                        : admin.departments.where((d) => editDepts.contains(d.code)).toList();
+                    if (depts.isEmpty) {
+                      return Center(
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -226,14 +236,16 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                             ),
                           ],
                         ),
-                      )
-                    : ListView.builder(
+                      );
+                    }
+                    return ListView.builder(
                         padding: const EdgeInsets.only(top: 4),
-                        itemCount: admin.departments.length,
+                        itemCount: depts.length,
                         itemBuilder: (context, index) {
-                          return _buildDepartmentTile(admin.departments[index], admin, onSelect);
+                          return _buildDepartmentTile(depts[index], admin, onSelect);
                         },
-                      ),
+                      );
+                  }),
           ),
         ],
       ),
@@ -242,7 +254,13 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
 
   Widget _buildDepartmentTile(Department dept, AdminState admin, VoidCallback? onNarrowSelect) {
     final isExpanded = _expandedDepartments.contains(dept.id);
-    final routes = admin.routes.where((r) => r.departmentId == dept.id).toList();
+    final auth = ref.watch(authProvider);
+    final userRole = auth.user?.role;
+    var routes = admin.routes.where((r) => r.departmentId == dept.id).toList();
+    // Teknik dept icerisinde tag filtreleme
+    if (dept.code == 'teknik') {
+      routes = routes.where((r) => RoleHelper.canSeeTeknikRoute(userRole, r.tags)).toList();
+    }
 
     Color deptColor;
     try {

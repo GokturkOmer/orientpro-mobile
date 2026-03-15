@@ -15,6 +15,7 @@ class TrainingRoutesScreen extends ConsumerStatefulWidget {
 class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
   String? _selectedDeptId;
   String? _selectedDeptName;
+  String? _selectedTeknikTag; // elektrik, mekanik, tesisat, genel, null=tumu
   bool _loaded = false;
 
   @override
@@ -36,8 +37,19 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
     setState(() {
       _selectedDeptId = deptId;
       _selectedDeptName = deptName;
+      _selectedTeknikTag = null; // dept degisince tag sifirla
     });
     ref.read(trainingProvider.notifier).loadRoutes(departmentId: deptId);
+  }
+
+  void _selectTeknikTag(String? tag) {
+    setState(() => _selectedTeknikTag = tag);
+  }
+
+  /// Secili departmanin teknik olup olmadigini kontrol eder
+  bool _isTeknikDeptSelected(List<dynamic> departments) {
+    if (_selectedDeptId == null) return false;
+    return departments.any((d) => d.id == _selectedDeptId && d.code == 'teknik');
   }
 
   @override
@@ -47,18 +59,52 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
     final isLoading = training.isLoading && training.routes.isEmpty;
     final userRole = auth.user?.role;
     final userDept = auth.user?.department;
-    final canSeeAll = RoleHelper.isAdmin(userRole);
+    final visibleDepts = RoleHelper.visibleDepartments(userRole, userDept);
 
-    // Departman filtreleme: admin tum dept gorur, diger sadece kendi + GEN
-    final filteredDepts = canSeeAll
+    // Departman filtreleme
+    final filteredDepts = visibleDepts == null
         ? training.departments
-        : training.departments.where((d) => d.code == 'GEN' || d.code == userDept).toList();
+        : training.departments.where((d) => visibleDepts.contains(d.code)).toList();
 
-    // Rota filtreleme: admin tum rotalari gorur, diger sadece kendi dept + GEN rotalarini
+    // Rota filtreleme
     final allowedDeptIds = filteredDepts.map((d) => d.id).toSet();
-    final filteredRoutes = canSeeAll
+    var filteredRoutes = visibleDepts == null
         ? training.routes
         : training.routes.where((r) => allowedDeptIds.contains(r.departmentId)).toList();
+
+    // Teknik dept icerisinde tag filtreleme (RBAC)
+    final teknikTags = RoleHelper.visibleTeknikTags(userRole);
+    if (teknikTags != null && teknikTags.isNotEmpty) {
+      final teknikDeptIds = training.departments.where((d) => d.code == 'teknik').map((d) => d.id).toSet();
+      filteredRoutes = filteredRoutes.where((r) {
+        if (!teknikDeptIds.contains(r.departmentId)) return true;
+        return RoleHelper.canSeeTeknikRoute(userRole, r.tags);
+      }).toList();
+    }
+
+    // Teknik alt-dal secimi yapildiysa ek filtre
+    final isTeknikSelected = _isTeknikDeptSelected(training.departments);
+    if (isTeknikSelected && _selectedTeknikTag != null) {
+      filteredRoutes = filteredRoutes.where((r) {
+        final tags = r.tags;
+        if (_selectedTeknikTag == 'genel') {
+          return tags == null || tags.isEmpty || tags.contains('genel');
+        }
+        return tags != null && tags.contains(_selectedTeknikTag);
+      }).toList();
+    }
+
+    // Teknik dept seciliyken gorulebilir alt-dal tag listesi
+    final visibleTagChips = <String>[];
+    if (isTeknikSelected) {
+      final allowedTags = RoleHelper.visibleTeknikTags(userRole);
+      if (allowedTags == null) {
+        // admin / teknik_mudur: tum tag'leri gor
+        visibleTagChips.addAll(['genel', 'elektrik', 'mekanik', 'tesisat']);
+      } else {
+        visibleTagChips.addAll(allowedTags);
+      }
+    }
 
     return Scaffold(
       backgroundColor: ScadaColors.bg,
@@ -80,7 +126,7 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: Row(children: [
-              if (canSeeAll) _buildDeptChip('Tumu', null, null),
+              if (visibleDepts == null) _buildDeptChip('Tumu', null, null),
               ...filteredDepts.map((dept) {
                 Color chipColor;
                 try {
@@ -92,6 +138,21 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
                 }
                 return _buildDeptChip(dept.name, dept.id, chipColor);
               }),
+            ]),
+          ),
+
+        // Teknik alt-dal tag chips
+        if (isTeknikSelected && visibleTagChips.isNotEmpty)
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
+            child: Row(children: [
+              _buildTagChip('Tumu', null, ScadaColors.cyan),
+              ...visibleTagChips.map((tag) => _buildTagChip(
+                _teknikTagLabel(tag),
+                tag,
+                _teknikTagColor(tag),
+              )),
             ]),
           ),
 
@@ -138,6 +199,44 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
         },
       ),
     );
+  }
+
+  Widget _buildTagChip(String label, String? tag, Color color) {
+    final isSelected = _selectedTeknikTag == tag;
+    return Padding(
+      padding: const EdgeInsets.only(right: 8),
+      child: FilterChip(
+        label: Text(label, style: TextStyle(
+          fontSize: 10,
+          color: isSelected ? ScadaColors.bg : color,
+          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+        )),
+        selected: isSelected,
+        selectedColor: color,
+        backgroundColor: color.withValues(alpha: 0.08),
+        side: BorderSide(color: color.withValues(alpha: 0.3)),
+        onSelected: (_) => _selectTeknikTag(tag),
+      ),
+    );
+  }
+
+  String _teknikTagLabel(String tag) {
+    const labels = {
+      'genel': 'Genel Teknik',
+      'elektrik': 'Elektrik',
+      'mekanik': 'Mekanik',
+      'tesisat': 'Tesisat',
+    };
+    return labels[tag] ?? tag;
+  }
+
+  Color _teknikTagColor(String tag) {
+    switch (tag) {
+      case 'elektrik': return ScadaColors.amber;
+      case 'mekanik': return ScadaColors.green;
+      case 'tesisat': return ScadaColors.purple;
+      default: return ScadaColors.cyan;
+    }
   }
 
   Widget _buildRouteCard(dynamic route) {

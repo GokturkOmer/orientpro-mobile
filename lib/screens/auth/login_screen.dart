@@ -13,7 +13,7 @@ class LoginScreen extends ConsumerStatefulWidget {
 class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProviderStateMixin {
   // Debug modda hizli test icin varsayilan degerler, production'da bos
   final _emailController = TextEditingController(text: kDebugMode ? 'admin@orientpro.com' : '');
-  final _passwordController = TextEditingController(text: kDebugMode ? 'OrientPro2026!' : '');
+  final _passwordController = TextEditingController(text: kDebugMode ? 'admin123' : '');
   bool _obscure = true;
   late AnimationController _pulseCtrl;
 

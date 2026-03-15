@@ -4,6 +4,7 @@ import '../../providers/auth_provider.dart';
 import '../../providers/announcement_provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../models/announcement.dart';
+import '../../core/auth/role_helper.dart';
 
 class AnnouncementScreen extends ConsumerStatefulWidget {
   const AnnouncementScreen({super.key});
@@ -29,7 +30,7 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
   Widget build(BuildContext context) {
     final annState = ref.watch(announcementProvider);
     final auth = ref.watch(authProvider);
-    final isAdmin = auth.user?.role == 'admin' || auth.user?.role == 'manager';
+    final isAdmin = RoleHelper.isAdmin(auth.user?.role);
 
     return Scaffold(
       backgroundColor: ScadaColors.bg,

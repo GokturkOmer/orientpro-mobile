@@ -80,19 +80,32 @@ class ModuleSelectionScreen extends ConsumerWidget {
                           ),
                         ),
 
-                        // Alt: Yonetim + Pro (yan yana, kucuk)
+                        // Alt kartlar
                         const SizedBox(height: 16),
                         Row(
                           children: [
-                            // Yonetim - sadece admin
+                            // Admin Paneli - sadece admin
                             if (auth.user != null && RoleHelper.isAdmin(auth.user!.role)) ...[
                               Expanded(
                                 child: _SmallModuleCard(
                                   title: 'Yonetim',
-                                  subtitle: 'Icerik Yonetimi',
+                                  subtitle: 'Admin Paneli',
                                   icon: Icons.admin_panel_settings,
                                   color: ScadaColors.amber,
                                   onTap: () => Navigator.pushNamed(context, '/admin'),
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                            ],
+                            // Icerik Yonetimi - mudur/sef (admin haric, zaten admin panelinden ulasir)
+                            if (auth.user != null && !RoleHelper.isAdmin(auth.user!.role) && RoleHelper.canEditContent(auth.user!.role)) ...[
+                              Expanded(
+                                child: _SmallModuleCard(
+                                  title: 'Icerik',
+                                  subtitle: 'Icerik Yonetimi',
+                                  icon: Icons.edit_note,
+                                  color: ScadaColors.amber,
+                                  onTap: () => Navigator.pushNamed(context, '/admin/content'),
                                 ),
                               ),
                               const SizedBox(width: 16),

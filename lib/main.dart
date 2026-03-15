@@ -99,7 +99,7 @@ class OrientProApp extends StatelessWidget {
         '/chatbot': (context) => const ChatbotScreen(),
         '/ai-predictions': (context) => const _ProGuard(child: AIPredictionScreen()),
         '/admin': (context) => const _AdminGuard(child: AdminDashboardScreen()),
-        '/admin/content': (context) => const _AdminGuard(child: ContentManagerScreen()),
+        '/admin/content': (context) => const _ContentEditorGuard(child: ContentManagerScreen()),
         '/admin/documents': (context) => const _AdminGuard(child: DocumentPoolScreen()),
         '/admin/users': (context) => const _AdminGuard(child: UserManagementScreen()),
       },
@@ -118,15 +118,15 @@ class OrientProApp extends StatelessWidget {
         }
         if (settings.name == '/admin/route-editor') {
           final routeId = settings.arguments as String?;
-          return MaterialPageRoute(builder: (_) => _AdminGuard(child: RouteEditorScreen(routeId: routeId)));
+          return MaterialPageRoute(builder: (_) => _ContentEditorGuard(child: RouteEditorScreen(routeId: routeId)));
         }
         if (settings.name == '/admin/module-editor') {
           final args = settings.arguments as Map<String, String?>;
-          return MaterialPageRoute(builder: (_) => _AdminGuard(child: ModuleEditorScreen(routeId: args['routeId']!, moduleId: args['moduleId'])));
+          return MaterialPageRoute(builder: (_) => _ContentEditorGuard(child: ModuleEditorScreen(routeId: args['routeId']!, moduleId: args['moduleId'])));
         }
         if (settings.name == '/admin/quiz-builder') {
           final args = settings.arguments as Map<String, String?>;
-          return MaterialPageRoute(builder: (_) => _AdminGuard(child: QuizBuilderScreen(moduleId: args['moduleId']!, quizId: args['quizId'])));
+          return MaterialPageRoute(builder: (_) => _ContentEditorGuard(child: QuizBuilderScreen(moduleId: args['moduleId']!, quizId: args['quizId'])));
         }
         if (settings.name == '/create-work-order') {
           final equipment = settings.arguments as Equipment;
@@ -160,6 +160,19 @@ class _AdminGuard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final auth = ref.watch(authProvider);
     if (RoleHelper.isAdmin(auth.user?.role)) return child;
+    return const _AccessDeniedScreen();
+  }
+}
+
+/// Icerik yonetimi icin route guard (admin + mudur + sef)
+class _ContentEditorGuard extends ConsumerWidget {
+  final Widget child;
+  const _ContentEditorGuard({required this.child});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final auth = ref.watch(authProvider);
+    if (RoleHelper.canEditContent(auth.user?.role)) return child;
     return const _AccessDeniedScreen();
   }
 }

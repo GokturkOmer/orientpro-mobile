@@ -202,11 +202,11 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                   Builder(builder: (context) {
                     final userRole = auth.user?.role;
                     final userDept = auth.user?.department;
-                    final canSeeAll = RoleHelper.isAdmin(userRole);
-                    final filtered = canSeeAll
+                    final visibleDepts = RoleHelper.visibleDepartments(userRole, userDept);
+                    final filtered = visibleDepts == null
                         ? _summary!.upcomingDeadlines
                         : _summary!.upcomingDeadlines.where((d) =>
-                            d['department_code'] == 'GEN' || d['department_code'] == userDept).toList();
+                            visibleDepts.contains(d['department_code'])).toList();
                     return Column(children: _buildGroupedDeadlines(filtered));
                   }),
                 ],
@@ -272,19 +272,28 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                 Builder(builder: (context) {
                   final userRole = auth.user?.role;
                   final userDept = auth.user?.department;
-                  final canSeeAll = RoleHelper.isAdmin(userRole);
-                  final allowedDeptIds = canSeeAll
+                  final visibleDepts = RoleHelper.visibleDepartments(userRole, userDept);
+                  final allowedDeptIds = visibleDepts == null
                       ? null
-                      : training.departments.where((d) => d.code == 'GEN' || d.code == userDept).map((d) => d.id).toSet();
-                  final routeCount = canSeeAll
-                      ? training.routes.length
-                      : training.routes.where((r) => allowedDeptIds!.contains(r.departmentId)).length;
+                      : training.departments.where((d) => visibleDepts.contains(d.code)).map((d) => d.id).toSet();
+                  var filteredRoutes = allowedDeptIds == null
+                      ? training.routes
+                      : training.routes.where((r) => allowedDeptIds.contains(r.departmentId)).toList();
+                  // Teknik dept icerisinde tag filtreleme
+                  final teknikTags = RoleHelper.visibleTeknikTags(userRole);
+                  if (teknikTags != null && teknikTags.isNotEmpty) {
+                    final teknikDeptIds = training.departments.where((d) => d.code == 'teknik').map((d) => d.id).toSet();
+                    filteredRoutes = filteredRoutes.where((r) {
+                      if (!teknikDeptIds.contains(r.departmentId)) return true;
+                      return RoleHelper.canSeeTeknikRoute(userRole, r.tags);
+                    }).toList();
+                  }
                   return _buildModuleCard(
                     icon: Icons.route,
                     title: 'Egitim Rotalari',
                     description: 'Departman bazli egitim rotalari ve icerikler',
                     color: ScadaColors.cyan,
-                    badge: '$routeCount',
+                    badge: '${filteredRoutes.length}',
                     onTap: () => Navigator.pushNamed(context, '/training-routes'),
                   );
                 }),
