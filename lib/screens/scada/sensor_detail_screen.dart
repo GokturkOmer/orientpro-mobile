@@ -92,7 +92,7 @@ class SensorDetailScreen extends ConsumerWidget {
       elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: statusColor.withOpacity(0.5), width: 2),
+        side: BorderSide(color: statusColor.withValues(alpha: 0.5), width: 2),
       ),
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -117,7 +117,7 @@ class SensorDetailScreen extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             decoration: BoxDecoration(
-              color: statusColor.withOpacity(0.1),
+              color: statusColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(statusText, style: TextStyle(color: statusColor, fontWeight: FontWeight.bold)),
@@ -161,9 +161,9 @@ class SensorDetailScreen extends ConsumerWidget {
         margin: const EdgeInsets.symmetric(horizontal: 2),
         padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: color.withOpacity(0.3)),
+          border: Border.all(color: color.withValues(alpha: 0.3)),
         ),
         child: Column(children: [
           Text(label, style: TextStyle(fontSize: 9, color: color), textAlign: TextAlign.center),
@@ -192,16 +192,16 @@ class SensorDetailScreen extends ConsumerWidget {
     // Threshold lines
     final extraLines = <HorizontalLine>[];
     if (def?.alarmMax != null) {
-      extraLines.add(HorizontalLine(y: def!.alarmMax!, color: Colors.red.withOpacity(0.5), strokeWidth: 1, dashArray: [5, 5]));
+      extraLines.add(HorizontalLine(y: def!.alarmMax!, color: Colors.red.withValues(alpha: 0.5), strokeWidth: 1, dashArray: [5, 5]));
     }
     if (def?.warningMax != null) {
-      extraLines.add(HorizontalLine(y: def!.warningMax!, color: Colors.orange.withOpacity(0.5), strokeWidth: 1, dashArray: [5, 5]));
+      extraLines.add(HorizontalLine(y: def!.warningMax!, color: Colors.orange.withValues(alpha: 0.5), strokeWidth: 1, dashArray: [5, 5]));
     }
     if (def?.alarmMin != null) {
-      extraLines.add(HorizontalLine(y: def!.alarmMin!, color: Colors.red.withOpacity(0.5), strokeWidth: 1, dashArray: [5, 5]));
+      extraLines.add(HorizontalLine(y: def!.alarmMin!, color: Colors.red.withValues(alpha: 0.5), strokeWidth: 1, dashArray: [5, 5]));
     }
     if (def?.warningMin != null) {
-      extraLines.add(HorizontalLine(y: def!.warningMin!, color: Colors.orange.withOpacity(0.5), strokeWidth: 1, dashArray: [5, 5]));
+      extraLines.add(HorizontalLine(y: def!.warningMin!, color: Colors.orange.withValues(alpha: 0.5), strokeWidth: 1, dashArray: [5, 5]));
     }
 
     return LineChart(
@@ -248,7 +248,7 @@ class SensorDetailScreen extends ConsumerWidget {
             dotData: const FlDotData(show: false),
             belowBarData: BarAreaData(
               show: true,
-              color: const Color(0xFF1B5E20).withOpacity(0.08),
+              color: const Color(0xFF1B5E20).withValues(alpha: 0.08),
             ),
           ),
         ],

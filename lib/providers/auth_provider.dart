@@ -41,6 +41,21 @@ class AuthNotifier extends Notifier<AuthState> {
   void logout() {
     state = AuthState();
   }
+
+  Future<bool> validateToken() async {
+    final currentToken = state.token;
+    if (currentToken == null) return false;
+    try {
+      final response = await _dio.get('/auth/me',
+          options: Options(headers: {'Authorization': 'Bearer $currentToken'}));
+      final user = User.fromJson(response.data);
+      state = AuthState(user: user, token: currentToken);
+      return true;
+    } catch (_) {
+      state = AuthState();
+      return false;
+    }
+  }
 }
 
 final authProvider = NotifierProvider<AuthNotifier, AuthState>(() {

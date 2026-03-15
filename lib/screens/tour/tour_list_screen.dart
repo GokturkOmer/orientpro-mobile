@@ -17,7 +17,7 @@ class TourListScreen extends ConsumerWidget {
         title: Row(mainAxisSize: MainAxisSize.min, children: [
           Container(
             padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(color: ScadaColors.green.withOpacity(0.15), borderRadius: BorderRadius.circular(6)),
+            decoration: BoxDecoration(color: ScadaColors.green.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(6)),
             child: const Icon(Icons.qr_code_scanner, color: ScadaColors.green, size: 18),
           ),
           const SizedBox(width: 8),
@@ -112,7 +112,7 @@ class TourListScreen extends ConsumerWidget {
           child: Row(children: [
             Container(
               width: 40, height: 40,
-              decoration: BoxDecoration(color: deptColor.withOpacity(0.12), borderRadius: BorderRadius.circular(8)),
+              decoration: BoxDecoration(color: deptColor.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(8)),
               child: Icon(deptIcon, color: deptColor, size: 20),
             ),
             const SizedBox(width: 12),
@@ -130,7 +130,7 @@ class TourListScreen extends ConsumerWidget {
                 const SizedBox(width: 10),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                  decoration: BoxDecoration(color: deptColor.withOpacity(0.12), borderRadius: BorderRadius.circular(4)),
+                  decoration: BoxDecoration(color: deptColor.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(4)),
                   child: Text(route.department ?? '', style: TextStyle(fontSize: 9, color: deptColor, fontWeight: FontWeight.w600)),
                 ),
               ]),

@@ -71,7 +71,7 @@ class DigitalTwinScreen extends ConsumerWidget {
       decoration: BoxDecoration(
         color: const Color(0xFF16213e),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white.withOpacity(0.1)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
       ),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
         _statusBadge('Normal', normal, Colors.greenAccent),
@@ -88,7 +88,7 @@ class DigitalTwinScreen extends ConsumerWidget {
   Widget _statusBadge(String label, int count, Color color) {
     return Column(children: [
       Text('$count', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: color)),
-      Text(label, style: TextStyle(fontSize: 10, color: Colors.white.withOpacity(0.6))),
+      Text(label, style: TextStyle(fontSize: 10, color: Colors.white.withValues(alpha: 0.6))),
     ]);
   }
 
@@ -110,9 +110,9 @@ class DigitalTwinScreen extends ConsumerWidget {
 
     return Column(children: [
       Row(children: [
-        Icon(Icons.apartment, color: Colors.white.withOpacity(0.5), size: 18),
+        Icon(Icons.apartment, color: Colors.white.withValues(alpha: 0.5), size: 18),
         const SizedBox(width: 8),
-        Text('TESIS PLANI', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.white.withOpacity(0.5), letterSpacing: 2)),
+        Text('TESIS PLANI', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.white.withValues(alpha: 0.5), letterSpacing: 2)),
       ]),
       const SizedBox(height: 12),
       Row(children: [
@@ -136,16 +136,16 @@ class DigitalTwinScreen extends ConsumerWidget {
       Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.03),
+          color: Colors.white.withValues(alpha: 0.03),
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.white.withOpacity(0.05)),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
         ),
         child: Row(children: [
-          Icon(Icons.info_outline, size: 14, color: Colors.white.withOpacity(0.3)),
+          Icon(Icons.info_outline, size: 14, color: Colors.white.withValues(alpha: 0.3)),
           const SizedBox(width: 8),
           Expanded(child: Text(
             'Sensore dokunarak detay ve trend grafigine ulasabilirsiniz',
-            style: TextStyle(fontSize: 11, color: Colors.white.withOpacity(0.3)),
+            style: TextStyle(fontSize: 11, color: Colors.white.withValues(alpha: 0.3)),
           )),
         ]),
       ),
@@ -157,17 +157,17 @@ class DigitalTwinScreen extends ConsumerWidget {
       height: 24,
       margin: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(children: [
-        Text(left, style: TextStyle(fontSize: 8, color: leftColor.withOpacity(0.6))),
+        Text(left, style: TextStyle(fontSize: 8, color: leftColor.withValues(alpha: 0.6))),
         const SizedBox(width: 6),
         Expanded(child: Container(
           height: 2,
           decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [leftColor.withOpacity(0.5), rightColor.withOpacity(0.5)]),
+            gradient: LinearGradient(colors: [leftColor.withValues(alpha: 0.5), rightColor.withValues(alpha: 0.5)]),
             borderRadius: BorderRadius.circular(1),
           ),
         )),
         const SizedBox(width: 6),
-        Text(right, style: TextStyle(fontSize: 8, color: rightColor.withOpacity(0.6))),
+        Text(right, style: TextStyle(fontSize: 8, color: rightColor.withValues(alpha: 0.6))),
       ]),
     );
   }
@@ -175,7 +175,7 @@ class DigitalTwinScreen extends ConsumerWidget {
   Widget _buildZone(BuildContext context, _ZoneConfig zone, List<_SensorWithDef> sensors) {
     final hasAlarm = sensors.any((s) => s.sensor.alarmStatus == 'alarm');
     final hasWarning = sensors.any((s) => s.sensor.alarmStatus == 'warning');
-    final borderColor = hasAlarm ? Colors.redAccent : hasWarning ? Colors.orangeAccent : zone.color.withOpacity(0.4);
+    final borderColor = hasAlarm ? Colors.redAccent : hasWarning ? Colors.orangeAccent : zone.color.withValues(alpha: 0.4);
 
     return Container(
       padding: const EdgeInsets.all(12),
@@ -183,19 +183,19 @@ class DigitalTwinScreen extends ConsumerWidget {
         color: const Color(0xFF16213e),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: borderColor, width: hasAlarm ? 2 : 1),
-        boxShadow: hasAlarm ? [BoxShadow(color: Colors.redAccent.withOpacity(0.2), blurRadius: 12)] : null,
+        boxShadow: hasAlarm ? [BoxShadow(color: Colors.redAccent.withValues(alpha: 0.2), blurRadius: 12)] : null,
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(children: [
           Container(
             padding: const EdgeInsets.all(6),
-            decoration: BoxDecoration(color: zone.color.withOpacity(0.15), borderRadius: BorderRadius.circular(6)),
+            decoration: BoxDecoration(color: zone.color.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(6)),
             child: Icon(zone.icon, size: 16, color: zone.color),
           ),
           const SizedBox(width: 8),
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(zone.name, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: zone.color, letterSpacing: 1)),
-            Text(zone.location, style: TextStyle(fontSize: 9, color: Colors.white.withOpacity(0.3))),
+            Text(zone.location, style: TextStyle(fontSize: 9, color: Colors.white.withValues(alpha: 0.3))),
           ])),
           if (hasAlarm) _PulsingDot(color: Colors.redAccent, size: 8),
           if (hasWarning && !hasAlarm) _PulsingDot(color: Colors.orangeAccent, size: 8),
@@ -236,24 +236,24 @@ class DigitalTwinScreen extends ConsumerWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
         decoration: BoxDecoration(
-          color: statusColor.withOpacity(0.08),
+          color: statusColor.withValues(alpha: 0.08),
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: statusColor.withOpacity(0.3)),
+          border: Border.all(color: statusColor.withValues(alpha: 0.3)),
         ),
         child: Row(mainAxisSize: MainAxisSize.min, children: [
           Container(
             width: 6, height: 6,
             decoration: BoxDecoration(color: statusColor, shape: BoxShape.circle,
-              boxShadow: [BoxShadow(color: statusColor.withOpacity(0.5), blurRadius: 4)]),
+              boxShadow: [BoxShadow(color: statusColor.withValues(alpha: 0.5), blurRadius: 4)]),
           ),
           const SizedBox(width: 5),
           Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
-            Text(shortName, style: TextStyle(fontSize: 8, color: Colors.white.withOpacity(0.5))),
+            Text(shortName, style: TextStyle(fontSize: 8, color: Colors.white.withValues(alpha: 0.5))),
             Row(mainAxisSize: MainAxisSize.min, children: [
               Text(valueText, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: statusColor)),
               if (!isDurum) ...[
                 const SizedBox(width: 2),
-                Text(sensor.unit, style: TextStyle(fontSize: 8, color: Colors.white.withOpacity(0.4))),
+                Text(sensor.unit, style: TextStyle(fontSize: 8, color: Colors.white.withValues(alpha: 0.4))),
               ],
             ]),
           ]),
@@ -308,9 +308,9 @@ class _PulsingDotState extends State<_PulsingDot> with SingleTickerProviderState
       builder: (_, __) => Container(
         width: widget.size, height: widget.size,
         decoration: BoxDecoration(
-          color: widget.color.withOpacity(0.5 + _ctrl.value * 0.5),
+          color: widget.color.withValues(alpha: 0.5 + _ctrl.value * 0.5),
           shape: BoxShape.circle,
-          boxShadow: [BoxShadow(color: widget.color.withOpacity(_ctrl.value * 0.6), blurRadius: widget.size * 2)],
+          boxShadow: [BoxShadow(color: widget.color.withValues(alpha: _ctrl.value * 0.6), blurRadius: widget.size * 2)],
         ),
       ),
     );

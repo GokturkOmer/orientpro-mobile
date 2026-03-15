@@ -130,7 +130,7 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
         color: ScadaColors.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
         border: Border.all(color: ScadaColors.borderBright),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.5), blurRadius: 20)],
+        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.5), blurRadius: 20)],
       ),
       child: Column(children: [
         Container(margin: const EdgeInsets.symmetric(vertical: 8), width: 40, height: 4, decoration: BoxDecoration(color: ScadaColors.borderBright, borderRadius: BorderRadius.circular(2))),
@@ -180,9 +180,9 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
       margin: const EdgeInsets.all(12),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: ScadaColors.green.withOpacity(0.08),
+        color: ScadaColors.green.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: ScadaColors.green.withOpacity(0.3)),
+        border: Border.all(color: ScadaColors.green.withValues(alpha: 0.3)),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(children: [
@@ -224,14 +224,14 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
       margin: const EdgeInsets.only(bottom: 6),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: cp.scanned ? statusColor.withOpacity(0.06) : ScadaColors.card,
+        color: cp.scanned ? statusColor.withValues(alpha: 0.06) : ScadaColors.card,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: cp.scanned ? statusColor.withOpacity(0.3) : ScadaColors.border),
+        border: Border.all(color: cp.scanned ? statusColor.withValues(alpha: 0.3) : ScadaColors.border),
       ),
       child: Row(children: [
         Container(
           width: 28, height: 28,
-          decoration: BoxDecoration(color: statusColor.withOpacity(0.15), shape: BoxShape.circle),
+          decoration: BoxDecoration(color: statusColor.withValues(alpha: 0.15), shape: BoxShape.circle),
           child: cp.scanned
             ? Icon(statusIcon, size: 14, color: statusColor)
             : Center(child: Text('${cp.orderIndex}', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: statusColor))),
@@ -241,7 +241,7 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
           Text(cp.name, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: cp.scanned ? statusColor : ScadaColors.textPrimary)),
           if (cp.location != null) Text(cp.location!, style: const TextStyle(fontSize: 10, color: ScadaColors.textDim)),
         ])),
-        if (cp.photoRequired) Icon(Icons.camera_alt, size: 13, color: ScadaColors.amber.withOpacity(0.5)),
+        if (cp.photoRequired) Icon(Icons.camera_alt, size: 13, color: ScadaColors.amber.withValues(alpha: 0.5)),
         if (!cp.scanned && _session?.status == 'active')
           IconButton(icon: const Icon(Icons.skip_next, size: 16), color: ScadaColors.amber, tooltip: 'Atla', onPressed: () => _showSkipDialog(cp)),
       ]),
@@ -301,7 +301,7 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
       content: const Text('Bu islem geri alinamaz.', style: TextStyle(color: ScadaColors.textSecondary)),
       actions: [
         TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Vazgec', style: TextStyle(color: ScadaColors.textDim))),
-        ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.red.withOpacity(0.15), foregroundColor: ScadaColors.red),
+        ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.red.withValues(alpha: 0.15), foregroundColor: ScadaColors.red),
           onPressed: () => Navigator.pop(ctx, true), child: const Text('Iptal Et')),
       ],
     ));

@@ -44,7 +44,7 @@ class _EquipmentListScreenState extends State<EquipmentListScreen> {
       appBar: AppBar(
         backgroundColor: ScadaColors.surface,
         title: Row(mainAxisSize: MainAxisSize.min, children: [
-          Container(padding: const EdgeInsets.all(4), decoration: BoxDecoration(color: ScadaColors.cyan.withOpacity(0.15), borderRadius: BorderRadius.circular(6)),
+          Container(padding: const EdgeInsets.all(4), decoration: BoxDecoration(color: ScadaColors.cyan.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(6)),
             child: const Icon(Icons.inventory, color: ScadaColors.cyan, size: 18)),
           const SizedBox(width: 8),
           const Text('Ekipmanlar', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
@@ -59,7 +59,7 @@ class _EquipmentListScreenState extends State<EquipmentListScreen> {
               filled: true, fillColor: ScadaColors.card,
               border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
               enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
-              focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: ScadaColors.cyan.withOpacity(0.5))),
+              focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: ScadaColors.cyan.withValues(alpha: 0.5))),
               contentPadding: const EdgeInsets.symmetric(vertical: 8),
             ),
             onChanged: (v) { searchQuery = v; _loadEquipment(); },
@@ -78,18 +78,18 @@ class _EquipmentListScreenState extends State<EquipmentListScreen> {
             label: const Text('Tumu', style: TextStyle(fontSize: 11, color: ScadaColors.textPrimary)),
             selected: selectedCategory == null,
             onSelected: (_) { selectedCategory = null; _loadEquipment(); },
-            selectedColor: ScadaColors.cyan.withOpacity(0.15),
+            selectedColor: ScadaColors.cyan.withValues(alpha: 0.15),
             backgroundColor: ScadaColors.card,
-            side: BorderSide(color: selectedCategory == null ? ScadaColors.cyan.withOpacity(0.5) : ScadaColors.border),
+            side: BorderSide(color: selectedCategory == null ? ScadaColors.cyan.withValues(alpha: 0.5) : ScadaColors.border),
           )),
           ...categories.entries.map((e) => Padding(padding: const EdgeInsets.only(right: 6), child: FilterChip(
             avatar: Icon(_catIcon(e.key), size: 14, color: selectedCategory == e.key ? ScadaColors.cyan : ScadaColors.textDim),
             label: Text(e.value, style: TextStyle(fontSize: 11, color: selectedCategory == e.key ? ScadaColors.cyan : ScadaColors.textSecondary)),
             selected: selectedCategory == e.key,
             onSelected: (_) { selectedCategory = selectedCategory == e.key ? null : e.key; _loadEquipment(); },
-            selectedColor: ScadaColors.cyan.withOpacity(0.15),
+            selectedColor: ScadaColors.cyan.withValues(alpha: 0.15),
             backgroundColor: ScadaColors.card,
-            side: BorderSide(color: selectedCategory == e.key ? ScadaColors.cyan.withOpacity(0.5) : ScadaColors.border),
+            side: BorderSide(color: selectedCategory == e.key ? ScadaColors.cyan.withValues(alpha: 0.5) : ScadaColors.border),
           ))),
         ])),
         Expanded(child: isLoading
@@ -105,7 +105,7 @@ class _EquipmentListScreenState extends State<EquipmentListScreen> {
                   borderRadius: BorderRadius.circular(10),
                   onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => EquipmentDetailScreen(equipment: eq))),
                   child: Padding(padding: const EdgeInsets.all(12), child: Row(children: [
-                    Container(width: 40, height: 40, decoration: BoxDecoration(color: sColor.withOpacity(0.12), borderRadius: BorderRadius.circular(8)),
+                    Container(width: 40, height: 40, decoration: BoxDecoration(color: sColor.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(8)),
                       child: Icon(_catIcon(eq.category), color: sColor, size: 20)),
                     const SizedBox(width: 12),
                     Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -124,10 +124,10 @@ class _EquipmentListScreenState extends State<EquipmentListScreen> {
                       ]),
                     ])),
                     Column(children: [
-                      Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2), decoration: BoxDecoration(color: sColor.withOpacity(0.12), borderRadius: BorderRadius.circular(4), border: Border.all(color: sColor.withOpacity(0.3))),
+                      Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2), decoration: BoxDecoration(color: sColor.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(4), border: Border.all(color: sColor.withValues(alpha: 0.3))),
                         child: Text(eq.statusText, style: TextStyle(fontSize: 9, color: sColor, fontWeight: FontWeight.w600))),
                       const SizedBox(height: 4),
-                      Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2), decoration: BoxDecoration(color: _critColor(eq.criticality).withOpacity(0.1), borderRadius: BorderRadius.circular(4)),
+                      Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2), decoration: BoxDecoration(color: _critColor(eq.criticality).withValues(alpha: 0.1), borderRadius: BorderRadius.circular(4)),
                         child: Text(eq.criticalityText, style: TextStyle(fontSize: 8, color: _critColor(eq.criticality)))),
                     ]),
                     const SizedBox(width: 4),

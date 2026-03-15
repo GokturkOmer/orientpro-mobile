@@ -108,7 +108,7 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
             const SizedBox(height: 40),
             Container(
               padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.cyanAccent.withOpacity(0.1), border: Border.all(color: Colors.cyanAccent.withOpacity(0.3), width: 2)),
+              decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.cyanAccent.withValues(alpha: 0.1), border: Border.all(color: Colors.cyanAccent.withValues(alpha: 0.3), width: 2)),
               child: const Icon(Icons.smart_toy, size: 48, color: Colors.cyanAccent),
             ),
             const SizedBox(height: 20),
@@ -141,11 +141,11 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
       onTap: () { _controller.text = text; _sendMessage(); },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(color: const Color(0xFF1a2332), borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.cyanAccent.withOpacity(0.2))),
+        decoration: BoxDecoration(color: const Color(0xFF1a2332), borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.cyanAccent.withValues(alpha: 0.2))),
         child: Row(mainAxisSize: MainAxisSize.min, children: [
-          Icon(icon, size: 14, color: Colors.cyanAccent.withOpacity(0.7)),
+          Icon(icon, size: 14, color: Colors.cyanAccent.withValues(alpha: 0.7)),
           const SizedBox(width: 6),
-          Text(text, style: TextStyle(color: Colors.cyanAccent.withOpacity(0.9), fontSize: 12)),
+          Text(text, style: TextStyle(color: Colors.cyanAccent.withValues(alpha: 0.9), fontSize: 12)),
         ]),
       ),
     );
@@ -159,12 +159,12 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
         padding: const EdgeInsets.all(14),
         constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.78),
         decoration: BoxDecoration(
-          color: message.isUser ? Colors.cyanAccent.withOpacity(0.12) : const Color(0xFF151e2d),
+          color: message.isUser ? Colors.cyanAccent.withValues(alpha: 0.12) : const Color(0xFF151e2d),
           borderRadius: BorderRadius.circular(16).copyWith(
             bottomRight: message.isUser ? const Radius.circular(4) : null,
             bottomLeft: !message.isUser ? const Radius.circular(4) : null,
           ),
-          border: Border.all(color: message.isUser ? Colors.cyanAccent.withOpacity(0.25) : const Color(0xFF243040)),
+          border: Border.all(color: message.isUser ? Colors.cyanAccent.withValues(alpha: 0.25) : const Color(0xFF243040)),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           if (!message.isUser) ...[
@@ -217,7 +217,7 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
         child: Row(mainAxisSize: MainAxisSize.min, children: [
           const Icon(Icons.smart_toy, size: 14, color: Colors.cyanAccent),
           const SizedBox(width: 8),
-          SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.cyanAccent.withOpacity(0.7))),
+          SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.cyanAccent.withValues(alpha: 0.7))),
           const SizedBox(width: 8),
           Text('Analiz ediliyor...', style: TextStyle(color: Colors.grey[500], fontSize: 13)),
         ]),
@@ -238,7 +238,7 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
         )),
         const SizedBox(width: 8),
         Container(
-          decoration: BoxDecoration(shape: BoxShape.circle, gradient: LinearGradient(colors: [Colors.cyanAccent, Colors.cyanAccent.withOpacity(0.7)])),
+          decoration: BoxDecoration(shape: BoxShape.circle, gradient: LinearGradient(colors: [Colors.cyanAccent, Colors.cyanAccent.withValues(alpha: 0.7)])),
           child: IconButton(icon: const Icon(Icons.send, color: Color(0xFF0a0e1a), size: 20), onPressed: _sendMessage),
         ),
       ]),

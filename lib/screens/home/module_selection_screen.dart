@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/auth_provider.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/auth/role_helper.dart';
 
 class ModuleSelectionScreen extends ConsumerWidget {
   const ModuleSelectionScreen({super.key});
@@ -25,7 +26,7 @@ class ModuleSelectionScreen extends ConsumerWidget {
                     Container(
                       padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
-                        color: ScadaColors.cyan.withOpacity(0.15),
+                        color: ScadaColors.cyan.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: const Icon(Icons.precision_manufacturing, color: ScadaColors.cyan, size: 22),
@@ -65,29 +66,48 @@ class ModuleSelectionScreen extends ConsumerWidget {
                           style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 1),
                         ),
                         const SizedBox(height: 20),
+
+                        // Ust: Oryantasyon (buyuk, tek)
+                        SizedBox(
+                          width: double.infinity,
+                          child: _ModuleCard(
+                            title: 'Oryantasyon',
+                            subtitle: 'Egitim & Rehber',
+                            description: 'Personel oryantasyon surecleri,\negitim rotalari ve takip',
+                            icon: Icons.school,
+                            color: ScadaColors.purple,
+                            onTap: () => Navigator.pushNamed(context, '/orientation-dashboard'),
+                          ),
+                        ),
+
+                        // Alt: Yonetim + Pro (yan yana, kucuk)
+                        const SizedBox(height: 16),
                         Row(
                           children: [
-                            Expanded(
-                              child: _ModuleCard(
-                                title: 'Oryantasyon',
-                                subtitle: 'Egitim & Rehber',
-                                description: 'Personel oryantasyon surecleri,\negitim rotalari ve takip',
-                                icon: Icons.school,
-                                color: ScadaColors.purple,
-                                onTap: () => Navigator.pushNamed(context, '/orientation-dashboard'),
+                            // Yonetim - sadece admin
+                            if (auth.user != null && RoleHelper.isAdmin(auth.user!.role)) ...[
+                              Expanded(
+                                child: _SmallModuleCard(
+                                  title: 'Yonetim',
+                                  subtitle: 'Icerik Yonetimi',
+                                  icon: Icons.admin_panel_settings,
+                                  color: ScadaColors.amber,
+                                  onTap: () => Navigator.pushNamed(context, '/admin'),
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: _ModuleCard(
-                                title: 'Pro',
-                                subtitle: 'Teknik Yonetim',
-                                description: 'SCADA, ekipman, is emirleri,\nalarm ve izleme sistemleri',
-                                icon: Icons.precision_manufacturing,
-                                color: ScadaColors.cyan,
-                                onTap: () => Navigator.pushNamed(context, '/dashboard'),
+                              const SizedBox(width: 16),
+                            ],
+                            // Pro - sadece teknik roller
+                            if (auth.user != null && RoleHelper.canAccessPro(auth.user!.role))
+                              Expanded(
+                                child: _SmallModuleCard(
+                                  title: 'Pro',
+                                  subtitle: 'Teknik Yonetim',
+                                  icon: Icons.precision_manufacturing,
+                                  color: ScadaColors.cyan,
+                                  onTap: () => Navigator.pushNamed(context, '/dashboard'),
+                                ),
                               ),
-                            ),
                           ],
                         ),
                       ],
@@ -98,7 +118,7 @@ class ModuleSelectionScreen extends ConsumerWidget {
 
               // Footer
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Container(width: 6, height: 6, decoration: BoxDecoration(color: ScadaColors.green.withOpacity(0.6), shape: BoxShape.circle)),
+                Container(width: 6, height: 6, decoration: BoxDecoration(color: ScadaColors.green.withValues(alpha: 0.6), shape: BoxShape.circle)),
                 const SizedBox(width: 6),
                 const Text('Sistem aktif', style: TextStyle(fontSize: 10, color: ScadaColors.textDim)),
                 const SizedBox(width: 16),
@@ -150,17 +170,17 @@ class _ModuleCardState extends State<_ModuleCard> {
           padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
           decoration: BoxDecoration(
             color: _isHovered
-                ? widget.color.withOpacity(0.08)
+                ? widget.color.withValues(alpha: 0.08)
                 : ScadaColors.card,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: _isHovered
-                  ? widget.color.withOpacity(0.5)
+                  ? widget.color.withValues(alpha: 0.5)
                   : ScadaColors.border,
               width: _isHovered ? 1.5 : 1,
             ),
             boxShadow: _isHovered
-                ? [BoxShadow(color: widget.color.withOpacity(0.1), blurRadius: 20)]
+                ? [BoxShadow(color: widget.color.withValues(alpha: 0.1), blurRadius: 20)]
                 : [],
           ),
           child: Column(
@@ -169,9 +189,9 @@ class _ModuleCardState extends State<_ModuleCard> {
               Container(
                 padding: const EdgeInsets.all(18),
                 decoration: BoxDecoration(
-                  color: widget.color.withOpacity(0.12),
+                  color: widget.color.withValues(alpha: 0.12),
                   shape: BoxShape.circle,
-                  border: Border.all(color: widget.color.withOpacity(0.3)),
+                  border: Border.all(color: widget.color.withValues(alpha: 0.3)),
                 ),
                 child: Icon(widget.icon, size: 40, color: widget.color),
               ),
@@ -203,6 +223,93 @@ class _ModuleCardState extends State<_ModuleCard> {
                   color: ScadaColors.textDim,
                   height: 1.4,
                 ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SmallModuleCard extends StatefulWidget {
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final Color color;
+  final VoidCallback onTap;
+
+  const _SmallModuleCard({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.color,
+    required this.onTap,
+  });
+
+  @override
+  State<_SmallModuleCard> createState() => _SmallModuleCardState();
+}
+
+class _SmallModuleCardState extends State<_SmallModuleCard> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+          decoration: BoxDecoration(
+            color: _isHovered
+                ? widget.color.withValues(alpha: 0.08)
+                : ScadaColors.card,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: _isHovered
+                  ? widget.color.withValues(alpha: 0.5)
+                  : ScadaColors.border,
+              width: _isHovered ? 1.5 : 1,
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: widget.color.withValues(alpha: 0.12),
+                  shape: BoxShape.circle,
+                  border: Border.all(color: widget.color.withValues(alpha: 0.3)),
+                ),
+                child: Icon(widget.icon, size: 22, color: widget.color),
+              ),
+              const SizedBox(width: 14),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.title,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: widget.color,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    widget.subtitle,
+                    style: const TextStyle(
+                      fontSize: 11,
+                      color: ScadaColors.textSecondary,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

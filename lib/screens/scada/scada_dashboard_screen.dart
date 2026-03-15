@@ -28,7 +28,7 @@ class ScadaDashboardScreen extends ConsumerWidget {
         title: Row(mainAxisSize: MainAxisSize.min, children: [
           Container(
             padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(color: ScadaColors.cyan.withOpacity(0.15), borderRadius: BorderRadius.circular(6)),
+            decoration: BoxDecoration(color: ScadaColors.cyan.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(6)),
             child: const Icon(Icons.monitor_heart, color: ScadaColors.cyan, size: 18),
           ),
           const SizedBox(width: 8),
@@ -40,9 +40,9 @@ class ScadaDashboardScreen extends ConsumerWidget {
             margin: const EdgeInsets.only(right: 4),
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: ScadaColors.green.withOpacity(0.1),
+              color: ScadaColors.green.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: ScadaColors.green.withOpacity(0.3)),
+              border: Border.all(color: ScadaColors.green.withValues(alpha: 0.3)),
             ),
             child: Row(mainAxisSize: MainAxisSize.min, children: [
               Container(width: 6, height: 6, decoration: const BoxDecoration(color: ScadaColors.green, shape: BoxShape.circle)),
@@ -80,9 +80,9 @@ class ScadaDashboardScreen extends ConsumerWidget {
               error: (e, _) => Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: ScadaColors.red.withOpacity(0.08),
+                  color: ScadaColors.red.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: ScadaColors.red.withOpacity(0.3)),
+                  border: Border.all(color: ScadaColors.red.withValues(alpha: 0.3)),
                 ),
                 child: Row(children: [
                   const Icon(Icons.wifi_off, color: ScadaColors.red),
@@ -154,7 +154,7 @@ class ScadaDashboardScreen extends ConsumerWidget {
         color: ScadaColors.card,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-          color: hasAlarm ? ScadaColors.red.withOpacity(0.5) : hasWarning ? ScadaColors.amber.withOpacity(0.5) : ScadaColors.border,
+          color: hasAlarm ? ScadaColors.red.withValues(alpha: 0.5) : hasWarning ? ScadaColors.amber.withValues(alpha: 0.5) : ScadaColors.border,
           width: hasAlarm ? 1.5 : 1,
         ),
       ),
@@ -162,7 +162,7 @@ class ScadaDashboardScreen extends ConsumerWidget {
         Row(children: [
           Container(
             padding: const EdgeInsets.all(6),
-            decoration: BoxDecoration(color: info.color.withOpacity(0.15), borderRadius: BorderRadius.circular(6)),
+            decoration: BoxDecoration(color: info.color.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(6)),
             child: Icon(info.icon, size: 16, color: info.color),
           ),
           const SizedBox(width: 8),
@@ -171,13 +171,13 @@ class ScadaDashboardScreen extends ConsumerWidget {
           if (hasAlarm)
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-              decoration: BoxDecoration(color: ScadaColors.red.withOpacity(0.15), borderRadius: BorderRadius.circular(4)),
+              decoration: BoxDecoration(color: ScadaColors.red.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(4)),
               child: const Text('ALARM', style: TextStyle(fontSize: 8, color: ScadaColors.red, fontWeight: FontWeight.w700)),
             ),
           if (hasWarning && !hasAlarm)
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-              decoration: BoxDecoration(color: ScadaColors.amber.withOpacity(0.15), borderRadius: BorderRadius.circular(4)),
+              decoration: BoxDecoration(color: ScadaColors.amber.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(4)),
               child: const Text('UYARI', style: TextStyle(fontSize: 8, color: ScadaColors.amber, fontWeight: FontWeight.w700)),
             ),
         ]),
@@ -223,9 +223,9 @@ class ScadaDashboardScreen extends ConsumerWidget {
         width: 105,
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
         decoration: BoxDecoration(
-          color: statusColor.withOpacity(0.06),
+          color: statusColor.withValues(alpha: 0.06),
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: statusColor.withOpacity(0.25)),
+          border: Border.all(color: statusColor.withValues(alpha: 0.25)),
         ),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           Text(shortName, style: const TextStyle(fontSize: 9, color: ScadaColors.textSecondary), overflow: TextOverflow.ellipsis, maxLines: 1),
@@ -236,13 +236,13 @@ class ScadaDashboardScreen extends ConsumerWidget {
           if (!isDurum)
             Row(mainAxisSize: MainAxisSize.min, children: [
               Container(width: 5, height: 5, decoration: BoxDecoration(color: statusColor, shape: BoxShape.circle,
-                boxShadow: [BoxShadow(color: statusColor.withOpacity(0.5), blurRadius: 4)])),
+                boxShadow: [BoxShadow(color: statusColor.withValues(alpha: 0.5), blurRadius: 4)])),
               const SizedBox(width: 3),
               Text(sensor.unit, style: const TextStyle(fontSize: 9, color: ScadaColors.textDim)),
             ]),
           if (isDurum)
             Container(width: 5, height: 5, decoration: BoxDecoration(color: valueColor, shape: BoxShape.circle,
-              boxShadow: [BoxShadow(color: valueColor.withOpacity(0.5), blurRadius: 4)])),
+              boxShadow: [BoxShadow(color: valueColor.withValues(alpha: 0.5), blurRadius: 4)])),
         ]),
       ),
     );

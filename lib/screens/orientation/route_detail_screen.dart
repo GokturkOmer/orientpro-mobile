@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/auth_provider.dart';
 import '../../providers/training_provider.dart';
 import '../../core/theme/app_theme.dart';
 
@@ -120,7 +119,7 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Row(mainAxisSize: MainAxisSize.min, children: [
@@ -153,7 +152,7 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
         leading: Container(
           width: 32, height: 32,
           decoration: BoxDecoration(
-            color: ScadaColors.cyan.withOpacity(0.12),
+            color: ScadaColors.cyan.withValues(alpha: 0.12),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Center(child: Text('$index', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: ScadaColors.cyan))),

@@ -14,7 +14,7 @@ class AIPredictionScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: ScadaColors.surface,
         title: Row(mainAxisSize: MainAxisSize.min, children: [
-          Container(padding: const EdgeInsets.all(4), decoration: BoxDecoration(color: ScadaColors.purple.withOpacity(0.15), borderRadius: BorderRadius.circular(6)),
+          Container(padding: const EdgeInsets.all(4), decoration: BoxDecoration(color: ScadaColors.purple.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(6)),
             child: const Icon(Icons.psychology, color: ScadaColors.purple, size: 18)),
           const SizedBox(width: 8),
           const Text('AI Ariza Tahmini', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
@@ -82,7 +82,7 @@ class AIPredictionScreen extends ConsumerWidget {
                 Container(
                   margin: const EdgeInsets.only(top: 12),
                   padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(color: ScadaColors.green.withOpacity(0.06), borderRadius: BorderRadius.circular(10), border: Border.all(color: ScadaColors.green.withOpacity(0.3))),
+                  decoration: BoxDecoration(color: ScadaColors.green.withValues(alpha: 0.06), borderRadius: BorderRadius.circular(10), border: Border.all(color: ScadaColors.green.withValues(alpha: 0.3))),
                   child: Column(children: [
                     const Icon(Icons.check_circle, size: 48, color: ScadaColors.green),
                     const SizedBox(height: 8),
@@ -146,7 +146,7 @@ class AIPredictionScreen extends ConsumerWidget {
       decoration: BoxDecoration(color: ScadaColors.card, borderRadius: BorderRadius.circular(10), border: Border.all(color: ScadaColors.border)),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(children: [
-          Container(padding: const EdgeInsets.all(6), decoration: BoxDecoration(color: color.withOpacity(0.12), borderRadius: BorderRadius.circular(6)),
+          Container(padding: const EdgeInsets.all(6), decoration: BoxDecoration(color: color.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(6)),
             child: Icon(iconData, size: 16, color: color)),
           const SizedBox(width: 10),
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -155,7 +155,7 @@ class AIPredictionScreen extends ConsumerWidget {
           ])),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(color: color.withOpacity(0.12), borderRadius: BorderRadius.circular(6), border: Border.all(color: color.withOpacity(0.3))),
+            decoration: BoxDecoration(color: color.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(6), border: Border.all(color: color.withValues(alpha: 0.3))),
             child: Row(mainAxisSize: MainAxisSize.min, children: [
               Text('$score%', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: color)),
               const SizedBox(width: 4),
@@ -173,7 +173,7 @@ class AIPredictionScreen extends ConsumerWidget {
           final sColor = s['status'] == 'critical' ? ScadaColors.red : s['status'] == 'warning' ? ScadaColors.amber : ScadaColors.green;
           return Container(
             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-            decoration: BoxDecoration(color: sColor.withOpacity(0.08), borderRadius: BorderRadius.circular(4), border: Border.all(color: sColor.withOpacity(0.2))),
+            decoration: BoxDecoration(color: sColor.withValues(alpha: 0.08), borderRadius: BorderRadius.circular(4), border: Border.all(color: sColor.withValues(alpha: 0.2))),
             child: Row(mainAxisSize: MainAxisSize.min, children: [
               Container(width: 5, height: 5, decoration: BoxDecoration(color: sColor, shape: BoxShape.circle)),
               const SizedBox(width: 4),
@@ -192,7 +192,7 @@ class AIPredictionScreen extends ConsumerWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 6),
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(color: color.withOpacity(0.06), borderRadius: BorderRadius.circular(10), border: Border.all(color: color.withOpacity(0.3))),
+      decoration: BoxDecoration(color: color.withValues(alpha: 0.06), borderRadius: BorderRadius.circular(10), border: Border.all(color: color.withValues(alpha: 0.3))),
       child: Row(children: [
         Icon(Icons.bug_report, color: color, size: 20),
         const SizedBox(width: 10),
@@ -220,7 +220,7 @@ class AIPredictionScreen extends ConsumerWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 6),
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(color: color.withOpacity(0.06), borderRadius: BorderRadius.circular(10), border: Border.all(color: color.withOpacity(0.3))),
+      decoration: BoxDecoration(color: color.withValues(alpha: 0.06), borderRadius: BorderRadius.circular(10), border: Border.all(color: color.withValues(alpha: 0.3))),
       child: Row(children: [
         Icon(Icons.trending_up, color: color, size: 20),
         const SizedBox(width: 10),

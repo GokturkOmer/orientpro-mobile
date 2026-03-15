@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/auth_provider.dart';
@@ -10,8 +11,9 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProviderStateMixin {
-  final _emailController = TextEditingController(text: 'admin@orientpro.com');
-  final _passwordController = TextEditingController(text: 'OrientPro2026!');
+  // Debug modda hizli test icin varsayilan degerler, production'da bos
+  final _emailController = TextEditingController(text: kDebugMode ? 'admin@orientpro.com' : '');
+  final _passwordController = TextEditingController(text: kDebugMode ? 'OrientPro2026!' : '');
   bool _obscure = true;
   late AnimationController _pulseCtrl;
 
@@ -51,10 +53,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                 builder: (_, __) => Container(
                   width: 80, height: 80,
                   decoration: BoxDecoration(
-                    color: ScadaColors.cyan.withOpacity(0.1),
+                    color: ScadaColors.cyan.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
-                    border: Border.all(color: ScadaColors.cyan.withOpacity(0.3 + _pulseCtrl.value * 0.2)),
-                    boxShadow: [BoxShadow(color: ScadaColors.cyan.withOpacity(_pulseCtrl.value * 0.15), blurRadius: 24)],
+                    border: Border.all(color: ScadaColors.cyan.withValues(alpha: 0.3 + _pulseCtrl.value * 0.2)),
+                    boxShadow: [BoxShadow(color: ScadaColors.cyan.withValues(alpha: _pulseCtrl.value * 0.15), blurRadius: 24)],
                   ),
                   child: const Icon(Icons.precision_manufacturing, size: 40, color: ScadaColors.cyan),
                 ),
@@ -104,7 +106,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                       fillColor: ScadaColors.surface,
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
                       enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
-                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: ScadaColors.cyan.withOpacity(0.5))),
+                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: ScadaColors.cyan.withValues(alpha: 0.5))),
                     ),
                     keyboardType: TextInputType.emailAddress,
                   ),
@@ -126,7 +128,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                       fillColor: ScadaColors.surface,
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
                       enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
-                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: ScadaColors.cyan.withOpacity(0.5))),
+                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: ScadaColors.cyan.withValues(alpha: 0.5))),
                     ),
                     obscureText: _obscure,
                   ),
@@ -137,9 +139,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                       margin: const EdgeInsets.only(bottom: 8),
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                       decoration: BoxDecoration(
-                        color: ScadaColors.red.withOpacity(0.08),
+                        color: ScadaColors.red.withValues(alpha: 0.08),
                         borderRadius: BorderRadius.circular(6),
-                        border: Border.all(color: ScadaColors.red.withOpacity(0.3)),
+                        border: Border.all(color: ScadaColors.red.withValues(alpha: 0.3)),
                       ),
                       child: Row(children: [
                         const Icon(Icons.error_outline, size: 14, color: ScadaColors.red),
@@ -156,9 +158,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                     child: ElevatedButton(
                       onPressed: auth.isLoading ? null : _login,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: ScadaColors.cyan.withOpacity(0.15),
+                        backgroundColor: ScadaColors.cyan.withValues(alpha: 0.15),
                         foregroundColor: ScadaColors.cyan,
-                        side: BorderSide(color: ScadaColors.cyan.withOpacity(0.5)),
+                        side: BorderSide(color: ScadaColors.cyan.withValues(alpha: 0.5)),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                       ),
                       child: auth.isLoading
@@ -172,7 +174,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
               const SizedBox(height: 24),
               // Footer
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Container(width: 6, height: 6, decoration: BoxDecoration(color: ScadaColors.green.withOpacity(0.6), shape: BoxShape.circle)),
+                Container(width: 6, height: 6, decoration: BoxDecoration(color: ScadaColors.green.withValues(alpha: 0.6), shape: BoxShape.circle)),
                 const SizedBox(width: 6),
                 const Text('Sistem aktif', style: TextStyle(fontSize: 10, color: ScadaColors.textDim)),
                 const SizedBox(width: 16),

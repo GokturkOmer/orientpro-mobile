@@ -68,9 +68,9 @@ class AppTheme {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: ScadaColors.cyan.withOpacity(0.15),
+          backgroundColor: ScadaColors.cyan.withValues(alpha: 0.15),
           foregroundColor: ScadaColors.cyan,
-          side: BorderSide(color: ScadaColors.cyan.withOpacity(0.3)),
+          side: BorderSide(color: ScadaColors.cyan.withValues(alpha: 0.3)),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
       ),
@@ -87,7 +87,7 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: ScadaColors.cyan.withOpacity(0.5)),
+          borderSide: BorderSide(color: ScadaColors.cyan.withValues(alpha: 0.5)),
         ),
         labelStyle: const TextStyle(color: ScadaColors.textSecondary),
         hintStyle: const TextStyle(color: ScadaColors.textDim),

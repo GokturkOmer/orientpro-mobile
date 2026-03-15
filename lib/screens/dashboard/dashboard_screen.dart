@@ -40,7 +40,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           Container(
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
-              color: ScadaColors.cyan.withOpacity(0.15),
+              color: ScadaColors.cyan.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(6),
             ),
             child: const Icon(Icons.precision_manufacturing, color: ScadaColors.cyan, size: 20),
@@ -54,9 +54,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             margin: const EdgeInsets.only(right: 8),
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: ScadaColors.green.withOpacity(0.1),
+              color: ScadaColors.green.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: ScadaColors.green.withOpacity(0.3)),
+              border: Border.all(color: ScadaColors.green.withValues(alpha: 0.3)),
             ),
             child: Row(mainAxisSize: MainAxisSize.min, children: [
               Container(width: 6, height: 6, decoration: const BoxDecoration(color: ScadaColors.green, shape: BoxShape.circle)),
@@ -95,7 +95,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   Container(
                     width: 40, height: 40,
                     decoration: BoxDecoration(
-                      color: ScadaColors.cyan.withOpacity(0.15),
+                      color: ScadaColors.cyan.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: const Icon(Icons.person, color: ScadaColors.cyan, size: 22),
@@ -223,7 +223,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           Positioned(right: 6, top: 6, child: Container(
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(color: ScadaColors.red, shape: BoxShape.circle,
-              boxShadow: [BoxShadow(color: ScadaColors.red.withOpacity(0.5), blurRadius: 4)]),
+              boxShadow: [BoxShadow(color: ScadaColors.red.withValues(alpha: 0.5), blurRadius: 4)]),
             child: Text('$unread', style: const TextStyle(fontSize: 9, color: Colors.white, fontWeight: FontWeight.w700)),
           )),
       ],
@@ -246,13 +246,13 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         decoration: BoxDecoration(
           color: ScadaColors.card,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: color.withOpacity(0.3)),
+          border: Border.all(color: color.withValues(alpha: 0.3)),
         ),
         child: Column(children: [
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.12),
+              color: color.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(icon, color: color, size: 24),
@@ -295,7 +295,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         dense: true,
         leading: Container(
           padding: const EdgeInsets.all(6),
-          decoration: BoxDecoration(color: color.withOpacity(0.12), borderRadius: BorderRadius.circular(6)),
+          decoration: BoxDecoration(color: color.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(6)),
           child: Icon(icon, color: color, size: 18),
         ),
         title: Text(title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: ScadaColors.textPrimary)),

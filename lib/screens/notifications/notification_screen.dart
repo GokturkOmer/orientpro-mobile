@@ -15,7 +15,7 @@ class NotificationScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: ScadaColors.surface,
         title: Row(mainAxisSize: MainAxisSize.min, children: [
-          Container(padding: const EdgeInsets.all(4), decoration: BoxDecoration(color: ScadaColors.amber.withOpacity(0.15), borderRadius: BorderRadius.circular(6)),
+          Container(padding: const EdgeInsets.all(4), decoration: BoxDecoration(color: ScadaColors.amber.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(6)),
             child: const Icon(Icons.notifications, color: ScadaColors.amber, size: 18)),
           const SizedBox(width: 8),
           const Text('Bildirimler', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
@@ -80,9 +80,9 @@ class NotificationScreen extends ConsumerWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 6),
       decoration: BoxDecoration(
-        color: notif.isRead ? ScadaColors.card : severityColor.withOpacity(0.06),
+        color: notif.isRead ? ScadaColors.card : severityColor.withValues(alpha: 0.06),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: notif.isRead ? ScadaColors.border : severityColor.withOpacity(0.3)),
+        border: Border.all(color: notif.isRead ? ScadaColors.border : severityColor.withValues(alpha: 0.3)),
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
@@ -97,13 +97,13 @@ class NotificationScreen extends ConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Container(width: 36, height: 36, decoration: BoxDecoration(color: severityColor.withOpacity(0.12), borderRadius: BorderRadius.circular(8)),
+            Container(width: 36, height: 36, decoration: BoxDecoration(color: severityColor.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(8)),
               child: Icon(categoryIcon, color: severityColor, size: 18)),
             const SizedBox(width: 10),
             Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Row(children: [
                 Expanded(child: Text(notif.title, style: TextStyle(fontSize: 13, fontWeight: notif.isRead ? FontWeight.w400 : FontWeight.w600, color: notif.isRead ? ScadaColors.textSecondary : ScadaColors.textPrimary))),
-                if (!notif.isRead) Container(width: 8, height: 8, decoration: BoxDecoration(color: severityColor, shape: BoxShape.circle, boxShadow: [BoxShadow(color: severityColor.withOpacity(0.5), blurRadius: 4)])),
+                if (!notif.isRead) Container(width: 8, height: 8, decoration: BoxDecoration(color: severityColor, shape: BoxShape.circle, boxShadow: [BoxShadow(color: severityColor.withValues(alpha: 0.5), blurRadius: 4)])),
                 const SizedBox(width: 4),
                 const Icon(Icons.chevron_right, size: 16, color: ScadaColors.textDim),
               ]),
@@ -111,7 +111,7 @@ class NotificationScreen extends ConsumerWidget {
               Text(notif.message, style: const TextStyle(fontSize: 11, color: ScadaColors.textSecondary), maxLines: 2, overflow: TextOverflow.ellipsis),
               const SizedBox(height: 6),
               Row(children: [
-                Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2), decoration: BoxDecoration(color: severityColor.withOpacity(0.1), borderRadius: BorderRadius.circular(4)),
+                Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2), decoration: BoxDecoration(color: severityColor.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(4)),
                   child: Text(_sevLabel(notif.severity), style: TextStyle(fontSize: 8, color: severityColor, fontWeight: FontWeight.w700))),
                 const SizedBox(width: 8),
                 Icon(Icons.access_time, size: 10, color: ScadaColors.textDim),
@@ -147,17 +147,17 @@ class NotificationScreen extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             decoration: BoxDecoration(border: Border(bottom: BorderSide(color: ScadaColors.border))),
             child: Row(children: [
-              Container(width: 44, height: 44, decoration: BoxDecoration(color: severityColor.withOpacity(0.12), borderRadius: BorderRadius.circular(10)),
+              Container(width: 44, height: 44, decoration: BoxDecoration(color: severityColor.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(10)),
                 child: Icon(categoryIcon, color: severityColor, size: 22)),
               const SizedBox(width: 12),
               Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text(notif.title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
                 const SizedBox(height: 2),
                 Row(children: [
-                  Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2), decoration: BoxDecoration(color: severityColor.withOpacity(0.1), borderRadius: BorderRadius.circular(4)),
+                  Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2), decoration: BoxDecoration(color: severityColor.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(4)),
                     child: Text(_sevLabel(notif.severity), style: TextStyle(fontSize: 9, color: severityColor, fontWeight: FontWeight.w700))),
                   const SizedBox(width: 8),
-                  Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2), decoration: BoxDecoration(color: ScadaColors.cyan.withOpacity(0.1), borderRadius: BorderRadius.circular(4)),
+                  Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2), decoration: BoxDecoration(color: ScadaColors.cyan.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(4)),
                     child: Text(_catLabel(notif.category), style: const TextStyle(fontSize: 9, color: ScadaColors.cyan, fontWeight: FontWeight.w600))),
                 ]),
               ])),
@@ -241,9 +241,9 @@ class NotificationScreen extends ConsumerWidget {
       icon: Icon(icon, size: 16),
       label: Text(label),
       style: ElevatedButton.styleFrom(
-        backgroundColor: color.withOpacity(0.15),
+        backgroundColor: color.withValues(alpha: 0.15),
         foregroundColor: color,
-        side: BorderSide(color: color.withOpacity(0.4)),
+        side: BorderSide(color: color.withValues(alpha: 0.4)),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         padding: const EdgeInsets.symmetric(vertical: 12),
       ),

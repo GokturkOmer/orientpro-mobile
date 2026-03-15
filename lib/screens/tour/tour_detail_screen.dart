@@ -41,7 +41,7 @@ class _TourDetailScreenState extends ConsumerState<TourDetailScreen> {
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: ScadaColors.surface,
-                border: Border(bottom: BorderSide(color: ScadaColors.cyan.withOpacity(0.3))),
+                border: Border(bottom: BorderSide(color: ScadaColors.cyan.withValues(alpha: 0.3))),
               ),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text(data['name'] ?? '', style: const TextStyle(color: ScadaColors.cyan, fontSize: 18, fontWeight: FontWeight.w700)),
@@ -82,9 +82,9 @@ class _TourDetailScreenState extends ConsumerState<TourDetailScreen> {
                         Container(
                           width: 28, height: 28,
                           decoration: BoxDecoration(
-                            color: ScadaColors.cyan.withOpacity(0.12),
+                            color: ScadaColors.cyan.withValues(alpha: 0.12),
                             shape: BoxShape.circle,
-                            border: Border.all(color: ScadaColors.cyan.withOpacity(0.4), width: 1.5),
+                            border: Border.all(color: ScadaColors.cyan.withValues(alpha: 0.4), width: 1.5),
                           ),
                           child: Center(child: Text('${cp.orderIndex}', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: ScadaColors.cyan))),
                         ),
@@ -103,7 +103,7 @@ class _TourDetailScreenState extends ConsumerState<TourDetailScreen> {
                         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                           Row(children: [
                             Expanded(child: Text(cp.name, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary))),
-                            if (cp.photoRequired) Icon(Icons.camera_alt, size: 13, color: ScadaColors.amber.withOpacity(0.7)),
+                            if (cp.photoRequired) Icon(Icons.camera_alt, size: 13, color: ScadaColors.amber.withValues(alpha: 0.7)),
                           ]),
                           if (cp.location != null) ...[
                             const SizedBox(height: 2),
@@ -147,9 +147,9 @@ class _TourDetailScreenState extends ConsumerState<TourDetailScreen> {
                     : const Icon(Icons.play_arrow),
                   label: Text(_isStarting ? 'Baslatiliyor...' : 'Turu Baslat'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: ScadaColors.cyan.withOpacity(0.15),
+                    backgroundColor: ScadaColors.cyan.withValues(alpha: 0.15),
                     foregroundColor: ScadaColors.cyan,
-                    side: BorderSide(color: ScadaColors.cyan.withOpacity(0.5)),
+                    side: BorderSide(color: ScadaColors.cyan.withValues(alpha: 0.5)),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                     textStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
                   ),
@@ -165,7 +165,7 @@ class _TourDetailScreenState extends ConsumerState<TourDetailScreen> {
   Widget _infoBadge(IconData icon, String text, Color color) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(color: color.withOpacity(0.12), borderRadius: BorderRadius.circular(6), border: Border.all(color: color.withOpacity(0.3))),
+      decoration: BoxDecoration(color: color.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(6), border: Border.all(color: color.withValues(alpha: 0.3))),
       child: Row(mainAxisSize: MainAxisSize.min, children: [
         Icon(icon, size: 12, color: color),
         const SizedBox(width: 4),

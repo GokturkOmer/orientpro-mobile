@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/training_provider.dart';
 import '../../core/theme/app_theme.dart';
+import '../../widgets/acknowledgment_dialog.dart';
 
 class QuizScreen extends ConsumerStatefulWidget {
   const QuizScreen({super.key});
@@ -104,7 +105,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                 onPressed: _selectedAnswers.length == questions.length ? _submitQuiz : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ScadaColors.green,
-                  disabledBackgroundColor: ScadaColors.textDim.withOpacity(0.3),
+                  disabledBackgroundColor: ScadaColors.textDim.withValues(alpha: 0.3),
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
@@ -145,7 +146,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
           Container(
             width: 28, height: 28,
             decoration: BoxDecoration(
-              color: ScadaColors.cyan.withOpacity(0.12),
+              color: ScadaColors.cyan.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(6),
             ),
             child: Center(child: Text('${index + 1}', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: ScadaColors.cyan))),
@@ -154,7 +155,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
             decoration: BoxDecoration(
-              color: ScadaColors.purple.withOpacity(0.12),
+              color: ScadaColors.purple.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(4),
             ),
             child: Text('${question.points} puan', style: const TextStyle(fontSize: 9, color: ScadaColors.purple)),
@@ -174,7 +175,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
               margin: const EdgeInsets.only(bottom: 6),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               decoration: BoxDecoration(
-                color: isSelected ? ScadaColors.cyan.withOpacity(0.1) : ScadaColors.bg,
+                color: isSelected ? ScadaColors.cyan.withValues(alpha: 0.1) : ScadaColors.bg,
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
                   color: isSelected ? ScadaColors.cyan : ScadaColors.border,
@@ -247,7 +248,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
               decoration: BoxDecoration(
                 color: ScadaColors.card,
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: isCorrect ? ScadaColors.green.withOpacity(0.5) : ScadaColors.red.withOpacity(0.5)),
+                border: Border.all(color: isCorrect ? ScadaColors.green.withValues(alpha: 0.5) : ScadaColors.red.withValues(alpha: 0.5)),
               ),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Row(children: [
@@ -268,6 +269,33 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
           }),
 
           const SizedBox(height: 16),
+          if (_passed == true) ...[
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () async {
+                  final training = ref.read(trainingProvider);
+                  final module = training.selectedModule;
+                  if (module == null) return;
+                  await AcknowledgmentDialog.show(
+                    context,
+                    moduleId: module.id,
+                    routeId: module.routeId,
+                    moduleTitle: module.title,
+                  );
+                },
+                icon: const Icon(Icons.verified_user, size: 18),
+                label: const Text('Egitimi Onayla', style: TextStyle(fontWeight: FontWeight.w600)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ScadaColors.green,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+          ],
           ElevatedButton(
             onPressed: () => Navigator.pop(context),
             style: ElevatedButton.styleFrom(

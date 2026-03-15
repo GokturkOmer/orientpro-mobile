@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import '../models/training.dart';
-import '../core/config/api_config.dart';
+import '../core/network/auth_dio.dart';
 
 // State
 class TrainingState {
@@ -54,7 +54,7 @@ class TrainingState {
 
 // Notifier
 class TrainingNotifier extends Notifier<TrainingState> {
-  final Dio _dio = Dio(BaseOptions(baseUrl: ApiConfig.webUrl));
+  Dio get _dio => ref.read(authDioProvider);
 
   @override
   TrainingState build() => TrainingState();
@@ -159,6 +159,94 @@ class TrainingNotifier extends Notifier<TrainingState> {
         'module_id': moduleId,
       });
     } catch (_) {}
+  }
+
+  // ===== ACKNOWLEDGMENT =====
+
+  Future<bool> submitAcknowledgment(String userId, String moduleId, String routeId, String text) async {
+    try {
+      await _dio.post('/training/acknowledgments', data: {
+        'user_id': userId,
+        'module_id': moduleId,
+        'route_id': routeId,
+        'acknowledgment_text': text,
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<TrainingAcknowledgment?> checkModuleAcknowledgment(String userId, String moduleId) async {
+    try {
+      final response = await _dio.get('/training/acknowledgments/$userId/$moduleId');
+      if (response.data != null) {
+        return TrainingAcknowledgment.fromJson(response.data);
+      }
+    } catch (_) {}
+    return null;
+  }
+
+  // ===== DASHBOARD SUMMARY =====
+
+  Future<DashboardSummary?> loadDashboardSummary(String userId) async {
+    try {
+      final response = await _dio.get('/training/dashboard/$userId');
+      return DashboardSummary.fromJson(response.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  // ===== SPACED REPETITION =====
+
+  Future<List<SpacedReview>> loadPendingReviews(String userId) async {
+    try {
+      final response = await _dio.get('/training/reviews/$userId');
+      return (response.data as List).map((r) => SpacedReview.fromJson(r)).toList();
+    } catch (_) {
+      return [];
+    }
+  }
+
+  Future<void> completeReview(String scheduleId) async {
+    try {
+      await _dio.post('/training/reviews/$scheduleId/complete');
+    } catch (_) {}
+  }
+
+  // ===== REMINDERS =====
+
+  Future<List<TrainingReminder>> loadReminders(String userId) async {
+    try {
+      final response = await _dio.get('/training/reminders/$userId');
+      return (response.data as List).map((r) => TrainingReminder.fromJson(r)).toList();
+    } catch (_) {
+      return [];
+    }
+  }
+
+  Future<void> generateReminders(String userId) async {
+    try {
+      await _dio.post('/training/reminders/generate/$userId');
+    } catch (_) {}
+  }
+
+  Future<void> markReminderRead(String reminderId) async {
+    try {
+      await _dio.put('/training/reminders/$reminderId/read');
+    } catch (_) {}
+  }
+
+  // ===== TEAM PROGRESS =====
+
+  Future<List<TeamMemberProgress>> loadTeamProgress(String department) async {
+    try {
+      final response = await _dio.get('/training/team-progress/$department');
+      return (response.data as List).map((t) => TeamMemberProgress.fromJson(t)).toList();
+    } catch (_) {
+      return [];
+    }
   }
 }
 

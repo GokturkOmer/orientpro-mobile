@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/training_provider.dart';
 import '../../core/theme/app_theme.dart';
+import '../../models/training.dart';
+import '../../widgets/acknowledgment_dialog.dart';
 
 class ModuleDetailScreen extends ConsumerStatefulWidget {
   const ModuleDetailScreen({super.key});
@@ -13,18 +15,32 @@ class ModuleDetailScreen extends ConsumerStatefulWidget {
 
 class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
   bool _loaded = false;
+  TrainingAcknowledgment? _acknowledgment;
+  bool _checkingAck = true;
+  String? _routeId;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (!_loaded) {
-      final moduleId = ModalRoute.of(context)?.settings.arguments as String?;
+      final args = ModalRoute.of(context)?.settings.arguments;
+      String? moduleId;
+      if (args is Map<String, dynamic>) {
+        moduleId = args['moduleId'] as String?;
+        _routeId = args['routeId'] as String?;
+      } else if (args is String) {
+        moduleId = args;
+      }
       if (moduleId != null) {
-        Future.microtask(() {
-          ref.read(trainingProvider.notifier).loadModuleDetail(moduleId);
+        Future.microtask(() async {
+          ref.read(trainingProvider.notifier).loadModuleDetail(moduleId!);
           final auth = ref.read(authProvider);
           if (auth.user != null) {
             ref.read(trainingProvider.notifier).startModule(auth.user!.id, moduleId);
+            final ack = await ref.read(trainingProvider.notifier).checkModuleAcknowledgment(auth.user!.id, moduleId);
+            if (mounted) setState(() { _acknowledgment = ack; _checkingAck = false; });
+          } else {
+            if (mounted) setState(() => _checkingAck = false);
           }
         });
       }
@@ -70,7 +86,7 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
                           Container(
                             padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
-                              color: ScadaColors.cyan.withOpacity(0.12),
+                              color: ScadaColors.cyan.withValues(alpha: 0.12),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Icon(
@@ -120,6 +136,15 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
                       ]),
                       const SizedBox(height: 12),
                       ...module.quizzes!.map((quiz) => _buildQuizCard(quiz)),
+                    ],
+
+                    // Egitim Onayi
+                    const SizedBox(height: 24),
+                    if (!_checkingAck) ...[
+                      if (_acknowledgment != null)
+                        _buildAcknowledgedBanner()
+                      else
+                        _buildAcknowledgeButton(module),
                     ],
                   ],
                 ),
@@ -175,13 +200,66 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
     );
   }
 
+  Widget _buildAcknowledgedBanner() {
+    final ackDate = _acknowledgment!.acknowledgedAt;
+    final formatted = ackDate.length >= 10 ? ackDate.substring(0, 10) : ackDate;
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: ScadaColors.green.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: ScadaColors.green.withValues(alpha: 0.3)),
+      ),
+      child: Row(children: [
+        const Icon(Icons.check_circle, color: ScadaColors.green, size: 24),
+        const SizedBox(width: 12),
+        Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Text('Egitim Onaylandi', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.green)),
+          Text('Onay tarihi: $formatted', style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+        ])),
+      ]),
+    );
+  }
+
+  Widget _buildAcknowledgeButton(TrainingModule module) {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton.icon(
+        onPressed: () async {
+          final routeId = _routeId ?? module.routeId;
+          final result = await AcknowledgmentDialog.show(
+            context,
+            moduleId: module.id,
+            routeId: routeId,
+            moduleTitle: module.title,
+          );
+          if (result == true) {
+            final auth = ref.read(authProvider);
+            if (auth.user != null) {
+              final ack = await ref.read(trainingProvider.notifier).checkModuleAcknowledgment(auth.user!.id, module.id);
+              setState(() => _acknowledgment = ack);
+            }
+          }
+        },
+        icon: const Icon(Icons.verified_user, size: 18),
+        label: const Text('Egitimi Onayla', style: TextStyle(fontWeight: FontWeight.w600)),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: ScadaColors.green,
+          foregroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(vertical: 14),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+      ),
+    );
+  }
+
   Widget _buildQuizCard(quiz) {
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
         color: ScadaColors.card,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: ScadaColors.green.withOpacity(0.3)),
+        border: Border.all(color: ScadaColors.green.withValues(alpha: 0.3)),
       ),
       child: ListTile(
         dense: true,
@@ -189,7 +267,7 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
         leading: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: ScadaColors.green.withOpacity(0.12),
+            color: ScadaColors.green.withValues(alpha: 0.12),
             borderRadius: BorderRadius.circular(8),
           ),
           child: const Icon(Icons.quiz, color: ScadaColors.green, size: 20),

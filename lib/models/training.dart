@@ -40,6 +40,13 @@ class TrainingRoute {
     );
   }
 
+  Map<String, dynamic> toJson() => {
+    'department_id': departmentId, 'title': title, 'description': description,
+    'difficulty': difficulty, 'estimated_minutes': estimatedMinutes,
+    'is_mandatory': isMandatory, 'passing_score': passingScore,
+    'certificate_enabled': certificateEnabled, 'tags': tags, 'sort_order': sortOrder,
+  };
+
   String get difficultyText {
     switch (difficulty) {
       case 'beginner': return 'Baslangic';
@@ -72,6 +79,11 @@ class TrainingModule {
     );
   }
 
+  Map<String, dynamic> toJson() => {
+    'route_id': routeId, 'title': title, 'description': description,
+    'module_type': moduleType, 'estimated_minutes': estimatedMinutes, 'sort_order': sortOrder,
+  };
+
   String get typeText {
     switch (moduleType) {
       case 'lesson': return 'Ders';
@@ -85,7 +97,7 @@ class TrainingModule {
 
 class ModuleContent {
   final String id;
-  final String moduleId;
+  final String? moduleId;
   final String contentType;
   final String title;
   final String? body;
@@ -93,11 +105,26 @@ class ModuleContent {
   final Map<String, dynamic>? metadataJson;
   final int sortOrder;
 
-  ModuleContent({required this.id, required this.moduleId, required this.contentType, required this.title, this.body, this.mediaUrl, this.metadataJson, this.sortOrder = 0});
+  ModuleContent({required this.id, this.moduleId, required this.contentType, required this.title, this.body, this.mediaUrl, this.metadataJson, this.sortOrder = 0});
 
   factory ModuleContent.fromJson(Map<String, dynamic> json) {
     return ModuleContent(id: json['id'], moduleId: json['module_id'], contentType: json['content_type'], title: json['title'], body: json['body'], mediaUrl: json['media_url'], metadataJson: json['metadata_json'], sortOrder: json['sort_order'] ?? 0);
   }
+
+  Map<String, dynamic> toJson() => {
+    'module_id': moduleId, 'content_type': contentType, 'title': title,
+    'body': body, 'media_url': mediaUrl, 'metadata_json': metadataJson, 'sort_order': sortOrder,
+  };
+
+  // PDF convenience getters
+  bool get isPdf => contentType == 'pdf';
+  Map<String, dynamic>? get classification => metadataJson?['classification'];
+  String? get ragStatus => metadataJson?['rag_status'];
+  String? get ragDocId => metadataJson?['rag_doc_id'];
+  List<String> get tags => (classification?['tags'] as List?)?.cast<String>() ?? [];
+  String? get summary => classification?['summary'];
+  String? get fileName => metadataJson?['file_name'];
+  int get fileSize => metadataJson?['file_size'] ?? 0;
 }
 
 class Quiz {
@@ -115,6 +142,11 @@ class Quiz {
   factory Quiz.fromJson(Map<String, dynamic> json) {
     return Quiz(id: json['id'], moduleId: json['module_id'], title: json['title'], description: json['description'], timeLimitMinutes: json['time_limit_minutes'], maxAttempts: json['max_attempts'] ?? 3, passingScore: json['passing_score'] ?? 70, isActive: json['is_active'] ?? true);
   }
+
+  Map<String, dynamic> toJson() => {
+    'module_id': moduleId, 'title': title, 'description': description,
+    'time_limit_minutes': timeLimitMinutes, 'max_attempts': maxAttempts, 'passing_score': passingScore,
+  };
 }
 
 class QuizQuestion {
@@ -133,6 +165,12 @@ class QuizQuestion {
   factory QuizQuestion.fromJson(Map<String, dynamic> json) {
     return QuizQuestion(id: json['id'], quizId: json['quiz_id'], questionText: json['question_text'], questionType: json['question_type'] ?? 'multiple_choice', options: json['options'], correctAnswer: json['correct_answer'], explanation: json['explanation'], points: json['points'] ?? 10, sortOrder: json['sort_order'] ?? 0);
   }
+
+  Map<String, dynamic> toJson() => {
+    'quiz_id': quizId, 'question_text': questionText, 'question_type': questionType,
+    'options': options, 'correct_answer': correctAnswer, 'explanation': explanation,
+    'points': points, 'sort_order': sortOrder,
+  };
 }
 
 class UserProgress {
@@ -175,4 +213,94 @@ class TrainingStats {
   }
 
   double get completionPercent => totalModules > 0 ? (completedModules / totalModules * 100) : 0.0;
+}
+
+
+class TrainingAcknowledgment {
+  final String id;
+  final String userId;
+  final String moduleId;
+  final String routeId;
+  final String acknowledgmentText;
+  final String? supervisorId;
+  final String? supervisorAcknowledgedAt;
+  final String acknowledgedAt;
+
+  TrainingAcknowledgment({required this.id, required this.userId, required this.moduleId, required this.routeId, required this.acknowledgmentText, this.supervisorId, this.supervisorAcknowledgedAt, required this.acknowledgedAt});
+
+  factory TrainingAcknowledgment.fromJson(Map<String, dynamic> json) {
+    return TrainingAcknowledgment(id: json['id'], userId: json['user_id'], moduleId: json['module_id'], routeId: json['route_id'], acknowledgmentText: json['acknowledgment_text'], supervisorId: json['supervisor_id'], supervisorAcknowledgedAt: json['supervisor_acknowledged_at'], acknowledgedAt: json['acknowledged_at']);
+  }
+}
+
+
+class SpacedReview {
+  final String id;
+  final String userId;
+  final String moduleId;
+  final String? quizId;
+  final List<dynamic>? weakQuestionIds;
+  final String reason;
+  final String scheduledAt;
+  final String? completedAt;
+  final int intervalDays;
+
+  SpacedReview({required this.id, required this.userId, required this.moduleId, this.quizId, this.weakQuestionIds, required this.reason, required this.scheduledAt, this.completedAt, this.intervalDays = 1});
+
+  factory SpacedReview.fromJson(Map<String, dynamic> json) {
+    return SpacedReview(id: json['id'], userId: json['user_id'], moduleId: json['module_id'], quizId: json['quiz_id'], weakQuestionIds: json['weak_question_ids'], reason: json['reason'], scheduledAt: json['scheduled_at'], completedAt: json['completed_at'], intervalDays: json['interval_days'] ?? 1);
+  }
+}
+
+
+class TrainingReminder {
+  final String id;
+  final String userId;
+  final String reminderType;
+  final String? routeId;
+  final String? moduleId;
+  final String title;
+  final String message;
+  final String scheduledAt;
+  final String? readAt;
+
+  TrainingReminder({required this.id, required this.userId, required this.reminderType, this.routeId, this.moduleId, required this.title, required this.message, required this.scheduledAt, this.readAt});
+
+  factory TrainingReminder.fromJson(Map<String, dynamic> json) {
+    return TrainingReminder(id: json['id'], userId: json['user_id'], reminderType: json['reminder_type'], routeId: json['route_id'], moduleId: json['module_id'], title: json['title'], message: json['message'], scheduledAt: json['scheduled_at'], readAt: json['read_at']);
+  }
+}
+
+
+class DashboardSummary {
+  final int pendingAcknowledgments;
+  final List<dynamic> upcomingDeadlines;
+  final int weeklyCompleted;
+  final int weeklyTimeMinutes;
+  final List<dynamic> overdueModules;
+  final int spacedReviewsDue;
+  final int totalAcknowledgments;
+
+  DashboardSummary({this.pendingAcknowledgments = 0, this.upcomingDeadlines = const [], this.weeklyCompleted = 0, this.weeklyTimeMinutes = 0, this.overdueModules = const [], this.spacedReviewsDue = 0, this.totalAcknowledgments = 0});
+
+  factory DashboardSummary.fromJson(Map<String, dynamic> json) {
+    return DashboardSummary(pendingAcknowledgments: json['pending_acknowledgments'] ?? 0, upcomingDeadlines: json['upcoming_deadlines'] ?? [], weeklyCompleted: json['weekly_completed'] ?? 0, weeklyTimeMinutes: json['weekly_time_minutes'] ?? 0, overdueModules: json['overdue_modules'] ?? [], spacedReviewsDue: json['spaced_reviews_due'] ?? 0, totalAcknowledgments: json['total_acknowledgments'] ?? 0);
+  }
+}
+
+
+class TeamMemberProgress {
+  final String userId;
+  final String userName;
+  final String? department;
+  final double completionPercent;
+  final int acknowledgedCount;
+  final int totalRequired;
+  final String? lastActivity;
+
+  TeamMemberProgress({required this.userId, required this.userName, this.department, this.completionPercent = 0, this.acknowledgedCount = 0, this.totalRequired = 0, this.lastActivity});
+
+  factory TeamMemberProgress.fromJson(Map<String, dynamic> json) {
+    return TeamMemberProgress(userId: json['user_id'], userName: json['user_name'], department: json['department'], completionPercent: (json['completion_percent'] ?? 0).toDouble(), acknowledgedCount: json['acknowledged_count'] ?? 0, totalRequired: json['total_required'] ?? 0, lastActivity: json['last_activity']);
+  }
 }

@@ -87,9 +87,9 @@ class AlarmListScreen extends ConsumerWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: color.withOpacity(0.3)),
+          border: Border.all(color: color.withValues(alpha: 0.3)),
         ),
         child: Column(children: [
           Text('$count', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: color)),
@@ -135,7 +135,7 @@ class AlarmListScreen extends ConsumerWidget {
       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: severityColor.withOpacity(0.3)),
+        side: BorderSide(color: severityColor.withValues(alpha: 0.3)),
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
@@ -147,7 +147,7 @@ class AlarmListScreen extends ConsumerWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: severityColor.withOpacity(0.1),
+                  color: severityColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(severityIcon, color: severityColor, size: 24),
@@ -165,13 +165,13 @@ class AlarmListScreen extends ConsumerWidget {
                     Row(children: [
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
-                        decoration: BoxDecoration(color: statusColor.withOpacity(0.1), borderRadius: BorderRadius.circular(4)),
+                        decoration: BoxDecoration(color: statusColor.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(4)),
                         child: Text(alarm.status.toUpperCase(), style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: statusColor)),
                       ),
                       const SizedBox(width: 6),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
-                        decoration: BoxDecoration(color: severityColor.withOpacity(0.1), borderRadius: BorderRadius.circular(4)),
+                        decoration: BoxDecoration(color: severityColor.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(4)),
                         child: Text(alarm.severity.toUpperCase(), style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: severityColor)),
                       ),
                       const Spacer(),
