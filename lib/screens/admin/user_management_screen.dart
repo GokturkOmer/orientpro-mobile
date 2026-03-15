@@ -1,0 +1,402 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../providers/admin_provider.dart';
+import '../../core/theme/app_theme.dart';
+
+class UserManagementScreen extends ConsumerStatefulWidget {
+  const UserManagementScreen({super.key});
+
+  @override
+  ConsumerState<UserManagementScreen> createState() => _UserManagementScreenState();
+}
+
+class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => ref.read(adminProvider.notifier).loadUsers());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final admin = ref.watch(adminProvider);
+
+    return Scaffold(
+      backgroundColor: ScadaColors.bg,
+      appBar: AppBar(
+        backgroundColor: ScadaColors.surface,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text(
+          'Uyelik Yonetimi',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: ScadaColors.cyan,
+        onPressed: () => _showCreateUserSheet(context),
+        child: const Icon(Icons.person_add, color: ScadaColors.bg),
+      ),
+      body: admin.isLoading && admin.users.isEmpty
+          ? const Center(child: CircularProgressIndicator(color: ScadaColors.cyan))
+          : admin.error != null && admin.users.isEmpty
+              ? Center(
+                  child: Column(mainAxisSize: MainAxisSize.min, children: [
+                    const Icon(Icons.error_outline, size: 48, color: ScadaColors.red),
+                    const SizedBox(height: 12),
+                    Text(admin.error!, style: const TextStyle(color: ScadaColors.textSecondary, fontSize: 12), textAlign: TextAlign.center),
+                    const SizedBox(height: 12),
+                    TextButton(
+                      onPressed: () => ref.read(adminProvider.notifier).loadUsers(),
+                      child: const Text('Tekrar Dene'),
+                    ),
+                  ]),
+                )
+              : admin.users.isEmpty
+                  ? const Center(
+                      child: Column(mainAxisSize: MainAxisSize.min, children: [
+                        Icon(Icons.people_outline, size: 48, color: ScadaColors.textDim),
+                        SizedBox(height: 12),
+                        Text('Henuz kullanici yok', style: TextStyle(color: ScadaColors.textSecondary, fontSize: 13)),
+                      ]),
+                    )
+                  : ListView.builder(
+                      padding: const EdgeInsets.all(16),
+                      itemCount: admin.users.length,
+                      itemBuilder: (context, index) {
+                        final user = admin.users[index];
+                        return _buildUserCard(user);
+                      },
+                    ),
+    );
+  }
+
+  Widget _buildUserCard(dynamic user) {
+    final roleColor = _getRoleColor(user.role);
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      decoration: BoxDecoration(
+        color: ScadaColors.card,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: ScadaColors.border),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Row(children: [
+          // Avatar
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: roleColor.withValues(alpha: 0.15),
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: Text(
+                user.fullName.isNotEmpty ? user.fullName[0].toUpperCase() : '?',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: roleColor),
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          // Info
+          Expanded(
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(user.fullName, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+              const SizedBox(height: 2),
+              Text(user.email, style: const TextStyle(fontSize: 11, color: ScadaColors.textSecondary)),
+              const SizedBox(height: 6),
+              Row(children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: roleColor.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Text(user.roleText, style: TextStyle(fontSize: 9, color: roleColor, fontWeight: FontWeight.w600)),
+                ),
+                const SizedBox(width: 6),
+                if (user.department != null)
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: ScadaColors.purple.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(user.departmentText, style: const TextStyle(fontSize: 9, color: ScadaColors.purple, fontWeight: FontWeight.w600)),
+                  ),
+              ]),
+            ]),
+          ),
+          // Active toggle
+          Switch(
+            value: user.isActive,
+            activeColor: ScadaColors.green,
+            onChanged: (_) => ref.read(adminProvider.notifier).toggleUserActive(user.id),
+          ),
+        ]),
+      ),
+    );
+  }
+
+  Color _getRoleColor(String role) {
+    switch (role) {
+      case 'admin':
+        return ScadaColors.red;
+      case 'facility_manager':
+        return ScadaColors.amber;
+      case 'chief_technician':
+      case 'hk_supervisor':
+        return ScadaColors.cyan;
+      default:
+        return ScadaColors.green;
+    }
+  }
+
+  void _showCreateUserSheet(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
+    final nameCtrl = TextEditingController();
+    final emailCtrl = TextEditingController();
+    final passwordCtrl = TextEditingController();
+    final phoneCtrl = TextEditingController();
+    String selectedRole = 'technician';
+    String selectedDept = 'teknik';
+
+    const roles = {
+      'admin': 'Admin',
+      'facility_manager': 'Tesis Muduru',
+      'chief_technician': 'Teknik Sef',
+      'technician': 'Teknisyen',
+      'electrician': 'Elektrikci',
+      'mechanic': 'Mekanik',
+      'hk_supervisor': 'HK Amiri',
+      'hk_staff': 'HK Personeli',
+      'ordertaker': 'Ordertaker',
+      'readonly': 'Izleme',
+    };
+
+    const departments = {
+      'teknik': 'Teknik Servis',
+      'hk': 'Kat Hizmetleri',
+      'fb': 'Yiyecek & Icecek',
+      'on_buro': 'Resepsiyon',
+      'spa': 'SPA & Wellness',
+      'yonetim': 'Yonetim',
+    };
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: ScadaColors.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (ctx) {
+        return StatefulBuilder(builder: (ctx, setSheetState) {
+          return Padding(
+            padding: EdgeInsets.only(
+              left: 20,
+              right: 20,
+              top: 20,
+              bottom: MediaQuery.of(ctx).viewInsets.bottom + 20,
+            ),
+            child: Form(
+              key: formKey,
+              child: SingleChildScrollView(
+                child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  // Header
+                  Row(children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: ScadaColors.cyan.withValues(alpha: 0.15),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.person_add, color: ScadaColors.cyan, size: 20),
+                    ),
+                    const SizedBox(width: 12),
+                    const Text('Yeni Uyelik Olustur', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+                  ]),
+                  const SizedBox(height: 20),
+
+                  // Ad Soyad
+                  _buildFormField(
+                    controller: nameCtrl,
+                    label: 'Ad Soyad',
+                    icon: Icons.person,
+                    validator: (v) => v == null || v.isEmpty ? 'Zorunlu alan' : null,
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Email
+                  _buildFormField(
+                    controller: emailCtrl,
+                    label: 'E-posta',
+                    icon: Icons.email,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (v) {
+                      if (v == null || v.isEmpty) return 'Zorunlu alan';
+                      if (!v.contains('@')) return 'Gecerli bir e-posta girin';
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Sifre
+                  _buildFormField(
+                    controller: passwordCtrl,
+                    label: 'Sifre',
+                    icon: Icons.lock,
+                    obscure: true,
+                    validator: (v) {
+                      if (v == null || v.isEmpty) return 'Zorunlu alan';
+                      if (v.length < 6) return 'En az 6 karakter';
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Rol
+                  _buildDropdown(
+                    label: 'Rol',
+                    icon: Icons.badge,
+                    value: selectedRole,
+                    items: roles,
+                    onChanged: (v) => setSheetState(() => selectedRole = v!),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Departman
+                  _buildDropdown(
+                    label: 'Departman',
+                    icon: Icons.business,
+                    value: selectedDept,
+                    items: departments,
+                    onChanged: (v) => setSheetState(() => selectedDept = v!),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Telefon
+                  _buildFormField(
+                    controller: phoneCtrl,
+                    label: 'Telefon (opsiyonel)',
+                    icon: Icons.phone,
+                    keyboardType: TextInputType.phone,
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Submit
+                  SizedBox(
+                    width: double.infinity,
+                    child: Consumer(builder: (ctx, ref, _) {
+                      final isSaving = ref.watch(adminProvider).isSaving;
+                      return ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: ScadaColors.cyan,
+                          foregroundColor: ScadaColors.bg,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        ),
+                        onPressed: isSaving
+                            ? null
+                            : () async {
+                                if (!formKey.currentState!.validate()) return;
+                                final success = await ref.read(adminProvider.notifier).createUser(
+                                      email: emailCtrl.text.trim(),
+                                      password: passwordCtrl.text,
+                                      fullName: nameCtrl.text.trim(),
+                                      role: selectedRole,
+                                      department: selectedDept,
+                                      phone: phoneCtrl.text.trim(),
+                                    );
+                                if (success && ctx.mounted) {
+                                  Navigator.pop(ctx);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Kullanici basariyla olusturuldu'),
+                                      backgroundColor: ScadaColors.green,
+                                    ),
+                                  );
+                                } else if (ctx.mounted) {
+                                  final error = ref.read(adminProvider).error;
+                                  ScaffoldMessenger.of(ctx).showSnackBar(
+                                    SnackBar(
+                                      content: Text(error ?? 'Hata olustu'),
+                                      backgroundColor: ScadaColors.red,
+                                    ),
+                                  );
+                                }
+                              },
+                        child: isSaving
+                            ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: ScadaColors.bg))
+                            : const Text('Olustur', style: TextStyle(fontWeight: FontWeight.w600)),
+                      );
+                    }),
+                  ),
+                ]),
+              ),
+            ),
+          );
+        });
+      },
+    );
+  }
+
+  Widget _buildFormField({
+    required TextEditingController controller,
+    required String label,
+    required IconData icon,
+    TextInputType? keyboardType,
+    bool obscure = false,
+    String? Function(String?)? validator,
+  }) {
+    return TextFormField(
+      controller: controller,
+      keyboardType: keyboardType,
+      obscureText: obscure,
+      validator: validator,
+      style: const TextStyle(fontSize: 13, color: ScadaColors.textPrimary),
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: const TextStyle(fontSize: 12, color: ScadaColors.textSecondary),
+        prefixIcon: Icon(icon, size: 18, color: ScadaColors.textDim),
+        filled: true,
+        fillColor: ScadaColors.card,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: ScadaColors.border)),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: ScadaColors.border)),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.cyan)),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+      ),
+    );
+  }
+
+  Widget _buildDropdown({
+    required String label,
+    required IconData icon,
+    required String value,
+    required Map<String, String> items,
+    required ValueChanged<String?> onChanged,
+  }) {
+    return DropdownButtonFormField<String>(
+      value: value,
+      onChanged: onChanged,
+      dropdownColor: ScadaColors.surface,
+      style: const TextStyle(fontSize: 13, color: ScadaColors.textPrimary),
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: const TextStyle(fontSize: 12, color: ScadaColors.textSecondary),
+        prefixIcon: Icon(icon, size: 18, color: ScadaColors.textDim),
+        filled: true,
+        fillColor: ScadaColors.card,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: ScadaColors.border)),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: ScadaColors.border)),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.cyan)),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+      ),
+      items: items.entries.map((e) => DropdownMenuItem(value: e.key, child: Text(e.value))).toList(),
+    );
+  }
+}

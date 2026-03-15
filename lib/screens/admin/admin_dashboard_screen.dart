@@ -196,6 +196,12 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                     Navigator.pushNamed(context, '/admin/content');
                   },
                 ),
+                const SizedBox(height: 8),
+                _buildActionCard(
+                  icon: Icons.people,
+                  title: 'Uyelik Yonetimi',
+                  onTap: () => Navigator.pushNamed(context, '/admin/users'),
+                ),
 
                 // Debug info
                 const SizedBox(height: 16),

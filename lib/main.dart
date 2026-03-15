@@ -42,6 +42,7 @@ import 'screens/admin/route_editor_screen.dart';
 import 'screens/admin/module_editor_screen.dart';
 import 'screens/admin/quiz_builder_screen.dart';
 import 'screens/admin/document_pool_screen.dart';
+import 'screens/admin/user_management_screen.dart';
 
 void main() {
   // Flutter framework hatalari
@@ -100,6 +101,7 @@ class OrientProApp extends StatelessWidget {
         '/admin': (context) => const _AdminGuard(child: AdminDashboardScreen()),
         '/admin/content': (context) => const _AdminGuard(child: ContentManagerScreen()),
         '/admin/documents': (context) => const _AdminGuard(child: DocumentPoolScreen()),
+        '/admin/users': (context) => const _AdminGuard(child: UserManagementScreen()),
       },
       onGenerateRoute: (settings) {
         if (settings.name == '/tour-detail') {

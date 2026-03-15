@@ -1,12 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import '../models/training.dart';
+import '../models/user.dart';
 import '../core/network/auth_dio.dart';
 
 // State
 class AdminState {
   final List<Department> departments;
   final List<TrainingRoute> routes;
+  final List<User> users;
   final TrainingRoute? selectedRoute;
   final TrainingModule? selectedModule;
   final bool isLoading;
@@ -19,6 +21,7 @@ class AdminState {
   AdminState({
     this.departments = const [],
     this.routes = const [],
+    this.users = const [],
     this.selectedRoute,
     this.selectedModule,
     this.isLoading = false,
@@ -32,6 +35,7 @@ class AdminState {
   AdminState copyWith({
     List<Department>? departments,
     List<TrainingRoute>? routes,
+    List<User>? users,
     TrainingRoute? selectedRoute,
     TrainingModule? selectedModule,
     bool? isLoading,
@@ -44,6 +48,7 @@ class AdminState {
     return AdminState(
       departments: departments ?? this.departments,
       routes: routes ?? this.routes,
+      users: users ?? this.users,
       selectedRoute: selectedRoute ?? this.selectedRoute,
       selectedModule: selectedModule ?? this.selectedModule,
       isLoading: isLoading ?? this.isLoading,
@@ -77,6 +82,61 @@ class AdminNotifier extends Notifier<AdminState> {
       state = state.copyWith(departments: departments, routes: routes, isLoading: false);
     } catch (e) {
       state = state.copyWith(isLoading: false, error: 'Veri yuklenemedi: $e');
+    }
+  }
+
+  // ===== USERS =====
+
+  Future<void> loadUsers() async {
+    state = state.copyWith(isLoading: true, error: null);
+    try {
+      final response = await _dio.get('/auth/users');
+      final users = (response.data as List).map((u) => User.fromJson(u)).toList();
+      state = state.copyWith(users: users, isLoading: false);
+    } catch (e) {
+      state = state.copyWith(isLoading: false, error: 'Kullanicilar yuklenemedi: $e');
+    }
+  }
+
+  Future<bool> createUser({
+    required String email,
+    required String password,
+    required String fullName,
+    required String role,
+    required String department,
+    String? phone,
+  }) async {
+    state = state.copyWith(isSaving: true, error: null, successMessage: null);
+    try {
+      await _dio.post('/auth/register', data: {
+        'email': email,
+        'password': password,
+        'full_name': fullName,
+        'role': role,
+        'department': department,
+        if (phone != null && phone.isNotEmpty) 'phone': phone,
+      });
+      state = state.copyWith(isSaving: false, successMessage: 'Kullanici basariyla olusturuldu');
+      await loadUsers();
+      return true;
+    } on DioException catch (e) {
+      final detail = e.response?.data?['detail'] ?? 'Kullanici olusturulamadi';
+      state = state.copyWith(isSaving: false, error: '$detail');
+      return false;
+    } catch (e) {
+      state = state.copyWith(isSaving: false, error: 'Kullanici olusturulamadi: $e');
+      return false;
+    }
+  }
+
+  Future<bool> toggleUserActive(String userId) async {
+    try {
+      await _dio.patch('/auth/users/$userId');
+      await loadUsers();
+      return true;
+    } catch (e) {
+      state = state.copyWith(error: 'Durum degistirilemedi: $e');
+      return false;
     }
   }
 
