@@ -28,6 +28,7 @@ import 'screens/orientation/training_routes_screen.dart';
 import 'screens/orientation/route_detail_screen.dart';
 import 'screens/orientation/module_detail_screen.dart';
 import 'screens/orientation/quiz_screen.dart';
+import 'screens/orientation/quiz_list_screen.dart';
 import 'screens/orientation/progress_screen.dart';
 import 'screens/orientation/ai_assistant_screen.dart';
 import 'screens/orientation/team_progress_screen.dart';
@@ -80,6 +81,7 @@ class OrientProApp extends StatelessWidget {
         '/route-detail': (context) => const RouteDetailScreen(),
         '/module-detail': (context) => const ModuleDetailScreen(),
         '/quiz': (context) => const QuizScreen(),
+        '/quizzes': (context) => const QuizListScreen(),
         '/progress': (context) => const ProgressScreen(),
         '/ai-assistant': (context) => const AiAssistantScreen(),
         '/team-progress': (context) => const TeamProgressScreen(),

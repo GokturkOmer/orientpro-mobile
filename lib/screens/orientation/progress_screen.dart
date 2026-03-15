@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import '../../providers/auth_provider.dart';
+import '../../providers/training_provider.dart';
 import '../../models/training.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/config/api_config.dart';
+import '../../core/auth/role_helper.dart';
 
 class ProgressScreen extends ConsumerStatefulWidget {
   const ProgressScreen({super.key});
@@ -13,13 +15,19 @@ class ProgressScreen extends ConsumerStatefulWidget {
   ConsumerState<ProgressScreen> createState() => _ProgressScreenState();
 }
 
-class _ProgressScreenState extends ConsumerState<ProgressScreen> {
+class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTickerProviderStateMixin {
   bool _loading = true;
   List<Department> _departments = [];
   List<TrainingRoute> _routes = [];
   List<UserProgress> _progress = [];
   TrainingStats? _stats;
   String? _error;
+  bool _isSupervisor = false;
+  TabController? _tabController;
+
+  // Ekip takibi
+  List<TeamMemberProgress> _team = [];
+  bool _teamLoading = false;
 
   // Modul ID -> Modul bilgisi lookup
   Map<String, _ModuleInfo> _moduleMap = {};
@@ -33,7 +41,18 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
   @override
   void initState() {
     super.initState();
+    final auth = ref.read(authProvider);
+    _isSupervisor = RoleHelper.isSupervisor(auth.user?.role);
+    if (_isSupervisor) {
+      _tabController = TabController(length: 2, vsync: this);
+    }
     _loadData();
+  }
+
+  @override
+  void dispose() {
+    _tabController?.dispose();
+    super.dispose();
   }
 
   Future<void> _loadData() async {
@@ -75,6 +94,35 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
           final progRes = await _dio.get('/training/progress/${auth.user!.id}');
           _progress = (progRes.data as List).map((p) => UserProgress.fromJson(p)).toList();
         } catch (_) {}
+      }
+
+      // Departman filtreleme (RBAC)
+      final userRole = auth.user?.role ?? '';
+      final userDept = auth.user?.department;
+      final allowedDepts = RoleHelper.visibleDepartments(userRole, userDept);
+      if (allowedDepts != null) {
+        final allowedDeptIds = _departments.where((d) => allowedDepts.contains(d.code)).map((d) => d.id).toSet();
+        _departments = _departments.where((d) => allowedDepts.contains(d.code)).toList();
+        _routes = _routes.where((r) => allowedDeptIds.contains(r.departmentId)).toList();
+      }
+
+      // Teknik tag filtreleme
+      final teknikTags = RoleHelper.visibleTeknikTags(userRole);
+      if (teknikTags != null && teknikTags.isNotEmpty) {
+        final teknikDeptIds = _departments.where((d) => d.code == 'teknik').map((d) => d.id).toSet();
+        _routes = _routes.where((r) {
+          if (!teknikDeptIds.contains(r.departmentId)) return true;
+          return RoleHelper.canSeeTeknikRoute(userRole, r.tags);
+        }).toList();
+      }
+
+      // Supervisor ise ekip verisini yukle
+      if (_isSupervisor && auth.user?.department != null) {
+        _teamLoading = true;
+        try {
+          _team = await ref.read(trainingProvider.notifier).loadTeamProgress(auth.user!.department!);
+        } catch (_) {}
+        _teamLoading = false;
       }
 
       if (mounted) setState(() => _loading = false);
@@ -131,6 +179,17 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
           const SizedBox(width: 8),
           const Text('Ilerleme Takibi', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
         ]),
+        bottom: _isSupervisor ? TabBar(
+          controller: _tabController,
+          indicatorColor: ScadaColors.amber,
+          labelColor: ScadaColors.amber,
+          unselectedLabelColor: ScadaColors.textSecondary,
+          labelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+          tabs: const [
+            Tab(text: 'Benim Ilerlemem'),
+            Tab(text: 'Ekip Takibi'),
+          ],
+        ) : null,
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator(color: ScadaColors.amber))
@@ -144,38 +203,136 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
                     TextButton(onPressed: () { setState(() { _loading = true; _error = null; }); _loadData(); }, child: const Text('Tekrar Dene', style: TextStyle(color: ScadaColors.amber))),
                   ]),
                 )
-              : RefreshIndicator(
-                  color: ScadaColors.amber,
-                  onRefresh: () async { setState(() => _loading = true); await _loadData(); },
-                  child: ListView(
-                    padding: const EdgeInsets.all(16),
-                    children: [
-                      if (_stats != null) _buildOverallProgressCard(_stats!),
-
-                      const SizedBox(height: 20),
-
-                      _buildSectionHeader(Icons.business, 'DEPARTMAN BAZLI ILERLEME'),
-                      const SizedBox(height: 12),
-
-                      ..._departments.map((dept) {
-                        final deptRoutes = _routes.where((r) => r.departmentId == dept.id).toList();
-                        if (deptRoutes.isEmpty) return const SizedBox.shrink();
-                        return _buildDepartmentProgressCard(dept, deptRoutes);
-                      }),
-
-                      const SizedBox(height: 20),
-
-                      _buildSectionHeader(Icons.list_alt, 'MODUL DETAY'),
-                      const SizedBox(height: 12),
-
-                      if (_progress.isEmpty)
-                        _buildEmptyState()
-                      else
-                        ..._progress.map((p) => _buildModuleProgressItem(p)),
-                    ],
-                  ),
-                ),
+              : _isSupervisor
+                  ? TabBarView(
+                      controller: _tabController,
+                      children: [
+                        _buildMyProgressTab(),
+                        _buildTeamProgressTab(),
+                      ],
+                    )
+                  : _buildMyProgressTab(),
     );
+  }
+
+  Widget _buildMyProgressTab() {
+    return RefreshIndicator(
+      color: ScadaColors.amber,
+      onRefresh: () async { setState(() => _loading = true); await _loadData(); },
+      child: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          if (_stats != null) _buildOverallProgressCard(_stats!),
+          const SizedBox(height: 20),
+          _buildSectionHeader(Icons.business, 'DEPARTMAN BAZLI ILERLEME'),
+          const SizedBox(height: 12),
+          ..._departments.map((dept) {
+            final deptRoutes = _routes.where((r) => r.departmentId == dept.id).toList();
+            if (deptRoutes.isEmpty) return const SizedBox.shrink();
+            return _buildDepartmentProgressCard(dept, deptRoutes);
+          }),
+          const SizedBox(height: 20),
+          _buildSectionHeader(Icons.list_alt, 'MODUL DETAY'),
+          const SizedBox(height: 12),
+          if (_progress.isEmpty)
+            _buildEmptyState()
+          else
+            ..._progress.map((p) => _buildModuleProgressItem(p)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTeamProgressTab() {
+    if (_teamLoading) {
+      return const Center(child: CircularProgressIndicator(color: ScadaColors.amber));
+    }
+    if (_team.isEmpty) {
+      return Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
+        const Icon(Icons.group_off, size: 48, color: ScadaColors.textDim),
+        const SizedBox(height: 12),
+        const Text('Departmaninizda henuz personel yok', style: TextStyle(color: ScadaColors.textSecondary, fontSize: 13)),
+      ]));
+    }
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: _team.length,
+      itemBuilder: (context, index) => _buildTeamMemberCard(_team[index]),
+    );
+  }
+
+  Widget _buildTeamMemberCard(TeamMemberProgress member) {
+    final progressColor = member.completionPercent >= 80
+        ? ScadaColors.green
+        : member.completionPercent >= 40
+            ? ScadaColors.amber
+            : ScadaColors.red;
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: ScadaColors.card,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: ScadaColors.border),
+      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Row(children: [
+          Container(
+            width: 36, height: 36,
+            decoration: BoxDecoration(
+              color: progressColor.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: Center(child: Text(
+              member.userName.isNotEmpty ? member.userName[0].toUpperCase() : '?',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: progressColor),
+            )),
+          ),
+          const SizedBox(width: 12),
+          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(member.userName, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+            if (member.department != null)
+              Text(member.department!, style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+          ])),
+          Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+            Text('%${member.completionPercent.toStringAsFixed(0)}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: progressColor)),
+            const Text('tamamlama', style: TextStyle(fontSize: 9, color: ScadaColors.textDim)),
+          ]),
+        ]),
+        const SizedBox(height: 10),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(3),
+          child: LinearProgressIndicator(
+            value: member.completionPercent / 100,
+            minHeight: 6,
+            backgroundColor: ScadaColors.border,
+            valueColor: AlwaysStoppedAnimation<Color>(progressColor),
+          ),
+        ),
+        const SizedBox(height: 8),
+        Row(children: [
+          const Icon(Icons.verified_user, size: 12, color: ScadaColors.textDim),
+          const SizedBox(width: 4),
+          Text('${member.acknowledgedCount}/${member.totalRequired} onay', style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+          const Spacer(),
+          if (member.lastActivity != null) ...[
+            const Icon(Icons.access_time, size: 12, color: ScadaColors.textDim),
+            const SizedBox(width: 4),
+            Text('Son: ${_formatDate(member.lastActivity!)}', style: const TextStyle(fontSize: 10, color: ScadaColors.textDim)),
+          ],
+        ]),
+      ]),
+    );
+  }
+
+  String _formatDate(String isoDate) {
+    try {
+      final dt = DateTime.parse(isoDate);
+      return '${dt.day.toString().padLeft(2, '0')}.${dt.month.toString().padLeft(2, '0')}';
+    } catch (_) {
+      return '';
+    }
   }
 
   Widget _buildOverallProgressCard(TrainingStats stats) {

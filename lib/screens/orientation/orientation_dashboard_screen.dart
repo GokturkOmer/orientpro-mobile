@@ -303,7 +303,7 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                   title: 'Quiz & Sinavlar',
                   description: 'Bilgi testleri ve degerlendirmeler',
                   color: ScadaColors.green,
-                  onTap: () => Navigator.pushNamed(context, '/training-routes'),
+                  onTap: () => Navigator.pushNamed(context, '/quizzes'),
                 ),
                 const SizedBox(height: 8),
                 _buildModuleCard(
@@ -320,14 +320,6 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                   description: 'Oryantasyon sureci icin yapay zeka destegi',
                   color: ScadaColors.purple,
                   onTap: () => Navigator.pushNamed(context, '/ai-assistant'),
-                ),
-                const SizedBox(height: 8),
-                _buildModuleCard(
-                  icon: Icons.verified,
-                  title: 'Sertifikalar',
-                  description: 'Egitim tamamlama sertifikalari ve onaylar',
-                  color: ScadaColors.orange,
-                  onTap: () {},
                 ),
                 const SizedBox(height: 8),
                 Builder(builder: (context) {
@@ -351,14 +343,6 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                 ),
                 const SizedBox(height: 8),
                 _buildModuleCard(
-                  icon: Icons.assignment,
-                  title: 'Form & Checklistler',
-                  description: 'PDF formlar ve Excel checklistler — indir veya goruntule',
-                  color: ScadaColors.green,
-                  onTap: () => Navigator.pushNamed(context, '/forms'),
-                ),
-                const SizedBox(height: 8),
-                _buildModuleCard(
                   icon: Icons.person,
                   title: 'Profil Karti',
                   description: 'Kisisel bilgiler, acil durum, sertifikalar',
@@ -374,17 +358,6 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                   onTap: () => Navigator.pushNamed(context, '/shifts'),
                 ),
 
-                // Yonetici: Ekip Egitim Takibi
-                if (auth.user != null && RoleHelper.isSupervisor(auth.user!.role)) ...[
-                  const SizedBox(height: 8),
-                  _buildModuleCard(
-                    icon: Icons.group,
-                    title: 'Ekip Egitim Takibi',
-                    description: 'Personel egitim tamamlama ve onay durumu',
-                    color: ScadaColors.red,
-                    onTap: () => Navigator.pushNamed(context, '/team-progress'),
-                  ),
-                ],
 
                 // Error message
                 if (training.error != null) ...[

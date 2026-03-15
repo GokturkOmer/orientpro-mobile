@@ -173,6 +173,25 @@ class QuizQuestion {
   };
 }
 
+class QuizResult {
+  final String id;
+  final String userId;
+  final String quizId;
+  final double score;
+  final double maxScore;
+  final bool passed;
+  final int attemptNumber;
+  final String createdAt;
+
+  QuizResult({required this.id, required this.userId, required this.quizId, required this.score, required this.maxScore, required this.passed, this.attemptNumber = 1, required this.createdAt});
+
+  factory QuizResult.fromJson(Map<String, dynamic> json) {
+    return QuizResult(id: json['id'], userId: json['user_id'], quizId: json['quiz_id'], score: (json['score'] ?? 0).toDouble(), maxScore: (json['max_score'] ?? 0).toDouble(), passed: json['passed'] ?? false, attemptNumber: json['attempt_number'] ?? 1, createdAt: json['created_at'] ?? '');
+  }
+
+  double get percent => maxScore > 0 ? (score / maxScore * 100) : 0;
+}
+
 class UserProgress {
   final String id;
   final String userId;

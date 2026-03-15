@@ -10,6 +10,7 @@ class TrainingState {
   final TrainingRoute? selectedRoute;
   final TrainingModule? selectedModule;
   final List<QuizQuestion> quizQuestions;
+  final List<QuizResult> quizResults;
   final List<UserProgress> progress;
   final TrainingStats? stats;
   final bool isLoading;
@@ -21,6 +22,7 @@ class TrainingState {
     this.selectedRoute,
     this.selectedModule,
     this.quizQuestions = const [],
+    this.quizResults = const [],
     this.progress = const [],
     this.stats,
     this.isLoading = false,
@@ -33,6 +35,7 @@ class TrainingState {
     TrainingRoute? selectedRoute,
     TrainingModule? selectedModule,
     List<QuizQuestion>? quizQuestions,
+    List<QuizResult>? quizResults,
     List<UserProgress>? progress,
     TrainingStats? stats,
     bool? isLoading,
@@ -44,6 +47,7 @@ class TrainingState {
       selectedRoute: selectedRoute ?? this.selectedRoute,
       selectedModule: selectedModule ?? this.selectedModule,
       quizQuestions: quizQuestions ?? this.quizQuestions,
+      quizResults: quizResults ?? this.quizResults,
       progress: progress ?? this.progress,
       stats: stats ?? this.stats,
       isLoading: isLoading ?? this.isLoading,
@@ -150,6 +154,14 @@ class TrainingNotifier extends Notifier<TrainingState> {
       state = state.copyWith(error: 'Quiz gonderilemedi: $e');
       return false;
     }
+  }
+
+  Future<void> loadUserQuizResults(String userId) async {
+    try {
+      final response = await _dio.get('/training/quiz-results/$userId');
+      final results = (response.data as List).map((r) => QuizResult.fromJson(r)).toList();
+      state = state.copyWith(quizResults: results);
+    } catch (_) {}
   }
 
   Future<void> startModule(String userId, String moduleId) async {

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/training_provider.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/auth/role_helper.dart';
 import '../../models/training.dart';
 
 class TeamProgressScreen extends ConsumerStatefulWidget {
@@ -15,12 +16,18 @@ class TeamProgressScreen extends ConsumerStatefulWidget {
 class _TeamProgressScreenState extends ConsumerState<TeamProgressScreen> {
   List<TeamMemberProgress> _team = [];
   bool _loading = true;
+  bool _unauthorized = false;
 
   @override
   void initState() {
     super.initState();
     Future.microtask(() async {
       final auth = ref.read(authProvider);
+      // Supervisor kontrolu: sadece mudur ve sef roller ekip verisini gorebilir
+      if (!RoleHelper.isSupervisor(auth.user?.role)) {
+        if (mounted) setState(() { _unauthorized = true; _loading = false; });
+        return;
+      }
       if (auth.user?.department != null) {
         final team = await ref.read(trainingProvider.notifier).loadTeamProgress(auth.user!.department!);
         if (mounted) setState(() { _team = team; _loading = false; });
@@ -55,6 +62,14 @@ class _TeamProgressScreenState extends ConsumerState<TeamProgressScreen> {
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator(color: ScadaColors.cyan))
+          : _unauthorized
+              ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
+                  const Icon(Icons.lock, size: 48, color: ScadaColors.textDim),
+                  const SizedBox(height: 12),
+                  const Text('Bu sayfaya erisim yetkiniz yok', style: TextStyle(color: ScadaColors.textSecondary, fontSize: 13)),
+                  const SizedBox(height: 4),
+                  const Text('Sadece mudur ve sef roller ekip takibini gorebilir', style: TextStyle(color: ScadaColors.textDim, fontSize: 11)),
+                ]))
           : _team.isEmpty
               ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
                   Icon(Icons.group_off, size: 48, color: ScadaColors.textDim),
