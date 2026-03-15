@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
-import '../../core/config/api_config.dart';
-import '../../models/sensor.dart';
+import '../core/config/api_config.dart';
+import '../models/sensor.dart';
 
 final _dio = Dio(BaseOptions(baseUrl: ApiConfig.webUrl, connectTimeout: const Duration(seconds: 5)));
 
