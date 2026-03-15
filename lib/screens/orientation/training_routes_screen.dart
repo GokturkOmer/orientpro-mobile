@@ -54,6 +54,12 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
         ? training.departments
         : training.departments.where((d) => d.code == 'GEN' || d.code == userDept).toList();
 
+    // Rota filtreleme: admin tum rotalari gorur, diger sadece kendi dept + GEN rotalarini
+    final allowedDeptIds = filteredDepts.map((d) => d.id).toSet();
+    final filteredRoutes = canSeeAll
+        ? training.routes
+        : training.routes.where((r) => allowedDeptIds.contains(r.departmentId)).toList();
+
     return Scaffold(
       backgroundColor: ScadaColors.bg,
       appBar: AppBar(
@@ -93,7 +99,7 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
         Expanded(
           child: isLoading
               ? const Center(child: CircularProgressIndicator(color: ScadaColors.cyan))
-              : training.routes.isEmpty
+              : filteredRoutes.isEmpty
                   ? Center(
                       child: Column(mainAxisSize: MainAxisSize.min, children: [
                         const Icon(Icons.route, size: 48, color: ScadaColors.textDim),
@@ -103,8 +109,8 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
                     )
                   : ListView.builder(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      itemCount: training.routes.length,
-                      itemBuilder: (context, index) => _buildRouteCard(training.routes[index]),
+                      itemCount: filteredRoutes.length,
+                      itemBuilder: (context, index) => _buildRouteCard(filteredRoutes[index]),
                     ),
         ),
       ]),

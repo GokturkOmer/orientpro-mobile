@@ -190,7 +190,7 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                   ),
                 ],
 
-                // Tamamlanmamis Zorunlu Egitimler
+                // Tamamlanmamis Zorunlu Egitimler (departman filtreleme)
                 if (_summary != null && _summary!.upcomingDeadlines.isNotEmpty) ...[
                   const SizedBox(height: 12),
                   Row(children: [
@@ -199,7 +199,16 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                     const Text('TAMAMLANMAMIS ZORUNLU EGITIMLER', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 1)),
                   ]),
                   const SizedBox(height: 8),
-                  ..._buildGroupedDeadlines(_summary!.upcomingDeadlines),
+                  Builder(builder: (context) {
+                    final userRole = auth.user?.role;
+                    final userDept = auth.user?.department;
+                    final canSeeAll = RoleHelper.isAdmin(userRole);
+                    final filtered = canSeeAll
+                        ? _summary!.upcomingDeadlines
+                        : _summary!.upcomingDeadlines.where((d) =>
+                            d['department_code'] == 'GEN' || d['department_code'] == userDept).toList();
+                    return Column(children: _buildGroupedDeadlines(filtered));
+                  }),
                 ],
 
                 // Haftalik Ozet
@@ -260,14 +269,25 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                 ]),
                 const SizedBox(height: 12),
 
-                _buildModuleCard(
-                  icon: Icons.route,
-                  title: 'Egitim Rotalari',
-                  description: 'Departman bazli egitim rotalari ve icerikler',
-                  color: ScadaColors.cyan,
-                  badge: '${training.routes.length}',
-                  onTap: () => Navigator.pushNamed(context, '/training-routes'),
-                ),
+                Builder(builder: (context) {
+                  final userRole = auth.user?.role;
+                  final userDept = auth.user?.department;
+                  final canSeeAll = RoleHelper.isAdmin(userRole);
+                  final allowedDeptIds = canSeeAll
+                      ? null
+                      : training.departments.where((d) => d.code == 'GEN' || d.code == userDept).map((d) => d.id).toSet();
+                  final routeCount = canSeeAll
+                      ? training.routes.length
+                      : training.routes.where((r) => allowedDeptIds!.contains(r.departmentId)).length;
+                  return _buildModuleCard(
+                    icon: Icons.route,
+                    title: 'Egitim Rotalari',
+                    description: 'Departman bazli egitim rotalari ve icerikler',
+                    color: ScadaColors.cyan,
+                    badge: '$routeCount',
+                    onTap: () => Navigator.pushNamed(context, '/training-routes'),
+                  );
+                }),
                 const SizedBox(height: 8),
                 _buildModuleCard(
                   icon: Icons.quiz,
