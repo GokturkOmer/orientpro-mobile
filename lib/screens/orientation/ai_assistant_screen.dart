@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:dio/dio.dart';
-import '../../core/config/api_config.dart';
+import '../../core/network/auth_dio.dart';
 import '../../core/theme/app_theme.dart';
 import '../../providers/auth_provider.dart';
 
@@ -26,11 +25,6 @@ class _AiAssistantScreenState extends ConsumerState<AiAssistantScreen> {
   final ScrollController _scrollController = ScrollController();
   final List<_ChatMessage> _messages = [];
   bool _isLoading = false;
-  final Dio _dio = Dio(BaseOptions(
-    baseUrl: ApiConfig.webUrl,
-    connectTimeout: const Duration(seconds: 60),
-    receiveTimeout: const Duration(seconds: 60),
-  ));
 
   final List<_QuickAction> _quickActions = [
     _QuickAction(icon: Icons.school, label: 'ISG nedir?', query: 'ISG temel egitimi hakkinda kisaca bilgi ver', category: 'genel'),
@@ -73,7 +67,8 @@ class _AiAssistantScreenState extends ConsumerState<AiAssistantScreen> {
 
     try {
       final auth = ref.read(authProvider);
-      final response = await _dio.post('/chatbot/chat', data: {
+      final dio = ref.read(authDioProvider);
+      final response = await dio.post('/chatbot/chat', data: {
         'message': text,
         'user_id': auth.user?.id ?? 'anonymous',
         'context': 'oryantasyon',

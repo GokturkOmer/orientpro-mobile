@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:dio/dio.dart';
+import '../../core/network/auth_dio.dart';
 import '../../providers/chatbot_provider.dart';
 import '../../models/chatbot.dart';
-import '../../core/config/api_config.dart';
 import 'dart:html' as html;
 import 'dart:typed_data';
 
@@ -36,7 +36,7 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
         reader.readAsArrayBuffer(file);
         await reader.onLoad.first;
         final bytes = reader.result as Uint8List;
-        final dio = Dio(BaseOptions(baseUrl: ApiConfig.webUrl, connectTimeout: const Duration(seconds: 120), receiveTimeout: const Duration(seconds: 120)));
+        final dio = ref.read(authDioProvider);
         final formData = FormData.fromMap({
           'file': MultipartFile.fromBytes(bytes, filename: file.name),
           'category': 'genel',

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:dio/dio.dart';
+import '../../core/network/auth_dio.dart';
 import '../../providers/auth_provider.dart';
-import '../../core/config/api_config.dart';
 import '../../core/theme/app_theme.dart';
 import '../../providers/notification_provider.dart';
 
@@ -21,7 +20,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   void initState() { super.initState(); _loadStats(); }
 
   Future<void> _loadStats() async {
-    final dio = Dio(BaseOptions(baseUrl: ApiConfig.webUrl));
+    final dio = ref.read(authDioProvider);
     try {
       final eqRes = await dio.get('/equipment/stats');
       final woRes = await dio.get('/work-orders/stats');

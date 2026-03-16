@@ -177,7 +177,7 @@ class _TourDetailScreenState extends ConsumerState<TourDetailScreen> {
   Future<void> _startTour() async {
     setState(() => _isStarting = true);
     try {
-      final session = await TourService.startSession(widget.routeId, 'c0a8f1d9-b501-4f38-84be-5cf4aab47cda');
+      final session = await ref.read(tourServiceProvider).startSession(widget.routeId, 'c0a8f1d9-b501-4f38-84be-5cf4aab47cda');
       if (mounted) Navigator.pushReplacementNamed(context, '/active-tour', arguments: session.id);
     } catch (e) {
       setState(() => _isStarting = false);

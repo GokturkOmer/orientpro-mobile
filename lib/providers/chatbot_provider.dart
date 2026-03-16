@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:dio/dio.dart';
 import '../models/chatbot.dart';
-import '../core/config/api_config.dart';
+import '../core/network/auth_dio.dart';
 
 class ChatBotState {
   final List<ChatMessage> messages;
@@ -12,15 +11,8 @@ class ChatBotState {
 final chatProvider = NotifierProvider<ChatNotifier, ChatBotState>(ChatNotifier.new);
 
 class ChatNotifier extends Notifier<ChatBotState> {
-  late final Dio _dio;
-
   @override
   ChatBotState build() {
-    _dio = Dio(BaseOptions(
-      baseUrl: ApiConfig.webUrl,
-      connectTimeout: const Duration(seconds: 120),
-      receiveTimeout: const Duration(seconds: 120),
-    ));
     return const ChatBotState();
   }
 
@@ -28,7 +20,8 @@ class ChatNotifier extends Notifier<ChatBotState> {
     final userMsg = ChatMessage(text: question, isUser: true);
     state = ChatBotState(messages: [...state.messages, userMsg], isLoading: true);
     try {
-      final response = await _dio.post('/chatbot/chat', data: {'question': question});
+      final dio = ref.read(authDioProvider);
+      final response = await dio.post('/chatbot/chat', data: {'question': question});
       final chatResponse = ChatResponse.fromJson(response.data);
       final botMsg = ChatMessage(text: chatResponse.answer, isUser: false, sources: chatResponse.sources);
       state = ChatBotState(messages: [...state.messages, botMsg], isLoading: false);

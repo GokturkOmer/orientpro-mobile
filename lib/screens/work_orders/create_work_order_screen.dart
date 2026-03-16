@@ -1,7 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:dio/dio.dart';
-import '../../core/config/api_config.dart';
+import '../../core/network/auth_dio.dart';
 import '../../models/equipment.dart';
 import '../../providers/auth_provider.dart';
 
@@ -25,7 +24,7 @@ class _CreateWorkOrderScreenState extends ConsumerState<CreateWorkOrderScreen> {
     setState(() => _isLoading = true);
     try {
       final auth = ref.read(authProvider);
-      final dio = Dio(BaseOptions(baseUrl: ApiConfig.webUrl));
+      final dio = ref.read(authDioProvider);
       await dio.post('/work-orders/', data: {'title': _titleController.text, 'description': _descController.text, 'priority': _priority, 'fault_type': _faultType, 'source_department': _source, 'equipment_id': widget.equipment.id, 'room_number': widget.equipment.roomNumber, 'created_by': auth.user!.id});
       if (mounted) { ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Is emri olusturuldu!'), backgroundColor: Colors.green)); Navigator.pop(context, true); }
     } catch (e) { if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Hata olustu'), backgroundColor: Colors.red)); }

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:dio/dio.dart';
+import '../../core/network/auth_dio.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/training_provider.dart';
 import '../../models/training.dart';
 import '../../core/theme/app_theme.dart';
-import '../../core/config/api_config.dart';
 import '../../core/auth/role_helper.dart';
 
 class ProgressScreen extends ConsumerStatefulWidget {
@@ -32,12 +31,6 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
   // Modul ID -> Modul bilgisi lookup
   Map<String, _ModuleInfo> _moduleMap = {};
 
-  final Dio _dio = Dio(BaseOptions(
-    baseUrl: ApiConfig.webUrl,
-    connectTimeout: const Duration(seconds: 15),
-    receiveTimeout: const Duration(seconds: 15),
-  ));
-
   @override
   void initState() {
     super.initState();
@@ -57,12 +50,13 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
 
   Future<void> _loadData() async {
     final auth = ref.read(authProvider);
+    final dio = ref.read(authDioProvider);
     try {
       // Paralel yukle: departmanlar, rotalar, moduller
       final results = await Future.wait([
-        _dio.get('/training/departments'),
-        _dio.get('/training/routes'),
-        _dio.get('/training/modules'),
+        dio.get('/training/departments'),
+        dio.get('/training/routes'),
+        dio.get('/training/modules'),
       ]);
 
       _departments = (results[0].data as List).map((d) => Department.fromJson(d)).toList();
@@ -86,12 +80,12 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
 
       if (auth.user != null) {
         try {
-          final statsRes = await _dio.get('/training/stats/${auth.user!.id}');
+          final statsRes = await dio.get('/training/stats/${auth.user!.id}');
           _stats = TrainingStats.fromJson(statsRes.data);
         } catch (_) {}
 
         try {
-          final progRes = await _dio.get('/training/progress/${auth.user!.id}');
+          final progRes = await dio.get('/training/progress/${auth.user!.id}');
           _progress = (progRes.data as List).map((p) => UserProgress.fromJson(p)).toList();
         } catch (_) {}
       }

@@ -22,7 +22,7 @@ class NotificationScreen extends ConsumerWidget {
         ]),
         actions: [
           TextButton.icon(
-            onPressed: () async { await NotificationService.markAllRead(); ref.invalidate(notificationListProvider); ref.invalidate(unreadCountProvider); },
+            onPressed: () async { await ref.read(notificationServiceProvider).markAllRead(); ref.invalidate(notificationListProvider); ref.invalidate(unreadCountProvider); },
             icon: const Icon(Icons.done_all, size: 16, color: ScadaColors.cyan),
             label: const Text('Tumu Okundu', style: TextStyle(fontSize: 11, color: ScadaColors.cyan)),
           ),
@@ -88,7 +88,7 @@ class NotificationScreen extends ConsumerWidget {
         borderRadius: BorderRadius.circular(10),
         onTap: () {
           if (!notif.isRead) {
-            NotificationService.markAsRead(notif.id);
+            ref.read(notificationServiceProvider).markAsRead(notif.id);
             ref.invalidate(notificationListProvider);
             ref.invalidate(unreadCountProvider);
           }

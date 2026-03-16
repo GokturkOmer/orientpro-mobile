@@ -162,7 +162,7 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
     if (_isProcessing || _session == null) return;
     setState(() { _isProcessing = true; _isScanning = false; });
     try {
-      final result = await TourService.scanCheckpoint(widget.sessionId, qrCode);
+      final result = await ref.read(tourServiceProvider).scanCheckpoint(widget.sessionId, qrCode);
       setState(() { _lastScanResult = result; _isProcessing = false; });
       if (result.orderWarning != null && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(result.orderWarning!), backgroundColor: ScadaColors.amber));
@@ -262,7 +262,7 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
           ElevatedButton(onPressed: () async {
             if (controller.text.isEmpty) return;
             Navigator.pop(ctx);
-            try { await TourService.skipCheckpoint(widget.sessionId, cp.id, controller.text); await _loadSession(); }
+            try { await ref.read(tourServiceProvider).skipCheckpoint(widget.sessionId, cp.id, controller.text); await _loadSession(); }
             catch (e) { if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Hata: $e'), backgroundColor: ScadaColors.red)); }
           }, child: const Text('Atla')),
         ],
@@ -282,7 +282,7 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
 
   Future<void> _completeTour() async {
     try {
-      final result = await TourService.completeSession(widget.sessionId);
+      final result = await ref.read(tourServiceProvider).completeSession(widget.sessionId);
       if (mounted) showDialog(context: context, builder: (ctx) => AlertDialog(
         backgroundColor: ScadaColors.surface,
         icon: const Icon(Icons.check_circle, size: 48, color: ScadaColors.green),
@@ -305,6 +305,6 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
           onPressed: () => Navigator.pop(ctx, true), child: const Text('Iptal Et')),
       ],
     ));
-    if (confirmed == true) { await TourService.cancelSession(widget.sessionId); if (mounted) Navigator.pop(context); }
+    if (confirmed == true) { await ref.read(tourServiceProvider).cancelSession(widget.sessionId); if (mounted) Navigator.pop(context); }
   }
 }

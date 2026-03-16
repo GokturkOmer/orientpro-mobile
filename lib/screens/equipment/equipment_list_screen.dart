@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
-import '../../core/config/api_config.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/network/auth_dio.dart';
 import '../../models/equipment.dart';
 import '../../core/theme/app_theme.dart';
 import 'equipment_detail_screen.dart';
 
-class EquipmentListScreen extends StatefulWidget {
+class EquipmentListScreen extends ConsumerStatefulWidget {
   const EquipmentListScreen({super.key});
   @override
-  State<EquipmentListScreen> createState() => _EquipmentListScreenState();
+  ConsumerState<EquipmentListScreen> createState() => _EquipmentListScreenState();
 }
 
-class _EquipmentListScreenState extends State<EquipmentListScreen> {
+class _EquipmentListScreenState extends ConsumerState<EquipmentListScreen> {
   List<Equipment> items = [];
   bool isLoading = true;
   String searchQuery = '';
@@ -24,7 +24,7 @@ class _EquipmentListScreenState extends State<EquipmentListScreen> {
   Future<void> _loadEquipment() async {
     setState(() => isLoading = true);
     try {
-      final dio = Dio(BaseOptions(baseUrl: ApiConfig.webUrl));
+      final dio = ref.read(authDioProvider);
       String url = '/equipment/?limit=200';
       if (searchQuery.isNotEmpty) url += '&search=$searchQuery';
       if (selectedCategory != null) url += '&category=$selectedCategory';

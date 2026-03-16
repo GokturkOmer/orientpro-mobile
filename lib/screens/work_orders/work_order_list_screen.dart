@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
-import '../../core/config/api_config.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/network/auth_dio.dart';
 import '../../models/work_order.dart';
 import '../../core/theme/app_theme.dart';
 
-class WorkOrderListScreen extends StatefulWidget {
+class WorkOrderListScreen extends ConsumerStatefulWidget {
   const WorkOrderListScreen({super.key});
   @override
-  State<WorkOrderListScreen> createState() => _WorkOrderListScreenState();
+  ConsumerState<WorkOrderListScreen> createState() => _WorkOrderListScreenState();
 }
 
-class _WorkOrderListScreenState extends State<WorkOrderListScreen> {
+class _WorkOrderListScreenState extends ConsumerState<WorkOrderListScreen> {
   List<WorkOrder> items = [];
   bool isLoading = true;
   String? statusFilter;
@@ -22,7 +22,7 @@ class _WorkOrderListScreenState extends State<WorkOrderListScreen> {
   Future<void> _load() async {
     setState(() => isLoading = true);
     try {
-      final dio = Dio(BaseOptions(baseUrl: ApiConfig.webUrl));
+      final dio = ref.read(authDioProvider);
       String url = '/work-orders/?limit=100';
       if (statusFilter != null) url += '&status=$statusFilter';
       final res = await dio.get(url);

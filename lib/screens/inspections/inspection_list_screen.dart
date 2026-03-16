@@ -1,15 +1,15 @@
 ﻿import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
-import '../../core/config/api_config.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/network/auth_dio.dart';
 
-class InspectionListScreen extends StatefulWidget {
+class InspectionListScreen extends ConsumerStatefulWidget {
   const InspectionListScreen({super.key});
 
   @override
-  State<InspectionListScreen> createState() => _InspectionListScreenState();
+  ConsumerState<InspectionListScreen> createState() => _InspectionListScreenState();
 }
 
-class _InspectionListScreenState extends State<InspectionListScreen> with SingleTickerProviderStateMixin {
+class _InspectionListScreenState extends ConsumerState<InspectionListScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   List<dynamic> templates = [];
   List<dynamic> inspections = [];
@@ -25,7 +25,7 @@ class _InspectionListScreenState extends State<InspectionListScreen> with Single
   Future<void> _load() async {
     setState(() => isLoading = true);
     try {
-      final dio = Dio(BaseOptions(baseUrl: ApiConfig.webUrl));
+      final dio = ref.read(authDioProvider);
       final tRes = await dio.get('/inspections/templates');
       final iRes = await dio.get('/inspections/');
       setState(() {
