@@ -266,6 +266,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   }
 
   void _showEditDialog(UserProfile profile) {
+    final phoneCtrl = TextEditingController(text: profile.phone ?? '');
     final emergencyNameCtrl = TextEditingController(text: profile.emergencyName ?? '');
     final emergencyPhoneCtrl = TextEditingController(text: profile.emergencyPhone ?? '');
     final addressCtrl = TextEditingController(text: profile.address ?? '');
@@ -290,10 +291,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           width: MediaQuery.of(context).size.width * 0.85,
           child: SingleChildScrollView(
             child: Column(mainAxisSize: MainAxisSize.min, children: [
+              TextFormField(
+                controller: phoneCtrl,
+                decoration: const InputDecoration(labelText: 'Telefon', isDense: true, contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10), prefixIcon: Icon(Icons.phone, size: 16)),
+                keyboardType: TextInputType.phone,
+                style: const TextStyle(fontSize: 12, color: ScadaColors.textPrimary),
+              ),
+              const SizedBox(height: 8),
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(labelText: 'Kan Grubu', isDense: true, contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
                 dropdownColor: ScadaColors.surface,
-                value: selectedBloodType,
+                initialValue: selectedBloodType,
                 items: ['A+','A-','B+','B-','AB+','AB-','0+','0-'].map((v) => DropdownMenuItem(value: v, child: Text(v, style: const TextStyle(fontSize: 12)))).toList(),
                 onChanged: (val) => selectedBloodType = val,
               ),
@@ -320,7 +328,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(labelText: 'Yakinlik Derecesi', isDense: true, contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
                 dropdownColor: ScadaColors.surface,
-                value: selectedRelation,
+                initialValue: selectedRelation,
                 items: ['Es','Anne','Baba','Kardes','Diger'].map((v) => DropdownMenuItem(value: v, child: Text(v, style: const TextStyle(fontSize: 12)))).toList(),
                 onChanged: (val) => selectedRelation = val,
               ),
@@ -344,6 +352,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               final auth = ref.read(authProvider);
               if (auth.user != null) {
                 final data = <String, dynamic>{};
+                if (phoneCtrl.text.isNotEmpty) data['phone'] = phoneCtrl.text;
                 if (selectedBloodType != null) data['blood_type'] = selectedBloodType;
                 if (addressCtrl.text.isNotEmpty) data['address'] = addressCtrl.text;
                 if (emergencyNameCtrl.text.isNotEmpty) data['emergency_name'] = emergencyNameCtrl.text;
@@ -352,6 +361,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 if (bioCtrl.text.isNotEmpty) data['bio'] = bioCtrl.text;
 
                 final ok = await ref.read(profileProvider.notifier).updateProfile(auth.user!.id, data);
+                if (ok) {
+                  // Profil verisini yeniden yukle
+                  ref.read(profileProvider.notifier).loadProfile(auth.user!.id);
+                }
                 if (ctx.mounted) Navigator.pop(ctx);
                 if (mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
