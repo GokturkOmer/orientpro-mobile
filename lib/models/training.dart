@@ -149,6 +149,44 @@ class Quiz {
   };
 }
 
+class QuizListItem {
+  final String id;
+  final String moduleId;
+  final String title;
+  final String? description;
+  final int? timeLimitMinutes;
+  final int maxAttempts;
+  final int passingScore;
+  final bool isActive;
+  final String? moduleTitle;
+  final String? routeTitle;
+  final String? routeId;
+  final String? departmentId;
+  final String? departmentName;
+  final String? departmentCode;
+
+  QuizListItem({required this.id, required this.moduleId, required this.title, this.description, this.timeLimitMinutes, this.maxAttempts = 3, this.passingScore = 70, this.isActive = true, this.moduleTitle, this.routeTitle, this.routeId, this.departmentId, this.departmentName, this.departmentCode});
+
+  factory QuizListItem.fromJson(Map<String, dynamic> json) {
+    return QuizListItem(
+      id: json['id'],
+      moduleId: json['module_id'],
+      title: json['title'],
+      description: json['description'],
+      timeLimitMinutes: json['time_limit_minutes'],
+      maxAttempts: json['max_attempts'] ?? 3,
+      passingScore: json['passing_score'] ?? 70,
+      isActive: json['is_active'] ?? true,
+      moduleTitle: json['module_title'],
+      routeTitle: json['route_title'],
+      routeId: json['route_id'],
+      departmentId: json['department_id'],
+      departmentName: json['department_name'],
+      departmentCode: json['department_code'],
+    );
+  }
+}
+
 class QuizQuestion {
   final String id;
   final String quizId;

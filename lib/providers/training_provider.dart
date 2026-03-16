@@ -10,6 +10,7 @@ class TrainingState {
   final TrainingRoute? selectedRoute;
   final TrainingModule? selectedModule;
   final List<QuizQuestion> quizQuestions;
+  final List<QuizListItem> quizList;
   final List<QuizResult> quizResults;
   final List<UserProgress> progress;
   final TrainingStats? stats;
@@ -22,6 +23,7 @@ class TrainingState {
     this.selectedRoute,
     this.selectedModule,
     this.quizQuestions = const [],
+    this.quizList = const [],
     this.quizResults = const [],
     this.progress = const [],
     this.stats,
@@ -35,6 +37,7 @@ class TrainingState {
     TrainingRoute? selectedRoute,
     TrainingModule? selectedModule,
     List<QuizQuestion>? quizQuestions,
+    List<QuizListItem>? quizList,
     List<QuizResult>? quizResults,
     List<UserProgress>? progress,
     TrainingStats? stats,
@@ -47,6 +50,7 @@ class TrainingState {
       selectedRoute: selectedRoute ?? this.selectedRoute,
       selectedModule: selectedModule ?? this.selectedModule,
       quizQuestions: quizQuestions ?? this.quizQuestions,
+      quizList: quizList ?? this.quizList,
       quizResults: quizResults ?? this.quizResults,
       progress: progress ?? this.progress,
       stats: stats ?? this.stats,
@@ -106,6 +110,19 @@ class TrainingNotifier extends Notifier<TrainingState> {
       state = state.copyWith(selectedModule: module, isLoading: false);
     } catch (e) {
       state = state.copyWith(isLoading: false, error: 'Modul detayi yuklenemedi: $e');
+    }
+  }
+
+  Future<void> loadQuizzes({String? departmentId}) async {
+    state = state.copyWith(isLoading: true, error: null);
+    try {
+      final params = <String, dynamic>{};
+      if (departmentId != null) params['department_id'] = departmentId;
+      final response = await _dio.get('/training/quizzes', queryParameters: params);
+      final quizzes = (response.data as List).map((q) => QuizListItem.fromJson(q)).toList();
+      state = state.copyWith(quizList: quizzes, isLoading: false);
+    } catch (e) {
+      state = state.copyWith(isLoading: false, error: 'Quizler yuklenemedi: $e');
     }
   }
 

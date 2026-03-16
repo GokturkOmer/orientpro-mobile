@@ -5,6 +5,7 @@ import '../../providers/training_provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../models/training.dart';
 import '../../widgets/acknowledgment_dialog.dart';
+import '../../widgets/content_viewer.dart';
 
 class ModuleDetailScreen extends ConsumerStatefulWidget {
   const ModuleDetailScreen({super.key});
@@ -151,21 +152,24 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
     );
   }
 
-  Widget _buildContentCard(content) {
-    final typeIcon = content.contentType == 'text'
-        ? Icons.article
-        : content.contentType == 'video'
-            ? Icons.play_circle
-            : content.contentType == 'image'
-                ? Icons.image
-                : content.contentType == 'checklist'
-                    ? Icons.checklist
-                    : Icons.insert_drive_file;
-    final typeColor = content.contentType == 'text'
-        ? ScadaColors.cyan
-        : content.contentType == 'checklist'
-            ? ScadaColors.green
-            : ScadaColors.amber;
+  Widget _buildContentCard(ModuleContent content) {
+    final typeIcon = switch (content.contentType) {
+      'text' => Icons.article,
+      'pdf' => Icons.picture_as_pdf,
+      'image' => Icons.image,
+      'checklist' => Icons.checklist,
+      _ => Icons.insert_drive_file,
+    };
+    final typeColor = switch (content.contentType) {
+      'text' => ScadaColors.cyan,
+      'pdf' => ScadaColors.red,
+      'image' => ScadaColors.amber,
+      'checklist' => ScadaColors.green,
+      _ => ScadaColors.textDim,
+    };
+
+    // PDF ve resim icin ExpansionTile yerine direkt gosterim
+    final isMediaContent = content.contentType == 'pdf' || content.contentType == 'image';
 
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
@@ -174,29 +178,39 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: ScadaColors.border),
       ),
-      child: ExpansionTile(
-        tilePadding: const EdgeInsets.symmetric(horizontal: 12),
-        childrenPadding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
-        leading: Icon(typeIcon, color: typeColor, size: 20),
-        title: Text(content.title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
-        iconColor: ScadaColors.textDim,
-        collapsedIconColor: ScadaColors.textDim,
-        children: [
-          if (content.body != null)
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: ScadaColors.bg,
-                borderRadius: BorderRadius.circular(6),
-              ),
-              child: SelectableText(
-                content.body!,
-                style: const TextStyle(fontSize: 12, color: ScadaColors.textPrimary, height: 1.6),
-              ),
+      child: isMediaContent
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Baslik satiri
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 12, 12, 4),
+                  child: Row(children: [
+                    Icon(typeIcon, color: typeColor, size: 20),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(content.title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+                    ),
+                  ]),
+                ),
+                // Icerik
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 12),
+                  child: ContentViewer(content: content),
+                ),
+              ],
+            )
+          : ExpansionTile(
+              tilePadding: const EdgeInsets.symmetric(horizontal: 12),
+              childrenPadding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
+              leading: Icon(typeIcon, color: typeColor, size: 20),
+              title: Text(content.title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+              iconColor: ScadaColors.textDim,
+              collapsedIconColor: ScadaColors.textDim,
+              children: [
+                ContentViewer(content: content),
+              ],
             ),
-        ],
-      ),
     );
   }
 
