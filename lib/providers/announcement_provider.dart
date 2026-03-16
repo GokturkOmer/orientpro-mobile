@@ -109,6 +109,32 @@ class AnnouncementNotifier extends Notifier<AnnouncementState> {
       return false;
     }
   }
+
+  Future<bool> updateAnnouncement(String announcementId, Map<String, dynamic> data) async {
+    try {
+      await _dio.patch('/announcements/$announcementId', data: data);
+      // Listeyi yenile
+      final currentUser = state.announcements.isNotEmpty ? state.announcements.first.createdBy : '';
+      if (currentUser.isNotEmpty) await loadAnnouncements(currentUser);
+      return true;
+    } catch (e) {
+      state = state.copyWith(error: e.toString());
+      return false;
+    }
+  }
+
+  Future<bool> deleteAnnouncement(String announcementId) async {
+    try {
+      await _dio.delete('/announcements/$announcementId');
+      state = state.copyWith(
+        announcements: state.announcements.where((a) => a.id != announcementId).toList(),
+      );
+      return true;
+    } catch (e) {
+      state = state.copyWith(error: e.toString());
+      return false;
+    }
+  }
 }
 
 // Provider

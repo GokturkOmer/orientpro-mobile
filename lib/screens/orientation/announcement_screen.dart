@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/announcement_provider.dart';
+import '../../providers/training_provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../models/announcement.dart';
 import '../../core/auth/role_helper.dart';
@@ -22,6 +23,7 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
       if (auth.user != null) {
         ref.read(announcementProvider.notifier).loadAnnouncements(auth.user!.id, department: auth.user!.department);
         ref.read(announcementProvider.notifier).loadUnreadCount(auth.user!.id, department: auth.user!.department);
+        ref.read(trainingProvider.notifier).loadDepartments();
       }
     });
   }
@@ -129,6 +131,31 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
             ],
             const Spacer(),
             Text(ann.timeAgo, style: const TextStyle(color: ScadaColors.textDim, fontSize: 11)),
+            // Admin menu
+            if (isAdmin) ...[
+              const SizedBox(width: 4),
+              PopupMenuButton<String>(
+                icon: const Icon(Icons.more_vert, size: 18, color: ScadaColors.textDim),
+                color: ScadaColors.surface,
+                padding: EdgeInsets.zero,
+                onSelected: (val) {
+                  if (val == 'edit') _showEditDialog(context, ann);
+                  if (val == 'delete') _confirmDelete(ann);
+                },
+                itemBuilder: (_) => [
+                  const PopupMenuItem(value: 'edit', child: Row(children: [
+                    Icon(Icons.edit, size: 16, color: ScadaColors.cyan),
+                    SizedBox(width: 8),
+                    Text('Duzenle', style: TextStyle(fontSize: 12)),
+                  ])),
+                  const PopupMenuItem(value: 'delete', child: Row(children: [
+                    Icon(Icons.delete, size: 16, color: ScadaColors.red),
+                    SizedBox(width: 8),
+                    Text('Sil', style: TextStyle(fontSize: 12, color: ScadaColors.red)),
+                  ])),
+                ],
+              ),
+            ],
           ]),
         ),
         // Body
@@ -195,11 +222,149 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
     }
   }
 
+  void _confirmDelete(Announcement ann) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        backgroundColor: ScadaColors.surface,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: const BorderSide(color: ScadaColors.borderBright),
+        ),
+        title: const Text('Duyuru Sil', style: TextStyle(color: ScadaColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w600)),
+        content: Text('"${ann.title}" silinsin mi?', style: const TextStyle(color: ScadaColors.textSecondary, fontSize: 13)),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Iptal', style: TextStyle(color: ScadaColors.textSecondary))),
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              final ok = await ref.read(announcementProvider.notifier).deleteAnnouncement(ann.id);
+              if (mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(ok ? 'Duyuru silindi' : 'Silme basarisiz'),
+                    backgroundColor: ok ? ScadaColors.green : ScadaColors.red,
+                  ),
+                );
+              }
+            },
+            child: const Text('Sil', style: TextStyle(color: ScadaColors.red)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showEditDialog(BuildContext context, Announcement ann) {
+    final titleController = TextEditingController(text: ann.title);
+    final bodyController = TextEditingController(text: ann.body);
+    String priority = ann.priority;
+    bool isPinned = ann.isPinned;
+    String? targetDepartment = ann.targetDepartment;
+
+    final departments = ref.read(trainingProvider).departments;
+
+    showDialog(
+      context: context,
+      builder: (_) => StatefulBuilder(
+        builder: (ctx, setDialogState) => AlertDialog(
+          backgroundColor: ScadaColors.surface,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+            side: const BorderSide(color: ScadaColors.borderBright),
+          ),
+          title: const Row(children: [
+            Icon(Icons.edit, color: ScadaColors.cyan, size: 18),
+            SizedBox(width: 8),
+            Text('Duyuru Duzenle', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+          ]),
+          content: SingleChildScrollView(
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
+              TextField(
+                controller: titleController,
+                decoration: const InputDecoration(labelText: 'Baslik'),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: bodyController,
+                decoration: const InputDecoration(labelText: 'Icerik'),
+                maxLines: 4,
+              ),
+              const SizedBox(height: 12),
+              DropdownButtonFormField<String>(
+                initialValue: priority,
+                decoration: const InputDecoration(labelText: 'Oncelik'),
+                dropdownColor: ScadaColors.surface,
+                items: const [
+                  DropdownMenuItem(value: 'normal', child: Text('Normal')),
+                  DropdownMenuItem(value: 'high', child: Text('Yuksek')),
+                  DropdownMenuItem(value: 'critical', child: Text('Kritik')),
+                ],
+                onChanged: (v) => setDialogState(() => priority = v!),
+              ),
+              const SizedBox(height: 12),
+              DropdownButtonFormField<String>(
+                initialValue: targetDepartment,
+                decoration: const InputDecoration(labelText: 'Hedef Departman'),
+                dropdownColor: ScadaColors.surface,
+                items: [
+                  const DropdownMenuItem(value: null, child: Text('Tum Sirket')),
+                  ...departments.map((d) => DropdownMenuItem(value: d.name, child: Text(d.name))),
+                ],
+                onChanged: (v) => setDialogState(() => targetDepartment = v),
+              ),
+              const SizedBox(height: 8),
+              SwitchListTile(
+                title: const Text('Sabitle', style: TextStyle(fontSize: 14)),
+                value: isPinned,
+                activeThumbColor: ScadaColors.cyan,
+                onChanged: (v) => setDialogState(() => isPinned = v),
+              ),
+            ]),
+          ),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Iptal', style: TextStyle(color: ScadaColors.textSecondary))),
+            ElevatedButton(
+              onPressed: () async {
+                if (titleController.text.isEmpty || bodyController.text.isEmpty) {
+                  ScaffoldMessenger.of(ctx).showSnackBar(
+                    const SnackBar(content: Text('Baslik ve icerik zorunlu'), backgroundColor: ScadaColors.red),
+                  );
+                  return;
+                }
+                Navigator.pop(ctx);
+                final ok = await ref.read(announcementProvider.notifier).updateAnnouncement(ann.id, {
+                  'title': titleController.text,
+                  'body': bodyController.text,
+                  'priority': priority,
+                  'is_pinned': isPinned,
+                  'target_department': targetDepartment,
+                });
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(ok ? 'Duyuru guncellendi' : 'Guncelleme basarisiz'),
+                      backgroundColor: ok ? ScadaColors.green : ScadaColors.red,
+                    ),
+                  );
+                }
+              },
+              child: const Text('Kaydet'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   void _showCreateDialog(BuildContext context) {
     final titleController = TextEditingController();
     final bodyController = TextEditingController();
     String priority = 'normal';
     bool isPinned = false;
+    String? targetDepartment;
+
+    final departments = ref.read(trainingProvider).departments;
 
     showDialog(
       context: context,
@@ -229,7 +394,7 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
               ),
               const SizedBox(height: 12),
               DropdownButtonFormField<String>(
-                value: priority,
+                initialValue: priority,
                 decoration: const InputDecoration(labelText: 'Oncelik'),
                 dropdownColor: ScadaColors.surface,
                 items: const [
@@ -238,6 +403,17 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
                   DropdownMenuItem(value: 'critical', child: Text('Kritik')),
                 ],
                 onChanged: (v) => setDialogState(() => priority = v!),
+              ),
+              const SizedBox(height: 12),
+              DropdownButtonFormField<String>(
+                initialValue: targetDepartment,
+                decoration: const InputDecoration(labelText: 'Hedef Departman'),
+                dropdownColor: ScadaColors.surface,
+                items: [
+                  const DropdownMenuItem(value: null, child: Text('Tum Sirket')),
+                  ...departments.map((d) => DropdownMenuItem(value: d.name, child: Text(d.name))),
+                ],
+                onChanged: (v) => setDialogState(() => targetDepartment = v),
               ),
               const SizedBox(height: 8),
               SwitchListTile(
@@ -266,6 +442,7 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
                   createdBy: auth.user!.id,
                   priority: priority,
                   isPinned: isPinned,
+                  targetDepartment: targetDepartment,
                 );
                 if (mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
