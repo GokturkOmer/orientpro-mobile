@@ -2,6 +2,7 @@
 import 'package:dio/dio.dart';
 import '../models/user.dart';
 import '../core/config/api_config.dart';
+import '../core/utils/error_helper.dart';
 
 class AuthState {
   final User? user;
@@ -32,8 +33,7 @@ class AuthNotifier extends Notifier<AuthState> {
       state = AuthState(user: user, token: token);
       return true;
     } on DioException catch (e) {
-      final msg = e.response?.data?['detail'] ?? 'Baglanti hatasi';
-      state = AuthState(error: msg);
+      state = AuthState(error: ErrorHelper.getMessage(e));
       return false;
     }
   }

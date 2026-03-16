@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import '../models/training.dart';
 import '../core/network/auth_dio.dart';
+import '../core/utils/error_helper.dart';
 
 // State
 class TrainingState {
@@ -73,8 +74,10 @@ class TrainingNotifier extends Notifier<TrainingState> {
       final response = await _dio.get('/training/departments');
       final departments = (response.data as List).map((d) => Department.fromJson(d)).toList();
       state = state.copyWith(departments: departments, isLoading: false);
+    } on DioException catch (e) {
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: 'Departmanlar yuklenemedi: $e');
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     }
   }
 
@@ -86,8 +89,10 @@ class TrainingNotifier extends Notifier<TrainingState> {
       final response = await _dio.get('/training/routes', queryParameters: params);
       final routes = (response.data as List).map((r) => TrainingRoute.fromJson(r)).toList();
       state = state.copyWith(routes: routes, isLoading: false);
+    } on DioException catch (e) {
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: 'Egitim rotalari yuklenemedi: $e');
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     }
   }
 
@@ -97,8 +102,10 @@ class TrainingNotifier extends Notifier<TrainingState> {
       final response = await _dio.get('/training/routes/$routeId');
       final route = TrainingRoute.fromJson(response.data);
       state = state.copyWith(selectedRoute: route, isLoading: false);
+    } on DioException catch (e) {
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: 'Rota detayi yuklenemedi: $e');
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     }
   }
 
@@ -108,8 +115,10 @@ class TrainingNotifier extends Notifier<TrainingState> {
       final response = await _dio.get('/training/modules/$moduleId');
       final module = TrainingModule.fromJson(response.data);
       state = state.copyWith(selectedModule: module, isLoading: false);
+    } on DioException catch (e) {
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: 'Modul detayi yuklenemedi: $e');
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     }
   }
 
@@ -121,8 +130,10 @@ class TrainingNotifier extends Notifier<TrainingState> {
       final response = await _dio.get('/training/quizzes', queryParameters: params);
       final quizzes = (response.data as List).map((q) => QuizListItem.fromJson(q)).toList();
       state = state.copyWith(quizList: quizzes, isLoading: false);
+    } on DioException catch (e) {
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: 'Quizler yuklenemedi: $e');
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     }
   }
 
@@ -132,8 +143,10 @@ class TrainingNotifier extends Notifier<TrainingState> {
       final response = await _dio.get('/training/quizzes/$quizId/questions');
       final questions = (response.data as List).map((q) => QuizQuestion.fromJson(q)).toList();
       state = state.copyWith(quizQuestions: questions, isLoading: false);
+    } on DioException catch (e) {
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: 'Quiz sorulari yuklenemedi: $e');
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     }
   }
 
@@ -167,8 +180,11 @@ class TrainingNotifier extends Notifier<TrainingState> {
         'answers': answers,
       });
       return response.data['passed'] == true;
+    } on DioException catch (e) {
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(error: 'Quiz gonderilemedi: $e');
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
       return false;
     }
   }

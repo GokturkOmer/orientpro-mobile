@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import '../models/digital_form.dart';
 import '../core/network/auth_dio.dart';
+import '../core/utils/error_helper.dart';
 
 class FormState {
   final List<FormTemplate> templates;
@@ -37,8 +38,10 @@ class FormNotifier extends Notifier<FormState> {
       final resp = await _dio.get('/forms/templates', queryParameters: params);
       final items = (resp.data as List).map((j) => FormTemplate.fromJson(j)).toList();
       state = state.copyWith(templates: items, isLoading: false);
+    } on DioException catch (e) {
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: e.toString());
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     }
   }
 
@@ -47,8 +50,10 @@ class FormNotifier extends Notifier<FormState> {
       final resp = await _dio.get('/forms/submissions', queryParameters: {'user_id': userId});
       final items = (resp.data as List).map((j) => FormSubmission.fromJson(j)).toList();
       state = state.copyWith(submissions: items);
+    } on DioException catch (e) {
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
     } catch (e) {
-      state = state.copyWith(error: e.toString());
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
     }
   }
 
@@ -63,8 +68,11 @@ class FormNotifier extends Notifier<FormState> {
       await loadTemplates(userId);
       await loadSubmissions(userId);
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(error: e.toString());
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
       return false;
     }
   }
