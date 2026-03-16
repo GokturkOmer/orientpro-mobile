@@ -5,6 +5,7 @@ import '../../providers/auth_provider.dart';
 import '../../providers/library_provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../models/library_document.dart';
+import '../../core/auth/role_helper.dart';
 
 class LibraryScreen extends ConsumerStatefulWidget {
   const LibraryScreen({super.key});
@@ -16,6 +17,7 @@ class LibraryScreen extends ConsumerStatefulWidget {
 class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   String? _selectedDocType;
+  String _searchQuery = '';
 
   @override
   void initState() {
@@ -25,7 +27,9 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
       final auth = ref.read(authProvider);
       if (auth.user != null) {
         ref.read(libraryProvider.notifier).loadPersonalDocs(auth.user!.id);
-        ref.read(libraryProvider.notifier).loadSharedDocs(department: auth.user!.department);
+        // Admin tum belgeleri gorur, diger kullanicilar sadece kendi departmanini
+        final isAdmin = RoleHelper.isAdmin(auth.user!.role);
+        ref.read(libraryProvider.notifier).loadSharedDocs(department: isAdmin ? null : auth.user!.department);
       }
     });
   }
@@ -73,19 +77,53 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
       ),
       body: library.isLoading
           ? const Center(child: CircularProgressIndicator(color: ScadaColors.cyan))
-          : TabBarView(
-              controller: _tabController,
-              children: [
-                _buildDocList(library.personalDocs, isPersonal: true),
-                _buildSharedTab(library.sharedDocs),
-              ],
-            ),
+          : Column(children: [
+              // Arama kutusu
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+                child: TextField(
+                  onChanged: (v) => setState(() => _searchQuery = v.toLowerCase()),
+                  style: const TextStyle(fontSize: 13, color: ScadaColors.textPrimary),
+                  decoration: InputDecoration(
+                    hintText: 'Belge ara...',
+                    hintStyle: const TextStyle(fontSize: 12, color: ScadaColors.textDim),
+                    prefixIcon: const Icon(Icons.search, size: 18, color: ScadaColors.textDim),
+                    filled: true,
+                    fillColor: ScadaColors.card,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: ScadaColors.border)),
+                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: ScadaColors.border)),
+                    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.cyan)),
+                    isDense: true,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    _buildDocList(_filterDocs(library.personalDocs), isPersonal: true),
+                    _buildSharedTab(library.sharedDocs),
+                  ],
+                ),
+              ),
+            ]),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showUploadDialog(context),
         icon: const Icon(Icons.upload_file),
         label: const Text('Yukle'),
       ),
     );
+  }
+
+  List<LibraryDocument> _filterDocs(List<LibraryDocument> docs) {
+    if (_searchQuery.isEmpty) return docs;
+    return docs.where((d) =>
+      d.title.toLowerCase().contains(_searchQuery) ||
+      d.docTypeText.toLowerCase().contains(_searchQuery) ||
+      (d.department?.toLowerCase().contains(_searchQuery) ?? false) ||
+      d.fileName.toLowerCase().contains(_searchQuery)
+    ).toList();
   }
 
   Widget _buildDocList(List<LibraryDocument> docs, {bool isPersonal = false}) {
@@ -124,7 +162,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
       ),
       Expanded(
         child: _buildDocList(
-          _selectedDocType == null ? docs : docs.where((d) => d.docType == _selectedDocType).toList(),
+          _filterDocs(_selectedDocType == null ? docs : docs.where((d) => d.docType == _selectedDocType).toList()),
         ),
       ),
     ]);
@@ -146,7 +184,8 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
             ref.read(libraryProvider.notifier).loadSharedDocs(docType: type);
           } else {
             final auth = ref.read(authProvider);
-            ref.read(libraryProvider.notifier).loadSharedDocs(department: auth.user?.department);
+            final isAdmin = RoleHelper.isAdmin(auth.user?.role);
+            ref.read(libraryProvider.notifier).loadSharedDocs(department: isAdmin ? null : auth.user?.department);
           }
         },
       ),
