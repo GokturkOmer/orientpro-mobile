@@ -208,6 +208,12 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                   title: 'Duyuru Yonetimi',
                   onTap: () => Navigator.pushNamed(context, '/announcements'),
                 ),
+                const SizedBox(height: 8),
+                _buildActionCard(
+                  icon: Icons.folder_open,
+                  title: 'Icerik Kutuphanesi',
+                  onTap: () => Navigator.pushNamed(context, '/library'),
+                ),
 
                 // Debug info
                 const SizedBox(height: 16),

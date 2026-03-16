@@ -3,9 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:html' as html;
 import '../../providers/auth_provider.dart';
 import '../../providers/library_provider.dart';
+import '../../providers/training_provider.dart';
 import '../../core/theme/app_theme.dart';
-import '../../models/library_document.dart';
 import '../../core/auth/role_helper.dart';
+import '../../models/library_document.dart';
 
 class LibraryScreen extends ConsumerStatefulWidget {
   const LibraryScreen({super.key});
@@ -26,10 +27,16 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
     Future.microtask(() {
       final auth = ref.read(authProvider);
       if (auth.user != null) {
-        ref.read(libraryProvider.notifier).loadPersonalDocs(auth.user!.id);
-        // Admin tum belgeleri gorur, diger kullanicilar sadece kendi departmanini
         final isAdmin = RoleHelper.isAdmin(auth.user!.role);
-        ref.read(libraryProvider.notifier).loadSharedDocs(department: isAdmin ? null : auth.user!.department);
+        ref.read(libraryProvider.notifier).loadPersonalDocs(auth.user!.id);
+        ref.read(libraryProvider.notifier).loadSharedDocs(
+          department: isAdmin ? null : auth.user!.department,
+        );
+        // Departman listesini yukle (upload dialog icin)
+        final training = ref.read(trainingProvider);
+        if (training.departments.isEmpty) {
+          ref.read(trainingProvider.notifier).loadDepartments();
+        }
       }
     });
   }
@@ -296,13 +303,24 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
     );
   }
 
-  void _showUploadDialog(BuildContext context) {
+  void _showUploadDialog(BuildContext context) async {
+    final auth = ref.read(authProvider);
     final titleController = TextEditingController();
     String category = _tabController.index == 0 ? 'personal' : 'shared';
     String docType = 'other';
+    String? selectedDepartment = auth.user?.department;
     String? selectedFileName;
     List<int>? selectedFileBytes;
     String? selectedMimeType;
+
+    // Departmanlarin yuklendiginden emin ol
+    final isAdmin = RoleHelper.isAdmin(auth.user?.role);
+    var depts = ref.read(trainingProvider).departments;
+    if (depts.isEmpty) {
+      await ref.read(trainingProvider.notifier).loadDepartments();
+    }
+    final departments = ref.read(trainingProvider).departments;
+    if (!mounted) return;
 
     showDialog(
       context: context,
@@ -339,6 +357,26 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                 ],
                 onChanged: (v) => setDialogState(() => docType = v!),
               ),
+              // Sadece admin departman secebilir (paylasilan sekmesinde)
+              if (isAdmin && category == 'shared') ...[
+                const SizedBox(height: 12),
+                if (departments.isNotEmpty)
+                  DropdownButtonFormField<String>(
+                    value: departments.any((d) => d.code == selectedDepartment) ? selectedDepartment : null,
+                    decoration: const InputDecoration(labelText: 'Departman'),
+                    dropdownColor: ScadaColors.surface,
+                    items: departments.map((d) => DropdownMenuItem(
+                      value: d.code,
+                      child: Text(d.name),
+                    )).toList(),
+                    onChanged: (v) => setDialogState(() => selectedDepartment = v),
+                  )
+                else
+                  const Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Text('Departmanlar yuklenemedi', style: TextStyle(color: ScadaColors.amber, fontSize: 12)),
+                  ),
+              ],
               const SizedBox(height: 12),
               ElevatedButton.icon(
                 icon: const Icon(Icons.attach_file),
@@ -379,7 +417,6 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                   return;
                 }
                 Navigator.pop(ctx);
-                final auth = ref.read(authProvider);
                 final ok = await ref.read(libraryProvider.notifier).uploadDocument(
                   title: titleController.text,
                   category: category,
@@ -388,7 +425,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                   fileName: selectedFileName!,
                   fileBytes: selectedFileBytes!,
                   mimeType: selectedMimeType ?? 'application/octet-stream',
-                  department: auth.user!.department,
+                  department: selectedDepartment,
                 );
                 if (mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
