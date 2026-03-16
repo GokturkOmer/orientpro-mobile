@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import '../models/announcement.dart';
 import '../core/network/auth_dio.dart';
+import '../core/utils/error_helper.dart';
 
 // State
 class AnnouncementState {
@@ -39,8 +40,10 @@ class AnnouncementNotifier extends Notifier<AnnouncementState> {
       final resp = await _dio.get('/announcements/', queryParameters: params);
       final items = (resp.data as List).map((j) => Announcement.fromJson(j)).toList();
       state = state.copyWith(announcements: items, isLoading: false);
+    } on DioException catch (e) {
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: e.toString());
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     }
   }
 
@@ -104,8 +107,11 @@ class AnnouncementNotifier extends Notifier<AnnouncementState> {
       });
       await loadAnnouncements(createdBy);
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(error: e.toString());
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
       return false;
     }
   }
@@ -117,8 +123,11 @@ class AnnouncementNotifier extends Notifier<AnnouncementState> {
       final currentUser = state.announcements.isNotEmpty ? state.announcements.first.createdBy : '';
       if (currentUser.isNotEmpty) await loadAnnouncements(currentUser);
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(error: e.toString());
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
       return false;
     }
   }
@@ -130,8 +139,11 @@ class AnnouncementNotifier extends Notifier<AnnouncementState> {
         announcements: state.announcements.where((a) => a.id != announcementId).toList(),
       );
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(error: e.toString());
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
       return false;
     }
   }

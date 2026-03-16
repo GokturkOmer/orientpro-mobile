@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import '../models/shift.dart';
 import '../core/network/auth_dio.dart';
+import '../core/utils/error_helper.dart';
 
 class ShiftState {
   final List<Shift> shifts;
@@ -38,8 +39,10 @@ class ShiftNotifier extends Notifier<ShiftState> {
       final resp = await _dio.get('/shifts/', queryParameters: params);
       final items = (resp.data as List).map((j) => Shift.fromJson(j)).toList();
       state = state.copyWith(shifts: items, isLoading: false);
+    } on DioException catch (e) {
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: e.toString());
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     }
   }
 
@@ -51,8 +54,10 @@ class ShiftNotifier extends Notifier<ShiftState> {
       final resp = await _dio.get('/shifts/tasks', queryParameters: params);
       final items = (resp.data as List).map((j) => Task.fromJson(j)).toList();
       state = state.copyWith(tasks: items);
+    } on DioException catch (e) {
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
     } catch (e) {
-      state = state.copyWith(error: e.toString());
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
     }
   }
 
@@ -81,8 +86,11 @@ class ShiftNotifier extends Notifier<ShiftState> {
       }).toList();
       state = state.copyWith(tasks: updated);
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(error: e.toString());
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
       return false;
     }
   }

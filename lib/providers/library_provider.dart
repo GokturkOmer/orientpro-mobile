@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import '../models/library_document.dart';
 import '../core/network/auth_dio.dart';
+import '../core/utils/error_helper.dart';
 
 // State
 class LibraryState {
@@ -37,8 +38,10 @@ class LibraryNotifier extends Notifier<LibraryState> {
       final resp = await _dio.get('/library/personal/$userId');
       final docs = (resp.data as List).map((j) => LibraryDocument.fromJson(j)).toList();
       state = state.copyWith(personalDocs: docs, isLoading: false);
+    } on DioException catch (e) {
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: e.toString());
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     }
   }
 
@@ -51,8 +54,10 @@ class LibraryNotifier extends Notifier<LibraryState> {
       final resp = await _dio.get('/library/shared', queryParameters: params);
       final docs = (resp.data as List).map((j) => LibraryDocument.fromJson(j)).toList();
       state = state.copyWith(sharedDocs: docs, isLoading: false);
+    } on DioException catch (e) {
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: e.toString());
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     }
   }
 
@@ -96,8 +101,11 @@ class LibraryNotifier extends Notifier<LibraryState> {
         await loadSharedDocs(department: department);
       }
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(error: e.toString());
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
       return false;
     }
   }
@@ -107,8 +115,11 @@ class LibraryNotifier extends Notifier<LibraryState> {
       await _dio.delete('/library/$docId');
       await loadPersonalDocs(userId);
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(error: e.toString());
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
       return false;
     }
   }

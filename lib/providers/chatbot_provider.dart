@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import '../models/chatbot.dart';
 import '../core/config/api_config.dart';
+import '../core/utils/error_helper.dart';
 
 class ChatBotState {
   final List<ChatMessage> messages;
@@ -32,8 +33,11 @@ class ChatNotifier extends Notifier<ChatBotState> {
       final chatResponse = ChatResponse.fromJson(response.data);
       final botMsg = ChatMessage(text: chatResponse.answer, isUser: false, sources: chatResponse.sources);
       state = ChatBotState(messages: [...state.messages, botMsg], isLoading: false);
+    } on DioException catch (e) {
+      final errMsg = ChatMessage(text: 'Hata: ${ErrorHelper.getMessage(e)}', isUser: false);
+      state = ChatBotState(messages: [...state.messages, errMsg], isLoading: false);
     } catch (e) {
-      final errMsg = ChatMessage(text: 'Hata: Sunucuya baglanilamadi.', isUser: false);
+      final errMsg = ChatMessage(text: 'Hata: ${ErrorHelper.getMessage(e)}', isUser: false);
       state = ChatBotState(messages: [...state.messages, errMsg], isLoading: false);
     }
   }

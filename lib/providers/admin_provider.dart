@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import '../models/training.dart';
 import '../models/user.dart';
 import '../core/network/auth_dio.dart';
+import '../core/utils/error_helper.dart';
 
 // State
 class AdminState {
@@ -80,8 +81,10 @@ class AdminNotifier extends Notifier<AdminState> {
       final routes = (routeResp.data as List).map((r) => TrainingRoute.fromJson(r)).toList();
 
       state = state.copyWith(departments: departments, routes: routes, isLoading: false);
+    } on DioException catch (e) {
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: 'Veri yuklenemedi: $e');
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     }
   }
 
@@ -93,8 +96,10 @@ class AdminNotifier extends Notifier<AdminState> {
       final response = await _dio.get('/auth/users');
       final users = (response.data as List).map((u) => User.fromJson(u)).toList();
       state = state.copyWith(users: users, isLoading: false);
+    } on DioException catch (e) {
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: 'Kullanicilar yuklenemedi: $e');
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     }
   }
 
@@ -120,11 +125,10 @@ class AdminNotifier extends Notifier<AdminState> {
       await loadUsers();
       return true;
     } on DioException catch (e) {
-      final detail = e.response?.data?['detail'] ?? 'Kullanici olusturulamadi';
-      state = state.copyWith(isSaving: false, error: '$detail');
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
       return false;
     } catch (e) {
-      state = state.copyWith(isSaving: false, error: 'Kullanici olusturulamadi: $e');
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
       return false;
     }
   }
@@ -134,8 +138,11 @@ class AdminNotifier extends Notifier<AdminState> {
       await _dio.patch('/auth/users/$userId');
       await loadUsers();
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(error: 'Durum degistirilemedi: $e');
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
       return false;
     }
   }
@@ -147,8 +154,10 @@ class AdminNotifier extends Notifier<AdminState> {
       final response = await _dio.get('/training/departments');
       final departments = (response.data as List).map((d) => Department.fromJson(d)).toList();
       state = state.copyWith(departments: departments);
+    } on DioException catch (e) {
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
     } catch (e) {
-      state = state.copyWith(error: 'Departmanlar yuklenemedi: $e');
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
     }
   }
 
@@ -162,8 +171,10 @@ class AdminNotifier extends Notifier<AdminState> {
         queryParameters: params);
       final routes = (response.data as List).map((r) => TrainingRoute.fromJson(r)).toList();
       state = state.copyWith(routes: routes);
+    } on DioException catch (e) {
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
     } catch (e) {
-      state = state.copyWith(error: 'Egitim rotalari yuklenemedi: $e');
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
     }
   }
 
@@ -173,8 +184,10 @@ class AdminNotifier extends Notifier<AdminState> {
       final response = await _dio.get('/training/routes/$routeId');
       final route = TrainingRoute.fromJson(response.data);
       state = state.copyWith(selectedRoute: route, isLoading: false);
+    } on DioException catch (e) {
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: 'Rota detayi yuklenemedi: $e');
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     }
   }
 
@@ -188,8 +201,11 @@ class AdminNotifier extends Notifier<AdminState> {
       );
       state = state.copyWith(isSaving: false, successMessage: 'Rota basariyla olusturuldu');
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(isSaving: false, error: 'Rota olusturulamadi: $e');
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
       return false;
     }
   }
@@ -204,8 +220,11 @@ class AdminNotifier extends Notifier<AdminState> {
       );
       state = state.copyWith(isSaving: false, successMessage: 'Rota basariyla guncellendi');
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(isSaving: false, error: 'Rota guncellenemedi: $e');
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
       return false;
     }
   }
@@ -219,8 +238,11 @@ class AdminNotifier extends Notifier<AdminState> {
       );
       state = state.copyWith(isSaving: false, successMessage: 'Rota basariyla silindi');
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(isSaving: false, error: 'Rota silinemedi: $e');
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
       return false;
     }
   }
@@ -233,8 +255,10 @@ class AdminNotifier extends Notifier<AdminState> {
       final response = await _dio.get('/training/modules/$moduleId');
       final module = TrainingModule.fromJson(response.data);
       state = state.copyWith(selectedModule: module, isLoading: false);
+    } on DioException catch (e) {
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: 'Modul detayi yuklenemedi: $e');
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     }
   }
 
@@ -248,8 +272,11 @@ class AdminNotifier extends Notifier<AdminState> {
       );
       state = state.copyWith(isSaving: false, successMessage: 'Modul basariyla olusturuldu');
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(isSaving: false, error: 'Modul olusturulamadi: $e');
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
       return false;
     }
   }
@@ -264,8 +291,11 @@ class AdminNotifier extends Notifier<AdminState> {
       );
       state = state.copyWith(isSaving: false, successMessage: 'Modul basariyla guncellendi');
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(isSaving: false, error: 'Modul guncellenemedi: $e');
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
       return false;
     }
   }
@@ -279,8 +309,11 @@ class AdminNotifier extends Notifier<AdminState> {
       );
       state = state.copyWith(isSaving: false, successMessage: 'Modul basariyla silindi');
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(isSaving: false, error: 'Modul silinemedi: $e');
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
       return false;
     }
   }
@@ -295,8 +328,11 @@ class AdminNotifier extends Notifier<AdminState> {
       );
       state = state.copyWith(isSaving: false, successMessage: 'Modul sirasi guncellendi');
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(isSaving: false, error: 'Modul sirasi guncellenemedi: $e');
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
       return false;
     }
   }
@@ -313,8 +349,11 @@ class AdminNotifier extends Notifier<AdminState> {
       );
       state = state.copyWith(isSaving: false, successMessage: 'Icerik basariyla olusturuldu');
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(isSaving: false, error: 'Icerik olusturulamadi: $e');
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
       return false;
     }
   }
@@ -329,8 +368,11 @@ class AdminNotifier extends Notifier<AdminState> {
       );
       state = state.copyWith(isSaving: false, successMessage: 'Icerik basariyla guncellendi');
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(isSaving: false, error: 'Icerik guncellenemedi: $e');
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
       return false;
     }
   }
@@ -344,8 +386,11 @@ class AdminNotifier extends Notifier<AdminState> {
       );
       state = state.copyWith(isSaving: false, successMessage: 'Icerik basariyla silindi');
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(isSaving: false, error: 'Icerik silinemedi: $e');
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
       return false;
     }
   }
@@ -360,8 +405,11 @@ class AdminNotifier extends Notifier<AdminState> {
         );
       }
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(error: 'Icerik siralama basarisiz: $e');
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
       return false;
     }
   }
@@ -375,8 +423,11 @@ class AdminNotifier extends Notifier<AdminState> {
 
       );
       return Quiz.fromJson(response.data);
+    } on DioException catch (e) {
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
+      return null;
     } catch (e) {
-      state = state.copyWith(error: 'Quiz yuklenemedi: $e');
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
       return null;
     }
   }
@@ -391,8 +442,11 @@ class AdminNotifier extends Notifier<AdminState> {
       );
       state = state.copyWith(isSaving: false, successMessage: 'Quiz basariyla olusturuldu');
       return response.data['id'] as String?;
+    } on DioException catch (e) {
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
+      return null;
     } catch (e) {
-      state = state.copyWith(isSaving: false, error: 'Quiz olusturulamadi: $e');
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
       return null;
     }
   }
@@ -407,8 +461,11 @@ class AdminNotifier extends Notifier<AdminState> {
       );
       state = state.copyWith(isSaving: false, successMessage: 'Quiz basariyla olusturuldu');
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(isSaving: false, error: 'Quiz olusturulamadi: $e');
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
       return false;
     }
   }
@@ -423,8 +480,11 @@ class AdminNotifier extends Notifier<AdminState> {
       );
       state = state.copyWith(isSaving: false, successMessage: 'Quiz basariyla guncellendi');
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(isSaving: false, error: 'Quiz guncellenemedi: $e');
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
       return false;
     }
   }
@@ -438,8 +498,11 @@ class AdminNotifier extends Notifier<AdminState> {
       final questions = (response.data as List).map((q) => QuizQuestion.fromJson(q)).toList();
       state = state.copyWith(isLoading: false);
       return questions;
+    } on DioException catch (e) {
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
+      return [];
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: 'Quiz sorulari yuklenemedi: $e');
+      state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
       return [];
     }
   }
@@ -454,8 +517,11 @@ class AdminNotifier extends Notifier<AdminState> {
       );
       state = state.copyWith(isSaving: false, successMessage: 'Soru basariyla olusturuldu');
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(isSaving: false, error: 'Soru olusturulamadi: $e');
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
       return false;
     }
   }
@@ -470,8 +536,11 @@ class AdminNotifier extends Notifier<AdminState> {
       );
       state = state.copyWith(isSaving: false, successMessage: 'Soru basariyla guncellendi');
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(isSaving: false, error: 'Soru guncellenemedi: $e');
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
       return false;
     }
   }
@@ -485,8 +554,11 @@ class AdminNotifier extends Notifier<AdminState> {
       );
       state = state.copyWith(isSaving: false, successMessage: 'Soru basariyla silindi');
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(isSaving: false, error: 'Soru silinemedi: $e');
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
       return false;
     }
   }
@@ -531,8 +603,11 @@ class AdminNotifier extends Notifier<AdminState> {
         successMessage: 'PDF basariyla yuklendi ve AI tarafindan siniflandirildi',
       );
       return data;
+    } on DioException catch (e) {
+      state = state.copyWith(isSaving: false, uploadProgress: null, error: ErrorHelper.getMessage(e));
+      return null;
     } catch (e) {
-      state = state.copyWith(isSaving: false, uploadProgress: null, error: 'PDF yuklenemedi: $e');
+      state = state.copyWith(isSaving: false, uploadProgress: null, error: ErrorHelper.getMessage(e));
       return null;
     }
   }
@@ -576,8 +651,11 @@ class AdminNotifier extends Notifier<AdminState> {
         successMessage: '${data['generated_count']} icerik bolumu otomatik olusturuldu',
       );
       return data;
+    } on DioException catch (e) {
+      state = state.copyWith(isSaving: false, uploadProgress: null, error: ErrorHelper.getMessage(e));
+      return null;
     } catch (e) {
-      state = state.copyWith(isSaving: false, uploadProgress: null, error: 'Icerik olusturulamadi: $e');
+      state = state.copyWith(isSaving: false, uploadProgress: null, error: ErrorHelper.getMessage(e));
       return null;
     }
   }
@@ -592,8 +670,11 @@ class AdminNotifier extends Notifier<AdminState> {
       );
       state = state.copyWith(isSaving: false, successMessage: 'Siniflandirma guncellendi');
       return true;
+    } on DioException catch (e) {
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
+      return false;
     } catch (e) {
-      state = state.copyWith(isSaving: false, error: 'Siniflandirma guncellenemedi: $e');
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
       return false;
     }
   }
