@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/network/auth_dio.dart';
 import '../../models/work_order.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/utils/status_helper.dart';
 
 class WorkOrderListScreen extends ConsumerStatefulWidget {
   const WorkOrderListScreen({super.key});
@@ -30,9 +31,6 @@ class _WorkOrderListScreenState extends ConsumerState<WorkOrderListScreen> {
     } catch (e) { setState(() => isLoading = false); }
   }
 
-  Color _prioColor(String p) { switch (p) { case 'critical': return ScadaColors.red; case 'high': return ScadaColors.amber; case 'normal': return ScadaColors.cyan; case 'low': return ScadaColors.textDim; default: return ScadaColors.textDim; } }
-  IconData _statusIcon(String s) { switch (s) { case 'open': return Icons.error_outline; case 'assigned': return Icons.person_add; case 'in_progress': return Icons.engineering; case 'completed': return Icons.check_circle; default: return Icons.help_outline; } }
-  Color _statusColor(String s) { switch (s) { case 'open': return ScadaColors.red; case 'assigned': return ScadaColors.amber; case 'in_progress': return ScadaColors.cyan; case 'completed': return ScadaColors.green; default: return ScadaColors.textDim; } }
 
   @override
   Widget build(BuildContext context) {
@@ -77,8 +75,8 @@ class _WorkOrderListScreenState extends ConsumerState<WorkOrderListScreen> {
             : RefreshIndicator(color: ScadaColors.cyan, backgroundColor: ScadaColors.surface, onRefresh: _load,
               child: ListView.builder(padding: const EdgeInsets.all(8), itemCount: items.length, itemBuilder: (ctx, i) {
                 final wo = items[i];
-                final pColor = _prioColor(wo.priority);
-                final sColor = _statusColor(wo.status);
+                final pColor = StatusHelper.priorityColor(wo.priority);
+                final sColor = StatusHelper.workOrderStatusColor(wo.status);
                 return Container(
                   margin: const EdgeInsets.only(bottom: 6),
                   decoration: BoxDecoration(
@@ -88,7 +86,7 @@ class _WorkOrderListScreenState extends ConsumerState<WorkOrderListScreen> {
                   child: Padding(padding: const EdgeInsets.all(12), child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     Container(width: 36, height: 36, decoration: BoxDecoration(color: sColor.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(8)),
                       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                        Icon(_statusIcon(wo.status), color: sColor, size: 18),
+                        Icon(StatusHelper.workOrderStatusIcon(wo.status), color: sColor, size: 18),
                         if (wo.slaBreached == true) const Icon(Icons.timer_off, color: ScadaColors.red, size: 10),
                       ])),
                     const SizedBox(width: 10),

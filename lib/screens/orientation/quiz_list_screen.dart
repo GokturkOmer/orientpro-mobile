@@ -5,6 +5,7 @@ import '../../providers/training_provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/auth/role_helper.dart';
 import '../../models/training.dart';
+import '../../core/utils/status_helper.dart';
 
 class QuizListScreen extends ConsumerStatefulWidget {
   const QuizListScreen({super.key});
@@ -15,6 +16,7 @@ class QuizListScreen extends ConsumerStatefulWidget {
 
 class _QuizListScreenState extends ConsumerState<QuizListScreen> {
   bool _loaded = false;
+  String _searchQuery = '';
 
   @override
   void didChangeDependencies() {
@@ -58,6 +60,14 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
       // Teknik departman quizleri icin ek filtreleme gerekirse burada yapilabilir
     }
 
+    // Arama filtreleme
+    if (_searchQuery.isNotEmpty) {
+      quizzes = quizzes.where((q) =>
+        q.title.toLowerCase().contains(_searchQuery) ||
+        (q.departmentName?.toLowerCase().contains(_searchQuery) ?? false)
+      ).toList();
+    }
+
     // Departmana gore grupla
     final grouped = <String, List<QuizListItem>>{};
     for (final q in quizzes) {
@@ -77,17 +87,38 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
       ),
       body: training.isLoading
           ? const Center(child: CircularProgressIndicator(color: ScadaColors.green))
-          : quizzes.isEmpty
-              ? _buildEmpty()
-              : ListView.builder(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: grouped.length,
-                  itemBuilder: (context, index) {
-                    final deptName = grouped.keys.elementAt(index);
-                    final items = grouped[deptName]!;
-                    return _buildDepartmentGroup(deptName, items, training.quizResults);
-                  },
+          : Column(children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Quiz ara...',
+                    hintStyle: const TextStyle(color: ScadaColors.textDim, fontSize: 13),
+                    prefixIcon: const Icon(Icons.search, color: ScadaColors.textDim, size: 20),
+                    filled: true,
+                    fillColor: ScadaColors.card,
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: ScadaColors.border)),
+                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: ScadaColors.border)),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 8),
+                  ),
+                  style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
+                  onChanged: (v) => setState(() => _searchQuery = v.toLowerCase()),
                 ),
+              ),
+              Expanded(
+                child: quizzes.isEmpty
+                    ? _buildEmpty()
+                    : ListView.builder(
+                        padding: const EdgeInsets.all(16),
+                        itemCount: grouped.length,
+                        itemBuilder: (context, index) {
+                          final deptName = grouped.keys.elementAt(index);
+                          final items = grouped[deptName]!;
+                          return _buildDepartmentGroup(deptName, items, training.quizResults);
+                        },
+                      ),
+              ),
+            ]),
     );
   }
 
@@ -136,22 +167,13 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
     final lastResult = quizResults.isNotEmpty ? quizResults.first : null;
 
     // Durum
-    final String statusText;
-    final Color statusColor;
-    final IconData statusIcon;
-    if (lastResult == null) {
-      statusText = 'Cozulmedi';
-      statusColor = ScadaColors.textDim;
-      statusIcon = Icons.radio_button_unchecked;
-    } else if (lastResult.passed) {
-      statusText = 'Gecti (%${lastResult.percent.toInt()})';
-      statusColor = ScadaColors.green;
-      statusIcon = Icons.check_circle;
-    } else {
-      statusText = 'Kaldi (%${lastResult.percent.toInt()})';
-      statusColor = ScadaColors.red;
-      statusIcon = Icons.cancel;
-    }
+    final qs = StatusHelper.quizStatus(
+      passed: lastResult?.passed,
+      percent: lastResult?.percent,
+    );
+    final statusText = qs.text;
+    final statusColor = qs.color;
+    final statusIcon = qs.icon;
 
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, '/quiz', arguments: item.id),
@@ -186,7 +208,7 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
 
           // Alt bilgi satirlari
           Row(children: [
-            _buildInfoChip(Icons.help_outline, 'Gecme: %${item.passingScore}'),
+            _buildDifficultyChip(item.passingScore),
             const SizedBox(width: 10),
             _buildInfoChip(Icons.repeat, 'Maks ${item.maxAttempts} deneme'),
             if (item.timeLimitMinutes != null) ...[
@@ -215,5 +237,32 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
       const SizedBox(width: 3),
       Text(text, style: const TextStyle(fontSize: 9, color: ScadaColors.textDim)),
     ]);
+  }
+
+  Widget _buildDifficultyChip(int passingScore) {
+    final String label;
+    final Color color;
+    if (passingScore >= 80) {
+      label = 'Zor';
+      color = ScadaColors.red;
+    } else if (passingScore >= 60) {
+      label = 'Orta';
+      color = ScadaColors.amber;
+    } else {
+      label = 'Kolay';
+      color = ScadaColors.green;
+    }
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Row(mainAxisSize: MainAxisSize.min, children: [
+        Icon(Icons.signal_cellular_alt, size: 10, color: color),
+        const SizedBox(width: 3),
+        Text(label, style: TextStyle(fontSize: 9, color: color, fontWeight: FontWeight.w600)),
+      ]),
+    );
   }
 }

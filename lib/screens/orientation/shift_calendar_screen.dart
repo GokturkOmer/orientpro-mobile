@@ -4,6 +4,7 @@ import '../../providers/auth_provider.dart';
 import '../../providers/shift_provider.dart';
 import '../../models/shift.dart' as sm;
 import '../../core/theme/app_theme.dart';
+import '../../core/utils/status_helper.dart';
 
 class ShiftCalendarScreen extends ConsumerStatefulWidget {
   const ShiftCalendarScreen({super.key});
@@ -15,6 +16,7 @@ class ShiftCalendarScreen extends ConsumerStatefulWidget {
 class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with SingleTickerProviderStateMixin {
   late TabController _tabCtrl;
   String _taskFilter = 'all'; // all, pending, in_progress, completed
+  String _searchQuery = '';
 
   @override
   void initState() {
@@ -215,6 +217,24 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
   // ===== TASKS TAB =====
   Widget _buildTasksTab(ShiftState shiftState) {
     return Column(children: [
+      // Arama
+      Padding(
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+        child: TextField(
+          decoration: InputDecoration(
+            hintText: 'Gorev ara...',
+            hintStyle: const TextStyle(color: ScadaColors.textDim, fontSize: 13),
+            prefixIcon: const Icon(Icons.search, color: ScadaColors.textDim, size: 20),
+            filled: true,
+            fillColor: ScadaColors.card,
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: ScadaColors.border)),
+            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: ScadaColors.border)),
+            contentPadding: const EdgeInsets.symmetric(vertical: 8),
+          ),
+          style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
+          onChanged: (v) => setState(() => _searchQuery = v.toLowerCase()),
+        ),
+      ),
       // Filter chips
       Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -232,9 +252,12 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
       ),
       Expanded(
         child: Builder(builder: (_) {
-          final tasks = _taskFilter == 'all'
+          var tasks = _taskFilter == 'all'
               ? shiftState.tasks
               : shiftState.tasks.where((t) => t.status == _taskFilter).toList();
+          if (_searchQuery.isNotEmpty) {
+            tasks = tasks.where((t) => t.title.toLowerCase().contains(_searchQuery)).toList();
+          }
 
           if (tasks.isEmpty) {
             return Center(
@@ -275,8 +298,8 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
   }
 
   Widget _buildTaskCard(sm.Task task) {
-    final priorityColor = _getPriorityColor(task.priority);
-    final statusColor = _getStatusColor(task.status);
+    final priorityColor = StatusHelper.priorityColor(task.priority);
+    final statusColor = StatusHelper.taskStatusColor(task.status);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
@@ -354,26 +377,6 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
             : null,
       ),
     );
-  }
-
-  Color _getPriorityColor(String priority) {
-    switch (priority) {
-      case 'urgent': return ScadaColors.red;
-      case 'high': return ScadaColors.amber;
-      case 'normal': return ScadaColors.cyan;
-      case 'low': return ScadaColors.textSecondary;
-      default: return ScadaColors.textSecondary;
-    }
-  }
-
-  Color _getStatusColor(String status) {
-    switch (status) {
-      case 'pending': return ScadaColors.amber;
-      case 'in_progress': return ScadaColors.cyan;
-      case 'completed': return ScadaColors.green;
-      case 'cancelled': return ScadaColors.textDim;
-      default: return ScadaColors.textSecondary;
-    }
   }
 
   Future<void> _updateTaskStatus(String taskId, String status) async {

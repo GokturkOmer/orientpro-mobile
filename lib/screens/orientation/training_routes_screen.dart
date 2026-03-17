@@ -17,6 +17,7 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
   String? _selectedDeptName;
   String? _selectedTeknikTag; // elektrik, mekanik, tesisat, genel, null=tumu
   bool _loaded = false;
+  String _searchQuery = '';
 
   @override
   void didChangeDependencies() {
@@ -94,6 +95,14 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
       }).toList();
     }
 
+    // Arama filtreleme
+    if (_searchQuery.isNotEmpty) {
+      filteredRoutes = filteredRoutes.where((r) =>
+        r.title.toLowerCase().contains(_searchQuery) ||
+        (r.description?.toLowerCase().contains(_searchQuery) ?? false)
+      ).toList();
+    }
+
     // Teknik dept seciliyken gorulebilir alt-dal tag listesi
     final visibleTagChips = <String>[];
     if (isTeknikSelected) {
@@ -120,6 +129,24 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
         ),
       ),
       body: Column(children: [
+        // Arama
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+          child: TextField(
+            decoration: InputDecoration(
+              hintText: 'Rota ara...',
+              hintStyle: const TextStyle(color: ScadaColors.textDim, fontSize: 13),
+              prefixIcon: const Icon(Icons.search, color: ScadaColors.textDim, size: 20),
+              filled: true,
+              fillColor: ScadaColors.card,
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: ScadaColors.border)),
+              enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: ScadaColors.border)),
+              contentPadding: const EdgeInsets.symmetric(vertical: 8),
+            ),
+            style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
+            onChanged: (v) => setState(() => _searchQuery = v.toLowerCase()),
+          ),
+        ),
         // Department filter chips
         if (filteredDepts.isNotEmpty)
           SingleChildScrollView(

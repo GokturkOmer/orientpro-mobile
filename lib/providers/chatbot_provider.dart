@@ -7,33 +7,113 @@ import '../core/utils/error_helper.dart';
 class ChatBotState {
   final List<ChatMessage> messages;
   final bool isLoading;
-  const ChatBotState({this.messages = const [], this.isLoading = false});
+  final String? lastError;
+  final DateTime? lastSentAt;
+
+  const ChatBotState({
+    this.messages = const [],
+    this.isLoading = false,
+    this.lastError,
+    this.lastSentAt,
+  });
+
+  ChatBotState copyWith({
+    List<ChatMessage>? messages,
+    bool? isLoading,
+    String? lastError,
+    DateTime? lastSentAt,
+  }) {
+    return ChatBotState(
+      messages: messages ?? this.messages,
+      isLoading: isLoading ?? this.isLoading,
+      lastError: lastError,
+      lastSentAt: lastSentAt ?? this.lastSentAt,
+    );
+  }
+
+  /// Rate limit: son mesajdan 2 saniye gecmeli
+  bool get canSend {
+    if (isLoading) return false;
+    if (lastSentAt == null) return true;
+    return DateTime.now().difference(lastSentAt!).inSeconds >= 2;
+  }
 }
 
 final chatProvider = NotifierProvider<ChatNotifier, ChatBotState>(ChatNotifier.new);
 
 class ChatNotifier extends Notifier<ChatBotState> {
+  static const maxMessageLength = 500;
+
   @override
   ChatBotState build() {
     return const ChatBotState();
   }
 
-  Future<void> sendMessage(String question) async {
-    final userMsg = ChatMessage(text: question, isUser: true);
-    state = ChatBotState(messages: [...state.messages, userMsg], isLoading: true);
+  void addWelcomeMessage(String userName) {
+    if (state.messages.isNotEmpty) return; // Zaten mesaj varsa ekleme
+    final welcome = ChatMessage(
+      text: 'Merhaba${userName.isNotEmpty ? ' $userName' : ''}! Ben OrientPro AI Asistaniyim. Oryantasyon sureciyle ilgili sorularinizi yanitlayabilirim.\n\n'
+          '**Soru sorabilecaginiz konular:**\n'
+          '- **ISG & Guvenlik** - Is sagligi, yangin, tahliye\n'
+          '- **KVKK & Hukuk** - Veri koruma, etik kurallar\n'
+          '- **Departman Egitim** - Oda temizligi, servis, resepsiyon\n'
+          '- **Teknik Sistemler** - SCADA, dijital ikiz, QR tur\n'
+          '- **Acil Durumlar** - Ilk yardim, deprem, yangin\n\n'
+          'Asagidaki hizli erisim butonlarini da kullanabilirsiniz.',
+      isUser: false,
+    );
+    state = state.copyWith(messages: [welcome]);
+  }
+
+  Future<void> sendMessage(String question, {String? userId}) async {
+    final trimmed = question.trim();
+    if (trimmed.isEmpty) return;
+    if (!state.canSend) return;
+
+    // Uzunluk limiti
+    final limited = trimmed.length > maxMessageLength ? trimmed.substring(0, maxMessageLength) : trimmed;
+
+    final userMsg = ChatMessage(text: limited, isUser: true);
+    state = state.copyWith(
+      messages: [...state.messages, userMsg],
+      isLoading: true,
+      lastError: null,
+      lastSentAt: DateTime.now(),
+    );
+
     try {
       final dio = ref.read(authDioProvider);
-      final response = await dio.post('/chatbot/chat', data: {'question': question});
-      final chatResponse = ChatResponse.fromJson(response.data);
-      final botMsg = ChatMessage(text: chatResponse.answer, isUser: false, sources: chatResponse.sources);
-      state = ChatBotState(messages: [...state.messages, botMsg], isLoading: false);
+      final response = await dio.post('/chatbot/chat', data: {
+        'message': limited,
+        'user_id': userId ?? 'anonymous',
+        'context': 'oryantasyon',
+      });
+
+      final reply = response.data['response'] ?? response.data['answer'] ?? response.data['message'] ?? 'Yanit alinamadi.';
+      final sources = response.data['sources'] != null ? List<String>.from(response.data['sources']) : <String>[];
+      final botMsg = ChatMessage(text: reply.toString(), isUser: false, sources: sources);
+      state = state.copyWith(messages: [...state.messages, botMsg], isLoading: false);
     } on DioException catch (e) {
-      final errMsg = ChatMessage(text: 'Hata: ${ErrorHelper.getMessage(e)}', isUser: false);
-      state = ChatBotState(messages: [...state.messages, errMsg], isLoading: false);
+      final errText = 'Hata: ${ErrorHelper.getMessage(e)}';
+      final errMsg = ChatMessage(text: errText, isUser: false);
+      state = state.copyWith(messages: [...state.messages, errMsg], isLoading: false, lastError: errText);
     } catch (e) {
-      final errMsg = ChatMessage(text: 'Hata: ${ErrorHelper.getMessage(e)}', isUser: false);
-      state = ChatBotState(messages: [...state.messages, errMsg], isLoading: false);
+      final errText = 'Baglanti hatasi olustu. Lutfen tekrar deneyin.';
+      final errMsg = ChatMessage(text: errText, isUser: false);
+      state = state.copyWith(messages: [...state.messages, errMsg], isLoading: false, lastError: errText);
     }
+  }
+
+  /// Son hata mesajini kaldirip tekrar gonder
+  void retryLast({String? userId}) {
+    if (state.lastError == null || state.messages.length < 2) return;
+    // Son bot hata mesajini kaldir
+    final msgs = [...state.messages];
+    msgs.removeLast();
+    // Son kullanici mesajini bul
+    final lastUserMsg = msgs.lastWhere((m) => m.isUser, orElse: () => msgs.last);
+    state = state.copyWith(messages: msgs, lastError: null);
+    sendMessage(lastUserMsg.text, userId: userId);
   }
 
   void clearChat() {

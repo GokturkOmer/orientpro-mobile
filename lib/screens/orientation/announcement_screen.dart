@@ -6,6 +6,7 @@ import '../../providers/training_provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../models/announcement.dart';
 import '../../core/auth/role_helper.dart';
+import '../../core/utils/status_helper.dart';
 
 class AnnouncementScreen extends ConsumerStatefulWidget {
   const AnnouncementScreen({super.key});
@@ -15,9 +16,13 @@ class AnnouncementScreen extends ConsumerStatefulWidget {
 }
 
 class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
+  String _searchQuery = '';
+  final _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(_onScroll);
     Future.microtask(() {
       final auth = ref.read(authProvider);
       if (auth.user != null) {
@@ -26,6 +31,21 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
         ref.read(trainingProvider.notifier).loadDepartments();
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
+      final auth = ref.read(authProvider);
+      if (auth.user != null) {
+        ref.read(announcementProvider.notifier).loadMoreAnnouncements(auth.user!.id, department: auth.user!.department);
+      }
+    }
   }
 
   @override
@@ -71,11 +91,50 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
                   const SizedBox(height: 12),
                   const Text('Henuz duyuru yok', style: TextStyle(color: ScadaColors.textSecondary, fontSize: 13)),
                 ]))
-              : ListView.builder(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: annState.announcements.length,
-                  itemBuilder: (_, i) => _buildAnnouncementCard(annState.announcements[i], isAdmin),
-                ),
+              : Column(children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Duyuru ara...',
+                        hintStyle: const TextStyle(color: ScadaColors.textDim, fontSize: 13),
+                        prefixIcon: const Icon(Icons.search, color: ScadaColors.textDim, size: 20),
+                        filled: true,
+                        fillColor: ScadaColors.card,
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: ScadaColors.border)),
+                        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: ScadaColors.border)),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 8),
+                      ),
+                      style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
+                      onChanged: (v) => setState(() => _searchQuery = v.toLowerCase()),
+                    ),
+                  ),
+                  Expanded(
+                    child: Builder(builder: (_) {
+                      final filtered = _searchQuery.isEmpty
+                          ? annState.announcements
+                          : annState.announcements.where((a) =>
+                              a.title.toLowerCase().contains(_searchQuery) ||
+                              a.body.toLowerCase().contains(_searchQuery) ||
+                              (a.targetDepartment?.toLowerCase().contains(_searchQuery) ?? false)
+                            ).toList();
+                      if (filtered.isEmpty) {
+                        return const Center(child: Text('Sonuc bulunamadi', style: TextStyle(color: ScadaColors.textDim, fontSize: 13)));
+                      }
+                      return ListView.builder(
+                        controller: _scrollController,
+                        padding: const EdgeInsets.all(16),
+                        itemCount: filtered.length + (annState.isLoadingMore ? 1 : 0),
+                        itemBuilder: (_, i) {
+                          if (i >= filtered.length) {
+                            return const Center(child: Padding(padding: EdgeInsets.all(16), child: CircularProgressIndicator(color: ScadaColors.amber, strokeWidth: 2)));
+                          }
+                          return _buildAnnouncementCard(filtered[i], isAdmin);
+                        },
+                      );
+                    }),
+                  ),
+                ]),
       floatingActionButton: isAdmin
           ? FloatingActionButton.extended(
               onPressed: () => _showCreateDialog(context),
@@ -87,15 +146,18 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
   }
 
   Widget _buildAnnouncementCard(Announcement ann, bool isAdmin) {
-    final priorityColor = _priorityColor(ann.priority);
+    final priorityColor = StatusHelper.priorityColor(ann.priority);
     final isRead = ann.isRead ?? false;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: isRead ? ScadaColors.card : ScadaColors.card,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: isRead ? ScadaColors.border : priorityColor.withValues(alpha: 0.4)),
+        border: Border.all(
+          color: isRead ? ScadaColors.border : priorityColor.withValues(alpha: 0.5),
+          width: isRead ? 1 : 1.5,
+        ),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         // Header
@@ -162,9 +224,22 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
         Padding(
           padding: const EdgeInsets.all(14),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(ann.title, style: const TextStyle(
-              color: ScadaColors.textPrimary, fontSize: 15, fontWeight: FontWeight.w600,
-            )),
+            Row(children: [
+              if (!isRead) ...[
+                Container(
+                  width: 8, height: 8,
+                  decoration: BoxDecoration(color: priorityColor, shape: BoxShape.circle),
+                ),
+                const SizedBox(width: 8),
+              ],
+              Expanded(
+                child: Text(ann.title, style: TextStyle(
+                  color: isRead ? ScadaColors.textSecondary : ScadaColors.textPrimary,
+                  fontSize: 15,
+                  fontWeight: isRead ? FontWeight.w500 : FontWeight.w600,
+                )),
+              ),
+            ]),
             const SizedBox(height: 6),
             Text(ann.body, style: const TextStyle(color: ScadaColors.textSecondary, fontSize: 13, height: 1.4), maxLines: 3, overflow: TextOverflow.ellipsis),
           ]),
@@ -202,14 +277,6 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
         ),
       ]),
     );
-  }
-
-  Color _priorityColor(String priority) {
-    switch (priority) {
-      case 'critical': return ScadaColors.red;
-      case 'high': return ScadaColors.amber;
-      default: return ScadaColors.green;
-    }
   }
 
   Future<void> _markAsRead(Announcement ann) async {
@@ -255,12 +322,14 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
     );
   }
 
-  void _showEditDialog(BuildContext context, Announcement ann) {
-    final titleController = TextEditingController(text: ann.title);
-    final bodyController = TextEditingController(text: ann.body);
-    String priority = ann.priority;
-    bool isPinned = ann.isPinned;
-    String? targetDepartment = ann.targetDepartment;
+  /// Birlestirilmis duyuru dialog — existing != null ise edit, null ise create
+  void _showAnnouncementDialog(BuildContext context, {Announcement? existing}) {
+    final isEdit = existing != null;
+    final titleController = TextEditingController(text: existing?.title ?? '');
+    final bodyController = TextEditingController(text: existing?.body ?? '');
+    String priority = existing?.priority ?? 'normal';
+    bool isPinned = existing?.isPinned ?? false;
+    String? targetDepartment = existing?.targetDepartment;
 
     final departments = ref.read(trainingProvider).departments;
 
@@ -273,10 +342,10 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
             borderRadius: BorderRadius.circular(16),
             side: const BorderSide(color: ScadaColors.borderBright),
           ),
-          title: const Row(children: [
-            Icon(Icons.edit, color: ScadaColors.cyan, size: 18),
-            SizedBox(width: 8),
-            Text('Duyuru Duzenle', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+          title: Row(children: [
+            Icon(isEdit ? Icons.edit : Icons.campaign, color: isEdit ? ScadaColors.cyan : ScadaColors.amber, size: 18),
+            const SizedBox(width: 8),
+            Text(isEdit ? 'Duyuru Duzenle' : 'Yeni Duyuru', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
           ]),
           content: SingleChildScrollView(
             child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -333,23 +402,38 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
                   return;
                 }
                 Navigator.pop(ctx);
-                final ok = await ref.read(announcementProvider.notifier).updateAnnouncement(ann.id, {
-                  'title': titleController.text,
-                  'body': bodyController.text,
-                  'priority': priority,
-                  'is_pinned': isPinned,
-                  'target_department': targetDepartment,
-                });
+                bool ok;
+                if (isEdit) {
+                  ok = await ref.read(announcementProvider.notifier).updateAnnouncement(existing.id, {
+                    'title': titleController.text,
+                    'body': bodyController.text,
+                    'priority': priority,
+                    'is_pinned': isPinned,
+                    'target_department': targetDepartment,
+                  });
+                } else {
+                  final auth = ref.read(authProvider);
+                  ok = await ref.read(announcementProvider.notifier).createAnnouncement(
+                    title: titleController.text,
+                    body: bodyController.text,
+                    createdBy: auth.user!.id,
+                    priority: priority,
+                    isPinned: isPinned,
+                    targetDepartment: targetDepartment,
+                  );
+                }
                 if (mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(ok ? 'Duyuru guncellendi' : 'Guncelleme basarisiz'),
+                      content: Text(ok
+                          ? (isEdit ? 'Duyuru guncellendi' : 'Duyuru olusturuldu')
+                          : (isEdit ? 'Guncelleme basarisiz' : 'Duyuru olusturulamadi')),
                       backgroundColor: ok ? ScadaColors.green : ScadaColors.red,
                     ),
                   );
                 }
               },
-              child: const Text('Kaydet'),
+              child: Text(isEdit ? 'Kaydet' : 'Yayinla'),
             ),
           ],
         ),
@@ -357,107 +441,7 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
     );
   }
 
-  void _showCreateDialog(BuildContext context) {
-    final titleController = TextEditingController();
-    final bodyController = TextEditingController();
-    String priority = 'normal';
-    bool isPinned = false;
-    String? targetDepartment;
-
-    final departments = ref.read(trainingProvider).departments;
-
-    showDialog(
-      context: context,
-      builder: (_) => StatefulBuilder(
-        builder: (ctx, setDialogState) => AlertDialog(
-          backgroundColor: ScadaColors.surface,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-            side: const BorderSide(color: ScadaColors.borderBright),
-          ),
-          title: const Row(children: [
-            Icon(Icons.campaign, color: ScadaColors.amber, size: 18),
-            SizedBox(width: 8),
-            Text('Yeni Duyuru', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
-          ]),
-          content: SingleChildScrollView(
-            child: Column(mainAxisSize: MainAxisSize.min, children: [
-              TextField(
-                controller: titleController,
-                decoration: const InputDecoration(labelText: 'Baslik'),
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: bodyController,
-                decoration: const InputDecoration(labelText: 'Icerik'),
-                maxLines: 4,
-              ),
-              const SizedBox(height: 12),
-              DropdownButtonFormField<String>(
-                initialValue: priority,
-                decoration: const InputDecoration(labelText: 'Oncelik'),
-                dropdownColor: ScadaColors.surface,
-                items: const [
-                  DropdownMenuItem(value: 'normal', child: Text('Normal')),
-                  DropdownMenuItem(value: 'high', child: Text('Yuksek')),
-                  DropdownMenuItem(value: 'critical', child: Text('Kritik')),
-                ],
-                onChanged: (v) => setDialogState(() => priority = v!),
-              ),
-              const SizedBox(height: 12),
-              DropdownButtonFormField<String>(
-                initialValue: targetDepartment,
-                decoration: const InputDecoration(labelText: 'Hedef Departman'),
-                dropdownColor: ScadaColors.surface,
-                items: [
-                  const DropdownMenuItem(value: null, child: Text('Tum Sirket')),
-                  ...departments.map((d) => DropdownMenuItem(value: d.name, child: Text(d.name))),
-                ],
-                onChanged: (v) => setDialogState(() => targetDepartment = v),
-              ),
-              const SizedBox(height: 8),
-              SwitchListTile(
-                title: const Text('Sabitle', style: TextStyle(fontSize: 14)),
-                value: isPinned,
-                activeThumbColor: ScadaColors.cyan,
-                onChanged: (v) => setDialogState(() => isPinned = v),
-              ),
-            ]),
-          ),
-          actions: [
-            TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Iptal', style: TextStyle(color: ScadaColors.textSecondary))),
-            ElevatedButton(
-              onPressed: () async {
-                if (titleController.text.isEmpty || bodyController.text.isEmpty) {
-                  ScaffoldMessenger.of(ctx).showSnackBar(
-                    const SnackBar(content: Text('Baslik ve icerik zorunlu'), backgroundColor: ScadaColors.red),
-                  );
-                  return;
-                }
-                Navigator.pop(ctx);
-                final auth = ref.read(authProvider);
-                final ok = await ref.read(announcementProvider.notifier).createAnnouncement(
-                  title: titleController.text,
-                  body: bodyController.text,
-                  createdBy: auth.user!.id,
-                  priority: priority,
-                  isPinned: isPinned,
-                  targetDepartment: targetDepartment,
-                );
-                if (mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(ok ? 'Duyuru olusturuldu' : 'Duyuru olusturulamadi'),
-                      backgroundColor: ok ? ScadaColors.green : ScadaColors.red,
-                    ),
-                  );
-                }
-              },
-              child: const Text('Yayinla'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // Eski metodlari yeni birlestirilen metoda yonlendir
+  void _showEditDialog(BuildContext context, Announcement ann) => _showAnnouncementDialog(context, existing: ann);
+  void _showCreateDialog(BuildContext context) => _showAnnouncementDialog(context);
 }

@@ -13,6 +13,17 @@ class ProfileScreen extends ConsumerStatefulWidget {
 }
 
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
+  static final _phoneRegex = RegExp(r'^0?5\d{9}$');
+
+  String? _validatePhone(String? value) {
+    if (value == null || value.isEmpty) return null; // Bos olabilir
+    final cleaned = value.replaceAll(RegExp(r'[\s\-\(\)]'), '');
+    if (!_phoneRegex.hasMatch(cleaned)) {
+      return 'Gecerli bir telefon numarasi girin (05xx xxx xxxx)';
+    }
+    return null;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -293,9 +304,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               TextFormField(
                 controller: phoneCtrl,
-                decoration: const InputDecoration(labelText: 'Telefon', isDense: true, contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10), prefixIcon: Icon(Icons.phone, size: 16)),
+                decoration: const InputDecoration(labelText: 'Telefon (05xx xxx xxxx)', isDense: true, contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10), prefixIcon: Icon(Icons.phone, size: 16)),
                 keyboardType: TextInputType.phone,
                 style: const TextStyle(fontSize: 12, color: ScadaColors.textPrimary),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: _validatePhone,
               ),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
@@ -321,8 +334,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               const SizedBox(height: 8),
               TextFormField(
                 controller: emergencyPhoneCtrl,
-                decoration: const InputDecoration(labelText: 'Acil Durum Telefon', isDense: true, contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
+                decoration: const InputDecoration(labelText: 'Acil Durum Telefon (05xx xxx xxxx)', isDense: true, contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
+                keyboardType: TextInputType.phone,
                 style: const TextStyle(fontSize: 12, color: ScadaColors.textPrimary),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: _validatePhone,
               ),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
@@ -349,6 +365,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           ),
           ElevatedButton(
             onPressed: () async {
+              // Telefon validation
+              if (_validatePhone(phoneCtrl.text) != null || _validatePhone(emergencyPhoneCtrl.text) != null) {
+                ScaffoldMessenger.of(ctx).showSnackBar(
+                  const SnackBar(content: Text('Lutfen gecerli telefon numaralari girin'), backgroundColor: ScadaColors.red),
+                );
+                return;
+              }
               final auth = ref.read(authProvider);
               if (auth.user != null) {
                 final data = <String, dynamic>{};

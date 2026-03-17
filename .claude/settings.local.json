@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Claude_Preview__preview_start",
+      "Bash(C:flutterbinflutter.bat doctor:*)",
+      "Bash(cmd.exe /c \"where flutter\")",
+      "Bash(/c/flutter/bin/flutter pub:*)",
+      "Bash(/c/flutter/bin/flutter analyze:*)",
+      "Bash(flutter analyze:*)",
+      "Bash(grep -E \"\\\\.py$\")",
+      "Bash(training\" || echo \"Backend path not accessible from Windows path \")",
+      "Bash(grep -r \"skip\\\\|offset\\\\|limit\\\\|page\" C:Usersomeraorientpro_mobile.claudeworktreesmagical-tereshkovalibproviders --include=*.dart)"
+    ]
+  }
+}

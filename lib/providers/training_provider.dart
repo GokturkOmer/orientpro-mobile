@@ -4,6 +4,18 @@ import '../models/training.dart';
 import '../core/network/auth_dio.dart';
 import '../core/utils/error_helper.dart';
 
+// Module info for progress lookup
+class ModuleInfo {
+  final String id;
+  final String title;
+  final String routeId;
+  final String departmentId;
+  final String moduleType;
+  final int estimatedMinutes;
+
+  ModuleInfo({required this.id, required this.title, required this.routeId, required this.departmentId, required this.moduleType, required this.estimatedMinutes});
+}
+
 // State
 class TrainingState {
   final List<Department> departments;
@@ -18,6 +30,13 @@ class TrainingState {
   final bool isLoading;
   final String? error;
 
+  // Progress screen state
+  final Map<String, ModuleInfo> moduleMap;
+  final List<TeamMemberProgress> teamProgress;
+  final DashboardSummary? dashboardSummary;
+  final List<TrainingReminder> reminders;
+  final int reviewCount;
+
   TrainingState({
     this.departments = const [],
     this.routes = const [],
@@ -30,6 +49,11 @@ class TrainingState {
     this.stats,
     this.isLoading = false,
     this.error,
+    this.moduleMap = const {},
+    this.teamProgress = const [],
+    this.dashboardSummary,
+    this.reminders = const [],
+    this.reviewCount = 0,
   });
 
   TrainingState copyWith({
@@ -44,6 +68,11 @@ class TrainingState {
     TrainingStats? stats,
     bool? isLoading,
     String? error,
+    Map<String, ModuleInfo>? moduleMap,
+    List<TeamMemberProgress>? teamProgress,
+    DashboardSummary? dashboardSummary,
+    List<TrainingReminder>? reminders,
+    int? reviewCount,
   }) {
     return TrainingState(
       departments: departments ?? this.departments,
@@ -57,6 +86,11 @@ class TrainingState {
       stats: stats ?? this.stats,
       isLoading: isLoading ?? this.isLoading,
       error: error,
+      moduleMap: moduleMap ?? this.moduleMap,
+      teamProgress: teamProgress ?? this.teamProgress,
+      dashboardSummary: dashboardSummary ?? this.dashboardSummary,
+      reminders: reminders ?? this.reminders,
+      reviewCount: reviewCount ?? this.reviewCount,
     );
   }
 }
@@ -81,11 +115,13 @@ class TrainingNotifier extends Notifier<TrainingState> {
     }
   }
 
-  Future<void> loadRoutes({String? departmentId}) async {
+  Future<void> loadRoutes({String? departmentId, int? limit, int? offset}) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
       final params = <String, dynamic>{};
       if (departmentId != null) params['department_id'] = departmentId;
+      if (limit != null) params['limit'] = limit;
+      if (offset != null) params['offset'] = offset;
       final response = await _dio.get('/training/routes', queryParameters: params);
       final routes = (response.data as List).map((r) => TrainingRoute.fromJson(r)).toList();
       state = state.copyWith(routes: routes, isLoading: false);
@@ -206,6 +242,79 @@ class TrainingNotifier extends Notifier<TrainingState> {
     } catch (_) {}
   }
 
+  // ===== MODULES (for progress lookup) =====
+
+  Future<void> loadModules() async {
+    try {
+      final response = await _dio.get('/training/modules');
+      final modules = response.data as List;
+      final Map<String, ModuleInfo> map = {};
+      for (final m in modules) {
+        final routeId = m['route_id'] as String;
+        final route = state.routes.where((r) => r.id == routeId).toList();
+        map[m['id']] = ModuleInfo(
+          id: m['id'],
+          title: m['title'] ?? 'Bilinmeyen Modul',
+          routeId: routeId,
+          departmentId: route.isNotEmpty ? route.first.departmentId : '',
+          moduleType: m['module_type'] ?? 'lesson',
+          estimatedMinutes: m['estimated_minutes'] ?? 15,
+        );
+      }
+      state = state.copyWith(moduleMap: map);
+    } catch (_) {}
+  }
+
+  // ===== PROGRESS DATA (all-in-one for progress screen) =====
+
+  Future<void> loadProgressData(String userId, {String? department, bool isSupervisor = false}) async {
+    state = state.copyWith(isLoading: true, error: null);
+    try {
+      // Paralel: departments, routes, modules
+      await Future.wait([
+        loadDepartments(),
+        loadRoutes(),
+      ]);
+      await loadModules(); // routes gerekli olduğu için sırayla
+      await loadStats(userId);
+      await loadProgress(userId);
+
+      if (isSupervisor && department != null) {
+        final team = await loadTeamProgress(department);
+        state = state.copyWith(teamProgress: team, isLoading: false);
+      } else {
+        state = state.copyWith(isLoading: false);
+      }
+    } catch (e) {
+      state = state.copyWith(isLoading: false, error: 'Veri yuklenemedi');
+    }
+  }
+
+  // ===== DASHBOARD DATA (all-in-one for dashboard screen) =====
+
+  Future<void> loadDashboardData(String userId) async {
+    state = state.copyWith(isLoading: true, error: null);
+    try {
+      await Future.wait([
+        loadDepartments(),
+        loadRoutes(),
+        loadStats(userId),
+      ]);
+      final summary = await loadDashboardSummary(userId);
+      await generateReminders(userId);
+      final reminderList = await loadReminders(userId);
+      final reviews = await loadPendingReviews(userId);
+      state = state.copyWith(
+        dashboardSummary: summary,
+        reminders: reminderList,
+        reviewCount: reviews.length,
+        isLoading: false,
+      );
+    } catch (e) {
+      state = state.copyWith(isLoading: false, error: 'Veri yuklenemedi');
+    }
+  }
+
   // ===== ACKNOWLEDGMENT =====
 
   Future<bool> submitAcknowledgment(String userId, String moduleId, String routeId, String text) async {
@@ -281,6 +390,13 @@ class TrainingNotifier extends Notifier<TrainingState> {
     try {
       await _dio.put('/training/reminders/$reminderId/read');
     } catch (_) {}
+  }
+
+  void dismissReminder(String reminderId) {
+    markReminderRead(reminderId);
+    state = state.copyWith(
+      reminders: state.reminders.where((r) => r.id != reminderId).toList(),
+    );
   }
 
   // ===== TEAM PROGRESS =====

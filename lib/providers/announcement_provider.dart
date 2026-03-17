@@ -9,15 +9,33 @@ class AnnouncementState {
   final List<Announcement> announcements;
   final int unreadCount;
   final bool isLoading;
+  final bool isLoadingMore;
+  final bool hasMore;
   final String? error;
 
-  AnnouncementState({this.announcements = const [], this.unreadCount = 0, this.isLoading = false, this.error});
+  AnnouncementState({
+    this.announcements = const [],
+    this.unreadCount = 0,
+    this.isLoading = false,
+    this.isLoadingMore = false,
+    this.hasMore = true,
+    this.error,
+  });
 
-  AnnouncementState copyWith({List<Announcement>? announcements, int? unreadCount, bool? isLoading, String? error}) {
+  AnnouncementState copyWith({
+    List<Announcement>? announcements,
+    int? unreadCount,
+    bool? isLoading,
+    bool? isLoadingMore,
+    bool? hasMore,
+    String? error,
+  }) {
     return AnnouncementState(
       announcements: announcements ?? this.announcements,
       unreadCount: unreadCount ?? this.unreadCount,
       isLoading: isLoading ?? this.isLoading,
+      isLoadingMore: isLoadingMore ?? this.isLoadingMore,
+      hasMore: hasMore ?? this.hasMore,
       error: error,
     );
   }
@@ -32,18 +50,42 @@ class AnnouncementNotifier extends Notifier<AnnouncementState> {
     return AnnouncementState();
   }
 
+  static const _pageSize = 20;
+
   Future<void> loadAnnouncements(String userId, {String? department}) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
-      final params = <String, dynamic>{'user_id': userId};
+      final params = <String, dynamic>{'user_id': userId, 'limit': _pageSize, 'offset': 0};
       if (department != null) params['department'] = department;
       final resp = await _dio.get('/announcements/', queryParameters: params);
       final items = (resp.data as List).map((j) => Announcement.fromJson(j)).toList();
-      state = state.copyWith(announcements: items, isLoading: false);
+      state = state.copyWith(announcements: items, isLoading: false, hasMore: items.length >= _pageSize);
     } on DioException catch (e) {
       state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     } catch (e) {
       state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
+    }
+  }
+
+  Future<void> loadMoreAnnouncements(String userId, {String? department}) async {
+    if (state.isLoadingMore || !state.hasMore) return;
+    state = state.copyWith(isLoadingMore: true);
+    try {
+      final params = <String, dynamic>{
+        'user_id': userId,
+        'limit': _pageSize,
+        'offset': state.announcements.length,
+      };
+      if (department != null) params['department'] = department;
+      final resp = await _dio.get('/announcements/', queryParameters: params);
+      final newItems = (resp.data as List).map((j) => Announcement.fromJson(j)).toList();
+      state = state.copyWith(
+        announcements: [...state.announcements, ...newItems],
+        isLoadingMore: false,
+        hasMore: newItems.length >= _pageSize,
+      );
+    } catch (_) {
+      state = state.copyWith(isLoadingMore: false);
     }
   }
 

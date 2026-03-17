@@ -5,7 +5,7 @@ import '../../providers/training_provider.dart';
 import '../../providers/announcement_provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/auth/role_helper.dart';
-import '../../models/training.dart';
+import '../../core/utils/department_filter.dart';
 
 class OrientationDashboardScreen extends ConsumerStatefulWidget {
   const OrientationDashboardScreen({super.key});
@@ -15,34 +15,15 @@ class OrientationDashboardScreen extends ConsumerStatefulWidget {
 }
 
 class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboardScreen> {
-  DashboardSummary? _summary;
-  List<TrainingReminder> _reminders = [];
-  int _reviewCount = 0;
-
   @override
   void initState() {
     super.initState();
-    Future.microtask(() async {
+    Future.microtask(() {
       final auth = ref.read(authProvider);
-      ref.read(trainingProvider.notifier).loadDepartments();
-      ref.read(trainingProvider.notifier).loadRoutes();
       if (auth.user != null) {
-        ref.read(trainingProvider.notifier).loadStats(auth.user!.id);
-        // Dashboard summary ve reminders yukle
-        final summary = await ref.read(trainingProvider.notifier).loadDashboardSummary(auth.user!.id);
-        final reminders = await ref.read(trainingProvider.notifier).loadReminders(auth.user!.id);
-        final reviews = await ref.read(trainingProvider.notifier).loadPendingReviews(auth.user!.id);
-        // Ilk giris icin hatirlatma programi olustur
-        ref.read(trainingProvider.notifier).generateReminders(auth.user!.id);
-        // Okunmamis duyuru sayisini yukle
+        ref.read(trainingProvider.notifier).loadDashboardData(auth.user!.id);
         ref.read(announcementProvider.notifier).loadUnreadCount(auth.user!.id, department: auth.user!.department);
-        if (mounted) {
-          setState(() {
-            _summary = summary;
-            _reminders = reminders;
-            _reviewCount = reviews.length;
-          });
-        }
+        ref.read(announcementProvider.notifier).loadAnnouncements(auth.user!.id, department: auth.user!.department);
       }
     });
   }
@@ -155,7 +136,7 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                 ],
 
                 // Bekleyen Islemler + Tekrar Gerekli
-                if (_summary != null && (_summary!.pendingAcknowledgments > 0 || _reviewCount > 0)) ...[
+                if (training.dashboardSummary != null && (training.dashboardSummary!.pendingAcknowledgments > 0 || training.reviewCount > 0)) ...[
                   const SizedBox(height: 12),
                   Container(
                     padding: const EdgeInsets.all(12),
@@ -171,27 +152,27 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                         const Text('BEKLEYEN ISLEMLER', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.amber, letterSpacing: 1)),
                       ]),
                       const SizedBox(height: 8),
-                      if (_summary!.pendingAcknowledgments > 0)
+                      if (training.dashboardSummary!.pendingAcknowledgments > 0)
                         Padding(
                           padding: const EdgeInsets.only(bottom: 4),
                           child: Row(children: [
                             const Icon(Icons.verified_user_outlined, size: 14, color: ScadaColors.textSecondary),
                             const SizedBox(width: 6),
-                            Text('${_summary!.pendingAcknowledgments} modul onay bekliyor', style: const TextStyle(fontSize: 12, color: ScadaColors.textPrimary)),
+                            Text('${training.dashboardSummary!.pendingAcknowledgments} modul onay bekliyor', style: const TextStyle(fontSize: 12, color: ScadaColors.textPrimary)),
                           ]),
                         ),
-                      if (_reviewCount > 0)
+                      if (training.reviewCount > 0)
                         Row(children: [
                           const Icon(Icons.replay, size: 14, color: ScadaColors.textSecondary),
                           const SizedBox(width: 6),
-                          Text('$_reviewCount tekrar gerektiren konu', style: const TextStyle(fontSize: 12, color: ScadaColors.textPrimary)),
+                          Text('${training.reviewCount} tekrar gerektiren konu', style: const TextStyle(fontSize: 12, color: ScadaColors.textPrimary)),
                         ]),
                     ]),
                   ),
                 ],
 
                 // Tamamlanmamis Zorunlu Egitimler (departman filtreleme)
-                if (_summary != null && _summary!.upcomingDeadlines.isNotEmpty) ...[
+                if (training.dashboardSummary != null && training.dashboardSummary!.upcomingDeadlines.isNotEmpty) ...[
                   const SizedBox(height: 12),
                   Row(children: [
                     const Icon(Icons.schedule, size: 14, color: ScadaColors.textDim),
@@ -204,15 +185,15 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                     final userDept = auth.user?.department;
                     final visibleDepts = RoleHelper.visibleDepartments(userRole, userDept);
                     final filtered = visibleDepts == null
-                        ? _summary!.upcomingDeadlines
-                        : _summary!.upcomingDeadlines.where((d) =>
+                        ? training.dashboardSummary!.upcomingDeadlines
+                        : training.dashboardSummary!.upcomingDeadlines.where((d) =>
                             visibleDepts.contains(d['department_code'])).toList();
                     return Column(children: _buildGroupedDeadlines(filtered));
                   }),
                 ],
 
                 // Haftalik Ozet
-                if (_summary != null && (_summary!.weeklyCompleted > 0 || _summary!.totalAcknowledgments > 0)) ...[
+                if (training.dashboardSummary != null && (training.dashboardSummary!.weeklyCompleted > 0 || training.dashboardSummary!.totalAcknowledgments > 0)) ...[
                   const SizedBox(height: 12),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -222,42 +203,82 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                       border: Border.all(color: ScadaColors.border),
                     ),
                     child: Row(children: [
-                      _buildMiniStat('Bu Hafta', '${_summary!.weeklyCompleted}', 'modul', ScadaColors.cyan),
+                      _buildMiniStat('Bu Hafta', '${training.dashboardSummary!.weeklyCompleted}', 'modul', ScadaColors.cyan),
                       Container(width: 1, height: 24, color: ScadaColors.border),
-                      _buildMiniStat('Sure', '${_summary!.weeklyTimeMinutes}', 'dk', ScadaColors.amber),
+                      _buildMiniStat('Sure', '${training.dashboardSummary!.weeklyTimeMinutes}', 'dk', ScadaColors.amber),
                       Container(width: 1, height: 24, color: ScadaColors.border),
-                      _buildMiniStat('Onay', '${_summary!.totalAcknowledgments}', 'modul', ScadaColors.green),
+                      _buildMiniStat('Onay', '${training.dashboardSummary!.totalAcknowledgments}', 'modul', ScadaColors.green),
                     ]),
                   ),
                 ],
 
-                // Hatirlatmalar
-                if (_reminders.isNotEmpty) ...[
-                  const SizedBox(height: 12),
-                  ..._reminders.take(2).map((r) => Container(
-                    margin: const EdgeInsets.only(bottom: 6),
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: ScadaColors.card,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: ScadaColors.cyan.withValues(alpha: 0.2)),
-                    ),
-                    child: Row(children: [
-                      const Icon(Icons.notifications_active, size: 16, color: ScadaColors.cyan),
-                      const SizedBox(width: 8),
-                      Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                        Text(r.title, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
-                        Text(r.message, style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary), maxLines: 1, overflow: TextOverflow.ellipsis),
-                      ])),
-                      InkWell(
-                        onTap: () => ref.read(trainingProvider.notifier).markReminderRead(r.id).then((_) {
-                          setState(() => _reminders.removeWhere((rem) => rem.id == r.id));
-                        }),
-                        child: const Icon(Icons.close, size: 14, color: ScadaColors.textDim),
+                // Duyurular onizleme
+                Builder(builder: (context) {
+                  final annState = ref.watch(announcementProvider);
+                  final previewItems = annState.announcements.take(3).toList();
+                  if (previewItems.isEmpty && annState.unreadCount == 0) return const SizedBox.shrink();
+                  return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    const SizedBox(height: 12),
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: ScadaColors.card,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: ScadaColors.amber.withValues(alpha: 0.2)),
                       ),
-                    ]),
-                  )),
-                ],
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                        Row(children: [
+                          const Icon(Icons.campaign, size: 14, color: ScadaColors.amber),
+                          const SizedBox(width: 6),
+                          const Text('DUYURULAR', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.amber, letterSpacing: 1)),
+                          if (annState.unreadCount > 0) ...[
+                            const SizedBox(width: 6),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                              decoration: BoxDecoration(color: ScadaColors.red.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(10)),
+                              child: Text('${annState.unreadCount} yeni', style: const TextStyle(fontSize: 9, color: ScadaColors.red, fontWeight: FontWeight.w600)),
+                            ),
+                          ],
+                        ]),
+                        if (previewItems.isNotEmpty) ...[
+                          const SizedBox(height: 8),
+                          ...previewItems.map((a) => Padding(
+                            padding: const EdgeInsets.only(bottom: 6),
+                            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                              Container(
+                                width: 6, height: 6,
+                                margin: const EdgeInsets.only(top: 4, right: 8),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: a.isRead == true ? ScadaColors.textDim : ScadaColors.amber,
+                                ),
+                              ),
+                              Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                Text(a.title, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary), maxLines: 1, overflow: TextOverflow.ellipsis),
+                                Text(a.body, style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary), maxLines: 1, overflow: TextOverflow.ellipsis),
+                              ])),
+                              const SizedBox(width: 6),
+                              Text(a.timeAgo, style: const TextStyle(fontSize: 9, color: ScadaColors.textDim)),
+                            ]),
+                          )),
+                        ],
+                        const SizedBox(height: 4),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            style: TextButton.styleFrom(padding: EdgeInsets.zero, minimumSize: const Size(0, 28)),
+                            onPressed: () => Navigator.pushNamed(context, '/announcements'),
+                            child: const Row(mainAxisSize: MainAxisSize.min, children: [
+                              Text('Tumunu Gor', style: TextStyle(fontSize: 11, color: ScadaColors.amber, fontWeight: FontWeight.w600)),
+                              SizedBox(width: 4),
+                              Icon(Icons.arrow_forward_ios, size: 10, color: ScadaColors.amber),
+                            ]),
+                          ),
+                        ),
+                      ]),
+                    ),
+                  ]);
+                }),
 
                 const SizedBox(height: 20),
 
@@ -270,93 +291,36 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                 const SizedBox(height: 12),
 
                 Builder(builder: (context) {
-                  final userRole = auth.user?.role;
-                  final userDept = auth.user?.department;
-                  final visibleDepts = RoleHelper.visibleDepartments(userRole, userDept);
-                  final allowedDeptIds = visibleDepts == null
-                      ? null
-                      : training.departments.where((d) => visibleDepts.contains(d.code)).map((d) => d.id).toSet();
-                  var filteredRoutes = allowedDeptIds == null
-                      ? training.routes
-                      : training.routes.where((r) => allowedDeptIds.contains(r.departmentId)).toList();
-                  // Teknik dept icerisinde tag filtreleme
-                  final teknikTags = RoleHelper.visibleTeknikTags(userRole);
-                  if (teknikTags != null && teknikTags.isNotEmpty) {
-                    final teknikDeptIds = training.departments.where((d) => d.code == 'teknik').map((d) => d.id).toSet();
-                    filteredRoutes = filteredRoutes.where((r) {
-                      if (!teknikDeptIds.contains(r.departmentId)) return true;
-                      return RoleHelper.canSeeTeknikRoute(userRole, r.tags);
-                    }).toList();
-                  }
-                  return _buildModuleCard(
-                    icon: Icons.route,
-                    title: 'Egitim Rotalari',
-                    description: 'Departman bazli egitim rotalari ve icerikler',
-                    color: ScadaColors.cyan,
-                    badge: '${filteredRoutes.length}',
-                    onTap: () => Navigator.pushNamed(context, '/training-routes'),
-                  );
-                }),
-                const SizedBox(height: 8),
-                _buildModuleCard(
-                  icon: Icons.quiz,
-                  title: 'Quiz & Sinavlar',
-                  description: 'Bilgi testleri ve degerlendirmeler',
-                  color: ScadaColors.green,
-                  onTap: () => Navigator.pushNamed(context, '/quizzes'),
-                ),
-                const SizedBox(height: 8),
-                _buildModuleCard(
-                  icon: Icons.trending_up,
-                  title: 'Ilerleme Takibi',
-                  description: 'Egitim tamamlama durumu ve raporlar',
-                  color: ScadaColors.amber,
-                  onTap: () => Navigator.pushNamed(context, '/progress'),
-                ),
-                const SizedBox(height: 8),
-                _buildModuleCard(
-                  icon: Icons.smart_toy,
-                  title: 'AI Asistan',
-                  description: 'Oryantasyon sureci icin yapay zeka destegi',
-                  color: ScadaColors.purple,
-                  onTap: () => Navigator.pushNamed(context, '/ai-assistant'),
-                ),
-                const SizedBox(height: 8),
-                Builder(builder: (context) {
                   final annState = ref.watch(announcementProvider);
-                  return _buildModuleCard(
-                    icon: Icons.campaign,
-                    title: 'Duyuru Panosu',
-                    description: 'Sirket ve departman duyurulari',
-                    color: ScadaColors.amber,
-                    badge: annState.unreadCount > 0 ? '${annState.unreadCount}' : null,
-                    onTap: () => Navigator.pushNamed(context, '/announcements'),
+                  final filteredRoutes = DepartmentFilter.filterRoutes(
+                    routes: training.routes,
+                    departments: training.departments,
+                    userRole: auth.user?.role,
+                    userDepartment: auth.user?.department,
+                  );
+
+                  final modules = [
+                    _ModuleCardConfig(icon: Icons.route, title: 'Egitim Rotalari', description: 'Departman bazli egitim rotalari ve icerikler', color: ScadaColors.cyan, route: '/training-routes', badge: '${filteredRoutes.length}'),
+                    _ModuleCardConfig(icon: Icons.quiz, title: 'Quiz & Sinavlar', description: 'Bilgi testleri ve degerlendirmeler', color: ScadaColors.green, route: '/quizzes'),
+                    _ModuleCardConfig(icon: Icons.trending_up, title: 'Ilerleme Takibi', description: 'Egitim tamamlama durumu ve raporlar', color: ScadaColors.amber, route: '/progress'),
+                    _ModuleCardConfig(icon: Icons.smart_toy, title: 'AI Asistan', description: 'Oryantasyon sureci icin yapay zeka destegi', color: ScadaColors.purple, route: '/ai-assistant'),
+                    _ModuleCardConfig(icon: Icons.campaign, title: 'Duyuru Panosu', description: 'Sirket ve departman duyurulari', color: ScadaColors.amber, route: '/announcements', badge: annState.unreadCount > 0 ? '${annState.unreadCount}' : null),
+                    _ModuleCardConfig(icon: Icons.folder_open, title: 'Icerik Kutuphanesi', description: 'Kisisel ve paylasilan belgeler', color: ScadaColors.purple, route: '/library'),
+                    _ModuleCardConfig(icon: Icons.person, title: 'Profil Karti', description: 'Kisisel bilgiler, acil durum, sertifikalar', color: ScadaColors.orange, route: '/profile'),
+                    _ModuleCardConfig(icon: Icons.calendar_month, title: 'Vardiya & Gorevler', description: 'Haftalik vardiya plani ve gorev takibi', color: ScadaColors.amber, route: '/shifts'),
+                  ];
+
+                  return Column(
+                    children: modules.map((m) => Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: _buildModuleCard(
+                        icon: m.icon, title: m.title, description: m.description,
+                        color: m.color, badge: m.badge,
+                        onTap: () => Navigator.pushNamed(context, m.route),
+                      ),
+                    )).toList(),
                   );
                 }),
-                const SizedBox(height: 8),
-                _buildModuleCard(
-                  icon: Icons.folder_open,
-                  title: 'Icerik Kutuphanesi',
-                  description: 'Kisisel ve paylasilan belgeler',
-                  color: ScadaColors.purple,
-                  onTap: () => Navigator.pushNamed(context, '/library'),
-                ),
-                const SizedBox(height: 8),
-                _buildModuleCard(
-                  icon: Icons.person,
-                  title: 'Profil Karti',
-                  description: 'Kisisel bilgiler, acil durum, sertifikalar',
-                  color: ScadaColors.orange,
-                  onTap: () => Navigator.pushNamed(context, '/profile'),
-                ),
-                const SizedBox(height: 8),
-                _buildModuleCard(
-                  icon: Icons.calendar_month,
-                  title: 'Vardiya & Gorevler',
-                  description: 'Haftalik vardiya plani ve gorev takibi',
-                  color: ScadaColors.amber,
-                  onTap: () => Navigator.pushNamed(context, '/shifts'),
-                ),
 
 
                 // Error message
@@ -519,4 +483,22 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
       ),
     );
   }
+}
+
+class _ModuleCardConfig {
+  final IconData icon;
+  final String title;
+  final String description;
+  final Color color;
+  final String route;
+  final String? badge;
+
+  const _ModuleCardConfig({
+    required this.icon,
+    required this.title,
+    required this.description,
+    required this.color,
+    required this.route,
+    this.badge,
+  });
 }

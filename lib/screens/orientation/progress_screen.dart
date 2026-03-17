@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../core/network/auth_dio.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/training_provider.dart';
 import '../../models/training.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/auth/role_helper.dart';
+import '../../core/utils/status_helper.dart';
+import '../../core/utils/department_filter.dart';
 
 class ProgressScreen extends ConsumerStatefulWidget {
   const ProgressScreen({super.key});
@@ -15,21 +16,8 @@ class ProgressScreen extends ConsumerStatefulWidget {
 }
 
 class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTickerProviderStateMixin {
-  bool _loading = true;
-  List<Department> _departments = [];
-  List<TrainingRoute> _routes = [];
-  List<UserProgress> _progress = [];
-  TrainingStats? _stats;
-  String? _error;
   bool _isSupervisor = false;
   TabController? _tabController;
-
-  // Ekip takibi
-  List<TeamMemberProgress> _team = [];
-  bool _teamLoading = false;
-
-  // Modul ID -> Modul bilgisi lookup
-  Map<String, _ModuleInfo> _moduleMap = {};
 
   @override
   void initState() {
@@ -50,109 +38,60 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
 
   Future<void> _loadData() async {
     final auth = ref.read(authProvider);
-    final dio = ref.read(authDioProvider);
-    try {
-      // Paralel yukle: departmanlar, rotalar, moduller
-      final results = await Future.wait([
-        dio.get('/training/departments'),
-        dio.get('/training/routes'),
-        dio.get('/training/modules'),
-      ]);
-
-      _departments = (results[0].data as List).map((d) => Department.fromJson(d)).toList();
-      _routes = (results[1].data as List).map((r) => TrainingRoute.fromJson(r)).toList();
-
-      // Modul lookup map olustur
-      final modules = results[2].data as List;
-      _moduleMap = {};
-      for (final m in modules) {
-        final routeId = m['route_id'] as String;
-        // Route'un departmentId'sini bul
-        final route = _routes.where((r) => r.id == routeId).toList();
-        _moduleMap[m['id']] = _ModuleInfo(
-          title: m['title'] ?? 'Bilinmeyen Modul',
-          routeId: routeId,
-          departmentId: route.isNotEmpty ? route.first.departmentId : '',
-          moduleType: m['module_type'] ?? 'lesson',
-          estimatedMinutes: m['estimated_minutes'] ?? 15,
-        );
-      }
-
-      if (auth.user != null) {
-        try {
-          final statsRes = await dio.get('/training/stats/${auth.user!.id}');
-          _stats = TrainingStats.fromJson(statsRes.data);
-        } catch (_) {}
-
-        try {
-          final progRes = await dio.get('/training/progress/${auth.user!.id}');
-          _progress = (progRes.data as List).map((p) => UserProgress.fromJson(p)).toList();
-        } catch (_) {}
-      }
-
-      // Departman filtreleme (RBAC)
-      final userRole = auth.user?.role ?? '';
-      final userDept = auth.user?.department;
-      final allowedDepts = RoleHelper.visibleDepartments(userRole, userDept);
-      if (allowedDepts != null) {
-        final allowedDeptIds = _departments.where((d) => allowedDepts.contains(d.code)).map((d) => d.id).toSet();
-        _departments = _departments.where((d) => allowedDepts.contains(d.code)).toList();
-        _routes = _routes.where((r) => allowedDeptIds.contains(r.departmentId)).toList();
-      }
-
-      // Teknik tag filtreleme
-      final teknikTags = RoleHelper.visibleTeknikTags(userRole);
-      if (teknikTags != null && teknikTags.isNotEmpty) {
-        final teknikDeptIds = _departments.where((d) => d.code == 'teknik').map((d) => d.id).toSet();
-        _routes = _routes.where((r) {
-          if (!teknikDeptIds.contains(r.departmentId)) return true;
-          return RoleHelper.canSeeTeknikRoute(userRole, r.tags);
-        }).toList();
-      }
-
-      // Supervisor ise ekip verisini yukle
-      if (_isSupervisor && auth.user?.department != null) {
-        _teamLoading = true;
-        try {
-          _team = await ref.read(trainingProvider.notifier).loadTeamProgress(auth.user!.department!);
-        } catch (_) {}
-        _teamLoading = false;
-      }
-
-      if (mounted) setState(() => _loading = false);
-    } catch (e) {
-      if (mounted) setState(() { _loading = false; _error = 'Veri yuklenemedi'; });
-    }
+    if (auth.user == null) return;
+    await ref.read(trainingProvider.notifier).loadProgressData(
+      auth.user!.id,
+      department: auth.user!.department,
+      isSupervisor: _isSupervisor,
+    );
   }
 
-  // Departman bazli ilerleme hesapla
-  double _calcDeptProgress(String departmentId) {
-    // Bu departmandaki tum modulleri bul
-    final deptModuleIds = _moduleMap.entries
+  // RBAC filtrelenmiş departmanlar
+  List<Department> _getFilteredDepartments(TrainingState training) {
+    final auth = ref.read(authProvider);
+    return DepartmentFilter.filterDepartments(
+      departments: training.departments,
+      userRole: auth.user?.role,
+      userDepartment: auth.user?.department,
+    );
+  }
+
+  // RBAC filtrelenmiş rotalar
+  List<TrainingRoute> _getFilteredRoutes(TrainingState training) {
+    final auth = ref.read(authProvider);
+    return DepartmentFilter.filterRoutes(
+      routes: training.routes,
+      departments: training.departments,
+      userRole: auth.user?.role,
+      userDepartment: auth.user?.department,
+    );
+  }
+
+  // Departman bazlı ilerleme hesapla
+  double _calcDeptProgress(String departmentId, TrainingState training) {
+    final deptModuleIds = training.moduleMap.entries
         .where((e) => e.value.departmentId == departmentId)
         .map((e) => e.key)
         .toSet();
     if (deptModuleIds.isEmpty) return 0;
-
-    // Bu modullerdeki progress kayitlarini bul
-    final deptProgress = _progress.where((p) => deptModuleIds.contains(p.moduleId)).toList();
+    final deptProgress = training.progress.where((p) => deptModuleIds.contains(p.moduleId)).toList();
     if (deptProgress.isEmpty) return 0;
-
     final completed = deptProgress.where((p) => p.status == 'completed').length;
     return completed / deptModuleIds.length;
   }
 
-  // Departmandaki baslanan modul sayisi
-  int _deptStartedCount(String departmentId) {
-    final deptModuleIds = _moduleMap.entries
+  // Departmandaki başlanan modül sayısı
+  int _deptStartedCount(String departmentId, TrainingState training) {
+    final deptModuleIds = training.moduleMap.entries
         .where((e) => e.value.departmentId == departmentId)
         .map((e) => e.key)
         .toSet();
-    return _progress.where((p) => deptModuleIds.contains(p.moduleId)).length;
+    return training.progress.where((p) => deptModuleIds.contains(p.moduleId)).length;
   }
 
   @override
   Widget build(BuildContext context) {
+    final training = ref.watch(trainingProvider);
     return Scaffold(
       backgroundColor: ScadaColors.bg,
       appBar: AppBar(
@@ -185,63 +124,62 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
           ],
         ) : null,
       ),
-      body: _loading
+      body: training.isLoading
           ? const Center(child: CircularProgressIndicator(color: ScadaColors.amber))
-          : _error != null
+          : training.error != null
               ? Center(
                   child: Column(mainAxisSize: MainAxisSize.min, children: [
                     Icon(Icons.error_outline, size: 48, color: ScadaColors.red.withValues(alpha: 0.5)),
                     const SizedBox(height: 12),
-                    Text(_error!, style: const TextStyle(fontSize: 12, color: ScadaColors.red)),
+                    Text(training.error!, style: const TextStyle(fontSize: 12, color: ScadaColors.red)),
                     const SizedBox(height: 12),
-                    TextButton(onPressed: () { setState(() { _loading = true; _error = null; }); _loadData(); }, child: const Text('Tekrar Dene', style: TextStyle(color: ScadaColors.amber))),
+                    TextButton(onPressed: _loadData, child: const Text('Tekrar Dene', style: TextStyle(color: ScadaColors.amber))),
                   ]),
                 )
               : _isSupervisor
                   ? TabBarView(
                       controller: _tabController,
                       children: [
-                        _buildMyProgressTab(),
-                        _buildTeamProgressTab(),
+                        _buildMyProgressTab(training),
+                        _buildTeamProgressTab(training),
                       ],
                     )
-                  : _buildMyProgressTab(),
+                  : _buildMyProgressTab(training),
     );
   }
 
-  Widget _buildMyProgressTab() {
+  Widget _buildMyProgressTab(TrainingState training) {
+    final departments = _getFilteredDepartments(training);
+    final routes = _getFilteredRoutes(training);
     return RefreshIndicator(
       color: ScadaColors.amber,
-      onRefresh: () async { setState(() => _loading = true); await _loadData(); },
+      onRefresh: _loadData,
       child: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          if (_stats != null) _buildOverallProgressCard(_stats!),
+          if (training.stats != null) _buildOverallProgressCard(training.stats!),
           const SizedBox(height: 20),
           _buildSectionHeader(Icons.business, 'DEPARTMAN BAZLI ILERLEME'),
           const SizedBox(height: 12),
-          ..._departments.map((dept) {
-            final deptRoutes = _routes.where((r) => r.departmentId == dept.id).toList();
+          ...departments.map((dept) {
+            final deptRoutes = routes.where((r) => r.departmentId == dept.id).toList();
             if (deptRoutes.isEmpty) return const SizedBox.shrink();
-            return _buildDepartmentProgressCard(dept, deptRoutes);
+            return _buildDepartmentProgressCard(dept, deptRoutes, training);
           }),
           const SizedBox(height: 20),
           _buildSectionHeader(Icons.list_alt, 'MODUL DETAY'),
           const SizedBox(height: 12),
-          if (_progress.isEmpty)
+          if (training.progress.isEmpty)
             _buildEmptyState()
           else
-            ..._progress.map((p) => _buildModuleProgressItem(p)),
+            ...training.progress.map((p) => _buildModuleProgressItem(p, training)),
         ],
       ),
     );
   }
 
-  Widget _buildTeamProgressTab() {
-    if (_teamLoading) {
-      return const Center(child: CircularProgressIndicator(color: ScadaColors.amber));
-    }
-    if (_team.isEmpty) {
+  Widget _buildTeamProgressTab(TrainingState training) {
+    if (training.teamProgress.isEmpty) {
       return Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
         const Icon(Icons.group_off, size: 48, color: ScadaColors.textDim),
         const SizedBox(height: 12),
@@ -250,8 +188,8 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
     }
     return ListView.builder(
       padding: const EdgeInsets.all(16),
-      itemCount: _team.length,
-      itemBuilder: (context, index) => _buildTeamMemberCard(_team[index]),
+      itemCount: training.teamProgress.length,
+      itemBuilder: (context, index) => _buildTeamMemberCard(training.teamProgress[index]),
     );
   }
 
@@ -395,7 +333,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
     );
   }
 
-  Widget _buildDepartmentProgressCard(Department dept, List<TrainingRoute> routes) {
+  Widget _buildDepartmentProgressCard(Department dept, List<TrainingRoute> routes, TrainingState training) {
     final deptColor = dept.color != null
         ? Color(int.parse('0xFF${dept.color!.replaceAll('#', '')}'))
         : ScadaColors.purple;
@@ -403,9 +341,9 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
     final totalRoutes = routes.length;
     final mandatoryRoutes = routes.where((r) => r.isMandatory).length;
     final totalMinutes = routes.fold<int>(0, (sum, r) => sum + r.estimatedMinutes);
-    final progress = _calcDeptProgress(dept.id);
-    final startedCount = _deptStartedCount(dept.id);
-    final totalModulesInDept = _moduleMap.entries.where((e) => e.value.departmentId == dept.id).length;
+    final progress = _calcDeptProgress(dept.id, training);
+    final startedCount = _deptStartedCount(dept.id, training);
+    final totalModulesInDept = training.moduleMap.entries.where((e) => e.value.departmentId == dept.id).length;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
@@ -429,7 +367,6 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
             ),
           ]),
           const SizedBox(height: 10),
-          // Progress bar
           ClipRRect(
             borderRadius: BorderRadius.circular(4),
             child: LinearProgressIndicator(
@@ -440,7 +377,6 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
             ),
           ),
           const SizedBox(height: 4),
-          // Progress text
           Row(children: [
             Text(
               startedCount > 0 ? '$startedCount/$totalModulesInDept modul baslandi' : 'Henuz baslanmadi',
@@ -476,15 +412,14 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
     ]);
   }
 
-  Widget _buildModuleProgressItem(UserProgress p) {
-    final statusColor = p.status == 'completed' ? ScadaColors.green : p.status == 'in_progress' ? ScadaColors.amber : ScadaColors.textDim;
-    final statusIcon = p.status == 'completed' ? Icons.check_circle : p.status == 'in_progress' ? Icons.play_circle : Icons.radio_button_unchecked;
+  Widget _buildModuleProgressItem(UserProgress p, TrainingState training) {
+    final statusColor = StatusHelper.trainingStatusColor(p.status);
+    final statusIcon = StatusHelper.trainingStatusIcon(p.status);
 
-    // Modul bilgisini lookup'tan al
-    final info = _moduleMap[p.moduleId];
+    final info = training.moduleMap[p.moduleId];
     final moduleName = info?.title ?? 'Modul #${p.moduleId.length > 8 ? p.moduleId.substring(0, 8) : p.moduleId}';
     final moduleType = info?.moduleType ?? 'lesson';
-    final typeIcon = moduleType == 'video' ? Icons.play_circle_outline : moduleType == 'practice' ? Icons.build : moduleType == 'assessment' ? Icons.quiz : Icons.menu_book;
+    final typeIcon = StatusHelper.moduleTypeIcon(moduleType);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
@@ -561,14 +496,4 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
       Text(title, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 1)),
     ]);
   }
-}
-
-class _ModuleInfo {
-  final String title;
-  final String routeId;
-  final String departmentId;
-  final String moduleType;
-  final int estimatedMinutes;
-
-  _ModuleInfo({required this.title, required this.routeId, required this.departmentId, required this.moduleType, required this.estimatedMinutes});
 }
