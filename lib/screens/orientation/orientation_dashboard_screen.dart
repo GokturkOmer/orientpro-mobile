@@ -377,7 +377,6 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
   List<Widget> _buildGroupedDeadlines(List<dynamic> deadlines) {
     final widgets = <Widget>[];
     final genItems = deadlines.where((d) => d['department_code'] == 'GEN').toList();
-    final otherItems = deadlines.where((d) => d['department_code'] != 'GEN').toList();
 
     if (genItems.isNotEmpty) {
       widgets.add(Padding(
@@ -398,24 +397,6 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
       }
     }
 
-    if (otherItems.isNotEmpty) {
-      widgets.add(Padding(
-        padding: const EdgeInsets.only(top: 6, bottom: 4),
-        child: Row(children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-            decoration: BoxDecoration(
-              color: ScadaColors.amber.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: const Text('Departman Egitimleri', style: TextStyle(fontSize: 9, color: ScadaColors.amber, fontWeight: FontWeight.w600)),
-          ),
-        ]),
-      ));
-      for (final d in otherItems) {
-        widgets.add(_buildDeadlineItem(d));
-      }
-    }
 
     return widgets;
   }
