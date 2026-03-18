@@ -47,7 +47,7 @@ class ModuleSelectionScreen extends ConsumerWidget {
                     icon: const Icon(Icons.logout, size: 20, color: ScadaColors.textDim),
                     onPressed: () {
                       ref.read(authProvider.notifier).logout();
-                      Navigator.pushReplacementNamed(context, '/');
+                      Navigator.pushReplacementNamed(context, '/login');
                     },
                   ),
                 ],
@@ -302,27 +302,31 @@ class _SmallModuleCardState extends State<_SmallModuleCard> {
                 child: Icon(widget.icon, size: 22, color: widget.color),
               ),
               const SizedBox(width: 14),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.title,
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                      color: widget.color,
-                      letterSpacing: 0.5,
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.title,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: widget.color,
+                        letterSpacing: 0.5,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    widget.subtitle,
-                    style: const TextStyle(
-                      fontSize: 11,
-                      color: ScadaColors.textSecondary,
+                    const SizedBox(height: 2),
+                    Text(
+                      widget.subtitle,
+                      style: const TextStyle(
+                        fontSize: 11,
+                        color: ScadaColors.textSecondary,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

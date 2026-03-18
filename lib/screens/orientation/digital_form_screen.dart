@@ -1,7 +1,7 @@
-import 'dart:html' as html;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../core/network/auth_dio.dart';
 import '../../core/theme/app_theme.dart';
 
@@ -53,7 +53,7 @@ class _DigitalFormScreenState extends ConsumerState<DigitalFormScreen> {
   void _openDocument(Map<String, dynamic> doc) {
     final downloadUrl = doc['download_url'];
     if (downloadUrl != null && downloadUrl.toString().isNotEmpty) {
-      html.window.open(downloadUrl.toString(), '_blank');
+      launchUrl(Uri.parse(downloadUrl.toString()), mode: LaunchMode.externalApplication);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Indirme baglantisi bulunamadi'), backgroundColor: ScadaColors.red),
@@ -135,7 +135,7 @@ class _DigitalFormScreenState extends ConsumerState<DigitalFormScreen> {
                       onRefresh: _loadDocuments,
                       color: ScadaColors.cyan,
                       child: ListView.builder(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 80),
                         itemCount: docs.length,
                         itemBuilder: (context, index) => _buildDocCard(docs[index]),
                       ),

@@ -176,7 +176,7 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
       body: admin.isLoading && _isEditMode
           ? const Center(child: CircularProgressIndicator(color: ScadaColors.cyan))
           : SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

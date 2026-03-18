@@ -71,7 +71,7 @@ class _TourDetailScreenState extends ConsumerState<TourDetailScreen> {
             ),
             Expanded(
               child: ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
+                padding: const EdgeInsets.fromLTRB(12, 0, 12, 80),
                 itemCount: checkpoints.length,
                 itemBuilder: (ctx, i) {
                   final cp = checkpoints[i];

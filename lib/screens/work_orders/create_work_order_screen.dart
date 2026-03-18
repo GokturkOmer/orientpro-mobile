@@ -40,7 +40,7 @@ class _CreateWorkOrderScreenState extends ConsumerState<CreateWorkOrderScreen> {
         child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
         tooltip: 'AI Asistan',
       ),
-      body: ListView(padding: const EdgeInsets.all(16), children: [
+      body: ListView(padding: const EdgeInsets.fromLTRB(16, 16, 16, 80), children: [
         Card(color: const Color(0xFFE8F5E9), child: ListTile(leading: const Icon(Icons.build, color: Color(0xFF1B5E20)), title: Text(widget.equipment.name, style: const TextStyle(fontWeight: FontWeight.bold)), subtitle: Text(widget.equipment.categoryText))),
         const SizedBox(height: 16),
         TextField(controller: _titleController, decoration: const InputDecoration(labelText: 'Baslik *', hintText: 'Orn: Klima sogutmuyor', prefixIcon: Icon(Icons.title), border: OutlineInputBorder())),

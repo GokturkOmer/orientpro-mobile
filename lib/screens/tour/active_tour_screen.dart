@@ -106,7 +106,7 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
 
         Expanded(
           child: ListView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            padding: const EdgeInsets.fromLTRB(12, 8, 12, 80),
             itemCount: s.checkpoints.length,
             itemBuilder: (ctx, i) => _checkpointTile(s.checkpoints[i]),
           ),

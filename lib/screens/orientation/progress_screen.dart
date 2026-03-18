@@ -155,7 +155,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
       color: ScadaColors.amber,
       onRefresh: _loadData,
       child: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
         children: [
           if (training.stats != null) _buildOverallProgressCard(training.stats!),
           const SizedBox(height: 20),
@@ -187,7 +187,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
       ]));
     }
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
       itemCount: training.teamProgress.length,
       itemBuilder: (context, index) => _buildTeamMemberCard(training.teamProgress[index]),
     );

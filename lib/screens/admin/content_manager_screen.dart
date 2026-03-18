@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:html' as html;
+import 'package:file_picker/file_picker.dart';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -239,7 +239,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                       );
                     }
                     return ListView.builder(
-                        padding: const EdgeInsets.only(top: 4),
+                        padding: const EdgeInsets.fromLTRB(0, 4, 0, 80),
                         itemCount: depts.length,
                         itemBuilder: (context, index) {
                           return _buildDepartmentTile(depts[index], admin, onSelect);
@@ -552,7 +552,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
     }
 
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
       itemCount: _searchResults.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
@@ -1591,27 +1591,23 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                     InkWell(
                       onTap: isUploading
                           ? null
-                          : () {
-                              final input = html.FileUploadInputElement()..accept = '.pdf';
-                              input.click();
-                              input.onChange.listen((e) {
-                                final files = input.files;
-                                if (files != null && files.isNotEmpty) {
-                                  final file = files[0];
-                                  final reader = html.FileReader();
-                                  reader.readAsArrayBuffer(file);
-                                  reader.onLoadEnd.listen((e) {
-                                    setDialogState(() {
-                                      pdfFileName = file.name;
-                                      pdfFileBytes = Uint8List.fromList((reader.result as List<int>));
-                                      pdfMimeType = file.type;
-                                      if (titleCtrl.text.trim().isEmpty) {
-                                        titleCtrl.text = file.name.replaceAll('.pdf', '').replaceAll('_', ' ');
-                                      }
-                                    });
-                                  });
-                                }
-                              });
+                          : () async {
+                              final result = await FilePicker.platform.pickFiles(
+                                type: FileType.custom,
+                                allowedExtensions: ['pdf'],
+                                withData: true,
+                              );
+                              if (result != null && result.files.isNotEmpty) {
+                                final file = result.files.first;
+                                setDialogState(() {
+                                  pdfFileName = file.name;
+                                  pdfFileBytes = file.bytes;
+                                  pdfMimeType = 'application/pdf';
+                                  if (titleCtrl.text.trim().isEmpty) {
+                                    titleCtrl.text = file.name.replaceAll('.pdf', '').replaceAll('_', ' ');
+                                  }
+                                });
+                              }
                             },
                       child: Container(
                         width: double.infinity,

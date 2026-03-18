@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'dart:html' as html;
+import 'package:file_picker/file_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/library_provider.dart';
 import '../../providers/training_provider.dart';
@@ -147,7 +148,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
       );
     }
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
       itemCount: docs.length,
       itemBuilder: (_, i) => _buildDocCard(docs[i], isPersonal: isPersonal),
     );
@@ -269,7 +270,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
   }
 
   void _openUrl(String url) {
-    html.window.open(url, '_blank');
+    launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
   }
 
   void _confirmDelete(LibraryDocument doc) {
@@ -381,22 +382,16 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
               ElevatedButton.icon(
                 icon: const Icon(Icons.attach_file),
                 label: Text(selectedFileName ?? 'Dosya Sec'),
-                onPressed: () {
-                  final input = html.FileUploadInputElement()..accept = '*/*';
-                  input.click();
-                  input.onChange.listen((e) {
-                    final file = input.files?.first;
-                    if (file == null) return;
-                    final reader = html.FileReader();
-                    reader.readAsArrayBuffer(file);
-                    reader.onLoadEnd.listen((_) {
-                      setDialogState(() {
-                        selectedFileName = file.name;
-                        selectedFileBytes = (reader.result as List<int>);
-                        selectedMimeType = file.type;
-                      });
+                onPressed: () async {
+                  final result = await FilePicker.platform.pickFiles(withData: true);
+                  if (result != null && result.files.isNotEmpty) {
+                    final file = result.files.first;
+                    setDialogState(() {
+                      selectedFileName = file.name;
+                      selectedFileBytes = file.bytes;
+                      selectedMimeType = file.extension != null ? 'application/${file.extension}' : 'application/octet-stream';
                     });
-                  });
+                  }
                 },
               ),
               if (selectedFileName != null)

@@ -75,7 +75,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           : profile == null
               ? const Center(child: Text('Profil yuklenemedi', style: TextStyle(color: ScadaColors.textSecondary)))
               : ListView(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
                   children: [
                     // Profile header
                     Container(

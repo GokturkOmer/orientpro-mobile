@@ -109,7 +109,7 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
                 child: quizzes.isEmpty
                     ? _buildEmpty()
                     : ListView.builder(
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
                         itemCount: grouped.length,
                         itemBuilder: (context, index) {
                           final deptName = grouped.keys.elementAt(index);

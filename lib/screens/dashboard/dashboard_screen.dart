@@ -71,7 +71,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           ),
           IconButton(
             icon: const Icon(Icons.logout, size: 20, color: ScadaColors.textDim),
-            onPressed: () { ref.read(authProvider.notifier).logout(); Navigator.pushReplacementNamed(context, '/'); },
+            onPressed: () { ref.read(authProvider.notifier).logout(); Navigator.pushReplacementNamed(context, '/login'); },
           ),
         ],
       ),
@@ -81,7 +81,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             color: ScadaColors.cyan,
             backgroundColor: ScadaColors.surface,
             onRefresh: _loadStats,
-            child: ListView(padding: const EdgeInsets.all(16), children: [
+            child: ListView(padding: const EdgeInsets.fromLTRB(16, 16, 16, 80), children: [
               // User greeting
               Container(
                 padding: const EdgeInsets.all(14),

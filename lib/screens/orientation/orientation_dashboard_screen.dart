@@ -58,7 +58,7 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
             icon: const Icon(Icons.logout, size: 20, color: ScadaColors.textDim),
             onPressed: () {
               ref.read(authProvider.notifier).logout();
-              Navigator.pushReplacementNamed(context, '/');
+              Navigator.pushReplacementNamed(context, '/login');
             },
           ),
         ],
@@ -66,7 +66,7 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
       body: training.isLoading
           ? const Center(child: CircularProgressIndicator(color: ScadaColors.purple))
           : ListView(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
               children: [
                 // Welcome card
                 Container(

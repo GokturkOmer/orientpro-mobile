@@ -71,7 +71,7 @@ class ScadaDashboardScreen extends ConsumerWidget {
           ref.invalidate(readingCountProvider);
         },
         child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          padding: const EdgeInsets.fromLTRB(12, 8, 12, 80),
           children: [
             _buildStatsRow(alarmAsync, countAsync),
             const SizedBox(height: 12),

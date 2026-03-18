@@ -51,7 +51,7 @@ class NotificationScreen extends ConsumerWidget {
             color: ScadaColors.cyan, backgroundColor: ScadaColors.surface,
             onRefresh: () async { ref.invalidate(notificationListProvider); ref.invalidate(unreadCountProvider); },
             child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              padding: const EdgeInsets.fromLTRB(12, 8, 12, 80),
               itemCount: notifs.length,
               itemBuilder: (ctx, i) => _notifCard(context, ref, notifs[i]),
             ),

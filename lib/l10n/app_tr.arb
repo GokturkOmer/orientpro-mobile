@@ -1,0 +1,374 @@
+{
+  "@@locale": "tr",
+
+  "appTitle": "OrientPro",
+  "systemActive": "Sistem aktif",
+
+  "loginTitle": "SISTEM GIRISI",
+  "loginButton": "Giris Yap",
+  "loginEmail": "E-posta",
+  "loginPassword": "Sifre",
+  "loginSubtitle": "SCADA & Tesis Yonetim Sistemi",
+
+  "validationEmailRequired": "E-posta adresi gerekli",
+  "validationEmailInvalid": "Gecerli bir e-posta adresi girin",
+  "validationPasswordRequired": "Sifre gerekli",
+  "validationPasswordTooShort": "Sifre en az 4 karakter olmali",
+
+  "rememberMe": "Beni hatirla",
+
+  "orgSelectTitle": "Tesis Secimi",
+  "orgSelectSubtitle": "Birden fazla tesise uyesiniz.\nDevam etmek icin bir tesis secin.",
+  "orgSelectDefault": "Varsayilan",
+  "orgSelectOtherAccount": "Farkli Hesapla Giris Yap",
+  "orgSelectMember": "Uye",
+
+  "moduleSelectionTitle": "Modul Secimi",
+  "moduleOrientation": "Oryantasyon",
+  "moduleOrientationSub": "Egitim & Rehber",
+  "moduleOrientationDesc": "Personel oryantasyon surecleri,\negitim rotalari ve takip",
+  "moduleAdmin": "Yonetim",
+  "moduleAdminSub": "Admin Paneli",
+  "moduleContent": "Icerik",
+  "moduleContentSub": "Icerik Yonetimi",
+  "modulePro": "Pro",
+  "moduleProSub": "Teknik Yonetim",
+  "moduleProLocked": "Plan Yukseltme Gerekli",
+
+  "orientationTitle": "Oryantasyon",
+  "orientationWelcome": "Hosgeldiniz, {name}",
+  "@orientationWelcome": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "orientationSubtitle": "Oryantasyon ve egitim modulune hosgeldiniz",
+  "orientationOverallProgress": "Genel Ilerleme",
+  "orientationCompleted": "Tamamlanan",
+  "orientationOngoing": "Devam Eden",
+  "orientationQuizSuccess": "Quiz Basari",
+  "orientationPendingTasks": "BEKLEYEN ISLEMLER",
+  "orientationPendingApproval": "{count} modul onay bekliyor",
+  "@orientationPendingApproval": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "orientationReviewRequired": "{count} tekrar gerektiren konu",
+  "@orientationReviewRequired": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "orientationMandatoryIncomplete": "TAMAMLANMAMIS ZORUNLU EGITIMLER",
+  "orientationGeneralBadge": "Genel Oryantasyon",
+  "orientationThisWeek": "Bu Hafta",
+  "orientationDuration": "Sure",
+  "orientationApproval": "Onay",
+  "orientationAnnouncements": "DUYURULAR",
+  "orientationNewCount": "{count} yeni",
+  "@orientationNewCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "orientationModules": "MODULLER",
+
+  "navTrainingRoutes": "Egitim Rotalari",
+  "navTrainingRoutesSub": "Departman bazli egitim rotalari ve icerikler",
+  "navQuizzes": "Quiz & Sinavlar",
+  "navQuizzesSub": "Bilgi testleri ve degerlendirmeler",
+  "navProgress": "Ilerleme Takibi",
+  "navProgressSub": "Egitim tamamlama durumu ve raporlar",
+  "navAiAssistant": "AI Asistan",
+  "navAiAssistantSub": "Oryantasyon sureci icin yapay zeka destegi",
+  "navAnnouncements": "Duyuru Panosu",
+  "navAnnouncementsSub": "Sirket ve departman duyurulari",
+  "navLibrary": "Icerik Kutuphanesi",
+  "navLibrarySub": "Kisisel ve paylasilan belgeler",
+  "navProfile": "Profil Karti",
+  "navProfileSub": "Kisisel bilgiler, acil durum, sertifikalar",
+  "navShifts": "Vardiya & Gorevler",
+  "navShiftsSub": "Haftalik vardiya plani ve gorev takibi",
+
+  "viewAll": "Tumunu Gor",
+
+  "libraryTitle": "Icerik Kutuphanesi",
+  "libraryPersonalTab": "Kisisel ({count})",
+  "@libraryPersonalTab": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "librarySharedTab": "Paylasilan ({count})",
+  "@librarySharedTab": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "librarySearch": "Belge ara...",
+  "libraryEmptyPersonal": "Henuz kisisel belgeniz yok",
+  "libraryEmptyCategory": "Bu kategoride belge yok",
+  "libraryFilterAll": "Tumu",
+  "libraryFilterSOP": "SOP",
+  "libraryFilterEmergency": "Acil Durum",
+  "libraryFilterCert": "Sertifika",
+  "libraryFilterOther": "Diger",
+  "libraryDeleteTitle": "Belge Sil",
+  "libraryDeleteConfirm": "{title} silinsin mi?",
+  "@libraryDeleteConfirm": {
+    "placeholders": {
+      "title": { "type": "String" }
+    }
+  },
+  "libraryDeleted": "Belge silindi",
+  "libraryUploadTitle": "Dosya Yukle",
+  "libraryDocTitle": "Baslik",
+  "libraryDocTitleHint": "Belge adi",
+  "libraryDocType": "Belge Tipi",
+  "libraryDocTypeCert": "Sertifika",
+  "libraryDocTypeHealth": "Saglik Raporu",
+  "libraryDocTypeId": "Kimlik Fotokopisi",
+  "libraryDocTypeEmergency": "Acil Durum Plani",
+  "libraryDepartment": "Departman",
+  "libraryDepartmentError": "Departmanlar yuklenemedi",
+  "librarySelectFile": "Dosya Sec",
+  "libraryUploadValidation": "Baslik ve dosya secimi zorunlu",
+  "libraryUploaded": "Dosya yuklendi",
+  "libraryUploadFailed": "Yukleme basarisiz",
+  "libraryUploadButton": "Yukle",
+
+  "profileTitle": "Profil Karti",
+  "profilePhoneValidation": "Gecerli bir telefon numarasi girin (05xx xxx xxxx)",
+  "profileSectionContact": "ILETISIM BILGILERI",
+  "profileEmail": "E-posta",
+  "profilePhone": "Telefon",
+  "profileAddress": "Adres",
+  "profileSectionEmergency": "ACIL DURUM KISI",
+  "profileFullName": "Ad Soyad",
+  "profileRelation": "Yakinlik",
+  "profileSectionPersonal": "KISISEL BILGILER",
+  "profileBirthDate": "Dogum Tarihi",
+  "profileBloodType": "Kan Grubu",
+  "profileTcId": "TC Kimlik",
+  "profileShift": "Vardiya",
+  "profileStartDate": "Ise Giris",
+  "profileSectionSkills": "YETENEKLER",
+  "profileSectionCerts": "SERTIFIKALAR",
+  "profileSectionAbout": "HAKKINDA",
+  "profileLoadError": "Profil yuklenemedi",
+  "profileEditTitle": "Profil Duzenle",
+  "profileEditPhone": "Telefon (05xx xxx xxxx)",
+  "profileEditBloodType": "Kan Grubu",
+  "profileEditEmergencyName": "Acil Durum Kisi Adi",
+  "profileEditEmergencyPhone": "Acil Durum Telefon (05xx xxx xxxx)",
+  "profileEditRelation": "Yakinlik Derecesi",
+  "profileRelationSpouse": "Es",
+  "profileRelationMother": "Anne",
+  "profileRelationFather": "Baba",
+  "profileRelationSibling": "Kardes",
+  "profileRelationOther": "Diger",
+  "profileEditAbout": "Hakkinda",
+  "profilePhoneInvalid": "Lutfen gecerli telefon numaralari girin",
+  "profileUpdated": "Profil guncellendi",
+  "profileUpdateFailed": "Guncelleme basarisiz",
+
+  "announcementTitle": "Duyuru Panosu",
+  "announcementEmpty": "Henuz duyuru yok",
+  "announcementSearch": "Duyuru ara...",
+  "announcementNoResult": "Sonuc bulunamadi",
+  "announcementDeleteTitle": "Duyuru Sil",
+  "announcementDeleteConfirm": "\"{title}\" silinsin mi?",
+  "@announcementDeleteConfirm": {
+    "placeholders": {
+      "title": { "type": "String" }
+    }
+  },
+  "announcementReadCount": "{count} kisi okudu",
+  "@announcementReadCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "announcementMarkRead": "Okudum",
+  "announcementRead": "Okundu",
+  "announcementMarkedRead": "Duyuru okundu olarak isaretlendi",
+  "announcementDeleted": "Duyuru silindi",
+  "announcementDeleteFailed": "Silme basarisiz",
+  "announcementNew": "Yeni Duyuru",
+  "announcementEditTitle": "Duyuru Duzenle",
+  "announcementFieldTitle": "Baslik",
+  "announcementFieldContent": "Icerik",
+  "announcementFieldPriority": "Oncelik",
+  "announcementPriorityNormal": "Normal",
+  "announcementPriorityHigh": "Yuksek",
+  "announcementPriorityCritical": "Kritik",
+  "announcementTargetDept": "Hedef Departman",
+  "announcementAllCompany": "Tum Sirket",
+  "announcementPin": "Sabitle",
+  "announcementValidation": "Baslik ve icerik zorunlu",
+  "announcementUpdated": "Duyuru guncellendi",
+  "announcementCreated": "Duyuru olusturuldu",
+  "announcementUpdateFailed": "Guncelleme basarisiz",
+  "announcementCreateFailed": "Duyuru olusturulamadi",
+  "announcementEdit": "Duzenle",
+  "announcementPublish": "Yayinla",
+
+  "tourTitle": "Tur",
+  "tourLoading": "Yukleniyor...",
+  "tourRetry": "Tekrar Dene",
+  "tourCheckpoints": "{scanned}/{total} nokta",
+  "@tourCheckpoints": {
+    "placeholders": {
+      "scanned": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "tourSkipped": "{count} atlandi",
+  "@tourSkipped": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "tourScanQR": "QR Tara",
+  "tourScanning": "Taraniyor...",
+  "tourScanHeader": "QR Kodu Okutun",
+  "tourScanError": "Tarama hatasi: {error}",
+  "@tourScanError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "tourRemaining": "{count} kaldi",
+  "@tourRemaining": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "tourSkipTitle": "{name} atla",
+  "@tourSkipTitle": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "tourSkipReason": "Atlama sebebi (zorunlu)",
+  "tourCompleted": "Tur Tamamlandi!",
+  "tourCompletedAll": "Tum kontrol noktalari tarandi.",
+  "tourCompleteSummary": "Taranan: {scanned}/{total}\nAtlanan: {skipped}\nTamamlanma: %{rate}",
+  "@tourCompleteSummary": {
+    "placeholders": {
+      "scanned": { "type": "String" },
+      "total": { "type": "String" },
+      "skipped": { "type": "String" },
+      "rate": { "type": "String" }
+    }
+  },
+  "tourComplete": "Tamamla",
+  "tourCancelTitle": "Turu iptal et?",
+  "tourCancelWarning": "Bu islem geri alinamaz.",
+
+  "notificationTitle": "Bildirimler",
+  "notificationMarkAllRead": "Tumu Okundu",
+  "notificationEmpty": "Bildirim yok",
+  "notificationTime": "Zaman",
+  "notificationSource": "Kaynak",
+  "notificationCategory": "Kategori",
+  "notificationPriority": "Oncelik",
+
+  "quizTitle": "Quiz",
+  "quizNoQuestions": "Soru bulunamadi",
+  "quizSubmit": "Quizi Tamamla",
+  "quizIncomplete": "Tum sorulari yanitlayin",
+  "quizEditTitle": "Soru Duzenle",
+  "quizNewTitle": "Yeni Soru Ekle",
+  "quizQuestionText": "Soru Metni",
+  "quizLoadError": "Quiz yuklenemedi: {error}",
+  "@quizLoadError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "quizUpdated": "Quiz guncellendi",
+  "quizCreated": "Quiz olusturuldu",
+
+  "progressTitle": "Ilerleme Takibi",
+  "progressMyTab": "Benim Ilerlemem",
+  "progressTeamTab": "Ekip Takibi",
+
+  "contentManagerTitle": "Icerik Yonetimi",
+  "contentManagerSearch": "Semantik Arama",
+  "contentManagerTreeBack": "Agaca don",
+  "contentManagerTree": "Icerik Agaci",
+
+  "routeEditorEdit": "Rotayi Duzenle",
+  "routeEditorNew": "Yeni Egitim Rotasi",
+  "routeEditorSelectDept": "Lutfen departman secin",
+  "routeEditorUpdated": "Rota basariyla guncellendi",
+  "routeEditorCreated": "Rota basariyla olusturuldu",
+  "routeEditorDeleteModule": "Modulu Sil",
+  "routeEditorDeleteConfirm": "\"{title}\" modulunu silmek istediginize emin misiniz?",
+  "@routeEditorDeleteConfirm": {
+    "placeholders": {
+      "title": { "type": "String" }
+    }
+  },
+
+  "ackTitle": "Egitim Onayi",
+  "ackText": "Onay Metni",
+  "ackStatement": "Bu egitimi okudum, anladim ve uygulamayi taahhut ediyorum.",
+  "ackCheckbox": "Yukaridaki metni okudum ve kabul ediyorum",
+  "ackConfirm": "Onayla",
+  "ackFailed": "Onay gonderilemedi",
+
+  "scadaThresholds": "Esik Degerleri",
+  "scadaNoThreshold": "Esik tanimlanmamis",
+  "scadaAllNormal": "Tum sistemler normal calisiyor",
+  "scadaAlarmAcked": "Alarm onaylandi",
+  "scadaSensor": "Sensor #{id}",
+  "@scadaSensor": {
+    "placeholders": {
+      "id": { "type": "int" }
+    }
+  },
+  "scadaNoData": "Henuz veri yok",
+  "scadaLoadError": "Veri yuklenemedi: {error}",
+  "@scadaLoadError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+
+  "commonCancel": "Iptal",
+  "commonDelete": "Sil",
+  "commonSave": "Kaydet",
+  "commonClose": "Kapat",
+  "commonOk": "Tamam",
+  "commonRetry": "Tekrar Dene",
+  "commonBack": "Vazgec",
+  "commonError": "Hata: {error}",
+  "@commonError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+
+  "featureGateUpgradeRequired": "Plan Yukseltme Gerekli",
+  "featureGateUpgradeMessage": "Bu ozellige erismek icin planin yukseltilmesi gerekiyor.",
+  "featureGateContactAdmin": "Yukseltme icin tesis yoneticinize basvurun",
+  "featureGateCurrentPlan": "Mevcut Plan: {plan}",
+  "@featureGateCurrentPlan": {
+    "placeholders": {
+      "plan": { "type": "String" }
+    }
+  },
+
+  "accessDeniedTitle": "Erisim Yetkiniz Yok",
+  "accessDeniedMessage": "Bu sayfaya erisim icin yetkiniz bulunmamaktadir.",
+  "accessDeniedHome": "Ana Sayfaya Don",
+  "pageNotFound": "Sayfa bulunamadi: {uri}",
+  "@pageNotFound": {
+    "placeholders": {
+      "uri": { "type": "String" }
+    }
+  }
+}

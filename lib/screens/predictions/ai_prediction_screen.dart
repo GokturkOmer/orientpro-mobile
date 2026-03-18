@@ -51,7 +51,7 @@ class AIPredictionScreen extends ConsumerWidget {
           return RefreshIndicator(
             color: ScadaColors.cyan, backgroundColor: ScadaColors.surface,
             onRefresh: () async => ref.invalidate(predictionProvider),
-            child: ListView(padding: const EdgeInsets.all(12), children: [
+            child: ListView(padding: const EdgeInsets.fromLTRB(12, 12, 12, 80), children: [
               // Summary bar
               _summaryBar(summary),
               const SizedBox(height: 14),

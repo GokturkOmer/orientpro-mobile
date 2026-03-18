@@ -7,6 +7,7 @@ import 'core/auth/role_helper.dart';
 import 'models/equipment.dart';
 import 'providers/auth_provider.dart';
 import 'screens/auth/login_screen.dart';
+import 'screens/auth/splash_screen.dart';
 import 'screens/dashboard/dashboard_screen.dart';
 import 'screens/equipment/equipment_list_screen.dart';
 import 'screens/work_orders/work_order_list_screen.dart';
@@ -73,7 +74,8 @@ class OrientProApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       initialRoute: '/',
       routes: {
-        '/': (context) => const LoginScreen(),
+        '/': (context) => const SplashScreen(),
+        '/login': (context) => const LoginScreen(),
         '/module-selection': (context) => const ModuleSelectionScreen(),
         '/dashboard': (context) => const _ProGuard(child: DashboardScreen()),
         '/orientation-dashboard': (context) => const OrientationDashboardScreen(),

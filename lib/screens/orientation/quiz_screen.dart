@@ -99,7 +99,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                   : _buildQuiz(questions),
       bottomNavigationBar: !_submitted && questions.isNotEmpty
           ? Container(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.fromLTRB(16, 16, 16, 16 + MediaQuery.of(context).padding.bottom),
               color: ScadaColors.surface,
               child: ElevatedButton(
                 onPressed: _selectedAnswers.length == questions.length ? _submitQuiz : null,
@@ -121,7 +121,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
 
   Widget _buildQuiz(List questions) {
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
       itemCount: questions.length,
       itemBuilder: (context, index) {
         final q = questions[index];

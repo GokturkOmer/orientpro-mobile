@@ -196,7 +196,7 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
                       ]),
                     )
                   : ListView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 80),
                       itemCount: filteredRoutes.length,
                       itemBuilder: (context, index) => _buildRouteCard(filteredRoutes[index]),
                     ),

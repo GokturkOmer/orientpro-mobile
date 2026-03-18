@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:async';
-import 'dart:html' as html;
+import 'package:file_picker/file_picker.dart';
 import 'dart:typed_data';
 import '../../core/theme/app_theme.dart';
 import '../../providers/admin_provider.dart';
@@ -167,22 +167,19 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                       InkWell(
                         onTap: isUploading
                             ? null
-                            : () {
-                                final input = html.FileUploadInputElement()..accept = '.pdf';
-                                input.click();
-                                input.onChange.listen((event) {
-                                  final file = input.files?.first;
-                                  if (file != null) {
-                                    final reader = html.FileReader();
-                                    reader.readAsArrayBuffer(file);
-                                    reader.onLoadEnd.listen((_) {
-                                      setDialogState(() {
-                                        pdfFileName = file.name;
-                                        pdfFileBytes = Uint8List.fromList(reader.result as List<int>);
-                                      });
-                                    });
-                                  }
-                                });
+                            : () async {
+                                final result = await FilePicker.platform.pickFiles(
+                                  type: FileType.custom,
+                                  allowedExtensions: ['pdf'],
+                                  withData: true,
+                                );
+                                if (result != null && result.files.isNotEmpty) {
+                                  final file = result.files.first;
+                                  setDialogState(() {
+                                    pdfFileName = file.name;
+                                    pdfFileBytes = file.bytes;
+                                  });
+                                }
                               },
                         borderRadius: BorderRadius.circular(8),
                         child: Container(
@@ -565,7 +562,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
 
   Widget _buildDocumentList() {
     return ListView.builder(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.fromLTRB(12, 12, 12, 80),
       itemCount: _documents.length,
       itemBuilder: (context, index) {
         final doc = _documents[index];
@@ -753,7 +750,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
     }
 
     return ListView.builder(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.fromLTRB(12, 12, 12, 80),
       itemCount: _searchResults.length,
       itemBuilder: (context, index) {
         final r = _searchResults[index];

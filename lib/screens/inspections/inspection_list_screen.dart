@@ -79,7 +79,7 @@ class _InspectionListScreenState extends ConsumerState<InspectionListScreen> wit
               RefreshIndicator(
                 onRefresh: _load,
                 child: ListView.builder(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.fromLTRB(8, 8, 8, 80),
                   itemCount: templates.length,
                   itemBuilder: (ctx, i) {
                     final t = templates[i];
@@ -110,7 +110,7 @@ class _InspectionListScreenState extends ConsumerState<InspectionListScreen> wit
                 child: inspections.isEmpty
                     ? const Center(child: Text('Henuz kontrol turu yapilmamis'))
                     : ListView.builder(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.fromLTRB(8, 8, 8, 80),
                         itemCount: inspections.length,
                         itemBuilder: (ctx, i) {
                           final ins = inspections[i];

@@ -70,7 +70,7 @@ class AlarmListScreen extends ConsumerWidget {
                 }
 
                 return ListView.builder(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.fromLTRB(8, 8, 8, 80),
                   itemCount: alarms.length,
                   itemBuilder: (ctx, i) => _alarmCard(context, ref, alarms[i]),
                 );

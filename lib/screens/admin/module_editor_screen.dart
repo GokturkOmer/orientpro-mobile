@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'dart:html' as html;
+import 'package:file_picker/file_picker.dart';
 import 'dart:typed_data';
 import '../../core/theme/app_theme.dart';
 import '../../providers/admin_provider.dart';
@@ -237,35 +237,25 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                         InkWell(
                           onTap: isUploading
                               ? null
-                              : () {
-                                  final input = html.FileUploadInputElement()
-                                    ..accept = '.pdf';
-                                  input.click();
-                                  input.onChange.listen((e) {
-                                    final files = input.files;
-                                    if (files != null && files.isNotEmpty) {
-                                      final file = files[0];
-                                      final reader = html.FileReader();
-                                      reader.readAsArrayBuffer(file);
-                                      reader.onLoadEnd.listen((e) {
-                                        setDialogState(() {
-                                          pdfFileName = file.name;
-                                          pdfFileBytes = Uint8List.fromList(
-                                            (reader.result as List<int>),
-                                          );
-                                          pdfMimeType = file.type;
-                                          // Auto-fill title if empty
-                                          if (contentTitleCtrl.text
-                                              .trim()
-                                              .isEmpty) {
-                                            contentTitleCtrl.text = file.name
-                                                .replaceAll('.pdf', '')
-                                                .replaceAll('_', ' ');
-                                          }
-                                        });
-                                      });
-                                    }
-                                  });
+                              : () async {
+                                  final result = await FilePicker.platform.pickFiles(
+                                    type: FileType.custom,
+                                    allowedExtensions: ['pdf'],
+                                    withData: true,
+                                  );
+                                  if (result != null && result.files.isNotEmpty) {
+                                    final file = result.files.first;
+                                    setDialogState(() {
+                                      pdfFileName = file.name;
+                                      pdfFileBytes = file.bytes;
+                                      pdfMimeType = 'application/pdf';
+                                      if (contentTitleCtrl.text.trim().isEmpty) {
+                                        contentTitleCtrl.text = file.name
+                                            .replaceAll('.pdf', '')
+                                            .replaceAll('_', ' ');
+                                      }
+                                    });
+                                  }
                                 },
                           child: Container(
                             width: double.infinity,
@@ -1168,7 +1158,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
               child: CircularProgressIndicator(color: ScadaColors.cyan),
             )
           : SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -1593,25 +1583,19 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                       InkWell(
                         onTap: isGenerating
                             ? null
-                            : () {
-                                final input = html.FileUploadInputElement()..accept = '.pdf';
-                                input.click();
-                                input.onChange.listen((e) {
-                                  final files = input.files;
-                                  if (files != null && files.isNotEmpty) {
-                                    final file = files[0];
-                                    final reader = html.FileReader();
-                                    reader.readAsArrayBuffer(file);
-                                    reader.onLoadEnd.listen((e) {
-                                      setDialogState(() {
-                                        pdfFileName = file.name;
-                                        pdfFileBytes = Uint8List.fromList(
-                                          (reader.result as List<int>),
-                                        );
-                                      });
-                                    });
-                                  }
-                                });
+                            : () async {
+                                final result = await FilePicker.platform.pickFiles(
+                                  type: FileType.custom,
+                                  allowedExtensions: ['pdf'],
+                                  withData: true,
+                                );
+                                if (result != null && result.files.isNotEmpty) {
+                                  final file = result.files.first;
+                                  setDialogState(() {
+                                    pdfFileName = file.name;
+                                    pdfFileBytes = file.bytes;
+                                  });
+                                }
                               },
                         child: Container(
                           width: double.infinity,

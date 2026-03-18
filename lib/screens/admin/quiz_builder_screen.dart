@@ -394,7 +394,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
       body: _isLoading
           ? const Center(child: CircularProgressIndicator(color: ScadaColors.cyan))
           : SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

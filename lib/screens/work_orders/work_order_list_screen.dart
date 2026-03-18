@@ -73,7 +73,7 @@ class _WorkOrderListScreenState extends ConsumerState<WorkOrderListScreen> {
                 const Text('Is emri bulunamadi', style: TextStyle(color: ScadaColors.textDim)),
               ]))
             : RefreshIndicator(color: ScadaColors.cyan, backgroundColor: ScadaColors.surface, onRefresh: _load,
-              child: ListView.builder(padding: const EdgeInsets.all(8), itemCount: items.length, itemBuilder: (ctx, i) {
+              child: ListView.builder(padding: const EdgeInsets.fromLTRB(8, 8, 8, 80), itemCount: items.length, itemBuilder: (ctx, i) {
                 final wo = items[i];
                 final pColor = StatusHelper.priorityColor(wo.priority);
                 final sColor = StatusHelper.workOrderStatusColor(wo.status);

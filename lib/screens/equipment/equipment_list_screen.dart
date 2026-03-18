@@ -95,7 +95,7 @@ class _EquipmentListScreenState extends ConsumerState<EquipmentListScreen> {
         Expanded(child: isLoading
           ? const Center(child: CircularProgressIndicator(color: ScadaColors.cyan))
           : RefreshIndicator(color: ScadaColors.cyan, backgroundColor: ScadaColors.surface, onRefresh: _loadEquipment,
-            child: ListView.builder(padding: const EdgeInsets.all(8), itemCount: items.length, itemBuilder: (ctx, i) {
+            child: ListView.builder(padding: const EdgeInsets.fromLTRB(8, 8, 8, 80), itemCount: items.length, itemBuilder: (ctx, i) {
               final eq = items[i];
               final sColor = _statusColor(eq.status);
               return Container(

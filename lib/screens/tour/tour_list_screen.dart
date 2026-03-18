@@ -44,7 +44,7 @@ class TourListScreen extends ConsumerWidget {
             return const Center(child: Text('Henuz tur rotasi tanimlanmamis', style: TextStyle(color: ScadaColors.textDim)));
           }
           return ListView(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
             children: [
               // Stats bar
               Container(

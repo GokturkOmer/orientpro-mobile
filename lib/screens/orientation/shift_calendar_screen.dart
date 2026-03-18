@@ -90,6 +90,18 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
                 _buildTasksTab(shiftState),
               ],
             ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: ScadaColors.amber,
+        onPressed: () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Vardiya/gorev olusturma yaklasimda'),
+              backgroundColor: ScadaColors.amber,
+            ),
+          );
+        },
+        child: const Icon(Icons.add, color: ScadaColors.bg),
+      ),
     );
   }
 
@@ -113,7 +125,7 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
     final sortedDays = grouped.keys.toList()..sort();
 
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
       itemCount: sortedDays.length,
       itemBuilder: (context, index) {
         final day = sortedDays[index];
@@ -270,7 +282,7 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
           }
 
           return ListView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 80),
             itemCount: tasks.length,
             itemBuilder: (context, index) => _buildTaskCard(tasks[index]),
           );

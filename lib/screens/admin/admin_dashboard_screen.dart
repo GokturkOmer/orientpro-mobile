@@ -74,7 +74,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
               Text('Yukleniyor... (${ApiConfig.url})', style: const TextStyle(fontSize: 10, color: ScadaColors.textDim)),
             ]))
           : SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 // Error banner (en uste)
                 if (admin.error != null) ...[

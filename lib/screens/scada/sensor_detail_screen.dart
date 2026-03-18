@@ -32,7 +32,7 @@ class SensorDetailScreen extends ConsumerWidget {
         tooltip: 'AI Asistan',
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
         children: [
           // Current value card
           if (sensor != null) _buildCurrentValueCard(sensor),

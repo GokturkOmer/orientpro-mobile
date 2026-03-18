@@ -72,7 +72,7 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
           : module == null
               ? const Center(child: Text('Modul bulunamadi', style: TextStyle(color: ScadaColors.textSecondary)))
               : ListView(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
                   children: [
                     // Module info
                     Container(

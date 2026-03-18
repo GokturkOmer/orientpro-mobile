@@ -84,9 +84,7 @@ class ChatNotifier extends Notifier<ChatBotState> {
     try {
       final dio = ref.read(authDioProvider);
       final response = await dio.post('/chatbot/chat', data: {
-        'message': limited,
-        'user_id': userId ?? 'anonymous',
-        'context': 'oryantasyon',
+        'question': limited,
       });
 
       final reply = response.data['response'] ?? response.data['answer'] ?? response.data['message'] ?? 'Yanit alinamadi.';

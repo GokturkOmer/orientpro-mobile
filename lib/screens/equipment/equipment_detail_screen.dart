@@ -16,7 +16,7 @@ class EquipmentDetailScreen extends StatelessWidget {
         child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
         tooltip: 'AI Asistan',
       ),
-      body: ListView(padding: const EdgeInsets.all(16), children: [
+      body: ListView(padding: const EdgeInsets.fromLTRB(16, 16, 16, 80), children: [
         Card(child: Padding(padding: const EdgeInsets.all(20), child: Column(children: [
           Icon(Icons.build, size: 48, color: _statusColor(equipment.status)),
           const SizedBox(height: 12),

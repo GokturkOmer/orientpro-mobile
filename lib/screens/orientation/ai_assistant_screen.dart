@@ -146,7 +146,7 @@ class _AiAssistantScreenState extends ConsumerState<AiAssistantScreen> {
 
           // Input
           Container(
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.fromLTRB(10, 10, 10, 10 + MediaQuery.of(context).padding.bottom),
             decoration: const BoxDecoration(
               color: ScadaColors.surface,
               border: Border(top: BorderSide(color: ScadaColors.border)),

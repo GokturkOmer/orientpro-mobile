@@ -123,7 +123,7 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
                       }
                       return ListView.builder(
                         controller: _scrollController,
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
                         itemCount: filtered.length + (annState.isLoadingMore ? 1 : 0),
                         itemBuilder: (_, i) {
                           if (i >= filtered.length) {

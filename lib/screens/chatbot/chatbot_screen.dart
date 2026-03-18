@@ -5,8 +5,8 @@ import 'package:dio/dio.dart';
 import '../../core/network/auth_dio.dart';
 import '../../providers/chatbot_provider.dart';
 import '../../models/chatbot.dart';
-import 'dart:html' as html;
 import 'dart:typed_data';
+import 'package:file_picker/file_picker.dart';
 
 class ChatbotScreen extends ConsumerStatefulWidget {
   const ChatbotScreen({super.key});
@@ -20,37 +20,35 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
   bool _isUploading = false;
 
   Future<void> _uploadPdf() async {
-    final uploadInput = html.FileUploadInputElement()..accept = '.pdf';
-    uploadInput.click();
-    uploadInput.onChange.listen((event) async {
-      final files = uploadInput.files;
-      if (files == null || files.isEmpty) return;
-      final file = files[0];
-      if (!file.name.endsWith('.pdf')) {
-        if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Sadece PDF yuklenebilir'), backgroundColor: Colors.red));
-        return;
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+      withData: true,
+    );
+    if (result == null || result.files.isEmpty) return;
+    final pickedFile = result.files.first;
+    if (!pickedFile.name.endsWith('.pdf')) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Sadece PDF yuklenebilir'), backgroundColor: Colors.red));
+      return;
+    }
+    setState(() => _isUploading = true);
+    try {
+      final bytes = pickedFile.bytes!;
+      final dio = ref.read(authDioProvider);
+      final formData = FormData.fromMap({
+        'file': MultipartFile.fromBytes(bytes, filename: pickedFile.name),
+        'category': 'genel',
+      });
+      final response = await dio.post('/chatbot/upload-document', data: formData);
+      final data = response.data;
+      if (data['success'] == true && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${pickedFile.name} yuklendi! (${data["chunks_indexed"]} parca)'), backgroundColor: Colors.green[700]));
       }
-      setState(() => _isUploading = true);
-      try {
-        final reader = html.FileReader();
-        reader.readAsArrayBuffer(file);
-        await reader.onLoad.first;
-        final bytes = reader.result as Uint8List;
-        final dio = ref.read(authDioProvider);
-        final formData = FormData.fromMap({
-          'file': MultipartFile.fromBytes(bytes, filename: file.name),
-          'category': 'genel',
-        });
-        final response = await dio.post('/chatbot/upload-document', data: formData);
-        final data = response.data;
-        if (data['success'] == true && mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${file.name} yuklendi! (${data["chunks_indexed"]} parca)'), backgroundColor: Colors.green[700]));
-        }
-      } catch (e) {
-        if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Yukleme hatasi: $e'), backgroundColor: Colors.red[700]));
-      }
+    } catch (e) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Yukleme hatasi: $e'), backgroundColor: Colors.red[700]));
+    } finally {
       if (mounted) setState(() => _isUploading = false);
-    });
+    }
   }
 
   void _sendMessage() {
@@ -227,7 +225,7 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
 
   Widget _buildInputBar() {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.fromLTRB(12, 12, 12, 12 + MediaQuery.of(context).padding.bottom),
       decoration: const BoxDecoration(color: Color(0xFF101829), border: Border(top: BorderSide(color: Color(0xFF1a2332)))),
       child: Row(children: [
         Expanded(child: TextField(

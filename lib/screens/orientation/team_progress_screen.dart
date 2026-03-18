@@ -77,7 +77,7 @@ class _TeamProgressScreenState extends ConsumerState<TeamProgressScreen> {
                   const Text('Departmaninizda henuz personel yok', style: TextStyle(color: ScadaColors.textSecondary, fontSize: 13)),
                 ]))
               : ListView.builder(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
                   itemCount: _team.length,
                   itemBuilder: (context, index) => _buildMemberCard(_team[index]),
                 ),

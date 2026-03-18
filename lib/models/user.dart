@@ -12,6 +12,11 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) {
     return User(id: json['id'], email: json['email'], fullName: json['full_name'], role: json['role'], department: json['department'], phone: json['phone'], specialization: json['specialization'], photoUrl: json['photo_url'], isActive: json['is_active'] ?? true);
   }
+  Map<String, dynamic> toJson() => {
+    'id': id, 'email': email, 'full_name': fullName, 'role': role,
+    'department': department, 'phone': phone, 'specialization': specialization,
+    'photo_url': photoUrl, 'is_active': isActive,
+  };
   String get roleText {
     const map = {
       'admin': 'Admin',

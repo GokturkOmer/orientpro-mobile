@@ -63,7 +63,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                       ]),
                     )
                   : ListView.builder(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
                       itemCount: admin.users.length,
                       itemBuilder: (context, index) {
                         final user = admin.users[index];
