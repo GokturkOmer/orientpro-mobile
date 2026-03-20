@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/training_provider.dart';
 import '../../models/training.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/config/api_config.dart';
 import '../../core/auth/role_helper.dart';
 import '../../core/utils/status_helper.dart';
 import '../../core/utils/department_filter.dart';
@@ -44,6 +46,30 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
       department: auth.user!.department,
       isSupervisor: _isSupervisor,
     );
+  }
+
+  Future<void> _downloadReport() async {
+    final auth = ref.read(authProvider);
+    if (auth.user == null || auth.token == null) return;
+    final url = '${ApiConfig.webUrl}/training/stats/${auth.user!.id}?format=pdf&token=${auth.token}';
+    try {
+      final uri = Uri.parse(url);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Rapor indirilemedi'), backgroundColor: ScadaColors.red),
+          );
+        }
+      }
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Rapor indirme hatasi'), backgroundColor: ScadaColors.red),
+        );
+      }
+    }
   }
 
   // RBAC filtrelenmiş departmanlar
@@ -112,6 +138,13 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
           const SizedBox(width: 8),
           const Text('Ilerleme Takibi', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
         ]),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.download, color: ScadaColors.cyan, size: 20),
+            tooltip: 'Rapor Indir',
+            onPressed: _downloadReport,
+          ),
+        ],
         bottom: _isSupervisor ? TabBar(
           controller: _tabController,
           indicatorColor: ScadaColors.amber,

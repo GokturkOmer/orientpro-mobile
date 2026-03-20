@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/auth_provider.dart';
+import '../../providers/theme_provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/auth/role_helper.dart';
 
@@ -43,13 +44,26 @@ class ModuleSelectionScreen extends ConsumerWidget {
                       ],
                     ),
                   ]),
-                  IconButton(
-                    icon: const Icon(Icons.logout, size: 20, color: ScadaColors.textDim),
-                    onPressed: () {
-                      ref.read(authProvider.notifier).logout();
-                      Navigator.pushReplacementNamed(context, '/login');
-                    },
-                  ),
+                  Row(mainAxisSize: MainAxisSize.min, children: [
+                    IconButton(
+                      icon: Icon(
+                        ref.watch(themeProvider).themeMode == ThemeMode.dark
+                            ? Icons.light_mode
+                            : Icons.dark_mode,
+                        size: 20,
+                        color: ScadaColors.textDim,
+                      ),
+                      onPressed: () => ref.read(themeProvider.notifier).toggleTheme(),
+                      tooltip: 'Tema Degistir',
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.logout, size: 20, color: ScadaColors.textDim),
+                      onPressed: () {
+                        ref.read(authProvider.notifier).logout();
+                        Navigator.pushReplacementNamed(context, '/login');
+                      },
+                    ),
+                  ]),
                 ],
               ),
 

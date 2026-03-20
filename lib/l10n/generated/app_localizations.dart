@@ -1505,6 +1505,78 @@ abstract class S {
   /// In tr, this message translates to:
   /// **'Sayfa bulunamadi: {uri}'**
   String pageNotFound(String uri);
+
+  // --- Certificate ---
+  String get certificateTitle;
+  String get certificateHeader;
+  String get certificateConfirms;
+  String get certificateCompleted;
+  String get certificateDate;
+  String get certificateId;
+  String get certificateDownload;
+  String get certificateDownloadError;
+
+  // --- Badges ---
+  String get badgesTitle;
+  String get badgesEarned;
+  String get badgesAll;
+  String get badgeEarned;
+  String get badgeFirstStep;
+  String get badgeFirstStepDesc;
+  String get badgeQuizMaster;
+  String get badgeQuizMasterDesc;
+  String get badgeFastLearner;
+  String get badgeFastLearnerDesc;
+  String get badgePerfectScore;
+  String get badgePerfectScoreDesc;
+  String get badgeTeamPlayer;
+  String get badgeTeamPlayerDesc;
+  String get badgeBookworm;
+  String get badgeBookwormDesc;
+
+  // --- Leaderboard ---
+  String get leaderboardTitle;
+  String get leaderboardSection;
+  String get leaderboardEmpty;
+  String get leaderboardYou;
+
+  // --- Content Approval ---
+  String get approvalTitle;
+  String get approvalEmpty;
+  String get approvalApprove;
+  String get approvalReject;
+  String get approvalRejectTitle;
+  String get approvalRejectReason;
+  String get approvalApproved;
+  String get approvalRejected;
+
+  // --- Theme ---
+  String get themeToggle;
+  String get themeDark;
+  String get themeLight;
+
+  // --- Progress Report ---
+  String get progressReportDownload;
+  String get progressReportError;
+
+  // --- Dashboard ---
+  String get dashboardTitle;
+  String dashboardWelcome(String name);
+
+  // --- Common extras ---
+  String get commonLoading;
+  String get commonNoData;
+  String get commonSearch;
+  String get commonFilter;
+  String get commonSort;
+  String get commonRefresh;
+  String get commonSettings;
+  String get commonLogout;
+  String get commonYes;
+  String get commonNo;
+  String get commonConfirm;
+  String get commonSuccess;
+  String get commonFailed;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

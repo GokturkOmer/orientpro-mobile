@@ -27,10 +27,117 @@ class ScadaColors {
   static const Color textDim = Color(0xFF3d5068);
 }
 
+class ScadaLightColors {
+  // Arka planlar
+  static const Color bg = Color(0xFFF5F7FA);
+  static const Color surface = Color(0xFFFFFFFF);
+  static const Color card = Color(0xFFF0F2F5);
+
+  // Kenarliklar
+  static const Color border = Color(0xFFDDE1E8);
+  static const Color borderBright = Color(0xFFBFC6D0);
+
+  // Metin
+  static const Color textPrimary = Color(0xFF1A1D21);
+  static const Color textSecondary = Color(0xFF5A6577);
+  static const Color textDim = Color(0xFF8D99AE);
+}
+
 class AppTheme {
   static const Color primaryColor = ScadaColors.cyan;
 
-  static ThemeData get lightTheme => darkTheme;
+  static ThemeData get lightTheme {
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.light,
+      scaffoldBackgroundColor: ScadaLightColors.bg,
+      colorScheme: const ColorScheme.light(
+        primary: ScadaColors.cyan,
+        secondary: ScadaColors.cyanDim,
+        surface: ScadaLightColors.surface,
+        error: ScadaColors.red,
+        onPrimary: Colors.white,
+        onSecondary: ScadaLightColors.textPrimary,
+        onSurface: ScadaLightColors.textPrimary,
+        onError: Colors.white,
+      ),
+      appBarTheme: const AppBarTheme(
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: ScadaLightColors.surface,
+        foregroundColor: ScadaLightColors.textPrimary,
+        iconTheme: IconThemeData(color: ScadaColors.cyan),
+      ),
+      cardTheme: CardThemeData(
+        color: ScadaLightColors.card,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: const BorderSide(color: ScadaLightColors.border),
+        ),
+      ),
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: ScadaColors.cyan,
+        foregroundColor: Colors.white,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: ScadaColors.cyan.withValues(alpha: 0.1),
+          foregroundColor: ScadaColors.cyan,
+          side: BorderSide(color: ScadaColors.cyan.withValues(alpha: 0.3)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: ScadaLightColors.surface,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: ScadaLightColors.border),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: ScadaLightColors.border),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: ScadaColors.cyan.withValues(alpha: 0.5)),
+        ),
+        labelStyle: const TextStyle(color: ScadaLightColors.textSecondary),
+        hintStyle: const TextStyle(color: ScadaLightColors.textDim),
+      ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: ScadaLightColors.surface,
+        selectedItemColor: ScadaColors.cyan,
+        unselectedItemColor: ScadaLightColors.textDim,
+        type: BottomNavigationBarType.fixed,
+      ),
+      dividerColor: ScadaLightColors.border,
+      textTheme: const TextTheme(
+        headlineLarge: TextStyle(color: ScadaLightColors.textPrimary, fontWeight: FontWeight.w700),
+        headlineMedium: TextStyle(color: ScadaLightColors.textPrimary, fontWeight: FontWeight.w600),
+        bodyLarge: TextStyle(color: ScadaLightColors.textPrimary),
+        bodyMedium: TextStyle(color: ScadaLightColors.textSecondary),
+        bodySmall: TextStyle(color: ScadaLightColors.textDim),
+        labelSmall: TextStyle(color: ScadaLightColors.textSecondary, fontSize: 10, fontWeight: FontWeight.w600, letterSpacing: 1),
+      ),
+      iconTheme: const IconThemeData(color: ScadaLightColors.textSecondary),
+      dialogTheme: DialogThemeData(
+        backgroundColor: ScadaLightColors.surface,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: const BorderSide(color: ScadaLightColors.borderBright),
+        ),
+      ),
+      snackBarTheme: const SnackBarThemeData(
+        backgroundColor: ScadaLightColors.surface,
+        contentTextStyle: TextStyle(color: ScadaLightColors.textPrimary),
+      ),
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
+        color: ScadaColors.cyan,
+      ),
+    );
+  }
 
   static ThemeData get darkTheme {
     return ThemeData(

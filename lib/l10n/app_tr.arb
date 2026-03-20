@@ -370,5 +370,74 @@
     "placeholders": {
       "uri": { "type": "String" }
     }
-  }
+  },
+
+  "certificateTitle": "Tamamlama Sertifikasi",
+  "certificateHeader": "TAMAMLAMA SERTIFIKASI",
+  "certificateConfirms": "Bu belge ile onaylanir ki",
+  "certificateCompleted": "asagidaki egitim rotasini basariyla tamamlamistir",
+  "certificateDate": "Tarih",
+  "certificateId": "Sertifika No",
+  "certificateDownload": "PDF Indir",
+  "certificateDownloadError": "PDF indirilemedi",
+
+  "badgesTitle": "Rozetler",
+  "badgesEarned": "Rozet kazanildi",
+  "badgesAll": "TUM ROZETLER",
+  "badgeEarned": "Kazanildi",
+  "badgeFirstStep": "Ilk Adim",
+  "badgeFirstStepDesc": "Ilk egitim modulunu tamamla",
+  "badgeQuizMaster": "Quiz Ustasi",
+  "badgeQuizMasterDesc": "5 quizi basariyla gec",
+  "badgeFastLearner": "Hizli Ogrenci",
+  "badgeFastLearnerDesc": "Bir modulu 10 dakikadan kisa surede tamamla",
+  "badgePerfectScore": "Tam Puan",
+  "badgePerfectScoreDesc": "Bir quizden %100 al",
+  "badgeTeamPlayer": "Takim Oyuncusu",
+  "badgeTeamPlayerDesc": "Bir rotadaki tum modulleri tamamla",
+  "badgeBookworm": "Bilgi Kurdu",
+  "badgeBookwormDesc": "10 kutuphane dokumanini oku",
+
+  "leaderboardTitle": "Siralama",
+  "leaderboardSection": "DEPARTMAN SIRALAMASI",
+  "leaderboardEmpty": "Siralama verisi bulunamadi",
+  "leaderboardYou": "Sen",
+
+  "approvalTitle": "Icerik Onaylari",
+  "approvalEmpty": "Onay bekleyen icerik yok",
+  "approvalApprove": "Onayla",
+  "approvalReject": "Reddet",
+  "approvalRejectTitle": "Icerigi Reddet",
+  "approvalRejectReason": "Red sebebi (opsiyonel)",
+  "approvalApproved": "Icerik onaylandi",
+  "approvalRejected": "Icerik reddedildi",
+
+  "themeToggle": "Tema Degistir",
+  "themeDark": "Karanlik Tema",
+  "themeLight": "Aydinlik Tema",
+
+  "progressReportDownload": "Rapor Indir",
+  "progressReportError": "Rapor indirilemedi",
+
+  "dashboardTitle": "Kontrol Paneli",
+  "dashboardWelcome": "Hosgeldin, {name}",
+  "@dashboardWelcome": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+
+  "commonLoading": "Yukleniyor...",
+  "commonNoData": "Veri bulunamadi",
+  "commonSearch": "Ara...",
+  "commonFilter": "Filtrele",
+  "commonSort": "Sirala",
+  "commonRefresh": "Yenile",
+  "commonSettings": "Ayarlar",
+  "commonLogout": "Cikis Yap",
+  "commonYes": "Evet",
+  "commonNo": "Hayir",
+  "commonConfirm": "Onayla",
+  "commonSuccess": "Basarili",
+  "commonFailed": "Basarisiz"
 }

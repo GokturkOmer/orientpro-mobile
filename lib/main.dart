@@ -47,6 +47,11 @@ import 'screens/admin/module_editor_screen.dart';
 import 'screens/admin/quiz_builder_screen.dart';
 import 'screens/admin/document_pool_screen.dart';
 import 'screens/admin/user_management_screen.dart';
+import 'screens/admin/content_approval_screen.dart';
+import 'screens/orientation/certificate_screen.dart';
+import 'screens/orientation/badges_screen.dart';
+import 'screens/orientation/leaderboard_screen.dart';
+import 'providers/theme_provider.dart';
 
 void main() {
   // Flutter framework hatalari
@@ -65,15 +70,18 @@ void main() {
   runApp(const ProviderScope(child: OrientProApp()));
 }
 
-class OrientProApp extends StatelessWidget {
+class OrientProApp extends ConsumerWidget {
   const OrientProApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeState = ref.watch(themeProvider);
     return MaterialApp(
       title: 'OrientPro',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: themeState.themeMode,
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(),
@@ -109,8 +117,14 @@ class OrientProApp extends StatelessWidget {
         '/admin/content': (context) => const _ContentEditorGuard(child: ContentManagerScreen()),
         '/admin/documents': (context) => const _AdminGuard(child: DocumentPoolScreen()),
         '/admin/users': (context) => const _AdminGuard(child: UserManagementScreen()),
+        '/admin/approvals': (context) => const _ContentEditorGuard(child: ContentApprovalScreen()),
+        '/badges': (context) => const BadgesScreen(),
+        '/leaderboard': (context) => const LeaderboardScreen(),
       },
       onGenerateRoute: (settings) {
+        if (settings.name == '/certificate') {
+          return MaterialPageRoute(builder: (_) => const CertificateScreen(), settings: settings);
+        }
         if (settings.name == '/verify-email') {
           final email = settings.arguments as String;
           return MaterialPageRoute(builder: (_) => EmailVerificationScreen(email: email));
