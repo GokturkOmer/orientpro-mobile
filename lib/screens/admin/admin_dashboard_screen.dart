@@ -71,7 +71,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
           ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
               const CircularProgressIndicator(color: ScadaColors.amber),
               const SizedBox(height: 16),
-              Text('Yukleniyor... (${ApiConfig.url})', style: const TextStyle(fontSize: 10, color: ScadaColors.textDim)),
+              const Text('Yukleniyor...', style: TextStyle(fontSize: 10, color: ScadaColors.textDim)),
             ]))
           : SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
@@ -186,15 +186,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 _buildActionCard(
                   icon: Icons.quiz,
                   title: 'Quiz Olustur',
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Quiz olusturmak icin once bir modul secin'),
-                        backgroundColor: ScadaColors.amber,
-                      ),
-                    );
-                    Navigator.pushNamed(context, '/admin/content');
-                  },
+                  onTap: () => Navigator.pushNamed(context, '/quizzes'),
                 ),
                 const SizedBox(height: 8),
                 _buildActionCard(
@@ -215,9 +207,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                   onTap: () => Navigator.pushNamed(context, '/library'),
                 ),
 
-                // Debug info
                 const SizedBox(height: 16),
-                Text('API: ${ApiConfig.url}', style: const TextStyle(fontSize: 9, color: ScadaColors.textDim)),
               ]),
             ),
     );

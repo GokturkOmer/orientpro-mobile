@@ -83,62 +83,144 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: ScadaColors.border),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Row(children: [
-          // Avatar
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: roleColor.withValues(alpha: 0.15),
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: Text(
-                user.fullName.isNotEmpty ? user.fullName[0].toUpperCase() : '?',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: roleColor),
+      child: InkWell(
+        onTap: () => _showUserDetailSheet(user),
+        borderRadius: BorderRadius.circular(10),
+        child: Padding(
+          padding: const EdgeInsets.all(14),
+          child: Row(children: [
+            // Avatar
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: roleColor.withValues(alpha: 0.15),
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Text(
+                  user.fullName.isNotEmpty ? user.fullName[0].toUpperCase() : '?',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: roleColor),
+                ),
               ),
             ),
-          ),
-          const SizedBox(width: 12),
-          // Info
-          Expanded(
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(user.fullName, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
-              const SizedBox(height: 2),
-              Text(user.email, style: const TextStyle(fontSize: 11, color: ScadaColors.textSecondary)),
-              const SizedBox(height: 6),
-              Row(children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: roleColor.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Text(user.roleText, style: TextStyle(fontSize: 9, color: roleColor, fontWeight: FontWeight.w600)),
-                ),
-                const SizedBox(width: 6),
-                if (user.department != null)
+            const SizedBox(width: 12),
+            // Info
+            Expanded(
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(user.fullName, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+                const SizedBox(height: 2),
+                Text(user.email, style: const TextStyle(fontSize: 11, color: ScadaColors.textSecondary)),
+                const SizedBox(height: 6),
+                Row(children: [
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                     decoration: BoxDecoration(
-                      color: ScadaColors.purple.withValues(alpha: 0.12),
+                      color: roleColor.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(4),
                     ),
-                    child: Text(user.departmentText, style: const TextStyle(fontSize: 9, color: ScadaColors.purple, fontWeight: FontWeight.w600)),
+                    child: Text(user.roleText, style: TextStyle(fontSize: 9, color: roleColor, fontWeight: FontWeight.w600)),
                   ),
+                  const SizedBox(width: 6),
+                  if (user.department != null)
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: ScadaColors.purple.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(user.departmentText, style: const TextStyle(fontSize: 9, color: ScadaColors.purple, fontWeight: FontWeight.w600)),
+                    ),
+                ]),
               ]),
-            ]),
-          ),
-          // Active toggle
-          Switch(
-            value: user.isActive,
-            activeColor: ScadaColors.green,
-            onChanged: (_) => ref.read(adminProvider.notifier).toggleUserActive(user.id),
-          ),
-        ]),
+            ),
+            // Active toggle
+            Switch(
+              value: user.isActive,
+              activeColor: ScadaColors.green,
+              onChanged: (_) => ref.read(adminProvider.notifier).toggleUserActive(user.id),
+            ),
+          ]),
+        ),
       ),
+    );
+  }
+
+  void _showUserDetailSheet(dynamic user) {
+    final limitCtrl = TextEditingController(text: user.sharedUploadLimit.toString());
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: ScadaColors.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (ctx) {
+        return Padding(
+          padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: MediaQuery.of(ctx).viewInsets.bottom + 20),
+          child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Row(children: [
+              const Icon(Icons.person, color: ScadaColors.cyan, size: 20),
+              const SizedBox(width: 8),
+              Expanded(child: Text(user.fullName, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary))),
+            ]),
+            const SizedBox(height: 4),
+            Text(user.email, style: const TextStyle(fontSize: 12, color: ScadaColors.textSecondary)),
+            Text('${user.roleText} - ${user.departmentText}', style: const TextStyle(fontSize: 12, color: ScadaColors.textDim)),
+            const Divider(color: ScadaColors.border, height: 24),
+
+            const Text('Paylasilan Icerik Limiti', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+            const SizedBox(height: 4),
+            const Text('Bu kullanicinin paylasilan kutuphanede yukleyebilecegi maksimum icerik sayisi.', style: TextStyle(fontSize: 11, color: ScadaColors.textDim)),
+            const SizedBox(height: 10),
+            Row(children: [
+              SizedBox(
+                width: 80,
+                child: TextField(
+                  controller: limitCtrl,
+                  keyboardType: TextInputType.number,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 16, color: ScadaColors.textPrimary, fontWeight: FontWeight.w600),
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: ScadaColors.card,
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: ScadaColors.border)),
+                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: ScadaColors.border)),
+                    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.cyan)),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ScadaColors.cyan,
+                    foregroundColor: ScadaColors.bg,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  ),
+                  onPressed: () async {
+                    final newLimit = int.tryParse(limitCtrl.text) ?? 5;
+                    final success = await ref.read(adminProvider.notifier).updateUserLimit(user.id, newLimit);
+                    if (ctx.mounted) {
+                      Navigator.pop(ctx);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(success ? 'Limit guncellendi: $newLimit' : 'Hata olustu'),
+                          backgroundColor: success ? ScadaColors.green : ScadaColors.red,
+                        ),
+                      );
+                    }
+                  },
+                  child: const Text('Limiti Guncelle', style: TextStyle(fontWeight: FontWeight.w600)),
+                ),
+              ),
+            ]),
+            const SizedBox(height: 12),
+          ]),
+        );
+      },
     );
   }
 

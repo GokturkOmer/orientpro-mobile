@@ -241,7 +241,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
               icon: const Icon(Icons.download, color: ScadaColors.green, size: 20),
               onPressed: () => _openUrl(doc.downloadUrl!),
             ),
-          if (isPersonal)
+          if (isPersonal || RoleHelper.isAdmin(ref.read(authProvider).user?.role))
             IconButton(
               icon: const Icon(Icons.delete_outline, color: ScadaColors.red, size: 20),
               onPressed: () => _confirmDelete(doc),

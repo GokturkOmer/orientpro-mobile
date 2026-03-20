@@ -164,13 +164,14 @@ class QuizListItem {
   final String? departmentId;
   final String? departmentName;
   final String? departmentCode;
+  final String? createdAt;
 
-  QuizListItem({required this.id, required this.moduleId, required this.title, this.description, this.timeLimitMinutes, this.maxAttempts = 3, this.passingScore = 70, this.isActive = true, this.moduleTitle, this.routeTitle, this.routeId, this.departmentId, this.departmentName, this.departmentCode});
+  QuizListItem({required this.id, required this.moduleId, required this.title, this.description, this.timeLimitMinutes, this.maxAttempts = 3, this.passingScore = 70, this.isActive = true, this.moduleTitle, this.routeTitle, this.routeId, this.departmentId, this.departmentName, this.departmentCode, this.createdAt});
 
   factory QuizListItem.fromJson(Map<String, dynamic> json) {
     return QuizListItem(
       id: json['id'],
-      moduleId: json['module_id'],
+      moduleId: json['module_id'] ?? '',
       title: json['title'],
       description: json['description'],
       timeLimitMinutes: json['time_limit_minutes'],
@@ -183,6 +184,7 @@ class QuizListItem {
       departmentId: json['department_id'],
       departmentName: json['department_name'],
       departmentCode: json['department_code'],
+      createdAt: json['created_at'],
     );
   }
 }

@@ -147,6 +147,20 @@ class AdminNotifier extends Notifier<AdminState> {
     }
   }
 
+  Future<bool> updateUserLimit(String userId, int limit) async {
+    try {
+      await _dio.patch('/auth/users/$userId', data: {'shared_upload_limit': limit});
+      await loadUsers();
+      return true;
+    } on DioException catch (e) {
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
+      return false;
+    } catch (e) {
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
+      return false;
+    }
+  }
+
   // ===== DEPARTMENTS =====
 
   Future<void> loadDepartments() async {
@@ -708,6 +722,81 @@ class AdminNotifier extends Notifier<AdminState> {
       return (response.data as List).cast<Map<String, dynamic>>();
     } catch (e) {
       return [];
+    }
+  }
+
+  // ========== AI QUIZ OLUSTURMA ==========
+
+  /// Departmana gore indexlenmis dokumanlari getir
+  Future<List<Map<String, dynamic>>> loadDocumentsByDepartment(String departmentCode) async {
+    try {
+      final response = await _dio.get(
+        '/training/documents-by-department',
+        queryParameters: {'department': departmentCode},
+      );
+      return (response.data as List).cast<Map<String, dynamic>>();
+    } catch (e) {
+      return [];
+    }
+  }
+
+  /// Tum indexlenmis dokumanlari getir
+  Future<List<Map<String, dynamic>>> loadAllIndexedDocuments() async {
+    try {
+      final response = await _dio.get('/training/documents');
+      final docs = (response.data as List).cast<Map<String, dynamic>>();
+      // Sadece indexlenmis olanlari filtrele
+      return docs.where((d) => d['rag_status'] == 'indexed').toList();
+    } catch (e) {
+      return [];
+    }
+  }
+
+  /// AI ile quiz olustur
+  Future<Map<String, dynamic>?> generateQuizFromDocs({
+    required List<String> docIds,
+    required int questionCount,
+    required String difficulty,
+    required String departmentCode,
+    required String title,
+    int passingScore = 70,
+    int? timeLimitMinutes,
+    int maxAttempts = 3,
+  }) async {
+    state = state.copyWith(isSaving: true, error: null);
+    try {
+      final response = await _dio.post(
+        '/training/generate-quiz',
+        data: {
+          'doc_ids': docIds,
+          'question_count': questionCount,
+          'difficulty': difficulty,
+          'department_code': departmentCode,
+          'title': title,
+          'passing_score': passingScore,
+          'time_limit_minutes': timeLimitMinutes,
+          'max_attempts': maxAttempts,
+        },
+      );
+      state = state.copyWith(isSaving: false, successMessage: 'Quiz basariyla olusturuldu');
+      return response.data as Map<String, dynamic>;
+    } catch (e) {
+      final msg = e is DioException ? ErrorHelper.getMessage(e) : 'Quiz olusturulamadi';
+      state = state.copyWith(isSaving: false, error: msg);
+      return null;
+    }
+  }
+
+  /// Quiz'i tamamen sil (sorular + RAG dahil)
+  Future<bool> deleteQuizFull(String quizId) async {
+    try {
+      await _dio.delete('/training/quizzes/$quizId/full');
+      state = state.copyWith(successMessage: 'Quiz silindi');
+      return true;
+    } catch (e) {
+      final msg = e is DioException ? ErrorHelper.getMessage(e) : 'Quiz silinemedi';
+      state = state.copyWith(error: msg);
+      return false;
     }
   }
 }

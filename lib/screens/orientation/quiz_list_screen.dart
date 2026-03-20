@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/training_provider.dart';
+import '../../providers/admin_provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/auth/role_helper.dart';
 import '../../models/training.dart';
@@ -17,21 +18,31 @@ class QuizListScreen extends ConsumerStatefulWidget {
 class _QuizListScreenState extends ConsumerState<QuizListScreen> {
   bool _loaded = false;
   String _searchQuery = '';
+  String? _selectedDeptFilter;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (!_loaded) {
       _loaded = true;
-      Future.microtask(() {
-        final auth = ref.read(authProvider);
-        final notifier = ref.read(trainingProvider.notifier);
-        notifier.loadQuizzes();
-        if (auth.user != null) {
-          notifier.loadUserQuizResults(auth.user!.id);
-        }
-      });
+      _loadData();
     }
+  }
+
+  void _loadData() {
+    Future.microtask(() {
+      final auth = ref.read(authProvider);
+      final notifier = ref.read(trainingProvider.notifier);
+      notifier.loadQuizzes();
+      if (auth.user != null) {
+        notifier.loadUserQuizResults(auth.user!.id);
+      }
+    });
+  }
+
+  bool get _isAdmin {
+    final role = ref.read(authProvider).user?.role ?? '';
+    return ['admin', 'facility_manager', 'chief_technician'].contains(role);
   }
 
   @override
@@ -54,10 +65,12 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
       }).toList();
     }
 
-    // Teknik tag filtreleme
-    final teknikTags = RoleHelper.visibleTeknikTags(userRole);
-    if (teknikTags != null && teknikTags.isNotEmpty) {
-      // Teknik departman quizleri icin ek filtreleme gerekirse burada yapilabilir
+    // Admin departman filtresi
+    if (_isAdmin && _selectedDeptFilter != null) {
+      quizzes = quizzes.where((q) {
+        return q.departmentCode == _selectedDeptFilter ||
+            q.departmentName == _selectedDeptFilter;
+      }).toList();
     }
 
     // Arama filtreleme
@@ -68,11 +81,15 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
       ).toList();
     }
 
-    // Departmana gore grupla
-    final grouped = <String, List<QuizListItem>>{};
-    for (final q in quizzes) {
-      final deptName = q.departmentName ?? 'Genel';
-      grouped.putIfAbsent(deptName, () => []).add(q);
+    // Tarihe gore sirala (en yeni uste)
+    quizzes.sort((a, b) => (b.createdAt ?? '').compareTo(a.createdAt ?? ''));
+
+    // Departman listesi (filtre icin)
+    final deptSet = <String>{};
+    for (final q in training.quizList) {
+      if (q.departmentName != null && q.departmentName!.isNotEmpty) {
+        deptSet.add(q.departmentName!);
+      }
     }
 
     return Scaffold(
@@ -105,20 +122,60 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
                   onChanged: (v) => setState(() => _searchQuery = v.toLowerCase()),
                 ),
               ),
+              // Admin departman filtre chip'leri
+              if (_isAdmin && deptSet.isNotEmpty)
+                SizedBox(
+                  height: 40,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    children: [
+                      _buildFilterChip('Tumu', _selectedDeptFilter == null, () {
+                        setState(() => _selectedDeptFilter = null);
+                      }),
+                      ...deptSet.map((dept) => _buildFilterChip(
+                        dept,
+                        _selectedDeptFilter == dept,
+                        () => setState(() => _selectedDeptFilter = _selectedDeptFilter == dept ? null : dept),
+                      )),
+                    ],
+                  ),
+                ),
               Expanded(
                 child: quizzes.isEmpty
                     ? _buildEmpty()
                     : ListView.builder(
-                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
-                        itemCount: grouped.length,
+                        padding: const EdgeInsets.fromLTRB(16, 8, 16, 80),
+                        itemCount: quizzes.length,
                         itemBuilder: (context, index) {
-                          final deptName = grouped.keys.elementAt(index);
-                          final items = grouped[deptName]!;
-                          return _buildDepartmentGroup(deptName, items, training.quizResults);
+                          return _buildQuizCard(quizzes[index], training.quizResults);
                         },
                       ),
               ),
             ]),
+      floatingActionButton: _isAdmin
+          ? FloatingActionButton.extended(
+              onPressed: () => _showCreateQuizDialog(),
+              backgroundColor: ScadaColors.cyan,
+              icon: const Icon(Icons.auto_awesome, color: Colors.black),
+              label: const Text('AI Quiz', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
+            )
+          : null,
+    );
+  }
+
+  Widget _buildFilterChip(String label, bool selected, VoidCallback onTap) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 8),
+      child: ChoiceChip(
+        label: Text(label, style: TextStyle(fontSize: 11, color: selected ? Colors.black : ScadaColors.textSecondary)),
+        selected: selected,
+        selectedColor: ScadaColors.cyan,
+        backgroundColor: ScadaColors.card,
+        side: BorderSide(color: selected ? ScadaColors.cyan : ScadaColors.border),
+        onSelected: (_) => onTap(),
+        visualDensity: VisualDensity.compact,
+      ),
     );
   }
 
@@ -134,32 +191,6 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
     );
   }
 
-  Widget _buildDepartmentGroup(String deptName, List<QuizListItem> items, List<QuizResult> results) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 8, top: 4),
-          child: Row(children: [
-            Container(
-              width: 4, height: 18,
-              decoration: BoxDecoration(
-                color: ScadaColors.cyan,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const SizedBox(width: 8),
-            Text(deptName, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
-            const SizedBox(width: 8),
-            Text('${items.length} quiz', style: const TextStyle(fontSize: 11, color: ScadaColors.textDim)),
-          ]),
-        ),
-        ...items.map((item) => _buildQuizCard(item, results)),
-        const SizedBox(height: 12),
-      ],
-    );
-  }
-
   Widget _buildQuizCard(QuizListItem item, List<QuizResult> results) {
     // Son sonucu bul
     final quizResults = results.where((r) => r.quizId == item.id).toList();
@@ -171,9 +202,6 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
       passed: lastResult?.passed,
       percent: lastResult?.percent,
     );
-    final statusText = qs.text;
-    final statusColor = qs.color;
-    final statusIcon = qs.icon;
 
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, '/quiz', arguments: item.id),
@@ -186,27 +214,46 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
           border: Border.all(color: ScadaColors.border),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          // Baslik + durum
+          // Baslik + durum + silme
           Row(children: [
             Expanded(
               child: Text(item.title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
             ),
-            Icon(statusIcon, size: 18, color: statusColor),
+            Icon(qs.icon, size: 18, color: qs.color),
             const SizedBox(width: 4),
-            Text(statusText, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: statusColor)),
+            Text(qs.text, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: qs.color)),
+            if (_isAdmin) ...[
+              const SizedBox(width: 8),
+              GestureDetector(
+                onTap: () => _confirmDeleteQuiz(item),
+                child: const Icon(Icons.delete_outline, size: 18, color: ScadaColors.red),
+              ),
+            ],
           ]),
           const SizedBox(height: 6),
 
-          // Rota > Modul bilgisi
-          Text(
-            '${item.routeTitle ?? ''} > ${item.moduleTitle ?? ''}',
-            style: const TextStyle(fontSize: 10, color: ScadaColors.textDim),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
+          // Departman + Tarih
+          Row(children: [
+            if (item.departmentName != null) ...[
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                decoration: BoxDecoration(
+                  color: ScadaColors.cyan.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(item.departmentName!, style: const TextStyle(fontSize: 9, color: ScadaColors.cyan, fontWeight: FontWeight.w600)),
+              ),
+              const SizedBox(width: 8),
+            ],
+            if (item.createdAt != null)
+              Text(
+                _formatDate(item.createdAt!),
+                style: const TextStyle(fontSize: 10, color: ScadaColors.textDim),
+              ),
+          ]),
           const SizedBox(height: 8),
 
-          // Alt bilgi satirlari
+          // Alt bilgi
           Row(children: [
             _buildDifficultyChip(item.passingScore),
             const SizedBox(width: 10),
@@ -220,13 +267,73 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
               _buildInfoChip(Icons.history, '${quizResults.length} deneme'),
             ],
           ]),
-
-          // Aciklama
-          if (item.description != null && item.description!.isNotEmpty) ...[
-            const SizedBox(height: 6),
-            Text(item.description!, style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary), maxLines: 2, overflow: TextOverflow.ellipsis),
-          ],
         ]),
+      ),
+    );
+  }
+
+  String _formatDate(String dateStr) {
+    try {
+      final dt = DateTime.parse(dateStr);
+      return '${dt.day.toString().padLeft(2, '0')}.${dt.month.toString().padLeft(2, '0')}.${dt.year}';
+    } catch (_) {
+      return dateStr;
+    }
+  }
+
+  void _confirmDeleteQuiz(QuizListItem item) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: ScadaColors.card,
+        title: const Text('Quiz Sil', style: TextStyle(color: ScadaColors.textPrimary, fontSize: 16)),
+        content: Text(
+          "'${item.title}' quizini ve tum sorularini silmek istediginize emin misiniz?",
+          style: const TextStyle(color: ScadaColors.textSecondary, fontSize: 13),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Iptal', style: TextStyle(color: ScadaColors.textDim)),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(ctx);
+              final admin = ref.read(adminProvider.notifier);
+              final success = await admin.deleteQuizFull(item.id);
+              if (success && mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Quiz silindi'), backgroundColor: ScadaColors.green),
+                );
+                _loadData(); // Listeyi yenile
+              }
+            },
+            child: const Text('Sil', style: TextStyle(color: ScadaColors.red, fontWeight: FontWeight.w700)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showCreateQuizDialog() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: ScadaColors.card,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (ctx) => DraggableScrollableSheet(
+        initialChildSize: 0.85,
+        minChildSize: 0.5,
+        maxChildSize: 0.95,
+        expand: false,
+        builder: (_, scrollController) => _CreateQuizSheet(
+          onCreated: () {
+            _loadData();
+          },
+          scrollController: scrollController,
+        ),
       ),
     );
   }
@@ -264,5 +371,413 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
         Text(label, style: TextStyle(fontSize: 9, color: color, fontWeight: FontWeight.w600)),
       ]),
     );
+  }
+}
+
+// ========== AI QUIZ OLUSTUR POPUP ==========
+
+class _CreateQuizSheet extends ConsumerStatefulWidget {
+  final VoidCallback onCreated;
+  final ScrollController? scrollController;
+  const _CreateQuizSheet({required this.onCreated, this.scrollController});
+
+  @override
+  ConsumerState<_CreateQuizSheet> createState() => _CreateQuizSheetState();
+}
+
+class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
+  String? _selectedDept;
+  List<Map<String, dynamic>> _documents = [];
+  final Set<String> _selectedDocIds = {};
+  int _questionCount = 10;
+  String _difficulty = 'orta';
+  final _titleController = TextEditingController();
+  bool _isLoading = false;
+  bool _isGenerating = false;
+  String? _error;
+
+  // Departman listesi
+  final List<Map<String, String>> _departments = [
+    {'code': 'teknik', 'name': 'Teknik Servis'},
+    {'code': 'hk', 'name': 'Kat Hizmetleri'},
+    {'code': 'on_buro', 'name': 'On Buro'},
+    {'code': 'fb', 'name': 'Yiyecek & Icecek'},
+    {'code': 'spa', 'name': 'SPA & Wellness'},
+    {'code': 'guvenlik', 'name': 'Guvenlik'},
+    {'code': 'genel', 'name': 'Genel'},
+  ];
+
+  Future<void> _loadDocuments() async {
+    setState(() {
+      _isLoading = true;
+      _documents = [];
+      _selectedDocIds.clear();
+    });
+
+    final admin = ref.read(adminProvider.notifier);
+    // Tum indexlenmis dokumanlari getir
+    final docs = await admin.loadAllIndexedDocuments();
+
+    setState(() {
+      _documents = docs;
+      _isLoading = false;
+    });
+  }
+
+  Future<void> _generateQuiz() async {
+    if (_selectedDocIds.isEmpty) {
+      setState(() => _error = 'En az 1 dokuman secin');
+      return;
+    }
+    if (_titleController.text.trim().isEmpty) {
+      setState(() => _error = 'Quiz basligi girin');
+      return;
+    }
+
+    setState(() {
+      _isGenerating = true;
+      _error = null;
+    });
+
+    final admin = ref.read(adminProvider.notifier);
+
+    // Doc ID'leri doc_id formatinda gonder (ChromaDB doc_id)
+    final docIds = _selectedDocIds.toList();
+
+    final result = await admin.generateQuizFromDocs(
+      docIds: docIds,
+      questionCount: _questionCount,
+      difficulty: _difficulty,
+      departmentCode: _selectedDept ?? 'genel',
+      title: _titleController.text.trim(),
+    );
+
+    if (mounted) {
+      setState(() => _isGenerating = false);
+
+      if (result != null) {
+        Navigator.pop(context);
+        widget.onCreated();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Quiz olusturuldu! ${result['question_count']} soru (${result['verified_count']} dogrulandi)'),
+            backgroundColor: ScadaColors.green,
+          ),
+        );
+      } else {
+        setState(() => _error = ref.read(adminProvider).error ?? 'Quiz olusturulamadi');
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDocuments();
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+
+    return Padding(
+      padding: EdgeInsets.fromLTRB(16, 16, 16, 16 + bottomInset),
+      child: ListView(
+        controller: widget.scrollController,
+        children: [
+          Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+          // Baslik
+          Row(children: [
+            const Icon(Icons.auto_awesome, color: ScadaColors.cyan, size: 24),
+            const SizedBox(width: 8),
+            const Expanded(
+              child: Text('AI ile Quiz Olustur', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+            ),
+            IconButton(
+              icon: const Icon(Icons.close, color: ScadaColors.textDim, size: 20),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ]),
+          const SizedBox(height: 16),
+
+          // 1. Departman secimi
+          const Text('Departman', style: TextStyle(fontSize: 12, color: ScadaColors.textSecondary, fontWeight: FontWeight.w600)),
+          const SizedBox(height: 6),
+          DropdownButtonFormField<String>(
+            value: _selectedDept,
+            decoration: InputDecoration(
+              hintText: 'Departman secin',
+              hintStyle: const TextStyle(fontSize: 13, color: ScadaColors.textDim),
+              filled: true,
+              fillColor: ScadaColors.surface,
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            ),
+            dropdownColor: ScadaColors.surface,
+            style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
+            items: _departments.map((d) => DropdownMenuItem(
+              value: d['code'],
+              child: Text(d['name']!),
+            )).toList(),
+            onChanged: (v) {
+              setState(() {
+                _selectedDept = v;
+                _selectedDocIds.clear();
+              });
+              // Otomatik baslik oner
+              if (v != null && _titleController.text.isEmpty) {
+                final deptName = _departments.firstWhere((d) => d['code'] == v)['name']!;
+                _titleController.text = '$deptName Quiz';
+              }
+            },
+          ),
+          const SizedBox(height: 16),
+
+          // 2. Dokuman secimi
+          const Text('Dokumanlar', style: TextStyle(fontSize: 12, color: ScadaColors.textSecondary, fontWeight: FontWeight.w600)),
+          const SizedBox(height: 6),
+          if (_isLoading)
+            const Center(child: Padding(
+              padding: EdgeInsets.all(16),
+              child: CircularProgressIndicator(color: ScadaColors.cyan, strokeWidth: 2),
+            ))
+          else if (_documents.isEmpty)
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: ScadaColors.surface,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: ScadaColors.border),
+              ),
+              child: const Text(
+                'Indexlenmis dokuman bulunamadi. Once Dokuman Havuzu\'na PDF yukleyin.',
+                style: TextStyle(fontSize: 11, color: ScadaColors.textDim),
+              ),
+            )
+          else
+            Builder(builder: (_) {
+              // Departmana gore filtrele
+              final filteredDocs = _selectedDept == null
+                  ? _documents
+                  : _documents.where((doc) {
+                      String docDept = '';
+                      if (doc['classification'] is Map) {
+                        docDept = (doc['classification'] as Map)['department']?.toString() ?? '';
+                      }
+                      return docDept == _selectedDept || docDept.isEmpty;
+                    }).toList();
+
+              if (filteredDocs.isEmpty) {
+                return Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: ScadaColors.surface,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: ScadaColors.border),
+                  ),
+                  child: Text(
+                    _selectedDept != null
+                        ? 'Bu departmanda indexlenmis dokuman yok'
+                        : 'Indexlenmis dokuman bulunamadi',
+                    style: const TextStyle(fontSize: 11, color: ScadaColors.textDim),
+                  ),
+                );
+              }
+
+              return Container(
+              constraints: const BoxConstraints(maxHeight: 200),
+              decoration: BoxDecoration(
+                color: ScadaColors.surface,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: ScadaColors.border),
+              ),
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: filteredDocs.length,
+                itemBuilder: (ctx, i) {
+                  final doc = filteredDocs[i];
+                  final docId = _getDocId(doc);
+                  final title = doc['title'] ?? doc['file_name'] ?? 'Dokuman';
+                  final isSelected = _selectedDocIds.contains(docId);
+                  String dept = '';
+                  if (doc['classification'] is Map) {
+                    dept = (doc['classification'] as Map)['department']?.toString() ?? '';
+                  } else if (doc['metadata_json'] is Map) {
+                    final meta = doc['metadata_json'] as Map;
+                    if (meta['classification'] is Map) {
+                      dept = (meta['classification'] as Map)['department']?.toString() ?? '';
+                    }
+                  }
+
+                  return CheckboxListTile(
+                    value: isSelected,
+                    onChanged: (v) {
+                      setState(() {
+                        if (v == true) {
+                          _selectedDocIds.add(docId);
+                        } else {
+                          _selectedDocIds.remove(docId);
+                        }
+                      });
+                    },
+                    title: Text(title, style: const TextStyle(fontSize: 12, color: ScadaColors.textPrimary), maxLines: 1, overflow: TextOverflow.ellipsis),
+                    subtitle: Text(
+                      dept,
+                      style: const TextStyle(fontSize: 10, color: ScadaColors.textDim),
+                    ),
+                    dense: true,
+                    activeColor: ScadaColors.cyan,
+                    checkColor: Colors.black,
+                    controlAffinity: ListTileControlAffinity.leading,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+                  );
+                },
+              ),
+            );
+            }),
+          if (_selectedDocIds.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text('${_selectedDocIds.length} dokuman secildi', style: const TextStyle(fontSize: 10, color: ScadaColors.cyan)),
+            ),
+          const SizedBox(height: 16),
+
+          // 3. Soru sayisi ve zorluk
+          Row(children: [
+            Expanded(
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                const Text('Soru Sayisi', style: TextStyle(fontSize: 12, color: ScadaColors.textSecondary, fontWeight: FontWeight.w600)),
+                const SizedBox(height: 6),
+                DropdownButtonFormField<int>(
+                  value: _questionCount,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: ScadaColors.surface,
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  ),
+                  dropdownColor: ScadaColors.surface,
+                  style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
+                  items: [5, 10, 15, 20].map((n) => DropdownMenuItem(value: n, child: Text('$n soru'))).toList(),
+                  onChanged: (v) => setState(() => _questionCount = v ?? 10),
+                ),
+              ]),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                const Text('Zorluk', style: TextStyle(fontSize: 12, color: ScadaColors.textSecondary, fontWeight: FontWeight.w600)),
+                const SizedBox(height: 6),
+                DropdownButtonFormField<String>(
+                  value: _difficulty,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: ScadaColors.surface,
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  ),
+                  dropdownColor: ScadaColors.surface,
+                  style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
+                  items: const [
+                    DropdownMenuItem(value: 'kolay', child: Text('Kolay')),
+                    DropdownMenuItem(value: 'orta', child: Text('Orta')),
+                    DropdownMenuItem(value: 'zor', child: Text('Zor')),
+                  ],
+                  onChanged: (v) => setState(() => _difficulty = v ?? 'orta'),
+                ),
+              ]),
+            ),
+          ]),
+          const SizedBox(height: 16),
+
+          // 4. Quiz basligi
+          const Text('Quiz Basligi', style: TextStyle(fontSize: 12, color: ScadaColors.textSecondary, fontWeight: FontWeight.w600)),
+          const SizedBox(height: 6),
+          TextField(
+            controller: _titleController,
+            decoration: InputDecoration(
+              hintText: 'Quiz basligini girin',
+              hintStyle: const TextStyle(fontSize: 13, color: ScadaColors.textDim),
+              filled: true,
+              fillColor: ScadaColors.surface,
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            ),
+            style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
+          ),
+          const SizedBox(height: 16),
+
+          // Hata mesaji
+          if (_error != null)
+            Container(
+              padding: const EdgeInsets.all(8),
+              margin: const EdgeInsets.only(bottom: 12),
+              decoration: BoxDecoration(
+                color: ScadaColors.red.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(_error!, style: const TextStyle(fontSize: 11, color: ScadaColors.red)),
+            ),
+
+          // Olustur butonu
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: _isGenerating ? null : _generateQuiz,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: ScadaColors.cyan,
+                foregroundColor: Colors.black,
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+              icon: _isGenerating
+                  ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.black))
+                  : const Icon(Icons.auto_awesome),
+              label: Text(
+                _isGenerating ? 'Quiz olusturuluyor...' : 'Quiz Olustur',
+                style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+              ),
+            ),
+          ),
+          if (_isGenerating)
+            const Padding(
+              padding: EdgeInsets.only(top: 8),
+              child: Text(
+                'AI sorulari olusturuyor ve dogruluyor... Bu islem 30-60 saniye surebilir.',
+                style: TextStyle(fontSize: 10, color: ScadaColors.textDim),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          const SizedBox(height: 8),
+        ]),
+        ],
+      ),
+    );
+  }
+
+  String _getDocId(Map<String, dynamic> doc) {
+    // rag_doc_id direkt response'ta (training/documents endpoint)
+    if (doc.containsKey('rag_doc_id') && doc['rag_doc_id'] != null && doc['rag_doc_id'].toString().isNotEmpty) {
+      return doc['rag_doc_id'].toString();
+    }
+    // documents-by-department endpoint'inden gelen doc icin
+    if (doc.containsKey('doc_id')) {
+      return doc['doc_id'].toString();
+    }
+    // metadata_json icinde rag_doc_id
+    final meta = doc['metadata_json'];
+    if (meta is Map) {
+      if (meta.containsKey('rag_doc_id') && meta['rag_doc_id'] != null) {
+        return meta['rag_doc_id'].toString();
+      }
+    }
+    // Fallback: id kullan
+    return doc['id']?.toString() ?? '';
   }
 }
