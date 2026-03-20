@@ -22,17 +22,6 @@ final tourRouteDetailProvider = FutureProvider.family<Map<String, dynamic>?, int
   }
 });
 
-final activeSessionProvider = FutureProvider.family<TourSession?, String>((ref, userId) async {
-  try {
-    final dio = ref.read(authDioProvider);
-    final res = await dio.get('/tours/sessions/active', queryParameters: {'user_id': userId});
-    if (res.data == null) return null;
-    return TourSession.fromJson(res.data);
-  } catch (e) {
-    return null;
-  }
-});
-
 final sessionDetailProvider = FutureProvider.family<TourSession?, int>((ref, sessionId) async {
   try {
     final dio = ref.read(authDioProvider);
