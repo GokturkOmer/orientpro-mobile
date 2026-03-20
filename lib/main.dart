@@ -8,6 +8,8 @@ import 'models/equipment.dart';
 import 'providers/auth_provider.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/auth/splash_screen.dart';
+import 'screens/auth/forgot_password_screen.dart';
+import 'screens/auth/email_verification_screen.dart';
 import 'screens/dashboard/dashboard_screen.dart';
 import 'screens/equipment/equipment_list_screen.dart';
 import 'screens/work_orders/work_order_list_screen.dart';
@@ -76,6 +78,7 @@ class OrientProApp extends StatelessWidget {
       routes: {
         '/': (context) => const SplashScreen(),
         '/login': (context) => const LoginScreen(),
+        '/forgot-password': (context) => const ForgotPasswordScreen(),
         '/module-selection': (context) => const ModuleSelectionScreen(),
         '/dashboard': (context) => const _ProGuard(child: DashboardScreen()),
         '/orientation-dashboard': (context) => const OrientationDashboardScreen(),
@@ -108,6 +111,10 @@ class OrientProApp extends StatelessWidget {
         '/admin/users': (context) => const _AdminGuard(child: UserManagementScreen()),
       },
       onGenerateRoute: (settings) {
+        if (settings.name == '/verify-email') {
+          final email = settings.arguments as String;
+          return MaterialPageRoute(builder: (_) => EmailVerificationScreen(email: email));
+        }
         if (settings.name == '/tour-detail') {
           final routeId = settings.arguments as int;
           return MaterialPageRoute(builder: (_) => TourDetailScreen(routeId: routeId));

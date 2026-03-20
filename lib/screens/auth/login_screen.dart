@@ -130,7 +130,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                     ),
                     obscureText: _obscure,
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 4),
+
+                  // Sifremi unuttum
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () => Navigator.pushNamed(context, '/forgot-password'),
+                      child: const Text('Sifremi Unuttum', style: TextStyle(fontSize: 12, color: ScadaColors.cyan)),
+                    ),
+                  ),
+                  const SizedBox(height: 4),
 
                   if (auth.error != null)
                     Container(
