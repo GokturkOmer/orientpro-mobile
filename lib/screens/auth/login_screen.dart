@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/auth_provider.dart';
@@ -11,9 +10,8 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProviderStateMixin {
-  // Debug modda hizli test icin varsayilan degerler, production'da bos
-  final _emailController = TextEditingController(text: kDebugMode ? 'admin@orientpro.com' : '');
-  final _passwordController = TextEditingController(text: kDebugMode ? 'admin123' : '');
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   bool _obscure = true;
   late AnimationController _pulseCtrl;
 

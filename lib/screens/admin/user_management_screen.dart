@@ -327,7 +327,8 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                     keyboardType: TextInputType.emailAddress,
                     validator: (v) {
                       if (v == null || v.isEmpty) return 'Zorunlu alan';
-                      if (!v.contains('@')) return 'Gecerli bir e-posta girin';
+                      final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+                      if (!emailRegex.hasMatch(v)) return 'Gecerli bir e-posta girin (ornek@domain.com)';
                       return null;
                     },
                   ),
@@ -341,7 +342,9 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                     obscure: true,
                     validator: (v) {
                       if (v == null || v.isEmpty) return 'Zorunlu alan';
-                      if (v.length < 6) return 'En az 6 karakter';
+                      if (v.length < 8) return 'En az 8 karakter';
+                      if (!v.contains(RegExp(r'[A-Z]'))) return 'En az 1 buyuk harf';
+                      if (!v.contains(RegExp(r'[0-9]'))) return 'En az 1 rakam';
                       return null;
                     },
                   ),

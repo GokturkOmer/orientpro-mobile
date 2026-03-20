@@ -16,8 +16,24 @@ class ContentViewer extends StatelessWidget {
   Widget build(BuildContext context) {
     // Metin icerigi
     if (content.body != null && content.body!.isNotEmpty) {
+      // HTML/script etiketlerini temizle (XSS korumasi)
+      final sanitized = content.body!
+          .replaceAll(RegExp(r'<script[^>]*>[\s\S]*?</script>', caseSensitive: false), '')
+          .replaceAll(RegExp(r'<iframe[^>]*>[\s\S]*?</iframe>', caseSensitive: false), '')
+          .replaceAll(RegExp(r'<object[^>]*>[\s\S]*?</object>', caseSensitive: false), '')
+          .replaceAll(RegExp(r'<embed[^>]*/?>', caseSensitive: false), '')
+          .replaceAll(RegExp(r'on\w+="[^"]*"', caseSensitive: false), '')
+          .replaceAll(RegExp(r"on\w+='[^']*'", caseSensitive: false), '');
       return MarkdownBody(
-        data: content.body!,
+        data: sanitized,
+        onTapLink: (text, href, title) {
+          if (href != null) {
+            final uri = Uri.tryParse(href);
+            if (uri != null && (uri.scheme == 'http' || uri.scheme == 'https')) {
+              launchUrl(uri, mode: LaunchMode.externalApplication);
+            }
+          }
+        },
         styleSheet: MarkdownStyleSheet(
           p: const TextStyle(fontSize: 13, color: ScadaColors.textPrimary, height: 1.6),
           h1: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary),
@@ -118,15 +134,24 @@ class ContentViewer extends StatelessWidget {
 
   Future<void> _downloadFile(BuildContext context) async {
     final mediaUrl = content.mediaUrl!;
-    // mediaUrl format: bucket/object_name — download endpoint'e yonlendir
-    final downloadUrl = '${ApiConfig.webUrl.replaceAll('/api/v1', '')}/api/v1/files/download/$mediaUrl';
-    final uri = Uri.parse(downloadUrl);
-    try {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } catch (e) {
+    // mediaUrl format: bucket/object_name — yol gecisi saldirisina karsi kontrol
+    if (mediaUrl.contains('..') || mediaUrl.startsWith('/')) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Dosya acilamadi: $e'), backgroundColor: ScadaColors.red),
+          const SnackBar(content: Text('Gecersiz dosya yolu'), backgroundColor: ScadaColors.red),
+        );
+      }
+      return;
+    }
+    final downloadUrl = '${ApiConfig.webUrl.replaceAll('/api/v1', '')}/api/v1/files/download/$mediaUrl';
+    final uri = Uri.tryParse(downloadUrl);
+    if (uri == null) return;
+    try {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } catch (_) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Dosya acilamadi'), backgroundColor: ScadaColors.red),
         );
       }
     }

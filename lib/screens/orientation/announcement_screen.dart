@@ -280,8 +280,7 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
   }
 
   Future<void> _markAsRead(Announcement ann) async {
-    final auth = ref.read(authProvider);
-    final ok = await ref.read(announcementProvider.notifier).markAsRead(ann.id, auth.user!.id);
+    final ok = await ref.read(announcementProvider.notifier).markAsRead(ann.id);
     if (ok && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Duyuru okundu olarak isaretlendi'), backgroundColor: ScadaColors.green),

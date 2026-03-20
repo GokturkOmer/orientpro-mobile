@@ -98,9 +98,9 @@ class AnnouncementNotifier extends Notifier<AnnouncementState> {
     } catch (_) {}
   }
 
-  Future<bool> markAsRead(String announcementId, String userId) async {
+  Future<bool> markAsRead(String announcementId) async {
     try {
-      await _dio.post('/announcements/$announcementId/read?user_id=$userId');
+      await _dio.post('/announcements/$announcementId/read');
       // Listeyi guncelle
       final updated = state.announcements.map((a) {
         if (a.id == announcementId) {
