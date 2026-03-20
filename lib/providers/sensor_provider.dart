@@ -60,16 +60,24 @@ class AlarmStatsNotifier extends Notifier<AsyncValue<AlarmStats>> {
 
 // --- Reading count ---
 final readingCountProvider = FutureProvider<Map<String, dynamic>>((ref) async {
-  final dio = ref.read(authDioProvider);
-  final res = await dio.get('/sensors/readings/count');
-  return res.data;
+  try {
+    final dio = ref.read(authDioProvider);
+    final res = await dio.get('/sensors/readings/count');
+    return res.data;
+  } catch (e) {
+    return {};
+  }
 });
 
 // --- Sensor readings history (for charts) ---
 final sensorReadingsProvider = FutureProvider.family<List<SensorReading>, int>((ref, sensorId) async {
-  final dio = ref.read(authDioProvider);
-  final res = await dio.get('/sensors/$sensorId/readings', queryParameters: {'hours': 1, 'limit': 200});
-  return (res.data as List).map((e) => SensorReading.fromJson(e)).toList();
+  try {
+    final dio = ref.read(authDioProvider);
+    final res = await dio.get('/sensors/$sensorId/readings', queryParameters: {'hours': 1, 'limit': 200});
+    return (res.data as List).map((e) => SensorReading.fromJson(e)).toList();
+  } catch (e) {
+    return [];
+  }
 });
 
 // --- Active alarms ---
@@ -100,15 +108,23 @@ class ActiveAlarmsNotifier extends Notifier<AsyncValue<List<AlarmEvent>>> {
   }
 
   Future<void> acknowledge(int alarmId, String userId) async {
-    final dio = ref.read(authDioProvider);
-    await dio.put('/alarms/$alarmId/acknowledge', data: {'user_id': userId});
-    fetch();
+    try {
+      final dio = ref.read(authDioProvider);
+      await dio.put('/alarms/$alarmId/acknowledge', data: {'user_id': userId});
+      fetch();
+    } catch (_) {
+      // Alarm onaylama basarisiz — bir sonraki fetch'te tekrar gorunecek
+    }
   }
 }
 
 // --- All sensor definitions ---
 final sensorListProvider = FutureProvider<List<SensorDefinition>>((ref) async {
-  final dio = ref.read(authDioProvider);
-  final res = await dio.get('/sensors/');
-  return (res.data as List).map((e) => SensorDefinition.fromJson(e)).toList();
+  try {
+    final dio = ref.read(authDioProvider);
+    final res = await dio.get('/sensors/');
+    return (res.data as List).map((e) => SensorDefinition.fromJson(e)).toList();
+  } catch (e) {
+    return [];
+  }
 });

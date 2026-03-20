@@ -510,7 +510,7 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
           const Text('Departman', style: TextStyle(fontSize: 12, color: ScadaColors.textSecondary, fontWeight: FontWeight.w600)),
           const SizedBox(height: 6),
           DropdownButtonFormField<String>(
-            value: _selectedDept,
+            initialValue: _selectedDept,
             decoration: InputDecoration(
               hintText: 'Departman secin',
               hintStyle: const TextStyle(fontSize: 13, color: ScadaColors.textDim),
@@ -655,7 +655,7 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
                 const Text('Soru Sayisi', style: TextStyle(fontSize: 12, color: ScadaColors.textSecondary, fontWeight: FontWeight.w600)),
                 const SizedBox(height: 6),
                 DropdownButtonFormField<int>(
-                  value: _questionCount,
+                  initialValue: _questionCount,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: ScadaColors.surface,
@@ -675,7 +675,7 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
                 const Text('Zorluk', style: TextStyle(fontSize: 12, color: ScadaColors.textSecondary, fontWeight: FontWeight.w600)),
                 const SizedBox(height: 6),
                 DropdownButtonFormField<String>(
-                  value: _difficulty,
+                  initialValue: _difficulty,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: ScadaColors.surface,

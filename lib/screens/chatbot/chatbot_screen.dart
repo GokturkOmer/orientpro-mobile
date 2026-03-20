@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import '../../core/network/auth_dio.dart';
 import '../../providers/chatbot_provider.dart';
 import '../../models/chatbot.dart';
-import 'dart:typed_data';
+
 import 'package:file_picker/file_picker.dart';
 
 class ChatbotScreen extends ConsumerStatefulWidget {

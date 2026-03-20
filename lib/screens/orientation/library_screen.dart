@@ -321,7 +321,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
       await ref.read(trainingProvider.notifier).loadDepartments();
     }
     final departments = ref.read(trainingProvider).departments;
-    if (!mounted) return;
+    if (!context.mounted) return;
 
     showDialog(
       context: context,
@@ -345,7 +345,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
               ),
               const SizedBox(height: 12),
               DropdownButtonFormField<String>(
-                value: docType,
+                initialValue: docType,
                 decoration: const InputDecoration(labelText: 'Belge Tipi'),
                 dropdownColor: ScadaColors.surface,
                 items: const [
@@ -363,7 +363,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                 const SizedBox(height: 12),
                 if (departments.isNotEmpty)
                   DropdownButtonFormField<String>(
-                    value: departments.any((d) => d.code == selectedDepartment) ? selectedDepartment : null,
+                    initialValue: departments.any((d) => d.code == selectedDepartment) ? selectedDepartment : null,
                     decoration: const InputDecoration(labelText: 'Departman'),
                     dropdownColor: ScadaColors.surface,
                     items: departments.map((d) => DropdownMenuItem(
@@ -422,7 +422,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                   mimeType: selectedMimeType ?? 'application/octet-stream',
                   department: selectedDepartment,
                 );
-                if (mounted) {
+                if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(ok ? 'Dosya yuklendi' : 'Yukleme basarisiz'),

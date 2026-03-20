@@ -137,7 +137,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
             // Active toggle
             Switch(
               value: user.isActive,
-              activeColor: ScadaColors.green,
+              activeThumbColor: ScadaColors.green,
               onChanged: (_) => ref.read(adminProvider.notifier).toggleUserActive(user.id),
             ),
           ]),
@@ -203,7 +203,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                   onPressed: () async {
                     final newLimit = int.tryParse(limitCtrl.text) ?? 5;
                     final success = await ref.read(adminProvider.notifier).updateUserLimit(user.id, newLimit);
-                    if (ctx.mounted) {
+                    if (context.mounted) {
                       Navigator.pop(ctx);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -469,7 +469,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
     required ValueChanged<String?> onChanged,
   }) {
     return DropdownButtonFormField<String>(
-      value: value,
+      initialValue: value,
       onChanged: onChanged,
       dropdownColor: ScadaColors.surface,
       style: const TextStyle(fontSize: 13, color: ScadaColors.textPrimary),

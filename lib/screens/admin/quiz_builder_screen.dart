@@ -209,7 +209,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
                       }),
                       const SizedBox(height: 8),
                       DropdownButtonFormField<String>(
-                        value: selectedAnswer,
+                        initialValue: selectedAnswer,
                         dropdownColor: ScadaColors.card,
                         decoration: InputDecoration(
                           labelText: 'Dogru Cevap',
@@ -296,7 +296,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
                       success = await ref.read(adminProvider.notifier).createQuestion(data);
                     }
 
-                    if (success && mounted) {
+                    if (success && context.mounted) {
                       Navigator.pop(ctx);
                       _loadQuestions();
                     }

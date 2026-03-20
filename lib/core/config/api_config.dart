@@ -1,6 +1,5 @@
 class ApiConfig {
   // Default dev URL'ler
-  static const String _defaultMobileUrl = 'http://10.0.2.2:8000/api/v1';
   static const String _defaultWebUrl = 'http://localhost:8000/api/v1';
 
   // Build-time override: flutter run --dart-define=API_BASE_URL=https://api.orientpro.com/api/v1

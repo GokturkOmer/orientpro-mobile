@@ -230,16 +230,22 @@ class TrainingNotifier extends Notifier<TrainingState> {
       final response = await _dio.get('/training/quiz-results/$userId');
       final results = (response.data as List).map((r) => QuizResult.fromJson(r)).toList();
       state = state.copyWith(quizResults: results);
-    } catch (_) {}
+    } catch (e) {
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
+    }
   }
 
-  Future<void> startModule(String userId, String moduleId) async {
+  Future<bool> startModule(String userId, String moduleId) async {
     try {
       await _dio.post('/training/progress', data: {
         'user_id': userId,
         'module_id': moduleId,
       });
-    } catch (_) {}
+      return true;
+    } catch (e) {
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
+      return false;
+    }
   }
 
   // ===== MODULES (for progress lookup) =====
@@ -262,7 +268,9 @@ class TrainingNotifier extends Notifier<TrainingState> {
         );
       }
       state = state.copyWith(moduleMap: map);
-    } catch (_) {}
+    } catch (e) {
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
+    }
   }
 
   // ===== PROGRESS DATA (all-in-one for progress screen) =====
@@ -363,10 +371,14 @@ class TrainingNotifier extends Notifier<TrainingState> {
     }
   }
 
-  Future<void> completeReview(String scheduleId) async {
+  Future<bool> completeReview(String scheduleId) async {
     try {
       await _dio.post('/training/reviews/$scheduleId/complete');
-    } catch (_) {}
+      return true;
+    } catch (e) {
+      state = state.copyWith(error: ErrorHelper.getMessage(e));
+      return false;
+    }
   }
 
   // ===== REMINDERS =====

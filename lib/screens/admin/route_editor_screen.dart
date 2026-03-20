@@ -219,7 +219,7 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
                           _buildLabel('Departman'),
                           const SizedBox(height: 6),
                           DropdownButtonFormField<String>(
-                            value: _selectedDepartmentId,
+                            initialValue: _selectedDepartmentId,
                             dropdownColor: ScadaColors.surface,
                             style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
                             decoration: _inputDecoration('Departman secin'),
@@ -234,7 +234,7 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
                           _buildLabel('Zorluk'),
                           const SizedBox(height: 6),
                           DropdownButtonFormField<String>(
-                            value: _selectedDifficulty,
+                            initialValue: _selectedDifficulty,
                             dropdownColor: ScadaColors.surface,
                             style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
                             decoration: _inputDecoration('Zorluk seviyesi'),
@@ -293,7 +293,7 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
                             title: const Text('Zorunlu Egitim', style: TextStyle(color: ScadaColors.textPrimary, fontSize: 13)),
                             subtitle: const Text('Bu rota zorunlu olarak atansin', style: TextStyle(color: ScadaColors.textSecondary, fontSize: 11)),
                             value: _isMandatory,
-                            activeColor: ScadaColors.cyan,
+                            activeThumbColor: ScadaColors.cyan,
                             onChanged: (val) => setState(() => _isMandatory = val),
                           ),
 
@@ -303,7 +303,7 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
                             title: const Text('Sertifika Verilsin', style: TextStyle(color: ScadaColors.textPrimary, fontSize: 13)),
                             subtitle: const Text('Tamamlayanlara sertifika olusturulsun', style: TextStyle(color: ScadaColors.textSecondary, fontSize: 11)),
                             value: _certificateEnabled,
-                            activeColor: ScadaColors.cyan,
+                            activeThumbColor: ScadaColors.cyan,
                             onChanged: (val) => setState(() => _certificateEnabled = val),
                           ),
                         ],

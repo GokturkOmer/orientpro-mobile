@@ -5,11 +5,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 /// iOS: Keychain
 class SecureStorage {
   static const _storage = FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+    aOptions: AndroidOptions(),
   );
 
   static const _keyAccessToken = 'access_token';
-  static const _keyUserId = 'user_id';
   static const _keyUserJson = 'user_json';
 
   // --- Token ---

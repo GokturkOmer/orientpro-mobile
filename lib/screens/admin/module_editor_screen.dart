@@ -128,7 +128,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       DropdownButtonFormField<String>(
-                        value: contentType,
+                        initialValue: contentType,
                         dropdownColor: ScadaColors.card,
                         style: const TextStyle(color: ScadaColors.textPrimary),
                         decoration: _inputDecoration('Icerik Tipi'),
@@ -174,7 +174,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                               height: 28,
                               child: Switch(
                                 value: showMarkdownPreview,
-                                activeColor: ScadaColors.cyan,
+                                activeThumbColor: ScadaColors.cyan,
                                 onChanged: (v) => setDialogState(() => showMarkdownPreview = v),
                               ),
                             ),
@@ -452,7 +452,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                               enrichContents: enrichExistingContents,
                             );
 
-                            if (result != null && mounted) {
+                            if (result != null && context.mounted) {
                               Navigator.pop(ctx);
                               // Show classification review dialog
                               _showClassificationReviewDialog(result);
@@ -460,7 +460,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                               ref
                                   .read(adminProvider.notifier)
                                   .loadModuleDetail(widget.moduleId!);
-                            } else if (mounted) {
+                            } else if (context.mounted) {
                               setDialogState(() {
                                 isUploading = false;
                                 uploadProgress = 0;
@@ -494,7 +494,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                           final ok = await ref
                               .read(adminProvider.notifier)
                               .createContent(contentData);
-                          if (ok && mounted) {
+                          if (ok && context.mounted) {
                             Navigator.pop(ctx);
                             ref
                                 .read(adminProvider.notifier)
@@ -537,7 +537,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     DropdownButtonFormField<String>(
-                      value: contentType,
+                      initialValue: contentType,
                       dropdownColor: ScadaColors.card,
                       style: const TextStyle(color: ScadaColors.textPrimary),
                       decoration: _inputDecoration('Icerik Tipi'),
@@ -569,7 +569,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                             height: 28,
                             child: Switch(
                               value: showMarkdownPreview,
-                              activeColor: ScadaColors.cyan,
+                              activeThumbColor: ScadaColors.cyan,
                               onChanged: (v) => setDialogState(() => showMarkdownPreview = v),
                             ),
                           ),
@@ -672,7 +672,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                     final ok = await ref
                         .read(adminProvider.notifier)
                         .updateContent(content.id, contentData);
-                    if (ok && mounted) {
+                    if (ok && context.mounted) {
                       Navigator.pop(ctx);
                       ref
                           .read(adminProvider.notifier)
@@ -820,7 +820,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
 
                       // Department
                       DropdownButtonFormField<String>(
-                        value: department,
+                        initialValue: department,
                         dropdownColor: ScadaColors.card,
                         style: const TextStyle(color: ScadaColors.textPrimary),
                         decoration: _inputDecoration('Departman'),
@@ -840,7 +840,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
 
                       // Difficulty
                       DropdownButtonFormField<String>(
-                        value: difficulty,
+                        initialValue: difficulty,
                         dropdownColor: ScadaColors.card,
                         style: const TextStyle(color: ScadaColors.textPrimary),
                         decoration: _inputDecoration('Zorluk Seviyesi'),
@@ -1009,7 +1009,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                         .read(adminProvider.notifier)
                         .updateClassification(contentId, classificationData);
 
-                    if (mounted) {
+                    if (context.mounted) {
                       Navigator.pop(ctx);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -1270,7 +1270,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
             ),
             const SizedBox(height: 12),
             DropdownButtonFormField<String>(
-              value: _moduleType,
+              initialValue: _moduleType,
               dropdownColor: ScadaColors.card,
               style: const TextStyle(color: ScadaColors.textPrimary),
               decoration: _inputDecoration('Modul Tipi'),

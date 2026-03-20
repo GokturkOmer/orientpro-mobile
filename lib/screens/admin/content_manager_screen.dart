@@ -1345,7 +1345,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                 ),
                 const SizedBox(height: 14),
                 DropdownButtonFormField<String>(
-                  value: selectedType,
+                  initialValue: selectedType,
                   dropdownColor: ScadaColors.surface,
                   style: const TextStyle(fontSize: 13, color: ScadaColors.textPrimary),
                   decoration: InputDecoration(
@@ -1558,7 +1558,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                     // Module selector
                     if (modules.isNotEmpty) ...[
                       DropdownButtonFormField<String>(
-                        value: selectedModuleId,
+                        initialValue: selectedModuleId,
                         dropdownColor: ScadaColors.card,
                         style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
                         decoration: InputDecoration(
@@ -1750,7 +1750,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                             enrichContents: enrichExistingContents && selectedModuleId != null,
                           );
 
-                          if (result != null && mounted) {
+                          if (result != null && context.mounted) {
                             Navigator.pop(ctx);
                             final enrichment = result['enrichment'] as List?;
                             final enrichMsg = enrichment != null && enrichment.isNotEmpty

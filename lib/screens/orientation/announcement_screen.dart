@@ -422,7 +422,7 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
                     targetDepartment: targetDepartment,
                   );
                 }
-                if (mounted) {
+                if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(ok

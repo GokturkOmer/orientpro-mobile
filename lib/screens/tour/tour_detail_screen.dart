@@ -31,6 +31,7 @@ class _TourDetailScreenState extends ConsumerState<TourDetailScreen> {
         loading: () => const Center(child: CircularProgressIndicator(color: ScadaColors.cyan)),
         error: (e, _) => Center(child: Text('Hata: $e', style: const TextStyle(color: ScadaColors.red))),
         data: (data) {
+          if (data == null) return const Center(child: Text('Rota bilgisi bulunamadi', style: TextStyle(color: ScadaColors.textSecondary)));
           final checkpoints = (data['checkpoints'] as List).map((e) => TourCheckpoint.fromJson(e)).toList();
           final photoCount = checkpoints.where((c) => c.photoRequired).length;
 
@@ -178,6 +179,11 @@ class _TourDetailScreenState extends ConsumerState<TourDetailScreen> {
     setState(() => _isStarting = true);
     try {
       final session = await ref.read(tourServiceProvider).startSession(widget.routeId, 'c0a8f1d9-b501-4f38-84be-5cf4aab47cda');
+      if (session == null) {
+        setState(() => _isStarting = false);
+        if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Tur baslatilamadi'), backgroundColor: ScadaColors.red));
+        return;
+      }
       if (mounted) Navigator.pushReplacementNamed(context, '/active-tour', arguments: session.id);
     } catch (e) {
       setState(() => _isStarting = false);

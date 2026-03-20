@@ -163,6 +163,11 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
     setState(() { _isProcessing = true; _isScanning = false; });
     try {
       final result = await ref.read(tourServiceProvider).scanCheckpoint(widget.sessionId, qrCode);
+      if (result == null) {
+        setState(() => _isProcessing = false);
+        if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Tarama basarisiz'), backgroundColor: ScadaColors.red));
+        return;
+      }
       setState(() { _lastScanResult = result; _isProcessing = false; });
       if (result.orderWarning != null && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(result.orderWarning!), backgroundColor: ScadaColors.amber));
@@ -283,6 +288,10 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
   Future<void> _completeTour() async {
     try {
       final result = await ref.read(tourServiceProvider).completeSession(widget.sessionId);
+      if (result == null) {
+        if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Tur tamamlanamadi'), backgroundColor: ScadaColors.red));
+        return;
+      }
       if (mounted) showDialog(context: context, builder: (ctx) => AlertDialog(
         backgroundColor: ScadaColors.surface,
         icon: const Icon(Icons.check_circle, size: 48, color: ScadaColors.green),
