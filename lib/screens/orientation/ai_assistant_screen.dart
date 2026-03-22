@@ -31,8 +31,10 @@ class _AiAssistantScreenState extends ConsumerState<AiAssistantScreen> {
   @override
   void initState() {
     super.initState();
-    final auth = ref.read(authProvider);
-    ref.read(chatProvider.notifier).addWelcomeMessage(auth.user?.fullName ?? '');
+    Future.microtask(() {
+      final auth = ref.read(authProvider);
+      ref.read(chatProvider.notifier).addWelcomeMessage(auth.user?.fullName ?? '');
+    });
   }
 
   void _sendMessage(String text) {
