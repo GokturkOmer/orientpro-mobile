@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/auth_provider.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/network/auth_dio.dart';
+import '../../core/storage/secure_storage.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -30,7 +32,37 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
       _passwordController.text,
     );
     if (success && mounted) {
-      Navigator.pushReplacementNamed(context, '/module-selection');
+      final authState = ref.read(authProvider);
+      if (authState.requiresOrgSelection) {
+        Navigator.pushReplacementNamed(context, '/select-organization');
+      } else {
+        await _navigateAfterLogin();
+      }
+    }
+  }
+
+  /// Login sonrasi KVKK onay kontrolu yap, onay verilmemisse consent ekranina yonlendir
+  Future<void> _navigateAfterLogin() async {
+    try {
+      final dio = ref.read(authDioProvider);
+      final response = await dio.get('/privacy/consents');
+      final consents = response.data as List? ?? [];
+      final hasPrivacy = consents.any((c) => c['consent_type'] == 'privacy_policy' && c['accepted'] == true);
+      final hasDataProc = consents.any((c) => c['consent_type'] == 'data_processing' && c['accepted'] == true);
+
+      if (mounted) {
+        if (!hasPrivacy || !hasDataProc) {
+          Navigator.pushReplacementNamed(context, '/consent');
+        } else {
+          final seen = await SecureStorage.isOnboardingSeen();
+          if (mounted) {
+            Navigator.pushReplacementNamed(context, seen ? '/module-selection' : '/onboarding');
+          }
+        }
+      }
+    } catch (_) {
+      // Consent API basarisiz olursa direkt devam et
+      if (mounted) Navigator.pushReplacementNamed(context, '/module-selection');
     }
   }
 

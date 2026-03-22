@@ -9,14 +9,17 @@ class User {
   final String? photoUrl;
   final bool isActive;
   final int sharedUploadLimit;
-  User({required this.id, required this.email, required this.fullName, required this.role, this.department, this.phone, this.specialization, this.photoUrl, required this.isActive, this.sharedUploadLimit = 5});
+  final String? organizationId;
+  final String? organizationName;
+  User({required this.id, required this.email, required this.fullName, required this.role, this.department, this.phone, this.specialization, this.photoUrl, required this.isActive, this.sharedUploadLimit = 5, this.organizationId, this.organizationName});
   factory User.fromJson(Map<String, dynamic> json) {
-    return User(id: json['id'], email: json['email'], fullName: json['full_name'], role: json['role'], department: json['department'], phone: json['phone'], specialization: json['specialization'], photoUrl: json['photo_url'], isActive: json['is_active'] ?? true, sharedUploadLimit: json['shared_upload_limit'] ?? 5);
+    return User(id: json['id'], email: json['email'], fullName: json['full_name'], role: json['role'], department: json['department'], phone: json['phone'], specialization: json['specialization'], photoUrl: json['photo_url'], isActive: json['is_active'] ?? true, sharedUploadLimit: json['shared_upload_limit'] ?? 5, organizationId: json['organization_id'], organizationName: json['organization']?['name']);
   }
   Map<String, dynamic> toJson() => {
     'id': id, 'email': email, 'full_name': fullName, 'role': role,
     'department': department, 'phone': phone, 'specialization': specialization,
     'photo_url': photoUrl, 'is_active': isActive, 'shared_upload_limit': sharedUploadLimit,
+    'organization_id': organizationId,
   };
   String get roleText {
     const map = {

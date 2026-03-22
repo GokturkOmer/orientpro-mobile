@@ -10,6 +10,9 @@ import 'screens/auth/login_screen.dart';
 import 'screens/auth/splash_screen.dart';
 import 'screens/auth/forgot_password_screen.dart';
 import 'screens/auth/email_verification_screen.dart';
+import 'screens/auth/select_organization_screen.dart';
+import 'screens/auth/consent_screen.dart';
+import 'screens/auth/onboarding_screen.dart';
 import 'screens/dashboard/dashboard_screen.dart';
 import 'screens/equipment/equipment_list_screen.dart';
 import 'screens/work_orders/work_order_list_screen.dart';
@@ -51,6 +54,7 @@ import 'screens/admin/content_approval_screen.dart';
 import 'screens/orientation/certificate_screen.dart';
 import 'screens/orientation/badges_screen.dart';
 import 'screens/orientation/leaderboard_screen.dart';
+import 'screens/subscription/subscription_screen.dart';
 import 'providers/theme_provider.dart';
 
 void main() {
@@ -87,6 +91,9 @@ class OrientProApp extends ConsumerWidget {
         '/': (context) => const SplashScreen(),
         '/login': (context) => const LoginScreen(),
         '/forgot-password': (context) => const ForgotPasswordScreen(),
+        '/select-organization': (context) => const SelectOrganizationScreen(),
+        '/consent': (context) => const ConsentScreen(),
+        '/onboarding': (context) => const OnboardingScreen(),
         '/module-selection': (context) => const ModuleSelectionScreen(),
         '/dashboard': (context) => const _ProGuard(child: DashboardScreen()),
         '/orientation-dashboard': (context) => const OrientationDashboardScreen(),
@@ -102,6 +109,7 @@ class OrientProApp extends ConsumerWidget {
         '/announcements': (context) => const AnnouncementScreen(),
         '/forms': (context) => const DigitalFormScreen(),
         '/profile': (context) => const ProfileScreen(),
+        '/subscription': (context) => const SubscriptionScreen(),
         '/shifts': (context) => const ShiftCalendarScreen(),
         '/equipment': (context) => const _ProGuard(child: EquipmentListScreen()),
         '/work-orders': (context) => const _ProGuard(child: WorkOrderListScreen()),
