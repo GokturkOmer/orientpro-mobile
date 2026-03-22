@@ -48,7 +48,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
               // Logo with glow
               AnimatedBuilder(
                 animation: _pulseCtrl,
-                builder: (_, __) => Container(
+                builder: (_, _) => Container(
                   width: 80, height: 80,
                   decoration: BoxDecoration(
                     color: ScadaColors.cyan.withValues(alpha: 0.1),

@@ -30,8 +30,8 @@ class DigitalTwinScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, '/chatbot'),
         backgroundColor: Colors.cyanAccent,
-        child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
         tooltip: 'AI Asistan',
+        child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
       ),
       body: latestAsync.when(
         loading: () => const Center(child: CircularProgressIndicator(color: Colors.greenAccent)),
@@ -305,7 +305,7 @@ class _PulsingDotState extends State<_PulsingDot> with SingleTickerProviderState
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _ctrl,
-      builder: (_, __) => Container(
+      builder: (_, _) => Container(
         width: widget.size, height: widget.size,
         decoration: BoxDecoration(
           color: widget.color.withValues(alpha: 0.5 + _ctrl.value * 0.5),

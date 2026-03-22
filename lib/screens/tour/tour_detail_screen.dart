@@ -24,8 +24,8 @@ class _TourDetailScreenState extends ConsumerState<TourDetailScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, '/chatbot'),
         backgroundColor: Colors.cyanAccent,
-        child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
         tooltip: 'AI Asistan',
+        child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
       ),
       body: detailAsync.when(
         loading: () => const Center(child: CircularProgressIndicator(color: ScadaColors.cyan)),

@@ -201,11 +201,12 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   ),
                   onPressed: () async {
+                    final messenger = ScaffoldMessenger.of(context);
                     final newLimit = int.tryParse(limitCtrl.text) ?? 5;
                     final success = await ref.read(adminProvider.notifier).updateUserLimit(user.id, newLimit);
-                    if (context.mounted) {
+                    if (ctx.mounted) {
                       Navigator.pop(ctx);
-                      ScaffoldMessenger.of(context).showSnackBar(
+                      messenger.showSnackBar(
                         SnackBar(
                           content: Text(success ? 'Limit guncellendi: $newLimit' : 'Hata olustu'),
                           backgroundColor: success ? ScadaColors.green : ScadaColors.red,

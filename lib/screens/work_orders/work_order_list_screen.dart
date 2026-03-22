@@ -127,8 +127,8 @@ class _WorkOrderListScreenState extends ConsumerState<WorkOrderListScreen> {
             heroTag: 'chatbot',
             onPressed: () => Navigator.pushNamed(context, '/chatbot'),
             backgroundColor: Colors.cyanAccent,
-            child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a), size: 20),
             tooltip: 'AI Asistan',
+            child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a), size: 20),
           ),
           const SizedBox(height: 8),
           FloatingActionButton(

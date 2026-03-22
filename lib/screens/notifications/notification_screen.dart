@@ -31,8 +31,8 @@ class NotificationScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, '/chatbot'),
         backgroundColor: Colors.cyanAccent,
-        child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
         tooltip: 'AI Asistan',
+        child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
       ),
       body: notifsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator(color: ScadaColors.cyan)),
@@ -42,11 +42,13 @@ class NotificationScreen extends ConsumerWidget {
           Text('Hata: $e', style: const TextStyle(color: ScadaColors.textSecondary)),
         ])),
         data: (notifs) {
-          if (notifs.isEmpty) return Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-            Icon(Icons.notifications_none, size: 64, color: ScadaColors.textDim),
-            const SizedBox(height: 12),
-            const Text('Bildirim yok', style: TextStyle(color: ScadaColors.textDim)),
-          ]));
+          if (notifs.isEmpty) {
+            return Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
+              Icon(Icons.notifications_none, size: 64, color: ScadaColors.textDim),
+              const SizedBox(height: 12),
+              const Text('Bildirim yok', style: TextStyle(color: ScadaColors.textDim)),
+            ]));
+          }
           return RefreshIndicator(
             color: ScadaColors.cyan, backgroundColor: ScadaColors.surface,
             onRefresh: () async { ref.invalidate(notificationListProvider); ref.invalidate(unreadCountProvider); },

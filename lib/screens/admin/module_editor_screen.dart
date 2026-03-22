@@ -452,7 +452,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                               enrichContents: enrichExistingContents,
                             );
 
-                            if (result != null && context.mounted) {
+                            if (result != null && ctx.mounted) {
                               Navigator.pop(ctx);
                               // Show classification review dialog
                               _showClassificationReviewDialog(result);
@@ -460,14 +460,14 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                               ref
                                   .read(adminProvider.notifier)
                                   .loadModuleDetail(widget.moduleId!);
-                            } else if (context.mounted) {
+                            } else if (ctx.mounted) {
                               setDialogState(() {
                                 isUploading = false;
                                 uploadProgress = 0;
                               });
                               final error =
                                   ref.read(adminProvider).error;
-                              ScaffoldMessenger.of(context).showSnackBar(
+                              ScaffoldMessenger.of(ctx).showSnackBar(
                                 SnackBar(
                                   content: Text(
                                     error ?? 'PDF yukleme basarisiz',
@@ -1005,13 +1005,14 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                       'summary': summaryCtrl.text.trim(),
                     };
 
+                    final messenger = ScaffoldMessenger.of(context);
                     final ok = await ref
                         .read(adminProvider.notifier)
                         .updateClassification(contentId, classificationData);
 
-                    if (context.mounted) {
+                    if (ctx.mounted) {
                       Navigator.pop(ctx);
-                      ScaffoldMessenger.of(context).showSnackBar(
+                      messenger.showSnackBar(
                         SnackBar(
                           content: Text(
                             ok

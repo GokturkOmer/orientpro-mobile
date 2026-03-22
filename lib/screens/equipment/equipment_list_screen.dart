@@ -69,8 +69,8 @@ class _EquipmentListScreenState extends ConsumerState<EquipmentListScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, '/chatbot'),
         backgroundColor: Colors.cyanAccent,
-        child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
         tooltip: 'AI Asistan',
+        child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
       ),
       body: Column(children: [
         SizedBox(height: 50, child: ListView(scrollDirection: Axis.horizontal, padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8), children: [

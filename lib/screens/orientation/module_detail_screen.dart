@@ -267,7 +267,7 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
     );
   }
 
-  Widget _buildQuizCard(quiz) {
+  Widget _buildQuizCard(dynamic quiz) {
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(

@@ -27,15 +27,15 @@ class AlarmListScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, '/chatbot'),
         backgroundColor: Colors.cyanAccent,
-        child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
         tooltip: 'AI Asistan',
+        child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
       ),
       body: Column(
         children: [
           // Stats header
           statsAsync.when(
             loading: () => const SizedBox.shrink(),
-            error: (_, __) => const SizedBox.shrink(),
+            error: (_, _) => const SizedBox.shrink(),
             data: (stats) => Container(
               padding: const EdgeInsets.all(16),
               color: Colors.grey.shade50,

@@ -1739,6 +1739,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                             return;
                           }
 
+                          final messenger = ScaffoldMessenger.of(context);
                           setDialogState(() => isUploading = true);
 
                           final result = await ref.read(adminProvider.notifier).uploadPdfContent(
@@ -1750,13 +1751,13 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                             enrichContents: enrichExistingContents && selectedModuleId != null,
                           );
 
-                          if (result != null && context.mounted) {
+                          if (result != null && ctx.mounted) {
                             Navigator.pop(ctx);
                             final enrichment = result['enrichment'] as List?;
                             final enrichMsg = enrichment != null && enrichment.isNotEmpty
                                 ? ' | ${enrichment.length} icerik zenginlestirildi'
                                 : '';
-                            ScaffoldMessenger.of(context).showSnackBar(
+                            messenger.showSnackBar(
                               SnackBar(
                                 content: Text('PDF yuklendi ve AI tarafindan siniflandirildi$enrichMsg'),
                                 backgroundColor: ScadaColors.green,
@@ -1767,10 +1768,10 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                             if (route != null) {
                               ref.read(adminProvider.notifier).loadRouteDetail(route.id);
                             }
-                          } else if (mounted) {
+                          } else if (ctx.mounted) {
                             setDialogState(() => isUploading = false);
                             final error = ref.read(adminProvider).error;
-                            ScaffoldMessenger.of(context).showSnackBar(
+                            messenger.showSnackBar(
                               SnackBar(
                                 content: Text(error ?? 'PDF yuklenemedi'),
                                 backgroundColor: ScadaColors.red,

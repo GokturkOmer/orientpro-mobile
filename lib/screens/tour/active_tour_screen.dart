@@ -292,7 +292,8 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
         if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Tur tamamlanamadi'), backgroundColor: ScadaColors.red));
         return;
       }
-      if (mounted) showDialog(context: context, builder: (ctx) => AlertDialog(
+      if (mounted) {
+        showDialog(context: context, builder: (ctx) => AlertDialog(
         backgroundColor: ScadaColors.surface,
         icon: const Icon(Icons.check_circle, size: 48, color: ScadaColors.green),
         title: const Text('Tur Tamamlandi', style: TextStyle(color: ScadaColors.green)),
@@ -300,6 +301,7 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
           style: const TextStyle(color: ScadaColors.textSecondary)),
         actions: [ElevatedButton(onPressed: () { Navigator.pop(ctx); Navigator.pop(context); }, child: const Text('Tamam'))],
       ));
+      }
     } catch (e) { if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Hata: $e'), backgroundColor: ScadaColors.red)); }
   }
 

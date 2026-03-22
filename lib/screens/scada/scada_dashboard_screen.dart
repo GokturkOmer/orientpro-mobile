@@ -7,12 +7,12 @@ import '../../core/theme/app_theme.dart';
 class ScadaDashboardScreen extends ConsumerWidget {
   const ScadaDashboardScreen({super.key});
 
-  static const Map<int, _UnitInfo> unitInfo = {
-    1: _UnitInfo('KAZAN DAIRESI', Icons.local_fire_department, Color(0xFFe74c3c)),
-    2: _UnitInfo('CHILLER', Icons.ac_unit, Color(0xFF3498db)),
-    3: _UnitInfo('AHU SISTEMI', Icons.air, Color(0xFF2ecc71)),
-    4: _UnitInfo('POMPA GRUBU', Icons.water_drop, Color(0xFF9b59b6)),
-    5: _UnitInfo('ENERJI ANALIZORU', Icons.bolt, Color(0xFFf39c12)),
+  static const Map<int, UnitInfo> unitInfo = {
+    1: UnitInfo('KAZAN DAIRESI', Icons.local_fire_department, Color(0xFFe74c3c)),
+    2: UnitInfo('CHILLER', Icons.ac_unit, Color(0xFF3498db)),
+    3: UnitInfo('AHU SISTEMI', Icons.air, Color(0xFF2ecc71)),
+    4: UnitInfo('POMPA GRUBU', Icons.water_drop, Color(0xFF9b59b6)),
+    5: UnitInfo('ENERJI ANALIZORU', Icons.bolt, Color(0xFFf39c12)),
   };
 
   @override
@@ -59,8 +59,8 @@ class ScadaDashboardScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, '/chatbot'),
         backgroundColor: Colors.cyanAccent,
-        child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
         tooltip: 'AI Asistan',
+        child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
       ),
       body: RefreshIndicator(
         color: ScadaColors.cyan,
@@ -103,7 +103,7 @@ class ScadaDashboardScreen extends ConsumerWidget {
                 }
                 final sortedKeys = grouped.keys.toList()..sort();
                 return Column(children: sortedKeys.map((uid) {
-                  final info = unitInfo[uid] ?? _UnitInfo('Unit $uid', Icons.developer_board, ScadaColors.textDim);
+                  final info = unitInfo[uid] ?? UnitInfo('Unit $uid', Icons.developer_board, ScadaColors.textDim);
                   return _buildUnitSection(context, uid, info, grouped[uid]!);
                 }).toList());
               },
@@ -143,7 +143,7 @@ class ScadaDashboardScreen extends ConsumerWidget {
     ]);
   }
 
-  Widget _buildUnitSection(BuildContext context, int unitId, _UnitInfo info, List<SensorLatestValue> sensors) {
+  Widget _buildUnitSection(BuildContext context, int unitId, UnitInfo info, List<SensorLatestValue> sensors) {
     final hasAlarm = sensors.any((s) => s.alarmStatus == 'alarm');
     final hasWarning = sensors.any((s) => s.alarmStatus == 'warning');
 
@@ -255,9 +255,9 @@ class ScadaDashboardScreen extends ConsumerWidget {
   }
 }
 
-class _UnitInfo {
+class UnitInfo {
   final String name;
   final IconData icon;
   final Color color;
-  const _UnitInfo(this.name, this.icon, this.color);
+  const UnitInfo(this.name, this.icon, this.color);
 }
