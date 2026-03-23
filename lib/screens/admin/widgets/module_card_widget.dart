@@ -21,9 +21,9 @@ class ModuleCardWidget extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(8),
@@ -41,16 +41,16 @@ class ModuleCardWidget extends StatelessWidget {
                 ),
                 child: Icon(_moduleTypeIcon(module.moduleType), size: 16, color: typeColor),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       module.title,
-                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary),
+                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary),
                     ),
-                    const SizedBox(height: 3),
+                    SizedBox(height: 3),
                     Row(
                       children: [
                         Container(
@@ -61,22 +61,22 @@ class ModuleCardWidget extends StatelessWidget {
                           ),
                           child: Text(module.typeText, style: TextStyle(fontSize: 9, color: typeColor, fontWeight: FontWeight.w600)),
                         ),
-                        const SizedBox(width: 8),
-                        Icon(Icons.timer_outlined, size: 11, color: ScadaColors.textDim),
-                        const SizedBox(width: 3),
-                        Text('${module.estimatedMinutes} dk', style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+                        SizedBox(width: 8),
+                        Icon(Icons.timer_outlined, size: 11, color: context.scada.textDim),
+                        SizedBox(width: 3),
+                        Text('${module.estimatedMinutes} dk', style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
                         if (module.quizzes != null && module.quizzes!.isNotEmpty) ...[
                           const SizedBox(width: 8),
                           Icon(Icons.quiz, size: 11, color: ScadaColors.amber),
-                          const SizedBox(width: 3),
-                          Text('${module.quizzes!.length} quiz', style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+                          SizedBox(width: 3),
+                          Text('${module.quizzes!.length} quiz', style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
                         ],
                       ],
                     ),
                   ],
                 ),
               ),
-              const Icon(Icons.arrow_forward_ios, size: 12, color: ScadaColors.textDim),
+              Icon(Icons.arrow_forward_ios, size: 12, color: context.scada.textDim),
             ],
           ),
         ),

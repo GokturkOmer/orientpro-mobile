@@ -41,9 +41,9 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
     final int moduleCount = admin.routes.fold<int>(0, (sum, r) => sum + (r.modules?.length ?? 0));
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
           onPressed: () => Navigator.pop(context),
@@ -57,8 +57,8 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
             ),
             child: const Icon(Icons.admin_panel_settings, color: ScadaColors.amber, size: 20),
           ),
-          const SizedBox(width: 8),
-          const Text('Yonetim Paneli', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+          SizedBox(width: 8),
+          Text('Yonetim Paneli', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
         actions: [
           if (admin.error != null)
@@ -71,8 +71,8 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
       body: admin.isLoading && admin.error == null
           ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
               const CircularProgressIndicator(color: ScadaColors.amber),
-              const SizedBox(height: 16),
-              const Text('Yukleniyor...', style: TextStyle(fontSize: 10, color: ScadaColors.textDim)),
+              SizedBox(height: 16),
+              Text('Yukleniyor...', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
             ]))
           : SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
@@ -98,7 +98,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                           child: const Text('Tekrar Dene', style: TextStyle(fontSize: 11, color: ScadaColors.cyan)),
                         ),
                       ]),
-                      Text(admin.error!, style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+                      Text(admin.error!, style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
                     ]),
                   ),
                   const SizedBox(height: 12),
@@ -108,9 +108,9 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 Container(
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                    color: ScadaColors.surface,
+                    color: context.scada.surface,
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: ScadaColors.border),
+                    border: Border.all(color: context.scada.border),
                   ),
                   child: Row(children: [
                     Container(
@@ -121,10 +121,10 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                       ),
                       child: const Icon(Icons.person, color: ScadaColors.amber, size: 22),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text('Hosgeldin, ${auth.user?.fullName ?? ""}', style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
-                      const Text('Icerik yonetimi ve egitim modulu duzenleme', style: TextStyle(fontSize: 11, color: ScadaColors.textSecondary)),
+                      Text('Hosgeldin, ${auth.user?.fullName ?? ""}', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
+                      Text('Icerik yonetimi ve egitim modulu duzenleme', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
                     ])),
                   ]),
                 ),
@@ -150,9 +150,9 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
 
                 // Quick Actions header
                 Row(children: [
-                  const Icon(Icons.flash_on, size: 14, color: ScadaColors.textDim),
-                  const SizedBox(width: 6),
-                  const Text('HIZLI ISLEMLER', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 1)),
+                  Icon(Icons.flash_on, size: 14, color: context.scada.textDim),
+                  SizedBox(width: 6),
+                  Text('HIZLI ISLEMLER', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
                 ]),
                 const SizedBox(height: 12),
 
@@ -225,7 +225,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: ScadaColors.card,
+          color: context.scada.card,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: color.withValues(alpha: 0.3)),
         ),
@@ -233,8 +233,8 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
           Icon(icon, color: color, size: 24),
           const SizedBox(height: 8),
           Text(value, style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: color)),
-          const SizedBox(height: 4),
-          Text(label, style: const TextStyle(fontSize: 9, color: ScadaColors.textSecondary), textAlign: TextAlign.center),
+          SizedBox(height: 4),
+          Text(label, style: TextStyle(fontSize: 9, color: context.scada.textSecondary), textAlign: TextAlign.center),
         ]),
       ),
     );
@@ -243,9 +243,9 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
   Widget _buildChartsSection(AdminState admin) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Row(children: [
-        const Icon(Icons.bar_chart, size: 14, color: ScadaColors.textDim),
-        const SizedBox(width: 6),
-        const Text('ISTATISTIKLER', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 1)),
+        Icon(Icons.bar_chart, size: 14, color: context.scada.textDim),
+        SizedBox(width: 6),
+        Text('ISTATISTIKLER', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
       ]),
       const SizedBox(height: 12),
 
@@ -253,13 +253,13 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
       Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: ScadaColors.card,
+          color: context.scada.card,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: ScadaColors.border),
+          border: Border.all(color: context.scada.border),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Text('Departman Bazli Rota Dagilimi',
-            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+          Text('Departman Bazli Rota Dagilimi',
+            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
           const SizedBox(height: 16),
           SizedBox(
             height: 180,
@@ -274,13 +274,13 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
       Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: ScadaColors.card,
+          color: context.scada.card,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: ScadaColors.border),
+          border: Border.all(color: context.scada.border),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Text('Icerik Dagilimi',
-            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+          Text('Icerik Dagilimi',
+            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
           const SizedBox(height: 16),
           SizedBox(
             height: 180,
@@ -325,7 +325,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                   padding: const EdgeInsets.only(top: 4),
                   child: Text(
                     label.length > 8 ? '${label.substring(0, 8)}..' : label,
-                    style: const TextStyle(fontSize: 9, color: ScadaColors.textDim),
+                    style: TextStyle(fontSize: 9, color: context.scada.textDim),
                   ),
                 );
               },
@@ -338,7 +338,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
               reservedSize: 28,
               getTitlesWidget: (value, meta) {
                 if (value % 1 != 0) return const SizedBox.shrink();
-                return Text('${value.toInt()}', style: const TextStyle(fontSize: 9, color: ScadaColors.textDim));
+                return Text('${value.toInt()}', style: TextStyle(fontSize: 9, color: context.scada.textDim));
               },
             ),
           ),
@@ -350,7 +350,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
           drawVerticalLine: false,
           horizontalInterval: 1,
           getDrawingHorizontalLine: (value) => FlLine(
-            color: ScadaColors.border.withValues(alpha: 0.3),
+            color: context.scada.border.withValues(alpha: 0.3),
             strokeWidth: 0.5,
           ),
         ),
@@ -430,8 +430,8 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
   Widget _legendItem(Color color, String label, int count) {
     return Row(children: [
       Container(width: 10, height: 10, decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(2))),
-      const SizedBox(width: 6),
-      Text('$label ($count)', style: const TextStyle(fontSize: 11, color: ScadaColors.textSecondary)),
+      SizedBox(width: 6),
+      Text('$label ($count)', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
     ]);
   }
 
@@ -446,9 +446,9 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
         decoration: BoxDecoration(
-          color: ScadaColors.card,
+          color: context.scada.card,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: ScadaColors.border),
+          border: Border.all(color: context.scada.border),
         ),
         child: Row(children: [
           Container(
@@ -459,11 +459,11 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
             ),
             child: Icon(icon, color: ScadaColors.cyan, size: 22),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
           Expanded(
-            child: Text(title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+            child: Text(title, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
           ),
-          const Icon(Icons.arrow_forward_ios, size: 14, color: ScadaColors.textDim),
+          Icon(Icons.arrow_forward_ios, size: 14, color: context.scada.textDim),
         ]),
       ),
     );

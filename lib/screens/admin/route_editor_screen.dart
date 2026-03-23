@@ -110,16 +110,16 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: ScadaColors.surface,
-        title: const Text('Modulu Sil', style: TextStyle(color: ScadaColors.textPrimary, fontSize: 16)),
+        backgroundColor: context.scada.surface,
+        title: Text('Modulu Sil', style: TextStyle(color: context.scada.textPrimary, fontSize: 16)),
         content: Text(
           '"$moduleTitle" modulunu silmek istediginize emin misiniz?',
-          style: const TextStyle(color: ScadaColors.textSecondary, fontSize: 13),
+          style: TextStyle(color: context.scada.textSecondary, fontSize: 13),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Iptal', style: TextStyle(color: ScadaColors.textSecondary)),
+            child: Text('Iptal', style: TextStyle(color: context.scada.textSecondary)),
           ),
           TextButton(
             onPressed: () async {
@@ -161,16 +161,16 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
     }
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           _isEditMode ? 'Rotayi Duzenle' : 'Yeni Egitim Rotasi',
-          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary),
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: context.scada.textPrimary),
         ),
       ),
       body: admin.isLoading && _isEditMode
@@ -184,9 +184,9 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: ScadaColors.card,
+                      color: context.scada.card,
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: ScadaColors.border),
+                      border: Border.all(color: context.scada.border),
                     ),
                     child: Form(
                       key: _formKey,
@@ -195,10 +195,10 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
                         children: [
                           // Baslik
                           _buildLabel('Baslik'),
-                          const SizedBox(height: 6),
+                          SizedBox(height: 6),
                           TextFormField(
                             controller: _titleController,
-                            style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
+                            style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
                             decoration: _inputDecoration('Egitim rotasi basligi'),
                             validator: (v) => (v == null || v.trim().isEmpty) ? 'Baslik zorunludur' : null,
                           ),
@@ -206,10 +206,10 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
 
                           // Aciklama
                           _buildLabel('Aciklama'),
-                          const SizedBox(height: 6),
+                          SizedBox(height: 6),
                           TextFormField(
                             controller: _descriptionController,
-                            style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
+                            style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
                             maxLines: 3,
                             decoration: _inputDecoration('Rota hakkinda kisa aciklama'),
                           ),
@@ -217,11 +217,11 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
 
                           // Departman
                           _buildLabel('Departman'),
-                          const SizedBox(height: 6),
+                          SizedBox(height: 6),
                           DropdownButtonFormField<String>(
                             initialValue: _selectedDepartmentId,
-                            dropdownColor: ScadaColors.surface,
-                            style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
+                            dropdownColor: context.scada.surface,
+                            style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
                             decoration: _inputDecoration('Departman secin'),
                             items: admin.departments.map((d) {
                               return DropdownMenuItem(value: d.id, child: Text(d.name));
@@ -232,11 +232,11 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
 
                           // Zorluk
                           _buildLabel('Zorluk'),
-                          const SizedBox(height: 6),
+                          SizedBox(height: 6),
                           DropdownButtonFormField<String>(
                             initialValue: _selectedDifficulty,
-                            dropdownColor: ScadaColors.surface,
-                            style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
+                            dropdownColor: context.scada.surface,
+                            style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
                             decoration: _inputDecoration('Zorluk seviyesi'),
                             items: const [
                               DropdownMenuItem(value: 'beginner', child: Text('Baslangic')),
@@ -257,26 +257,26 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     _buildLabel('Tahmini Sure (dakika)'),
-                                    const SizedBox(height: 6),
+                                    SizedBox(height: 6),
                                     TextFormField(
                                       controller: _estimatedMinutesController,
-                                      style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
+                                      style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
                                       keyboardType: TextInputType.number,
                                       decoration: _inputDecoration('60'),
                                     ),
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 12),
+                              SizedBox(width: 12),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     _buildLabel('Gecme Puani (%)'),
-                                    const SizedBox(height: 6),
+                                    SizedBox(height: 6),
                                     TextFormField(
                                       controller: _passingScoreController,
-                                      style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
+                                      style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
                                       keyboardType: TextInputType.number,
                                       decoration: _inputDecoration('70'),
                                     ),
@@ -290,8 +290,8 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
                           // Zorunlu Egitim
                           SwitchListTile(
                             contentPadding: EdgeInsets.zero,
-                            title: const Text('Zorunlu Egitim', style: TextStyle(color: ScadaColors.textPrimary, fontSize: 13)),
-                            subtitle: const Text('Bu rota zorunlu olarak atansin', style: TextStyle(color: ScadaColors.textSecondary, fontSize: 11)),
+                            title: Text('Zorunlu Egitim', style: TextStyle(color: context.scada.textPrimary, fontSize: 13)),
+                            subtitle: Text('Bu rota zorunlu olarak atansin', style: TextStyle(color: context.scada.textSecondary, fontSize: 11)),
                             value: _isMandatory,
                             activeThumbColor: ScadaColors.cyan,
                             onChanged: (val) => setState(() => _isMandatory = val),
@@ -300,8 +300,8 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
                           // Sertifika
                           SwitchListTile(
                             contentPadding: EdgeInsets.zero,
-                            title: const Text('Sertifika Verilsin', style: TextStyle(color: ScadaColors.textPrimary, fontSize: 13)),
-                            subtitle: const Text('Tamamlayanlara sertifika olusturulsun', style: TextStyle(color: ScadaColors.textSecondary, fontSize: 11)),
+                            title: Text('Sertifika Verilsin', style: TextStyle(color: context.scada.textPrimary, fontSize: 13)),
+                            subtitle: Text('Tamamlayanlara sertifika olusturulsun', style: TextStyle(color: context.scada.textSecondary, fontSize: 11)),
                             value: _certificateEnabled,
                             activeThumbColor: ScadaColors.cyan,
                             onChanged: (val) => setState(() => _certificateEnabled = val),
@@ -327,12 +327,12 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
                       onPressed: admin.isSaving ? null : _save,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: ScadaColors.cyan,
-                        foregroundColor: ScadaColors.bg,
+                        foregroundColor: context.scada.bg,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                         disabledBackgroundColor: ScadaColors.cyan.withValues(alpha: 0.4),
                       ),
                       child: admin.isSaving
-                          ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: ScadaColors.bg))
+                          ? SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: context.scada.bg))
                           : Text(
                               _isEditMode ? 'Rotayi Guncelle' : 'Rotayi Olustur',
                               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
@@ -356,11 +356,11 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
         // Header
         Row(
           children: [
-            const Icon(Icons.menu_book, size: 14, color: ScadaColors.textDim),
-            const SizedBox(width: 6),
+            Icon(Icons.menu_book, size: 14, color: context.scada.textDim),
+            SizedBox(width: 6),
             Text(
               'MODULLER',
-              style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 1),
+              style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1),
             ),
             const SizedBox(width: 6),
             Container(
@@ -383,16 +383,16 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
           Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: ScadaColors.card,
+              color: context.scada.card,
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: ScadaColors.border),
+              border: Border.all(color: context.scada.border),
             ),
-            child: const Center(
+            child: Center(
               child: Column(
                 children: [
-                  Icon(Icons.menu_book, size: 36, color: ScadaColors.textDim),
+                  Icon(Icons.menu_book, size: 36, color: context.scada.textDim),
                   SizedBox(height: 8),
-                  Text('Henuz modul eklenmemis', style: TextStyle(fontSize: 12, color: ScadaColors.textSecondary)),
+                  Text('Henuz modul eklenmemis', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
                 ],
               ),
             ),
@@ -447,9 +447,9 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -474,23 +474,23 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
                 children: [
                   Text(
                     module.title ?? '',
-                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary),
+                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 2),
+                  SizedBox(height: 2),
                   Row(
                     children: [
                       Text(
                         module.typeText ?? moduleType,
-                        style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary),
+                        style: TextStyle(fontSize: 10, color: context.scada.textSecondary),
                       ),
-                      const SizedBox(width: 8),
-                      Icon(Icons.timer_outlined, size: 10, color: ScadaColors.textDim),
-                      const SizedBox(width: 2),
+                      SizedBox(width: 8),
+                      Icon(Icons.timer_outlined, size: 10, color: context.scada.textDim),
+                      SizedBox(width: 2),
                       Text(
                         '${module.estimatedMinutes ?? 15} dk',
-                        style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary),
+                        style: TextStyle(fontSize: 10, color: context.scada.textSecondary),
                       ),
                     ],
                   ),
@@ -507,7 +507,7 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
                   height: 28,
                   child: IconButton(
                     padding: EdgeInsets.zero,
-                    icon: Icon(Icons.arrow_upward, size: 14, color: index > 0 ? ScadaColors.textSecondary : ScadaColors.textDim),
+                    icon: Icon(Icons.arrow_upward, size: 14, color: index > 0 ? context.scada.textSecondary : context.scada.textDim),
                     onPressed: index > 0 ? () => _reorderModule(ref.read(adminProvider).selectedRoute?.modules ?? [], index, index - 1) : null,
                   ),
                 ),
@@ -516,7 +516,7 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
                   height: 28,
                   child: IconButton(
                     padding: EdgeInsets.zero,
-                    icon: Icon(Icons.arrow_downward, size: 14, color: index < total - 1 ? ScadaColors.textSecondary : ScadaColors.textDim),
+                    icon: Icon(Icons.arrow_downward, size: 14, color: index < total - 1 ? context.scada.textSecondary : context.scada.textDim),
                     onPressed: index < total - 1 ? () => _reorderModule(ref.read(adminProvider).selectedRoute?.modules ?? [], index, index + 1) : null,
                   ),
                 ),
@@ -555,24 +555,24 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
   Widget _buildLabel(String text) {
     return Text(
       text,
-      style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 0.5),
+      style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 0.5),
     );
   }
 
   InputDecoration _inputDecoration(String hint) {
     return InputDecoration(
       hintText: hint,
-      hintStyle: const TextStyle(color: ScadaColors.textDim, fontSize: 13),
+      hintStyle: TextStyle(color: context.scada.textDim, fontSize: 13),
       filled: true,
-      fillColor: ScadaColors.surface,
+      fillColor: context.scada.surface,
       contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: ScadaColors.border),
+        borderSide: BorderSide(color: context.scada.border),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: ScadaColors.border),
+        borderSide: BorderSide(color: context.scada.border),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),

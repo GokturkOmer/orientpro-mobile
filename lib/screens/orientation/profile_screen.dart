@@ -44,9 +44,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final auth = ref.watch(authProvider);
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
           onPressed: () => Navigator.pop(context),
@@ -61,7 +61,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             child: const Icon(Icons.person, color: ScadaColors.orange, size: 20),
           ),
           const SizedBox(width: 8),
-          const Text('Profil Karti', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+          Text('Profil Karti', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
         actions: [
           if (profile != null)
@@ -74,7 +74,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       body: profileState.isLoading
           ? const Center(child: CircularProgressIndicator(color: ScadaColors.orange))
           : profile == null
-              ? const Center(child: Text('Profil yuklenemedi', style: TextStyle(color: ScadaColors.textSecondary)))
+              ? Center(child: Text('Profil yuklenemedi', style: TextStyle(color: context.scada.textSecondary)))
               : ListView(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
                   children: [
@@ -99,13 +99,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         ),
                         const SizedBox(width: 14),
                         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          Text(profile.fullName ?? '', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+                          Text(profile.fullName ?? '', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
                           const SizedBox(height: 2),
                           Text(profile.roleText, style: const TextStyle(fontSize: 12, color: ScadaColors.orange)),
                           if (profile.department != null)
-                            Text(profile.department!, style: const TextStyle(fontSize: 11, color: ScadaColors.textSecondary)),
+                            Text(profile.department!, style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
                           if (profile.positionTitle != null)
-                            Text(profile.positionTitle!, style: const TextStyle(fontSize: 11, color: ScadaColors.textDim)),
+                            Text(profile.positionTitle!, style: TextStyle(fontSize: 11, color: context.scada.textDim)),
                         ])),
                       ]),
                     ),
@@ -185,17 +185,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           margin: const EdgeInsets.only(bottom: 6),
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
-                            color: ScadaColors.card,
+                            color: context.scada.card,
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: ScadaColors.border),
+                            border: Border.all(color: context.scada.border),
                           ),
                           child: Row(children: [
                             const Icon(Icons.workspace_premium, size: 18, color: ScadaColors.amber),
                             const SizedBox(width: 8),
                             Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                              Text(cert['name']?.toString() ?? '', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: ScadaColors.textPrimary)),
+                              Text(cert['name']?.toString() ?? '', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: context.scada.textPrimary)),
                               if (cert['date'] != null)
-                                Text(cert['date'].toString(), style: const TextStyle(fontSize: 10, color: ScadaColors.textDim)),
+                                Text(cert['date'].toString(), style: TextStyle(fontSize: 10, color: context.scada.textDim)),
                             ])),
                           ]),
                         );
@@ -210,11 +210,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: ScadaColors.card,
+                          color: context.scada.card,
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: ScadaColors.border),
+                          border: Border.all(color: context.scada.border),
                         ),
-                        child: Text(profile.bio!, style: const TextStyle(fontSize: 12, color: ScadaColors.textSecondary)),
+                        child: Text(profile.bio!, style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
                       ),
                     ],
 
@@ -245,9 +245,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
   Widget _buildSectionHeader(String title, IconData icon) {
     return Row(children: [
-      Icon(icon, size: 14, color: ScadaColors.textDim),
+      Icon(icon, size: 14, color: context.scada.textDim),
       const SizedBox(width: 6),
-      Text(title, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 1)),
+      Text(title, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
     ]);
   }
 
@@ -256,14 +256,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: ScadaColors.card,
+          color: context.scada.card,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: color.withValues(alpha: 0.3)),
         ),
         child: Column(children: [
           Text(value, style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: color)),
           const SizedBox(height: 2),
-          Text(label, style: const TextStyle(fontSize: 9, color: ScadaColors.textSecondary)),
+          Text(label, style: TextStyle(fontSize: 9, color: context.scada.textSecondary)),
         ]),
       ),
     );
@@ -273,9 +273,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: Column(children: children),
     );
@@ -285,13 +285,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(children: [
-        Icon(icon, size: 16, color: ScadaColors.textDim),
+        Icon(icon, size: 16, color: context.scada.textDim),
         const SizedBox(width: 8),
         SizedBox(
           width: 90,
-          child: Text(label, style: const TextStyle(fontSize: 11, color: ScadaColors.textSecondary)),
+          child: Text(label, style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
         ),
-        Expanded(child: Text(value, style: const TextStyle(fontSize: 12, color: ScadaColors.textPrimary))),
+        Expanded(child: Text(value, style: TextStyle(fontSize: 12, color: context.scada.textPrimary))),
       ]),
     );
   }
@@ -308,15 +308,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: ScadaColors.borderBright),
+          side: BorderSide(color: context.scada.borderBright),
         ),
-        title: const Row(children: [
-          Icon(Icons.edit, color: ScadaColors.cyan, size: 18),
-          SizedBox(width: 8),
-          Text('Profil Duzenle', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+        title: Row(children: [
+          const Icon(Icons.edit, color: ScadaColors.cyan, size: 18),
+          const SizedBox(width: 8),
+          Text('Profil Duzenle', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
         ]),
         content: SizedBox(
           width: MediaQuery.of(context).size.width * 0.85,
@@ -326,14 +326,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 controller: phoneCtrl,
                 decoration: const InputDecoration(labelText: 'Telefon (05xx xxx xxxx)', isDense: true, contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10), prefixIcon: Icon(Icons.phone, size: 16)),
                 keyboardType: TextInputType.phone,
-                style: const TextStyle(fontSize: 12, color: ScadaColors.textPrimary),
+                style: TextStyle(fontSize: 12, color: context.scada.textPrimary),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: _validatePhone,
               ),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(labelText: 'Kan Grubu', isDense: true, contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
-                dropdownColor: ScadaColors.surface,
+                dropdownColor: context.scada.surface,
                 initialValue: selectedBloodType,
                 items: ['A+','A-','B+','B-','AB+','AB-','0+','0-'].map((v) => DropdownMenuItem(value: v, child: Text(v, style: const TextStyle(fontSize: 12)))).toList(),
                 onChanged: (val) => selectedBloodType = val,
@@ -343,27 +343,27 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 controller: addressCtrl,
                 decoration: const InputDecoration(labelText: 'Adres', isDense: true, contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
                 maxLines: 2,
-                style: const TextStyle(fontSize: 12, color: ScadaColors.textPrimary),
+                style: TextStyle(fontSize: 12, color: context.scada.textPrimary),
               ),
               const SizedBox(height: 8),
               TextFormField(
                 controller: emergencyNameCtrl,
                 decoration: const InputDecoration(labelText: 'Acil Durum Kisi Adi', isDense: true, contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
-                style: const TextStyle(fontSize: 12, color: ScadaColors.textPrimary),
+                style: TextStyle(fontSize: 12, color: context.scada.textPrimary),
               ),
               const SizedBox(height: 8),
               TextFormField(
                 controller: emergencyPhoneCtrl,
                 decoration: const InputDecoration(labelText: 'Acil Durum Telefon (05xx xxx xxxx)', isDense: true, contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
                 keyboardType: TextInputType.phone,
-                style: const TextStyle(fontSize: 12, color: ScadaColors.textPrimary),
+                style: TextStyle(fontSize: 12, color: context.scada.textPrimary),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: _validatePhone,
               ),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(labelText: 'Yakinlik Derecesi', isDense: true, contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
-                dropdownColor: ScadaColors.surface,
+                dropdownColor: context.scada.surface,
                 initialValue: selectedRelation,
                 items: ['Es','Anne','Baba','Kardes','Diger'].map((v) => DropdownMenuItem(value: v, child: Text(v, style: const TextStyle(fontSize: 12)))).toList(),
                 onChanged: (val) => selectedRelation = val,
@@ -373,7 +373,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 controller: bioCtrl,
                 decoration: const InputDecoration(labelText: 'Hakkinda', isDense: true, contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
                 maxLines: 3,
-                style: const TextStyle(fontSize: 12, color: ScadaColors.textPrimary),
+                style: TextStyle(fontSize: 12, color: context.scada.textPrimary),
               ),
             ]),
           ),
@@ -381,7 +381,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Iptal', style: TextStyle(color: ScadaColors.textSecondary)),
+            child: Text('Iptal', style: TextStyle(color: context.scada.textSecondary)),
           ),
           ElevatedButton(
             onPressed: () async {

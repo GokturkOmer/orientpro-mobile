@@ -32,7 +32,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,

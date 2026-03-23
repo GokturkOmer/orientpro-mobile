@@ -70,7 +70,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
   Widget build(BuildContext context) {
     final auth = ref.watch(authProvider);
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(32),
@@ -94,17 +94,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
               const SizedBox(height: 20),
               const Text('OrientPro', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: ScadaColors.cyan, letterSpacing: 2)),
               const SizedBox(height: 4),
-              const Text('SCADA & Tesis Yonetim Sistemi', style: TextStyle(fontSize: 12, color: ScadaColors.textSecondary, letterSpacing: 1)),
+              Text('SCADA & Tesis Yonetim Sistemi', style: TextStyle(fontSize: 12, color: context.scada.textSecondary, letterSpacing: 1)),
               const SizedBox(height: 8),
               // Version badge
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
                 decoration: BoxDecoration(
-                  color: ScadaColors.surface,
+                  color: context.scada.surface,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: ScadaColors.border),
+                  border: Border.all(color: context.scada.border),
                 ),
-                child: const Text('v2.0', style: TextStyle(fontSize: 10, color: ScadaColors.textDim, fontWeight: FontWeight.w600)),
+                child: Text('v2.0', style: TextStyle(fontSize: 10, color: context.scada.textDim, fontWeight: FontWeight.w600)),
               ),
               const SizedBox(height: 40),
 
@@ -112,30 +112,30 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: ScadaColors.card,
+                  color: context.scada.card,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: ScadaColors.border),
+                  border: Border.all(color: context.scada.border),
                 ),
                 child: Column(children: [
                   Row(children: [
-                    Icon(Icons.login, size: 14, color: ScadaColors.textDim),
+                    Icon(Icons.login, size: 14, color: context.scada.textDim),
                     const SizedBox(width: 6),
-                    const Text('SISTEM GIRISI', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 1)),
+                    Text('SISTEM GIRISI', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
                   ]),
                   const SizedBox(height: 16),
 
                   // Email field
                   TextField(
                     controller: _emailController,
-                    style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 14),
+                    style: TextStyle(color: context.scada.textPrimary, fontSize: 14),
                     decoration: InputDecoration(
                       labelText: 'E-posta',
-                      labelStyle: const TextStyle(color: ScadaColors.textDim, fontSize: 13),
-                      prefixIcon: const Icon(Icons.email_outlined, size: 18, color: ScadaColors.textDim),
+                      labelStyle: TextStyle(color: context.scada.textDim, fontSize: 13),
+                      prefixIcon: Icon(Icons.email_outlined, size: 18, color: context.scada.textDim),
                       filled: true,
-                      fillColor: ScadaColors.surface,
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
-                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
+                      fillColor: context.scada.surface,
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: context.scada.border)),
+                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: context.scada.border)),
                       focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: ScadaColors.cyan.withValues(alpha: 0.5))),
                     ),
                     keyboardType: TextInputType.emailAddress,
@@ -145,19 +145,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                   // Password field
                   TextField(
                     controller: _passwordController,
-                    style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 14),
+                    style: TextStyle(color: context.scada.textPrimary, fontSize: 14),
                     decoration: InputDecoration(
                       labelText: 'Sifre',
-                      labelStyle: const TextStyle(color: ScadaColors.textDim, fontSize: 13),
-                      prefixIcon: const Icon(Icons.lock_outline, size: 18, color: ScadaColors.textDim),
+                      labelStyle: TextStyle(color: context.scada.textDim, fontSize: 13),
+                      prefixIcon: Icon(Icons.lock_outline, size: 18, color: context.scada.textDim),
                       suffixIcon: IconButton(
-                        icon: Icon(_obscure ? Icons.visibility_off : Icons.visibility, size: 18, color: ScadaColors.textDim),
+                        icon: Icon(_obscure ? Icons.visibility_off : Icons.visibility, size: 18, color: context.scada.textDim),
                         onPressed: () => setState(() => _obscure = !_obscure),
                       ),
                       filled: true,
-                      fillColor: ScadaColors.surface,
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
-                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
+                      fillColor: context.scada.surface,
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: context.scada.border)),
+                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: context.scada.border)),
                       focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: ScadaColors.cyan.withValues(alpha: 0.5))),
                     ),
                     obscureText: _obscure,
@@ -216,11 +216,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Container(width: 6, height: 6, decoration: BoxDecoration(color: ScadaColors.green.withValues(alpha: 0.6), shape: BoxShape.circle)),
                 const SizedBox(width: 6),
-                const Text('Sistem aktif', style: TextStyle(fontSize: 10, color: ScadaColors.textDim)),
+                Text('Sistem aktif', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
                 const SizedBox(width: 16),
-                const Text('|', style: TextStyle(color: ScadaColors.textDim, fontSize: 10)),
+                Text('|', style: TextStyle(color: context.scada.textDim, fontSize: 10)),
                 const SizedBox(width: 16),
-                const Text('v2.0 Beta', style: TextStyle(fontSize: 10, color: ScadaColors.textDim)),
+                Text('v2.0 Beta', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
               ]),
             ],
           ),

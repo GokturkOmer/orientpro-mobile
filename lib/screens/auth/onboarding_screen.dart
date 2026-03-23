@@ -61,7 +61,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       body: SafeArea(
         child: Column(
           children: [
@@ -72,7 +72,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 padding: const EdgeInsets.all(16),
                 child: TextButton(
                   onPressed: _complete,
-                  child: const Text('Atla', style: TextStyle(color: ScadaColors.textDim, fontSize: 15)),
+                  child: Text('Atla', style: TextStyle(color: context.scada.textDim, fontSize: 15)),
                 ),
               ),
             ),
@@ -101,7 +101,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       width: _currentPage == i ? 24 : 8,
                       height: 8,
                       decoration: BoxDecoration(
-                        color: _currentPage == i ? _pages[i].color : ScadaColors.textDim.withValues(alpha: 0.3),
+                        color: _currentPage == i ? _pages[i].color : context.scada.textDim.withValues(alpha: 0.3),
                         borderRadius: BorderRadius.circular(4),
                       ),
                     )),
@@ -160,11 +160,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           const SizedBox(height: 40),
           Text(page.title,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: ScadaColors.textPrimary)),
+            style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: context.scada.textPrimary)),
           const SizedBox(height: 16),
           Text(page.description,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 15, color: ScadaColors.textSecondary, height: 1.5)),
+            style: TextStyle(fontSize: 15, color: context.scada.textSecondary, height: 1.5)),
         ],
       ),
     );

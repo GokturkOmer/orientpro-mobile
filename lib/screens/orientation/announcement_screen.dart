@@ -55,9 +55,9 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
     final isAdmin = RoleHelper.isAdmin(auth.user?.role);
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
           onPressed: () => Navigator.pop(context),
@@ -72,7 +72,7 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
             child: const Icon(Icons.campaign, color: ScadaColors.amber, size: 18),
           ),
           const SizedBox(width: 8),
-          const Text('Duyuru Panosu', style: TextStyle(color: ScadaColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w600)),
+          Text('Duyuru Panosu', style: TextStyle(color: context.scada.textPrimary, fontSize: 16, fontWeight: FontWeight.w600)),
           if (annState.unreadCount > 0) ...[
             const SizedBox(width: 8),
             Container(
@@ -87,9 +87,9 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
           ? const Center(child: CircularProgressIndicator(color: ScadaColors.amber))
           : annState.announcements.isEmpty
               ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-                  const Icon(Icons.campaign_outlined, size: 48, color: ScadaColors.textDim),
+                  Icon(Icons.campaign_outlined, size: 48, color: context.scada.textDim),
                   const SizedBox(height: 12),
-                  const Text('Henuz duyuru yok', style: TextStyle(color: ScadaColors.textSecondary, fontSize: 13)),
+                  Text('Henuz duyuru yok', style: TextStyle(color: context.scada.textSecondary, fontSize: 13)),
                 ]))
               : Column(children: [
                   Padding(
@@ -97,15 +97,15 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
                     child: TextField(
                       decoration: InputDecoration(
                         hintText: 'Duyuru ara...',
-                        hintStyle: const TextStyle(color: ScadaColors.textDim, fontSize: 13),
-                        prefixIcon: const Icon(Icons.search, color: ScadaColors.textDim, size: 20),
+                        hintStyle: TextStyle(color: context.scada.textDim, fontSize: 13),
+                        prefixIcon: Icon(Icons.search, color: context.scada.textDim, size: 20),
                         filled: true,
-                        fillColor: ScadaColors.card,
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: ScadaColors.border)),
-                        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: ScadaColors.border)),
+                        fillColor: context.scada.card,
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: context.scada.border)),
+                        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: context.scada.border)),
                         contentPadding: const EdgeInsets.symmetric(vertical: 8),
                       ),
-                      style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
+                      style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
                       onChanged: (v) => setState(() => _searchQuery = v.toLowerCase()),
                     ),
                   ),
@@ -119,7 +119,7 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
                               (a.targetDepartment?.toLowerCase().contains(_searchQuery) ?? false)
                             ).toList();
                       if (filtered.isEmpty) {
-                        return const Center(child: Text('Sonuc bulunamadi', style: TextStyle(color: ScadaColors.textDim, fontSize: 13)));
+                        return Center(child: Text('Sonuc bulunamadi', style: TextStyle(color: context.scada.textDim, fontSize: 13)));
                       }
                       return ListView.builder(
                         controller: _scrollController,
@@ -152,10 +152,10 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: isRead ? ScadaColors.card : ScadaColors.card,
+        color: isRead ? context.scada.card : context.scada.card,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-          color: isRead ? ScadaColors.border : priorityColor.withValues(alpha: 0.5),
+          color: isRead ? context.scada.border : priorityColor.withValues(alpha: 0.5),
           width: isRead ? 1 : 1.5,
         ),
       ),
@@ -192,13 +192,13 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
               ),
             ],
             const Spacer(),
-            Text(ann.timeAgo, style: const TextStyle(color: ScadaColors.textDim, fontSize: 11)),
+            Text(ann.timeAgo, style: TextStyle(color: context.scada.textDim, fontSize: 11)),
             // Admin menu
             if (isAdmin) ...[
               const SizedBox(width: 4),
               PopupMenuButton<String>(
-                icon: const Icon(Icons.more_vert, size: 18, color: ScadaColors.textDim),
-                color: ScadaColors.surface,
+                icon: Icon(Icons.more_vert, size: 18, color: context.scada.textDim),
+                color: context.scada.surface,
                 padding: EdgeInsets.zero,
                 onSelected: (val) {
                   if (val == 'edit') _showEditDialog(context, ann);
@@ -234,25 +234,25 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
               ],
               Expanded(
                 child: Text(ann.title, style: TextStyle(
-                  color: isRead ? ScadaColors.textSecondary : ScadaColors.textPrimary,
+                  color: isRead ? context.scada.textSecondary : context.scada.textPrimary,
                   fontSize: 15,
                   fontWeight: isRead ? FontWeight.w500 : FontWeight.w600,
                 )),
               ),
             ]),
             const SizedBox(height: 6),
-            Text(ann.body, style: const TextStyle(color: ScadaColors.textSecondary, fontSize: 13, height: 1.4), maxLines: 3, overflow: TextOverflow.ellipsis),
+            Text(ann.body, style: TextStyle(color: context.scada.textSecondary, fontSize: 13, height: 1.4), maxLines: 3, overflow: TextOverflow.ellipsis),
           ]),
         ),
         // Footer
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-          decoration: const BoxDecoration(border: Border(top: BorderSide(color: ScadaColors.border))),
+          decoration: BoxDecoration(border: Border(top: BorderSide(color: context.scada.border))),
           child: Row(children: [
             if (isAdmin && ann.readCount != null) ...[
-              const Icon(Icons.visibility, color: ScadaColors.textDim, size: 14),
+              Icon(Icons.visibility, color: context.scada.textDim, size: 14),
               const SizedBox(width: 4),
-              Text('${ann.readCount} kisi okudu', style: const TextStyle(color: ScadaColors.textDim, fontSize: 11)),
+              Text('${ann.readCount} kisi okudu', style: TextStyle(color: context.scada.textDim, fontSize: 11)),
             ],
             const Spacer(),
             if (!isRead)
@@ -292,15 +292,15 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: ScadaColors.borderBright),
+          side: BorderSide(color: context.scada.borderBright),
         ),
-        title: const Text('Duyuru Sil', style: TextStyle(color: ScadaColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w600)),
-        content: Text('"${ann.title}" silinsin mi?', style: const TextStyle(color: ScadaColors.textSecondary, fontSize: 13)),
+        title: Text('Duyuru Sil', style: TextStyle(color: context.scada.textPrimary, fontSize: 16, fontWeight: FontWeight.w600)),
+        content: Text('"${ann.title}" silinsin mi?', style: TextStyle(color: context.scada.textSecondary, fontSize: 13)),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Iptal', style: TextStyle(color: ScadaColors.textSecondary))),
+          TextButton(onPressed: () => Navigator.pop(context), child: Text('Iptal', style: TextStyle(color: context.scada.textSecondary))),
           TextButton(
             onPressed: () async {
               Navigator.pop(context);
@@ -336,15 +336,15 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
       context: context,
       builder: (_) => StatefulBuilder(
         builder: (ctx, setDialogState) => AlertDialog(
-          backgroundColor: ScadaColors.surface,
+          backgroundColor: context.scada.surface,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
-            side: const BorderSide(color: ScadaColors.borderBright),
+            side: BorderSide(color: context.scada.borderBright),
           ),
           title: Row(children: [
             Icon(isEdit ? Icons.edit : Icons.campaign, color: isEdit ? ScadaColors.cyan : ScadaColors.amber, size: 18),
             const SizedBox(width: 8),
-            Text(isEdit ? 'Duyuru Duzenle' : 'Yeni Duyuru', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+            Text(isEdit ? 'Duyuru Duzenle' : 'Yeni Duyuru', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
           ]),
           content: SingleChildScrollView(
             child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -362,7 +362,7 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
               DropdownButtonFormField<String>(
                 initialValue: priority,
                 decoration: const InputDecoration(labelText: 'Oncelik'),
-                dropdownColor: ScadaColors.surface,
+                dropdownColor: context.scada.surface,
                 items: const [
                   DropdownMenuItem(value: 'normal', child: Text('Normal')),
                   DropdownMenuItem(value: 'high', child: Text('Yuksek')),
@@ -374,7 +374,7 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
               DropdownButtonFormField<String>(
                 initialValue: targetDepartment,
                 decoration: const InputDecoration(labelText: 'Hedef Departman'),
-                dropdownColor: ScadaColors.surface,
+                dropdownColor: context.scada.surface,
                 items: [
                   const DropdownMenuItem(value: null, child: Text('Tum Sirket')),
                   ...departments.map((d) => DropdownMenuItem(value: d.name, child: Text(d.name))),
@@ -391,7 +391,7 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
             ]),
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Iptal', style: TextStyle(color: ScadaColors.textSecondary))),
+            TextButton(onPressed: () => Navigator.pop(ctx), child: Text('Iptal', style: TextStyle(color: context.scada.textSecondary))),
             ElevatedButton(
               onPressed: () async {
                 if (titleController.text.isEmpty || bodyController.text.isEmpty) {

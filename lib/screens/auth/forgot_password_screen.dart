@@ -69,8 +69,8 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
-      appBar: AppBar(backgroundColor: ScadaColors.surface, title: const Text('Sifremi Sifirla', style: TextStyle(fontSize: 16))),
+      backgroundColor: context.scada.bg,
+      appBar: AppBar(backgroundColor: context.scada.surface, title: Text('Sifremi Sifirla', style: TextStyle(fontSize: 16))),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(32),
@@ -78,16 +78,16 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
             constraints: const BoxConstraints(maxWidth: 400),
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: ScadaColors.card,
+              color: context.scada.card,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: ScadaColors.border),
+              border: Border.all(color: context.scada.border),
             ),
             child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
               const Icon(Icons.lock_reset, size: 48, color: ScadaColors.cyan),
               const SizedBox(height: 16),
               Text(
                 _codeSent ? 'Kodu girin ve yeni sifrenizi belirleyin' : 'E-posta adresinizi girin',
-                style: const TextStyle(color: ScadaColors.textSecondary, fontSize: 13),
+                style: TextStyle(color: context.scada.textSecondary, fontSize: 13),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 24),
@@ -96,14 +96,14 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
               TextField(
                 controller: _emailController,
                 enabled: !_codeSent,
-                style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 14),
+                style: TextStyle(color: context.scada.textPrimary, fontSize: 14),
                 decoration: InputDecoration(
                   labelText: 'E-posta',
-                  labelStyle: const TextStyle(color: ScadaColors.textDim, fontSize: 13),
-                  prefixIcon: const Icon(Icons.email_outlined, size: 18, color: ScadaColors.textDim),
-                  filled: true, fillColor: ScadaColors.surface,
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
-                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
+                  labelStyle: TextStyle(color: context.scada.textDim, fontSize: 13),
+                  prefixIcon: Icon(Icons.email_outlined, size: 18, color: context.scada.textDim),
+                  filled: true, fillColor: context.scada.surface,
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: context.scada.border)),
+                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: context.scada.border)),
                 ),
                 keyboardType: TextInputType.emailAddress,
               ),
@@ -112,14 +112,14 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                 const SizedBox(height: 14),
                 TextField(
                   controller: _codeController,
-                  style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 20, letterSpacing: 8),
+                  style: TextStyle(color: context.scada.textPrimary, fontSize: 20, letterSpacing: 8),
                   decoration: InputDecoration(
                     labelText: '6 Haneli Kod',
-                    labelStyle: const TextStyle(color: ScadaColors.textDim, fontSize: 13),
-                    prefixIcon: const Icon(Icons.pin, size: 18, color: ScadaColors.textDim),
-                    filled: true, fillColor: ScadaColors.surface,
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
-                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
+                    labelStyle: TextStyle(color: context.scada.textDim, fontSize: 13),
+                    prefixIcon: Icon(Icons.pin, size: 18, color: context.scada.textDim),
+                    filled: true, fillColor: context.scada.surface,
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: context.scada.border)),
+                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: context.scada.border)),
                   ),
                   keyboardType: TextInputType.number,
                   maxLength: 6,
@@ -129,18 +129,18 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                 TextField(
                   controller: _newPasswordController,
                   obscureText: _obscure,
-                  style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 14),
+                  style: TextStyle(color: context.scada.textPrimary, fontSize: 14),
                   decoration: InputDecoration(
                     labelText: 'Yeni Sifre',
-                    labelStyle: const TextStyle(color: ScadaColors.textDim, fontSize: 13),
-                    prefixIcon: const Icon(Icons.lock_outline, size: 18, color: ScadaColors.textDim),
+                    labelStyle: TextStyle(color: context.scada.textDim, fontSize: 13),
+                    prefixIcon: Icon(Icons.lock_outline, size: 18, color: context.scada.textDim),
                     suffixIcon: IconButton(
-                      icon: Icon(_obscure ? Icons.visibility_off : Icons.visibility, size: 18, color: ScadaColors.textDim),
+                      icon: Icon(_obscure ? Icons.visibility_off : Icons.visibility, size: 18, color: context.scada.textDim),
                       onPressed: () => setState(() => _obscure = !_obscure),
                     ),
-                    filled: true, fillColor: ScadaColors.surface,
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
-                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
+                    filled: true, fillColor: context.scada.surface,
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: context.scada.border)),
+                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: context.scada.border)),
                   ),
                 ),
               ],

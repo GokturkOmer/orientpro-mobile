@@ -94,9 +94,9 @@ class BadgesScreen extends ConsumerWidget {
     final earnedCount = _badges.where((b) => b.checkEarned(training)).length;
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
           onPressed: () => Navigator.pop(context),
@@ -111,7 +111,7 @@ class BadgesScreen extends ConsumerWidget {
             child: const Icon(Icons.emoji_events, color: ScadaColors.purple, size: 20),
           ),
           const SizedBox(width: 8),
-          const Text('Rozetler', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+          Text('Rozetler', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
       ),
       body: ListView(
@@ -121,9 +121,9 @@ class BadgesScreen extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: ScadaColors.surface,
+              color: context.scada.surface,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: ScadaColors.border),
+              border: Border.all(color: context.scada.border),
             ),
             child: Row(children: [
               Container(
@@ -136,8 +136,8 @@ class BadgesScreen extends ConsumerWidget {
               ),
               const SizedBox(width: 16),
               Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text('$earnedCount / ${_badges.length}', style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
-                const Text('Rozet kazanildi', style: TextStyle(fontSize: 11, color: ScadaColors.textSecondary)),
+                Text('$earnedCount / ${_badges.length}', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+                Text('Rozet kazanildi', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
               ])),
               SizedBox(
                 width: 56, height: 56,
@@ -145,7 +145,7 @@ class BadgesScreen extends ConsumerWidget {
                   CircularProgressIndicator(
                     value: _badges.isEmpty ? 0 : earnedCount / _badges.length,
                     strokeWidth: 5,
-                    backgroundColor: ScadaColors.border,
+                    backgroundColor: context.scada.border,
                     valueColor: const AlwaysStoppedAnimation<Color>(ScadaColors.purple),
                   ),
                   Text(
@@ -161,9 +161,9 @@ class BadgesScreen extends ConsumerWidget {
 
           // Section header
           Row(children: [
-            const Icon(Icons.military_tech, size: 14, color: ScadaColors.textDim),
+            Icon(Icons.military_tech, size: 14, color: context.scada.textDim),
             const SizedBox(width: 6),
-            const Text('TUM ROZETLER', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 1)),
+            Text('TUM ROZETLER', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
           ]),
           const SizedBox(height: 12),
 
@@ -181,7 +181,7 @@ class BadgesScreen extends ConsumerWidget {
             itemBuilder: (context, index) {
               final badge = _badges[index];
               final earned = badge.checkEarned(training);
-              return _buildBadgeCard(badge, earned);
+              return _buildBadgeCard(context, badge, earned);
             },
           ),
         ],
@@ -189,14 +189,14 @@ class BadgesScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildBadgeCard(_BadgeInfo badge, bool earned) {
+  Widget _buildBadgeCard(BuildContext context, _BadgeInfo badge, bool earned) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: earned ? ScadaColors.card : ScadaColors.surface,
+        color: earned ? context.scada.card : context.scada.surface,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: earned ? badge.color.withValues(alpha: 0.4) : ScadaColors.border,
+          color: earned ? badge.color.withValues(alpha: 0.4) : context.scada.border,
           width: earned ? 1.5 : 1,
         ),
       ),
@@ -208,17 +208,17 @@ class BadgesScreen extends ConsumerWidget {
             decoration: BoxDecoration(
               color: earned
                   ? badge.color.withValues(alpha: 0.15)
-                  : ScadaColors.textDim.withValues(alpha: 0.1),
+                  : context.scada.textDim.withValues(alpha: 0.1),
               shape: BoxShape.circle,
               border: Border.all(
                 color: earned
                     ? badge.color.withValues(alpha: 0.3)
-                    : ScadaColors.textDim.withValues(alpha: 0.2),
+                    : context.scada.textDim.withValues(alpha: 0.2),
               ),
             ),
             child: Icon(
               earned ? badge.icon : Icons.lock,
-              color: earned ? badge.color : ScadaColors.textDim,
+              color: earned ? badge.color : context.scada.textDim,
               size: 28,
             ),
           ),
@@ -228,7 +228,7 @@ class BadgesScreen extends ConsumerWidget {
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: earned ? ScadaColors.textPrimary : ScadaColors.textDim,
+              color: earned ? context.scada.textPrimary : context.scada.textDim,
             ),
             textAlign: TextAlign.center,
           ),
@@ -237,7 +237,7 @@ class BadgesScreen extends ConsumerWidget {
             badge.description,
             style: TextStyle(
               fontSize: 9,
-              color: earned ? ScadaColors.textSecondary : ScadaColors.textDim,
+              color: earned ? context.scada.textSecondary : context.scada.textDim,
             ),
             textAlign: TextAlign.center,
             maxLines: 2,

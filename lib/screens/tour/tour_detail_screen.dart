@@ -19,8 +19,8 @@ class _TourDetailScreenState extends ConsumerState<TourDetailScreen> {
     final detailAsync = ref.watch(tourRouteDetailProvider(widget.routeId));
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
-      appBar: AppBar(backgroundColor: ScadaColors.surface, title: const Text('Tur Detayi', style: TextStyle(fontSize: 15))),
+      backgroundColor: context.scada.bg,
+      appBar: AppBar(backgroundColor: context.scada.surface, title: Text('Tur Detayi', style: TextStyle(fontSize: 15))),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, '/chatbot'),
         backgroundColor: Colors.cyanAccent,
@@ -31,7 +31,7 @@ class _TourDetailScreenState extends ConsumerState<TourDetailScreen> {
         loading: () => const Center(child: CircularProgressIndicator(color: ScadaColors.cyan)),
         error: (e, _) => Center(child: Text('Hata: $e', style: const TextStyle(color: ScadaColors.red))),
         data: (data) {
-          if (data == null) return const Center(child: Text('Rota bilgisi bulunamadi', style: TextStyle(color: ScadaColors.textSecondary)));
+          if (data == null) return Center(child: Text('Rota bilgisi bulunamadi', style: TextStyle(color: context.scada.textSecondary)));
           final checkpoints = (data['checkpoints'] as List).map((e) => TourCheckpoint.fromJson(e)).toList();
           final photoCount = checkpoints.where((c) => c.photoRequired).length;
 
@@ -41,14 +41,14 @@ class _TourDetailScreenState extends ConsumerState<TourDetailScreen> {
               width: double.infinity,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: ScadaColors.surface,
+                color: context.scada.surface,
                 border: Border(bottom: BorderSide(color: ScadaColors.cyan.withValues(alpha: 0.3))),
               ),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text(data['name'] ?? '', style: const TextStyle(color: ScadaColors.cyan, fontSize: 18, fontWeight: FontWeight.w700)),
                 const SizedBox(height: 4),
                 if (data['description'] != null)
-                  Text(data['description'], style: const TextStyle(color: ScadaColors.textSecondary, fontSize: 12)),
+                  Text(data['description'], style: TextStyle(color: context.scada.textSecondary, fontSize: 12)),
                 const SizedBox(height: 12),
                 Row(children: [
                   _infoBadge(Icons.pin_drop, '${checkpoints.length} nokta', ScadaColors.cyan),
@@ -65,9 +65,9 @@ class _TourDetailScreenState extends ConsumerState<TourDetailScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               child: Row(children: [
-                Icon(Icons.checklist, size: 14, color: ScadaColors.textDim),
+                Icon(Icons.checklist, size: 14, color: context.scada.textDim),
                 const SizedBox(width: 6),
-                const Text('KONTROL NOKTALARI', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 1)),
+                Text('KONTROL NOKTALARI', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
               ]),
             ),
             Expanded(
@@ -90,38 +90,38 @@ class _TourDetailScreenState extends ConsumerState<TourDetailScreen> {
                           child: Center(child: Text('${cp.orderIndex}', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: ScadaColors.cyan))),
                         ),
                         if (i < checkpoints.length - 1)
-                          Container(width: 2, height: 40, color: ScadaColors.border),
+                          Container(width: 2, height: 40, color: context.scada.border),
                       ]),
                       const SizedBox(width: 10),
                       Expanded(child: Container(
                         padding: const EdgeInsets.all(10),
                         margin: const EdgeInsets.only(bottom: 4),
                         decoration: BoxDecoration(
-                          color: ScadaColors.card,
+                          color: context.scada.card,
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: ScadaColors.border),
+                          border: Border.all(color: context.scada.border),
                         ),
                         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                           Row(children: [
-                            Expanded(child: Text(cp.name, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary))),
+                            Expanded(child: Text(cp.name, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: context.scada.textPrimary))),
                             if (cp.photoRequired) Icon(Icons.camera_alt, size: 13, color: ScadaColors.amber.withValues(alpha: 0.7)),
                           ]),
                           if (cp.location != null) ...[
                             const SizedBox(height: 2),
-                            Text(cp.location!, style: const TextStyle(fontSize: 10, color: ScadaColors.textDim)),
+                            Text(cp.location!, style: TextStyle(fontSize: 10, color: context.scada.textDim)),
                           ],
                           if (cp.checkItems.isNotEmpty) ...[
                             const SizedBox(height: 6),
                             ...cp.checkItems.take(2).map((item) => Padding(
                               padding: const EdgeInsets.only(bottom: 2),
                               child: Row(children: [
-                                Icon(Icons.check_box_outline_blank, size: 11, color: ScadaColors.textDim),
+                                Icon(Icons.check_box_outline_blank, size: 11, color: context.scada.textDim),
                                 const SizedBox(width: 4),
-                                Expanded(child: Text(item, style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary))),
+                                Expanded(child: Text(item, style: TextStyle(fontSize: 10, color: context.scada.textSecondary))),
                               ]),
                             )),
                             if (cp.checkItems.length > 2)
-                              Text('+${cp.checkItems.length - 2} daha...', style: const TextStyle(fontSize: 9, color: ScadaColors.textDim)),
+                              Text('+${cp.checkItems.length - 2} daha...', style: TextStyle(fontSize: 9, color: context.scada.textDim)),
                           ],
                         ]),
                       )),
@@ -135,8 +135,8 @@ class _TourDetailScreenState extends ConsumerState<TourDetailScreen> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: ScadaColors.surface,
-                border: Border(top: BorderSide(color: ScadaColors.border)),
+                color: context.scada.surface,
+                border: Border(top: BorderSide(color: context.scada.border)),
               ),
               child: SizedBox(
                 width: double.infinity,

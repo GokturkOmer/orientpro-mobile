@@ -39,9 +39,9 @@ class RouteDetailWidget extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
-              color: ScadaColors.card,
+              color: context.scada.card,
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: ScadaColors.border),
+              border: Border.all(color: context.scada.border),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,7 +52,7 @@ class RouteDetailWidget extends ConsumerWidget {
                     Expanded(
                       child: Text(
                         route.title,
-                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary),
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: context.scada.textPrimary),
                       ),
                     ),
                     if (route.isMandatory)
@@ -68,10 +68,10 @@ class RouteDetailWidget extends ConsumerWidget {
                 ),
 
                 if (route.description != null) ...[
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
                   Text(
                     route.description!,
-                    style: const TextStyle(fontSize: 13, color: ScadaColors.textSecondary, height: 1.5),
+                    style: TextStyle(fontSize: 13, color: context.scada.textSecondary, height: 1.5),
                   ),
                 ],
 
@@ -156,10 +156,10 @@ class RouteDetailWidget extends ConsumerWidget {
           Row(
             children: [
               const Icon(Icons.view_module, size: 16, color: ScadaColors.cyan),
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               Text(
                 'Moduller (${route.modules?.length ?? 0})',
-                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: context.scada.textPrimary),
               ),
             ],
           ),
@@ -169,16 +169,16 @@ class RouteDetailWidget extends ConsumerWidget {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: ScadaColors.card,
+                color: context.scada.card,
                 borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: ScadaColors.border),
+                border: Border.all(color: context.scada.border),
               ),
               child: Center(
                 child: Column(
                   children: [
-                    const Icon(Icons.inbox_outlined, size: 32, color: ScadaColors.textDim),
-                    const SizedBox(height: 8),
-                    const Text('Henuz modul eklenmemis', style: TextStyle(fontSize: 12, color: ScadaColors.textSecondary)),
+                    Icon(Icons.inbox_outlined, size: 32, color: context.scada.textDim),
+                    SizedBox(height: 8),
+                    Text('Henuz modul eklenmemis', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
                   ],
                 ),
               ),

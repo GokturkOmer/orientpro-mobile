@@ -35,44 +35,44 @@ class _WorkOrderListScreenState extends ConsumerState<WorkOrderListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         title: Row(mainAxisSize: MainAxisSize.min, children: [
           Container(padding: const EdgeInsets.all(4), decoration: BoxDecoration(color: ScadaColors.amber.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(6)),
             child: const Icon(Icons.assignment, color: ScadaColors.amber, size: 18)),
           const SizedBox(width: 8),
-          const Text('Is Emirleri', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+          Text('Is Emirleri', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
       ),
       body: Column(children: [
         SizedBox(height: 50, child: ListView(scrollDirection: Axis.horizontal, padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8), children: [
           Padding(padding: const EdgeInsets.only(right: 6), child: FilterChip(
-            label: const Text('Tumu', style: TextStyle(fontSize: 11, color: ScadaColors.textPrimary)),
+            label: Text('Tumu', style: TextStyle(fontSize: 11, color: context.scada.textPrimary)),
             selected: statusFilter == null,
             onSelected: (_) { statusFilter = null; _load(); },
             selectedColor: ScadaColors.cyan.withValues(alpha: 0.15),
-            backgroundColor: ScadaColors.card,
-            side: BorderSide(color: statusFilter == null ? ScadaColors.cyan.withValues(alpha: 0.5) : ScadaColors.border),
+            backgroundColor: context.scada.card,
+            side: BorderSide(color: statusFilter == null ? ScadaColors.cyan.withValues(alpha: 0.5) : context.scada.border),
           )),
           ...statuses.entries.map((e) => Padding(padding: const EdgeInsets.only(right: 6), child: FilterChip(
-            label: Text(e.value, style: TextStyle(fontSize: 11, color: statusFilter == e.key ? ScadaColors.cyan : ScadaColors.textSecondary)),
+            label: Text(e.value, style: TextStyle(fontSize: 11, color: statusFilter == e.key ? ScadaColors.cyan : context.scada.textSecondary)),
             selected: statusFilter == e.key,
             onSelected: (_) { statusFilter = statusFilter == e.key ? null : e.key; _load(); },
             selectedColor: ScadaColors.cyan.withValues(alpha: 0.15),
-            backgroundColor: ScadaColors.card,
-            side: BorderSide(color: statusFilter == e.key ? ScadaColors.cyan.withValues(alpha: 0.5) : ScadaColors.border),
+            backgroundColor: context.scada.card,
+            side: BorderSide(color: statusFilter == e.key ? ScadaColors.cyan.withValues(alpha: 0.5) : context.scada.border),
           ))),
         ])),
         Expanded(child: isLoading
           ? const Center(child: CircularProgressIndicator(color: ScadaColors.cyan))
           : items.isEmpty
             ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-                Icon(Icons.assignment_outlined, size: 64, color: ScadaColors.textDim),
+                Icon(Icons.assignment_outlined, size: 64, color: context.scada.textDim),
                 const SizedBox(height: 12),
-                const Text('Is emri bulunamadi', style: TextStyle(color: ScadaColors.textDim)),
+                Text('Is emri bulunamadi', style: TextStyle(color: context.scada.textDim)),
               ]))
-            : RefreshIndicator(color: ScadaColors.cyan, backgroundColor: ScadaColors.surface, onRefresh: _load,
+            : RefreshIndicator(color: ScadaColors.cyan, backgroundColor: context.scada.surface, onRefresh: _load,
               child: ListView.builder(padding: const EdgeInsets.fromLTRB(8, 8, 8, 80), itemCount: items.length, itemBuilder: (ctx, i) {
                 final wo = items[i];
                 final pColor = StatusHelper.priorityColor(wo.priority);
@@ -80,8 +80,8 @@ class _WorkOrderListScreenState extends ConsumerState<WorkOrderListScreen> {
                 return Container(
                   margin: const EdgeInsets.only(bottom: 6),
                   decoration: BoxDecoration(
-                    color: ScadaColors.card, borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: wo.slaBreached == true ? ScadaColors.red.withValues(alpha: 0.5) : ScadaColors.border, width: wo.slaBreached == true ? 1.5 : 1),
+                    color: context.scada.card, borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: wo.slaBreached == true ? ScadaColors.red.withValues(alpha: 0.5) : context.scada.border, width: wo.slaBreached == true ? 1.5 : 1),
                   ),
                   child: Padding(padding: const EdgeInsets.all(12), child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     Container(width: 36, height: 36, decoration: BoxDecoration(color: sColor.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(8)),
@@ -91,7 +91,7 @@ class _WorkOrderListScreenState extends ConsumerState<WorkOrderListScreen> {
                       ])),
                     const SizedBox(width: 10),
                     Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text(wo.title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+                      Text(wo.title, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
                       const SizedBox(height: 6),
                       Row(children: [
                         Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2), decoration: BoxDecoration(color: pColor.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(4), border: Border.all(color: pColor.withValues(alpha: 0.3))),
@@ -101,17 +101,17 @@ class _WorkOrderListScreenState extends ConsumerState<WorkOrderListScreen> {
                           child: Text(wo.statusText, style: TextStyle(fontSize: 8, color: sColor, fontWeight: FontWeight.w600))),
                         if (wo.roomNumber != null) ...[
                           const SizedBox(width: 6),
-                          Icon(Icons.room, size: 10, color: ScadaColors.textDim),
-                          Text('${wo.roomNumber}', style: const TextStyle(fontSize: 9, color: ScadaColors.textSecondary)),
+                          Icon(Icons.room, size: 10, color: context.scada.textDim),
+                          Text('${wo.roomNumber}', style: TextStyle(fontSize: 9, color: context.scada.textSecondary)),
                         ],
                       ]),
                       const SizedBox(height: 4),
                       Row(children: [
-                        Text(wo.faultTypeText, style: const TextStyle(fontSize: 10, color: ScadaColors.textDim)),
+                        Text(wo.faultTypeText, style: TextStyle(fontSize: 10, color: context.scada.textDim)),
                         const Spacer(),
-                        Icon(Icons.access_time, size: 10, color: ScadaColors.textDim),
+                        Icon(Icons.access_time, size: 10, color: context.scada.textDim),
                         const SizedBox(width: 3),
-                        Text(wo.createdAt.substring(0, 10), style: const TextStyle(fontSize: 10, color: ScadaColors.textDim)),
+                        Text(wo.createdAt.substring(0, 10), style: TextStyle(fontSize: 10, color: context.scada.textDim)),
                       ]),
                     ])),
                   ])),

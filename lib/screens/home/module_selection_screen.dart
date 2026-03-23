@@ -13,7 +13,7 @@ class ModuleSelectionScreen extends ConsumerWidget {
     final auth = ref.watch(authProvider);
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -39,7 +39,7 @@ class ModuleSelectionScreen extends ConsumerWidget {
                         const Text('OrientPro', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: ScadaColors.cyan, letterSpacing: 1)),
                         Text(
                           auth.user?.fullName ?? '',
-                          style: const TextStyle(fontSize: 11, color: ScadaColors.textSecondary),
+                          style: TextStyle(fontSize: 11, color: context.scada.textSecondary),
                         ),
                       ],
                     ),
@@ -51,13 +51,13 @@ class ModuleSelectionScreen extends ConsumerWidget {
                             ? Icons.light_mode
                             : Icons.dark_mode,
                         size: 20,
-                        color: ScadaColors.textDim,
+                        color: context.scada.textDim,
                       ),
                       onPressed: () => ref.read(themeProvider.notifier).toggleTheme(),
                       tooltip: 'Tema Degistir',
                     ),
                     IconButton(
-                      icon: const Icon(Icons.logout, size: 20, color: ScadaColors.textDim),
+                      icon: Icon(Icons.logout, size: 20, color: context.scada.textDim),
                       onPressed: () {
                         ref.read(authProvider.notifier).logout();
                         Navigator.pushReplacementNamed(context, '/login');
@@ -75,9 +75,9 @@ class ModuleSelectionScreen extends ConsumerWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text(
+                        Text(
                           'Modul Secimi',
-                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 1),
+                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1),
                         ),
                         const SizedBox(height: 20),
 
@@ -147,11 +147,11 @@ class ModuleSelectionScreen extends ConsumerWidget {
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Container(width: 6, height: 6, decoration: BoxDecoration(color: ScadaColors.green.withValues(alpha: 0.6), shape: BoxShape.circle)),
                 const SizedBox(width: 6),
-                const Text('Sistem aktif', style: TextStyle(fontSize: 10, color: ScadaColors.textDim)),
+                Text('Sistem aktif', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
                 const SizedBox(width: 16),
-                const Text('|', style: TextStyle(color: ScadaColors.textDim, fontSize: 10)),
+                Text('|', style: TextStyle(color: context.scada.textDim, fontSize: 10)),
                 const SizedBox(width: 16),
-                const Text('v2.0', style: TextStyle(fontSize: 10, color: ScadaColors.textDim)),
+                Text('v2.0', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
               ]),
             ],
           ),
@@ -198,12 +198,12 @@ class _ModuleCardState extends State<_ModuleCard> {
           decoration: BoxDecoration(
             color: _isHovered
                 ? widget.color.withValues(alpha: 0.08)
-                : ScadaColors.card,
+                : context.scada.card,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: _isHovered
                   ? widget.color.withValues(alpha: 0.5)
-                  : ScadaColors.border,
+                  : context.scada.border,
               width: _isHovered ? 1.5 : 1,
             ),
             boxShadow: _isHovered
@@ -235,19 +235,19 @@ class _ModuleCardState extends State<_ModuleCard> {
               const SizedBox(height: 4),
               Text(
                 widget.subtitle,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
-                  color: ScadaColors.textSecondary,
+                  color: context.scada.textSecondary,
                 ),
               ),
               const SizedBox(height: 12),
               Text(
                 widget.description,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 11,
-                  color: ScadaColors.textDim,
+                  color: context.scada.textDim,
                   height: 1.4,
                 ),
               ),
@@ -294,12 +294,12 @@ class _SmallModuleCardState extends State<_SmallModuleCard> {
           decoration: BoxDecoration(
             color: _isHovered
                 ? widget.color.withValues(alpha: 0.08)
-                : ScadaColors.card,
+                : context.scada.card,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
               color: _isHovered
                   ? widget.color.withValues(alpha: 0.5)
-                  : ScadaColors.border,
+                  : context.scada.border,
               width: _isHovered ? 1.5 : 1,
             ),
           ),
@@ -333,9 +333,9 @@ class _SmallModuleCardState extends State<_SmallModuleCard> {
                     const SizedBox(height: 2),
                     Text(
                       widget.subtitle,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 11,
-                        color: ScadaColors.textSecondary,
+                        color: context.scada.textSecondary,
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),

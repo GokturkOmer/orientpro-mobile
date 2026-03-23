@@ -34,7 +34,7 @@ class _SelectOrganizationScreenState extends ConsumerState<SelectOrganizationScr
     final orgs = auth.organizations;
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(32),
@@ -58,11 +58,11 @@ class _SelectOrganizationScreenState extends ConsumerState<SelectOrganizationScr
                   style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: ScadaColors.cyan)),
                 const SizedBox(height: 8),
                 Text('Organizasyon Secin',
-                  style: TextStyle(fontSize: 16, color: ScadaColors.textSecondary)),
+                  style: TextStyle(fontSize: 16, color: context.scada.textSecondary)),
                 const SizedBox(height: 8),
                 Text('Birden fazla organizasyona uyesiniz.\nDevam etmek icin birini secin.',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 13, color: ScadaColors.textDim)),
+                  style: TextStyle(fontSize: 13, color: context.scada.textDim)),
                 const SizedBox(height: 32),
 
                 // Hata mesaji
@@ -97,12 +97,12 @@ class _SelectOrganizationScreenState extends ConsumerState<SelectOrganizationScr
                         decoration: BoxDecoration(
                           color: _selectedOrgId == org.id
                               ? ScadaColors.cyan.withValues(alpha: 0.1)
-                              : ScadaColors.surface,
+                              : context.scada.surface,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
                             color: _selectedOrgId == org.id
                                 ? ScadaColors.cyan
-                                : ScadaColors.border,
+                                : context.scada.border,
                             width: _selectedOrgId == org.id ? 2 : 1,
                           ),
                         ),
@@ -129,12 +129,12 @@ class _SelectOrganizationScreenState extends ConsumerState<SelectOrganizationScr
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(org.name,
-                                style: const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary,
+                                style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w600, color: context.scada.textPrimary,
                                 )),
                               const SizedBox(height: 4),
                               Text(_roleText(org.role),
-                                style: TextStyle(fontSize: 13, color: ScadaColors.textDim)),
+                                style: TextStyle(fontSize: 13, color: context.scada.textDim)),
                             ],
                           )),
                           // Loading veya ok ikonu
@@ -142,7 +142,7 @@ class _SelectOrganizationScreenState extends ConsumerState<SelectOrganizationScr
                             const SizedBox(width: 24, height: 24,
                               child: CircularProgressIndicator(strokeWidth: 2, color: ScadaColors.cyan))
                           else
-                            Icon(Icons.arrow_forward_ios, size: 16, color: ScadaColors.textDim),
+                            Icon(Icons.arrow_forward_ios, size: 16, color: context.scada.textDim),
                         ]),
                       ),
                     ),
@@ -158,7 +158,7 @@ class _SelectOrganizationScreenState extends ConsumerState<SelectOrganizationScr
                   },
                   icon: const Icon(Icons.arrow_back, size: 18),
                   label: const Text('Farkli hesapla giris yap'),
-                  style: TextButton.styleFrom(foregroundColor: ScadaColors.textDim),
+                  style: TextButton.styleFrom(foregroundColor: context.scada.textDim),
                 ),
               ],
             ),

@@ -56,8 +56,8 @@ class _EmailVerificationScreenState extends ConsumerState<EmailVerificationScree
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
-      appBar: AppBar(backgroundColor: ScadaColors.surface, title: const Text('E-posta Dogrulama', style: TextStyle(fontSize: 16))),
+      backgroundColor: context.scada.bg,
+      appBar: AppBar(backgroundColor: context.scada.surface, title: Text('E-posta Dogrulama', style: TextStyle(fontSize: 16))),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(32),
@@ -65,32 +65,32 @@ class _EmailVerificationScreenState extends ConsumerState<EmailVerificationScree
             constraints: const BoxConstraints(maxWidth: 400),
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: ScadaColors.card,
+              color: context.scada.card,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: ScadaColors.border),
+              border: Border.all(color: context.scada.border),
             ),
             child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
               const Icon(Icons.mark_email_read, size: 48, color: ScadaColors.green),
               const SizedBox(height: 16),
-              const Text('E-posta Dogrulama', style: TextStyle(color: ScadaColors.textPrimary, fontSize: 18, fontWeight: FontWeight.w600), textAlign: TextAlign.center),
+              Text('E-posta Dogrulama', style: TextStyle(color: context.scada.textPrimary, fontSize: 18, fontWeight: FontWeight.w600), textAlign: TextAlign.center),
               const SizedBox(height: 8),
               Text(
                 '${widget.email} adresine 6 haneli bir dogrulama kodu gonderdik.',
-                style: const TextStyle(color: ScadaColors.textSecondary, fontSize: 13),
+                style: TextStyle(color: context.scada.textSecondary, fontSize: 13),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 24),
 
               TextField(
                 controller: _codeController,
-                style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 24, letterSpacing: 8),
+                style: TextStyle(color: context.scada.textPrimary, fontSize: 24, letterSpacing: 8),
                 decoration: InputDecoration(
                   labelText: 'Dogrulama Kodu',
-                  labelStyle: const TextStyle(color: ScadaColors.textDim, fontSize: 13),
-                  prefixIcon: const Icon(Icons.pin, size: 18, color: ScadaColors.textDim),
-                  filled: true, fillColor: ScadaColors.surface,
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
-                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
+                  labelStyle: TextStyle(color: context.scada.textDim, fontSize: 13),
+                  prefixIcon: Icon(Icons.pin, size: 18, color: context.scada.textDim),
+                  filled: true, fillColor: context.scada.surface,
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: context.scada.border)),
+                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: context.scada.border)),
                 ),
                 keyboardType: TextInputType.number,
                 maxLength: 6,

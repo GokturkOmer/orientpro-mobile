@@ -34,9 +34,9 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
     final training = ref.watch(trainingProvider);
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
           onPressed: () => Navigator.pushReplacementNamed(context, '/module-selection'),
@@ -51,11 +51,11 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
             child: const Icon(Icons.school, color: ScadaColors.purple, size: 20),
           ),
           const SizedBox(width: 8),
-          const Text('Oryantasyon', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+          Text('Oryantasyon', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
         actions: [
           IconButton(
-            icon: const Icon(Icons.logout, size: 20, color: ScadaColors.textDim),
+            icon: Icon(Icons.logout, size: 20, color: context.scada.textDim),
             onPressed: () {
               ref.read(authProvider.notifier).logout();
               Navigator.pushReplacementNamed(context, '/login');
@@ -72,9 +72,9 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                 Container(
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                    color: ScadaColors.surface,
+                    color: context.scada.surface,
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: ScadaColors.border),
+                    border: Border.all(color: context.scada.border),
                   ),
                   child: Row(children: [
                     Container(
@@ -87,8 +87,8 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                     ),
                     const SizedBox(width: 12),
                     Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text('Hosgeldiniz, ${auth.user?.fullName ?? ""}', style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
-                      const Text('Oryantasyon ve egitim modulune hosgeldiniz', style: TextStyle(fontSize: 11, color: ScadaColors.textSecondary)),
+                      Text('Hosgeldiniz, ${auth.user?.fullName ?? ""}', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
+                      Text('Oryantasyon ve egitim modulune hosgeldiniz', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
                     ])),
                   ]),
                 ),
@@ -100,16 +100,16 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     decoration: BoxDecoration(
-                      color: ScadaColors.card,
+                      color: context.scada.card,
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: ScadaColors.border),
+                      border: Border.all(color: context.scada.border),
                     ),
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                       Row(children: [
-                        const Text('Genel Ilerleme', style: TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+                        Text('Genel Ilerleme', style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
                         const Spacer(),
                         Text('%${training.stats!.completionPercent.toStringAsFixed(0)}', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.amber)),
-                        Text(' (${training.stats!.completedModules}/${training.stats!.totalModules})', style: const TextStyle(fontSize: 9, color: ScadaColors.textDim)),
+                        Text(' (${training.stats!.completedModules}/${training.stats!.totalModules})', style: TextStyle(fontSize: 9, color: context.scada.textDim)),
                       ]),
                       const SizedBox(height: 6),
                       ClipRRect(
@@ -117,7 +117,7 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                         child: LinearProgressIndicator(
                           value: training.stats!.completionPercent / 100,
                           minHeight: 6,
-                          backgroundColor: ScadaColors.border,
+                          backgroundColor: context.scada.border,
                           valueColor: AlwaysStoppedAnimation<Color>(
                             training.stats!.completionPercent >= 80 ? ScadaColors.green : training.stats!.completionPercent >= 40 ? ScadaColors.amber : ScadaColors.purple,
                           ),
@@ -156,16 +156,16 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                         Padding(
                           padding: const EdgeInsets.only(bottom: 4),
                           child: Row(children: [
-                            const Icon(Icons.verified_user_outlined, size: 14, color: ScadaColors.textSecondary),
+                            Icon(Icons.verified_user_outlined, size: 14, color: context.scada.textSecondary),
                             const SizedBox(width: 6),
-                            Text('${training.dashboardSummary!.pendingAcknowledgments} modul onay bekliyor', style: const TextStyle(fontSize: 12, color: ScadaColors.textPrimary)),
+                            Text('${training.dashboardSummary!.pendingAcknowledgments} modul onay bekliyor', style: TextStyle(fontSize: 12, color: context.scada.textPrimary)),
                           ]),
                         ),
                       if (training.reviewCount > 0)
                         Row(children: [
-                          const Icon(Icons.replay, size: 14, color: ScadaColors.textSecondary),
+                          Icon(Icons.replay, size: 14, color: context.scada.textSecondary),
                           const SizedBox(width: 6),
-                          Text('${training.reviewCount} tekrar gerektiren konu', style: const TextStyle(fontSize: 12, color: ScadaColors.textPrimary)),
+                          Text('${training.reviewCount} tekrar gerektiren konu', style: TextStyle(fontSize: 12, color: context.scada.textPrimary)),
                         ]),
                     ]),
                   ),
@@ -175,9 +175,9 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                 if (training.dashboardSummary != null && training.dashboardSummary!.upcomingDeadlines.isNotEmpty) ...[
                   const SizedBox(height: 12),
                   Row(children: [
-                    const Icon(Icons.schedule, size: 14, color: ScadaColors.textDim),
+                    Icon(Icons.schedule, size: 14, color: context.scada.textDim),
                     const SizedBox(width: 6),
-                    const Text('TAMAMLANMAMIS ZORUNLU EGITIMLER', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 1)),
+                    Text('TAMAMLANMAMIS ZORUNLU EGITIMLER', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
                   ]),
                   const SizedBox(height: 8),
                   Builder(builder: (context) {
@@ -198,15 +198,15 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     decoration: BoxDecoration(
-                      color: ScadaColors.card,
+                      color: context.scada.card,
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: ScadaColors.border),
+                      border: Border.all(color: context.scada.border),
                     ),
                     child: Row(children: [
                       _buildMiniStat('Bu Hafta', '${training.dashboardSummary!.weeklyCompleted}', 'modul', ScadaColors.cyan),
-                      Container(width: 1, height: 24, color: ScadaColors.border),
+                      Container(width: 1, height: 24, color: context.scada.border),
                       _buildMiniStat('Sure', '${training.dashboardSummary!.weeklyTimeMinutes}', 'dk', ScadaColors.amber),
-                      Container(width: 1, height: 24, color: ScadaColors.border),
+                      Container(width: 1, height: 24, color: context.scada.border),
                       _buildMiniStat('Onay', '${training.dashboardSummary!.totalAcknowledgments}', 'modul', ScadaColors.green),
                     ]),
                   ),
@@ -222,7 +222,7 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: ScadaColors.card,
+                        color: context.scada.card,
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(color: ScadaColors.amber.withValues(alpha: 0.2)),
                       ),
@@ -250,15 +250,15 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                                 margin: const EdgeInsets.only(top: 4, right: 8),
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: a.isRead == true ? ScadaColors.textDim : ScadaColors.amber,
+                                  color: a.isRead == true ? context.scada.textDim : ScadaColors.amber,
                                 ),
                               ),
                               Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                Text(a.title, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary), maxLines: 1, overflow: TextOverflow.ellipsis),
-                                Text(a.body, style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary), maxLines: 1, overflow: TextOverflow.ellipsis),
+                                Text(a.title, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: context.scada.textPrimary), maxLines: 1, overflow: TextOverflow.ellipsis),
+                                Text(a.body, style: TextStyle(fontSize: 10, color: context.scada.textSecondary), maxLines: 1, overflow: TextOverflow.ellipsis),
                               ])),
                               const SizedBox(width: 6),
-                              Text(a.timeAgo, style: const TextStyle(fontSize: 9, color: ScadaColors.textDim)),
+                              Text(a.timeAgo, style: TextStyle(fontSize: 9, color: context.scada.textDim)),
                             ]),
                           )),
                         ],
@@ -284,9 +284,9 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
 
                 // Section: Moduller
                 Row(children: [
-                  const Icon(Icons.apps, size: 14, color: ScadaColors.textDim),
+                  Icon(Icons.apps, size: 14, color: context.scada.textDim),
                   const SizedBox(width: 6),
-                  const Text('MODULLER', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 1)),
+                  Text('MODULLER', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
                 ]),
                 const SizedBox(height: 12),
 
@@ -345,14 +345,14 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: ScadaColors.card,
+          color: context.scada.card,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: color.withValues(alpha: 0.3)),
         ),
         child: Column(children: [
           Text(value, style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: color)),
           const SizedBox(height: 2),
-          Text(label, style: const TextStyle(fontSize: 9, color: ScadaColors.textSecondary)),
+          Text(label, style: TextStyle(fontSize: 9, color: context.scada.textSecondary)),
         ]),
       ),
     );
@@ -366,9 +366,9 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(value, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: color)),
             const SizedBox(width: 2),
-            Text(unit, style: const TextStyle(fontSize: 9, color: ScadaColors.textDim)),
+            Text(unit, style: TextStyle(fontSize: 9, color: context.scada.textDim)),
           ]),
-          Text(label, style: const TextStyle(fontSize: 9, color: ScadaColors.textSecondary)),
+          Text(label, style: TextStyle(fontSize: 9, color: context.scada.textSecondary)),
         ]),
       ),
     );
@@ -407,16 +407,16 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(
-          color: ScadaColors.card,
+          color: context.scada.card,
           borderRadius: BorderRadius.circular(6),
-          border: Border.all(color: ScadaColors.border),
+          border: Border.all(color: context.scada.border),
         ),
         child: Row(children: [
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(d['title'] ?? '', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: ScadaColors.textPrimary)),
-            Text('${d['completed_modules'] ?? 0}/${d['total_modules'] ?? 0} modul', style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+            Text(d['title'] ?? '', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: context.scada.textPrimary)),
+            Text('${d['completed_modules'] ?? 0}/${d['total_modules'] ?? 0} modul', style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
           ])),
-          Text('~${d['estimated_minutes'] ?? 0} dk', style: const TextStyle(fontSize: 10, color: ScadaColors.textDim)),
+          Text('~${d['estimated_minutes'] ?? 0} dk', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
         ]),
       ),
     );
@@ -432,9 +432,9 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: ListTile(
         dense: true,
@@ -448,7 +448,7 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
           child: Icon(icon, color: color, size: 22),
         ),
         title: Row(children: [
-          Text(title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+          Text(title, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
           if (badge != null) ...[
             const SizedBox(width: 6),
             Container(
@@ -458,8 +458,8 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
             ),
           ],
         ]),
-        subtitle: Text(description, style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 14, color: ScadaColors.textDim),
+        subtitle: Text(description, style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
+        trailing: Icon(Icons.arrow_forward_ios, size: 14, color: context.scada.textDim),
         onTap: onTap,
       ),
     );

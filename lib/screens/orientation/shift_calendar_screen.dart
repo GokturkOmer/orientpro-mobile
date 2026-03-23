@@ -50,9 +50,9 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
     final shiftState = ref.watch(shiftProvider);
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
           onPressed: () => Navigator.pop(context),
@@ -67,13 +67,13 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
             child: const Icon(Icons.calendar_month, color: ScadaColors.amber, size: 20),
           ),
           const SizedBox(width: 8),
-          const Text('Vardiya & Gorevler', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+          Text('Vardiya & Gorevler', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
         bottom: TabBar(
           controller: _tabCtrl,
           indicatorColor: ScadaColors.cyan,
           labelColor: ScadaColors.cyan,
-          unselectedLabelColor: ScadaColors.textDim,
+          unselectedLabelColor: context.scada.textDim,
           labelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
           tabs: [
             Tab(text: 'Vardiyalar (${shiftState.shifts.length})'),
@@ -100,7 +100,7 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
             ),
           );
         },
-        child: const Icon(Icons.add, color: ScadaColors.bg),
+        child: Icon(Icons.add, color: context.scada.bg),
       ),
     );
   }
@@ -110,9 +110,9 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
     if (shiftState.shifts.isEmpty) {
       return Center(
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-          const Icon(Icons.calendar_today, size: 48, color: ScadaColors.textDim),
+          Icon(Icons.calendar_today, size: 48, color: context.scada.textDim),
           const SizedBox(height: 8),
-          const Text('Bu hafta vardiya bulunamadi', style: TextStyle(color: ScadaColors.textSecondary, fontSize: 13)),
+          Text('Bu hafta vardiya bulunamadi', style: TextStyle(color: context.scada.textSecondary, fontSize: 13)),
         ]),
       );
     }
@@ -148,9 +148,9 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: isToday ? ScadaColors.cyan.withValues(alpha: 0.5) : ScadaColors.border),
+        border: Border.all(color: isToday ? ScadaColors.cyan.withValues(alpha: 0.5) : context.scada.border),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         // Day header
@@ -163,7 +163,7 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
           child: Row(children: [
             Text(dayLabel, style: TextStyle(
               fontSize: 12, fontWeight: FontWeight.w600,
-              color: isToday ? ScadaColors.cyan : ScadaColors.textPrimary,
+              color: isToday ? ScadaColors.cyan : context.scada.textPrimary,
             )),
             if (isToday) ...[
               const SizedBox(width: 6),
@@ -207,10 +207,10 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
         ),
         const SizedBox(width: 8),
         if (shift.timeRange.isNotEmpty)
-          Text(shift.timeRange, style: const TextStyle(fontSize: 11, color: ScadaColors.textPrimary)),
+          Text(shift.timeRange, style: TextStyle(fontSize: 11, color: context.scada.textPrimary)),
         const Spacer(),
         if (shift.department != null)
-          Text(shift.department!, style: const TextStyle(fontSize: 9, color: ScadaColors.textDim)),
+          Text(shift.department!, style: TextStyle(fontSize: 9, color: context.scada.textDim)),
       ]),
     );
   }
@@ -222,7 +222,7 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
       case 'gece': return ScadaColors.cyan;
       case 'izin': return ScadaColors.green;
       case 'rapor': return ScadaColors.red;
-      default: return ScadaColors.textSecondary;
+      default: return context.scada.textSecondary;
     }
   }
 
@@ -235,15 +235,15 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
         child: TextField(
           decoration: InputDecoration(
             hintText: 'Gorev ara...',
-            hintStyle: const TextStyle(color: ScadaColors.textDim, fontSize: 13),
-            prefixIcon: const Icon(Icons.search, color: ScadaColors.textDim, size: 20),
+            hintStyle: TextStyle(color: context.scada.textDim, fontSize: 13),
+            prefixIcon: Icon(Icons.search, color: context.scada.textDim, size: 20),
             filled: true,
-            fillColor: ScadaColors.card,
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: ScadaColors.border)),
-            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: ScadaColors.border)),
+            fillColor: context.scada.card,
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: context.scada.border)),
+            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: context.scada.border)),
             contentPadding: const EdgeInsets.symmetric(vertical: 8),
           ),
-          style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
+          style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
           onChanged: (v) => setState(() => _searchQuery = v.toLowerCase()),
         ),
       ),
@@ -274,9 +274,9 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
           if (tasks.isEmpty) {
             return Center(
               child: Column(mainAxisSize: MainAxisSize.min, children: [
-                const Icon(Icons.task_alt, size: 48, color: ScadaColors.textDim),
+                Icon(Icons.task_alt, size: 48, color: context.scada.textDim),
                 const SizedBox(height: 8),
-                const Text('Gorev bulunamadi', style: TextStyle(color: ScadaColors.textSecondary, fontSize: 13)),
+                Text('Gorev bulunamadi', style: TextStyle(color: context.scada.textSecondary, fontSize: 13)),
               ]),
             );
           }
@@ -298,12 +298,12 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
       child: FilterChip(
         label: Text(label, style: TextStyle(
           fontSize: 11,
-          color: isSelected ? ScadaColors.bg : ScadaColors.textSecondary,
+          color: isSelected ? context.scada.bg : context.scada.textSecondary,
         )),
         selected: isSelected,
         selectedColor: ScadaColors.cyan,
-        backgroundColor: ScadaColors.card,
-        side: BorderSide(color: isSelected ? ScadaColors.cyan : ScadaColors.border),
+        backgroundColor: context.scada.card,
+        side: BorderSide(color: isSelected ? ScadaColors.cyan : context.scada.border),
         onSelected: (_) => setState(() => _taskFilter = value),
       ),
     );
@@ -316,9 +316,9 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: task.isOverdue ? ScadaColors.red.withValues(alpha: 0.5) : ScadaColors.border),
+        border: Border.all(color: task.isOverdue ? ScadaColors.red.withValues(alpha: 0.5) : context.scada.border),
       ),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
@@ -336,7 +336,7 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
         title: Row(children: [
           Expanded(child: Text(task.title, style: TextStyle(
             fontSize: 13, fontWeight: FontWeight.w600,
-            color: ScadaColors.textPrimary,
+            color: context.scada.textPrimary,
             decoration: task.status == 'completed' ? TextDecoration.lineThrough : null,
           ))),
           Container(
@@ -350,7 +350,7 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
         ]),
         subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           if (task.description != null)
-            Text(task.description!, style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary), maxLines: 1, overflow: TextOverflow.ellipsis),
+            Text(task.description!, style: TextStyle(fontSize: 10, color: context.scada.textSecondary), maxLines: 1, overflow: TextOverflow.ellipsis),
           const SizedBox(height: 4),
           Row(children: [
             Container(
@@ -363,20 +363,20 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
             ),
             if (task.dueDate != null) ...[
               const SizedBox(width: 6),
-              Icon(Icons.schedule, size: 10, color: task.isOverdue ? ScadaColors.red : ScadaColors.textDim),
+              Icon(Icons.schedule, size: 10, color: task.isOverdue ? ScadaColors.red : context.scada.textDim),
               const SizedBox(width: 2),
-              Text(task.dueDate!, style: TextStyle(fontSize: 9, color: task.isOverdue ? ScadaColors.red : ScadaColors.textDim)),
+              Text(task.dueDate!, style: TextStyle(fontSize: 9, color: task.isOverdue ? ScadaColors.red : context.scada.textDim)),
             ],
             if (task.category != null) ...[
               const SizedBox(width: 6),
-              Text(task.category!, style: const TextStyle(fontSize: 9, color: ScadaColors.textDim)),
+              Text(task.category!, style: TextStyle(fontSize: 9, color: context.scada.textDim)),
             ],
           ]),
         ]),
         trailing: task.status != 'completed' && task.status != 'cancelled'
             ? PopupMenuButton<String>(
-                icon: const Icon(Icons.more_vert, size: 16, color: ScadaColors.textDim),
-                color: ScadaColors.surface,
+                icon: Icon(Icons.more_vert, size: 16, color: context.scada.textDim),
+                color: context.scada.surface,
                 onSelected: (val) => _updateTaskStatus(task.id, val),
                 itemBuilder: (_) => [
                   if (task.status == 'pending')

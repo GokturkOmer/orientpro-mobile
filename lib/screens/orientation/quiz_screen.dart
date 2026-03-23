@@ -81,21 +81,21 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
     final questions = training.quizQuestions;
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         leading: IconButton(
           icon: const Icon(Icons.close, color: ScadaColors.red, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Quiz', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+        title: Text('Quiz', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         actions: [
           if (!_submitted && questions.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(right: 8),
               child: Text(
                 '${_selectedAnswers.length}/${questions.length}',
-                style: const TextStyle(fontSize: 13, color: ScadaColors.textSecondary),
+                style: TextStyle(fontSize: 13, color: context.scada.textSecondary),
               ),
             ),
         ],
@@ -103,19 +103,19 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
       body: training.isLoading
           ? const Center(child: CircularProgressIndicator(color: ScadaColors.green))
           : questions.isEmpty
-              ? const Center(child: Text('Soru bulunamadi', style: TextStyle(color: ScadaColors.textSecondary)))
+              ? Center(child: Text('Soru bulunamadi', style: TextStyle(color: context.scada.textSecondary)))
               : _submitted
                   ? _buildResult(questions)
                   : _buildQuiz(questions),
       bottomNavigationBar: !_submitted && questions.isNotEmpty
           ? Container(
               padding: EdgeInsets.fromLTRB(16, 16, 16, 16 + MediaQuery.of(context).padding.bottom),
-              color: ScadaColors.surface,
+              color: context.scada.surface,
               child: ElevatedButton(
                 onPressed: _selectedAnswers.length == questions.length ? _submitQuiz : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ScadaColors.green,
-                  disabledBackgroundColor: ScadaColors.textDim.withValues(alpha: 0.3),
+                  disabledBackgroundColor: context.scada.textDim.withValues(alpha: 0.3),
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
@@ -147,9 +147,9 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
       margin: const EdgeInsets.only(bottom: 14),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(children: [
@@ -172,7 +172,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
           ),
         ]),
         const SizedBox(height: 10),
-        Text(question.questionText, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: ScadaColors.textPrimary, height: 1.4)),
+        Text(question.questionText, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: context.scada.textPrimary, height: 1.4)),
         const SizedBox(height: 12),
         ...options.asMap().entries.map((entry) {
           final optIdx = entry.key;
@@ -185,10 +185,10 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
               margin: const EdgeInsets.only(bottom: 6),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               decoration: BoxDecoration(
-                color: isSelected ? ScadaColors.cyan.withValues(alpha: 0.1) : ScadaColors.bg,
+                color: isSelected ? ScadaColors.cyan.withValues(alpha: 0.1) : context.scada.bg,
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: isSelected ? ScadaColors.cyan : ScadaColors.border,
+                  color: isSelected ? ScadaColors.cyan : context.scada.border,
                   width: isSelected ? 1.5 : 1,
                 ),
               ),
@@ -198,12 +198,12 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: isSelected ? ScadaColors.cyan : Colors.transparent,
-                    border: Border.all(color: isSelected ? ScadaColors.cyan : ScadaColors.textDim, width: 1.5),
+                    border: Border.all(color: isSelected ? ScadaColors.cyan : context.scada.textDim, width: 1.5),
                   ),
                   child: isSelected ? const Icon(Icons.check, size: 13, color: Colors.white) : null,
                 ),
                 const SizedBox(width: 10),
-                Expanded(child: Text(optText, style: TextStyle(fontSize: 12, color: isSelected ? ScadaColors.textPrimary : ScadaColors.textSecondary))),
+                Expanded(child: Text(optText, style: TextStyle(fontSize: 12, color: isSelected ? context.scada.textPrimary : context.scada.textSecondary))),
               ]),
             ),
           );
@@ -232,12 +232,12 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
           const SizedBox(height: 8),
           Text(
             'Puaniniz: ${_score.toInt()} / ${maxScore.toInt()} (%${percent.toInt()})',
-            style: const TextStyle(fontSize: 15, color: ScadaColors.textPrimary),
+            style: TextStyle(fontSize: 15, color: context.scada.textPrimary),
           ),
           const SizedBox(height: 8),
           Text(
             _passed == true ? 'Quiz basariyla tamamlandi!' : 'Gecme puanina ulasilamadi. Tekrar deneyin.',
-            style: const TextStyle(fontSize: 12, color: ScadaColors.textSecondary),
+            style: TextStyle(fontSize: 12, color: context.scada.textSecondary),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 24),
@@ -265,7 +265,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
               margin: const EdgeInsets.only(bottom: 8),
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: ScadaColors.card,
+                color: context.scada.card,
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: isCorrect ? ScadaColors.green.withValues(alpha: 0.5) : ScadaColors.red.withValues(alpha: 0.5)),
               ),
@@ -273,7 +273,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                 Row(children: [
                   Icon(isCorrect ? Icons.check_circle : Icons.cancel, size: 16, color: isCorrect ? ScadaColors.green : ScadaColors.red),
                   const SizedBox(width: 6),
-                  Expanded(child: Text(q.questionText, style: const TextStyle(fontSize: 11, color: ScadaColors.textPrimary), maxLines: 2, overflow: TextOverflow.ellipsis)),
+                  Expanded(child: Text(q.questionText, style: TextStyle(fontSize: 11, color: context.scada.textPrimary), maxLines: 2, overflow: TextOverflow.ellipsis)),
                 ]),
                 if (!isCorrect && correctIdx >= 0 && correctIdx < options.length) ...[
                   const SizedBox(height: 4),
@@ -281,7 +281,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                 ],
                 if (q.explanation != null) ...[
                   const SizedBox(height: 4),
-                  Text(q.explanation!, style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary, fontStyle: FontStyle.italic)),
+                  Text(q.explanation!, style: TextStyle(fontSize: 10, color: context.scada.textSecondary, fontStyle: FontStyle.italic)),
                 ],
               ]),
             );

@@ -20,9 +20,9 @@ class CertificateScreen extends ConsumerWidget {
     final completedDate = _formatDate(completedAt);
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
           onPressed: () => Navigator.pop(context),
@@ -37,7 +37,7 @@ class CertificateScreen extends ConsumerWidget {
             child: const Icon(Icons.workspace_premium, color: ScadaColors.green, size: 20),
           ),
           const SizedBox(width: 8),
-          const Text('Tamamlama Sertifikasi', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+          Text('Tamamlama Sertifikasi', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
       ),
       body: SingleChildScrollView(
@@ -49,7 +49,7 @@ class CertificateScreen extends ConsumerWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: ScadaColors.surface,
+                color: context.scada.surface,
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: ScadaColors.green.withValues(alpha: 0.4), width: 2),
                 boxShadow: [
@@ -97,33 +97,33 @@ class CertificateScreen extends ConsumerWidget {
                   Container(
                     width: 40,
                     height: 1,
-                    color: ScadaColors.border,
+                    color: context.scada.border,
                   ),
                   const SizedBox(height: 16),
 
                   // "Bu belge ile onaylanir ki"
-                  const Text(
+                  Text(
                     'Bu belge ile onaylanir ki',
-                    style: TextStyle(fontSize: 11, color: ScadaColors.textSecondary),
+                    style: TextStyle(fontSize: 11, color: context.scada.textSecondary),
                   ),
                   const SizedBox(height: 12),
 
                   // User name
                   Text(
                     userName,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
-                      color: ScadaColors.textPrimary,
+                      color: context.scada.textPrimary,
                     ),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 12),
 
                   // Description
-                  const Text(
+                  Text(
                     'asagidaki egitim rotasini basariyla tamamlamistir',
-                    style: TextStyle(fontSize: 11, color: ScadaColors.textSecondary),
+                    style: TextStyle(fontSize: 11, color: context.scada.textSecondary),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 16),
@@ -152,9 +152,9 @@ class CertificateScreen extends ConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _buildDetailItem(Icons.calendar_today, 'Tarih', completedDate),
+                      _buildDetailItem(context, Icons.calendar_today, 'Tarih', completedDate),
                       const SizedBox(width: 32),
-                      _buildDetailItem(Icons.tag, 'Sertifika No', certId),
+                      _buildDetailItem(context, Icons.tag, 'Sertifika No', certId),
                     ],
                   ),
                   const SizedBox(height: 20),
@@ -196,16 +196,16 @@ class CertificateScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildDetailItem(IconData icon, String label, String value) {
+  Widget _buildDetailItem(BuildContext context, IconData icon, String label, String value) {
     return Column(
       children: [
-        Icon(icon, size: 14, color: ScadaColors.textDim),
+        Icon(icon, size: 14, color: context.scada.textDim),
         const SizedBox(height: 4),
-        Text(label, style: const TextStyle(fontSize: 9, color: ScadaColors.textDim)),
+        Text(label, style: TextStyle(fontSize: 9, color: context.scada.textDim)),
         const SizedBox(height: 2),
         Text(
           value,
-          style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary),
+          style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary),
         ),
       ],
     );

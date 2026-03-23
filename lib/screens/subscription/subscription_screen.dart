@@ -50,10 +50,10 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
         title: const Text('Abonelik & Plan'),
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => Navigator.pop(context)),
       ),
       body: _isLoading
@@ -62,13 +62,13 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
               ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
                   const Icon(Icons.error_outline, size: 48, color: ScadaColors.red),
                   const SizedBox(height: 12),
-                  Text(_error!, style: const TextStyle(color: ScadaColors.textSecondary)),
+                  Text(_error!, style: TextStyle(color: context.scada.textSecondary)),
                   const SizedBox(height: 16),
                   ElevatedButton(onPressed: _loadData, child: const Text('Tekrar Dene')),
                 ]))
               : RefreshIndicator(
                   color: ScadaColors.cyan,
-                  backgroundColor: ScadaColors.surface,
+                  backgroundColor: context.scada.surface,
                   onRefresh: _loadData,
                   child: ListView(
                     padding: const EdgeInsets.all(16),
@@ -115,7 +115,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
         statusText = 'Suresi Doldu';
         statusIcon = Icons.timer_off;
       default:
-        statusColor = ScadaColors.textDim;
+        statusColor = context.scada.textDim;
         statusText = 'Ucretsiz';
         statusIcon = Icons.card_giftcard;
     }
@@ -124,7 +124,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [statusColor.withValues(alpha: 0.15), ScadaColors.surface],
+          colors: [statusColor.withValues(alpha: 0.15), context.scada.surface],
           begin: Alignment.topLeft, end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
@@ -149,7 +149,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
         if (periodEnd != null && !isTrial) ...[
           const SizedBox(height: 12),
           Text('Donem sonu: ${_formatDate(periodEnd)}',
-            style: const TextStyle(fontSize: 13, color: ScadaColors.textDim)),
+            style: TextStyle(fontSize: 13, color: context.scada.textDim)),
         ],
       ]),
     );
@@ -183,9 +183,9 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
 
   Widget _buildPlansSection() {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const Text('PLANLAR',
+      Text('PLANLAR',
         style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600,
-          color: ScadaColors.textDim, letterSpacing: 1)),
+          color: context.scada.textDim, letterSpacing: 1)),
       const SizedBox(height: 12),
       ..._plans.map((plan) => _buildPlanCard(plan)),
     ]);
@@ -202,10 +202,10 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: isActive ? ScadaColors.cyan.withValues(alpha: 0.08) : ScadaColors.surface,
+        color: isActive ? ScadaColors.cyan.withValues(alpha: 0.08) : context.scada.surface,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: isActive ? ScadaColors.cyan : ScadaColors.border,
+          color: isActive ? ScadaColors.cyan : context.scada.border,
           width: isActive ? 2 : 1,
         ),
       ),
@@ -214,7 +214,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(children: [
               Text(plan['display_name'] ?? plan['name'],
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: ScadaColors.textPrimary)),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: context.scada.textPrimary)),
               if (isActive) ...[
                 const SizedBox(width: 8),
                 Container(
@@ -230,7 +230,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
             const SizedBox(height: 4),
             if (priceMonthly > 0)
               Text('${priceMonthly.toStringAsFixed(0)} TL/ay  •  ${priceYearly.toStringAsFixed(0)} TL/yil',
-                style: const TextStyle(fontSize: 14, color: ScadaColors.textSecondary))
+                style: TextStyle(fontSize: 14, color: context.scada.textSecondary))
             else
               const Text('Ucretsiz', style: TextStyle(fontSize: 14, color: ScadaColors.green)),
           ])),
@@ -238,9 +238,9 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
         if (features.isNotEmpty) ...[
           const SizedBox(height: 12),
           Wrap(spacing: 8, runSpacing: 4, children: [
-            Text('${plan['max_users'] ?? '?'} kullanici', style: const TextStyle(fontSize: 12, color: ScadaColors.textDim)),
-            Text('•', style: TextStyle(color: ScadaColors.textDim)),
-            Text('${plan['max_storage_gb'] ?? '?'} GB depolama', style: const TextStyle(fontSize: 12, color: ScadaColors.textDim)),
+            Text('${plan['max_users'] ?? '?'} kullanici', style: TextStyle(fontSize: 12, color: context.scada.textDim)),
+            Text('•', style: TextStyle(color: context.scada.textDim)),
+            Text('${plan['max_storage_gb'] ?? '?'} GB depolama', style: TextStyle(fontSize: 12, color: context.scada.textDim)),
           ]),
         ],
         if (!isActive && priceMonthly > 0) ...[
@@ -263,43 +263,43 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
 
   Widget _buildInvoicesSection() {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const Text('FATURA GECMISI',
+      Text('FATURA GECMISI',
         style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600,
-          color: ScadaColors.textDim, letterSpacing: 1)),
+          color: context.scada.textDim, letterSpacing: 1)),
       const SizedBox(height: 12),
       ..._invoices.take(5).map((inv) => ListTile(
         dense: true,
         contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-        tileColor: ScadaColors.surface,
+        tileColor: context.scada.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         leading: Icon(
           inv['status'] == 'paid' ? Icons.receipt_long : Icons.pending,
           color: inv['status'] == 'paid' ? ScadaColors.green : ScadaColors.orange,
         ),
         title: Text(inv['description'] ?? 'Fatura',
-          style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 14)),
+          style: TextStyle(color: context.scada.textPrimary, fontSize: 14)),
         subtitle: Text(_formatDate(inv['invoice_date']),
-          style: const TextStyle(color: ScadaColors.textDim, fontSize: 12)),
+          style: TextStyle(color: context.scada.textDim, fontSize: 12)),
         trailing: Text('${(inv['amount'] ?? 0).toStringAsFixed(0)} ${inv['currency'] ?? 'TRY'}',
-          style: const TextStyle(color: ScadaColors.textPrimary, fontWeight: FontWeight.w600)),
+          style: TextStyle(color: context.scada.textPrimary, fontWeight: FontWeight.w600)),
       )),
     ]);
   }
 
   void _showUpgradeDialog(Map<String, dynamic> plan) {
     showDialog(context: context, builder: (ctx) => AlertDialog(
-      backgroundColor: ScadaColors.surface,
+      backgroundColor: context.scada.surface,
       title: Text('${plan['display_name']} Planina Yukselt',
-        style: const TextStyle(color: ScadaColors.textPrimary)),
+        style: TextStyle(color: context.scada.textPrimary)),
       content: Text(
         'Bu plan aylik ${(plan['price_monthly'] ?? 0).toStringAsFixed(0)} TL veya '
         'yillik ${(plan['price_yearly'] ?? 0).toStringAsFixed(0)} TL.\n\n'
         'Yukseltme icin lufen destek ekibi ile iletisime gecin.',
-        style: const TextStyle(color: ScadaColors.textSecondary)),
+        style: TextStyle(color: context.scada.textSecondary)),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(ctx),
-          child: const Text('Kapat', style: TextStyle(color: ScadaColors.textDim)),
+          child: Text('Kapat', style: TextStyle(color: context.scada.textDim)),
         ),
       ],
     ));

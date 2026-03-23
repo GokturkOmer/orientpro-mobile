@@ -232,3 +232,39 @@ class AppTheme {
     );
   }
 }
+
+/// Tema-duyarli renk erisimleri.
+/// Kullanim: context.scada.bg, context.scada.textPrimary, vs.
+class ThemeAwareColors {
+  final BuildContext _context;
+  const ThemeAwareColors(this._context);
+
+  bool get _isDark => Theme.of(_context).brightness == Brightness.dark;
+
+  // Arka planlar
+  Color get bg => _isDark ? ScadaColors.bg : ScadaLightColors.bg;
+  Color get surface => _isDark ? ScadaColors.surface : ScadaLightColors.surface;
+  Color get card => _isDark ? ScadaColors.card : ScadaLightColors.card;
+
+  // Kenarliklar
+  Color get border => _isDark ? ScadaColors.border : ScadaLightColors.border;
+  Color get borderBright => _isDark ? ScadaColors.borderBright : ScadaLightColors.borderBright;
+
+  // Metin
+  Color get textPrimary => _isDark ? ScadaColors.textPrimary : ScadaLightColors.textPrimary;
+  Color get textSecondary => _isDark ? ScadaColors.textSecondary : ScadaLightColors.textSecondary;
+  Color get textDim => _isDark ? ScadaColors.textDim : ScadaLightColors.textDim;
+
+  // Accent renkler — her iki temada ayni
+  Color get cyan => ScadaColors.cyan;
+  Color get cyanDim => ScadaColors.cyanDim;
+  Color get green => ScadaColors.green;
+  Color get amber => ScadaColors.amber;
+  Color get red => ScadaColors.red;
+  Color get purple => ScadaColors.purple;
+  Color get orange => ScadaColors.orange;
+}
+
+extension ThemeAwareContext on BuildContext {
+  ThemeAwareColors get scada => ThemeAwareColors(this);
+}

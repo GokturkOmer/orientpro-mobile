@@ -30,13 +30,13 @@ void showPdfUploadDialog({
       return StatefulBuilder(
         builder: (ctx, setDialogState) {
           return AlertDialog(
-            backgroundColor: ScadaColors.surface,
+            backgroundColor: context.scada.surface,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
-              side: const BorderSide(color: ScadaColors.borderBright),
+              side: BorderSide(color: context.scada.borderBright),
             ),
-            title: const Text('PDF Dokuman Yukle',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+            title: Text('PDF Dokuman Yukle',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
             content: SizedBox(
               width: 400,
               child: Column(
@@ -46,16 +46,16 @@ void showPdfUploadDialog({
                   TextField(
                     controller: titleCtrl,
                     enabled: !isUploading,
-                    style: const TextStyle(fontSize: 13, color: ScadaColors.textPrimary),
+                    style: TextStyle(fontSize: 13, color: context.scada.textPrimary),
                     decoration: InputDecoration(
                       labelText: 'Baslik',
-                      labelStyle: const TextStyle(fontSize: 12, color: ScadaColors.textSecondary),
+                      labelStyle: TextStyle(fontSize: 12, color: context.scada.textSecondary),
                       filled: true,
-                      fillColor: ScadaColors.bg,
+                      fillColor: context.scada.bg,
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(color: ScadaColors.border),
+                        borderSide: BorderSide(color: context.scada.border),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -69,17 +69,17 @@ void showPdfUploadDialog({
                   if (modules.isNotEmpty) ...[
                     DropdownButtonFormField<String>(
                       initialValue: selectedModuleId,
-                      dropdownColor: ScadaColors.card,
-                      style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
+                      dropdownColor: context.scada.card,
+                      style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
                       decoration: InputDecoration(
                         labelText: 'Hedef Modul',
-                        labelStyle: const TextStyle(fontSize: 12, color: ScadaColors.textSecondary),
+                        labelStyle: TextStyle(fontSize: 12, color: context.scada.textSecondary),
                         filled: true,
-                        fillColor: ScadaColors.bg,
+                        fillColor: context.scada.bg,
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(color: ScadaColors.border),
+                          borderSide: BorderSide(color: context.scada.border),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -123,10 +123,10 @@ void showPdfUploadDialog({
                       width: double.infinity,
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
-                        color: ScadaColors.bg,
+                        color: context.scada.bg,
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                          color: pdfFileName != null ? ScadaColors.green : ScadaColors.border,
+                          color: pdfFileName != null ? ScadaColors.green : context.scada.border,
                         ),
                       ),
                       child: Column(
@@ -134,22 +134,22 @@ void showPdfUploadDialog({
                           Icon(
                             pdfFileName != null ? Icons.picture_as_pdf : Icons.cloud_upload_outlined,
                             size: 36,
-                            color: pdfFileName != null ? ScadaColors.red : ScadaColors.textDim,
+                            color: pdfFileName != null ? ScadaColors.red : context.scada.textDim,
                           ),
-                          const SizedBox(height: 8),
+                          SizedBox(height: 8),
                           Text(
                             pdfFileName ?? 'PDF dosya secmek icin tikla',
                             style: TextStyle(
                               fontSize: 12,
-                              color: pdfFileName != null ? ScadaColors.textPrimary : ScadaColors.textSecondary,
+                              color: pdfFileName != null ? context.scada.textPrimary : context.scada.textSecondary,
                             ),
                             textAlign: TextAlign.center,
                           ),
                           if (pdfFileBytes != null) ...[
-                            const SizedBox(height: 4),
+                            SizedBox(height: 4),
                             Text(
                               '${(pdfFileBytes!.length / 1024 / 1024).toStringAsFixed(2)} MB',
-                              style: const TextStyle(fontSize: 10, color: ScadaColors.textDim),
+                              style: TextStyle(fontSize: 10, color: context.scada.textDim),
                             ),
                           ],
                         ],
@@ -159,7 +159,7 @@ void showPdfUploadDialog({
 
                   // Enrichment checkbox
                   if (selectedModuleId != null) ...[
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                       decoration: BoxDecoration(
@@ -177,13 +177,13 @@ void showPdfUploadDialog({
                         onChanged: isUploading
                             ? null
                             : (v) => setDialogState(() => enrichExistingContents = v ?? false),
-                        title: const Text(
+                        title: Text(
                           'Mevcut icerikleri PDF ile zenginlestir',
-                          style: TextStyle(color: ScadaColors.textPrimary, fontSize: 12, fontWeight: FontWeight.w500),
+                          style: TextStyle(color: context.scada.textPrimary, fontSize: 12, fontWeight: FontWeight.w500),
                         ),
-                        subtitle: const Text(
+                        subtitle: Text(
                           'AI, modulun ders iceriklerini PDF bilgileriyle guncelleyecek',
-                          style: TextStyle(color: ScadaColors.textDim, fontSize: 10),
+                          style: TextStyle(color: context.scada.textDim, fontSize: 10),
                         ),
                         secondary: const Icon(Icons.auto_fix_high, color: ScadaColors.purple, size: 20),
                       ),
@@ -214,17 +214,17 @@ void showPdfUploadDialog({
 
                   // Progress
                   if (isUploading) ...[
-                    const SizedBox(height: 14),
-                    const LinearProgressIndicator(
-                      backgroundColor: ScadaColors.border,
+                    SizedBox(height: 14),
+                    LinearProgressIndicator(
+                      backgroundColor: context.scada.border,
                       valueColor: AlwaysStoppedAnimation<Color>(ScadaColors.cyan),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     Text(
                         enrichExistingContents && selectedModuleId != null
                             ? 'AI siniflandirma + icerik zenginlestirme yapiliyor...'
                             : 'AI siniflandirma yapiliyor...',
-                        style: const TextStyle(fontSize: 11, color: ScadaColors.textSecondary)),
+                        style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
                   ],
                 ],
               ),
@@ -234,7 +234,7 @@ void showPdfUploadDialog({
                 onPressed: isUploading ? null : () => Navigator.pop(ctx),
                 child: Text('Iptal',
                     style: TextStyle(
-                        color: isUploading ? ScadaColors.textDim : ScadaColors.textSecondary)),
+                        color: isUploading ? context.scada.textDim : context.scada.textSecondary)),
               ),
               ElevatedButton(
                 onPressed: isUploading

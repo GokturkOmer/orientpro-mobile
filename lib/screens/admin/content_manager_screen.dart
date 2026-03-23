@@ -85,22 +85,22 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
     final admin = ref.watch(adminProvider);
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
+        title: Text(
           'Icerik Yonetimi',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary),
         ),
         actions: [
           IconButton(
             icon: Icon(
               _showSearchPanel ? Icons.search_off : Icons.search,
-              color: _showSearchPanel ? ScadaColors.cyan : ScadaColors.textSecondary,
+              color: _showSearchPanel ? ScadaColors.cyan : context.scada.textSecondary,
               size: 20,
             ),
             onPressed: () {
@@ -129,7 +129,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
             return Row(
               children: [
                 SizedBox(width: 280, child: _buildLeftPanel(admin)),
-                Container(width: 1, color: ScadaColors.border),
+                Container(width: 1, color: context.scada.border),
                 Expanded(child: _buildRightPanel(admin)),
               ],
             );
@@ -155,7 +155,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
 
   Widget _buildNarrowBackBar() {
     return Container(
-      color: ScadaColors.surface,
+      color: context.scada.surface,
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: Row(
         children: [
@@ -164,9 +164,9 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
             onPressed: () => setState(() => _showLeftPanel = true),
             tooltip: 'Agaca don',
           ),
-          const Text(
+          Text(
             'Icerik Agaci',
-            style: TextStyle(fontSize: 12, color: ScadaColors.textSecondary),
+            style: TextStyle(fontSize: 12, color: context.scada.textSecondary),
           ),
         ],
       ),
@@ -177,23 +177,23 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
 
   Widget _buildLeftPanel(AdminState admin, {VoidCallback? onSelect}) {
     return Container(
-      color: ScadaColors.surface,
+      color: context.scada.surface,
       child: Column(
         children: [
           // Header
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            decoration: const BoxDecoration(
-              border: Border(bottom: BorderSide(color: ScadaColors.border)),
+            decoration: BoxDecoration(
+              border: Border(bottom: BorderSide(color: context.scada.border)),
             ),
             child: Row(
               children: [
                 const Icon(Icons.account_tree, color: ScadaColors.cyan, size: 18),
-                const SizedBox(width: 8),
-                const Expanded(
+                SizedBox(width: 8),
+                Expanded(
                   child: Text(
                     'Icerik Agaci',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: context.scada.textPrimary),
                   ),
                 ),
                 SizedBox(
@@ -201,7 +201,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                   height: 28,
                   child: IconButton(
                     icon: const Icon(Icons.refresh, size: 16),
-                    color: ScadaColors.textSecondary,
+                    color: context.scada.textSecondary,
                     padding: EdgeInsets.zero,
                     onPressed: _refresh,
                     tooltip: 'Yenile',
@@ -228,11 +228,11 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Icon(Icons.folder_open, size: 36, color: ScadaColors.textDim),
-                            const SizedBox(height: 8),
-                            const Text(
+                            Icon(Icons.folder_open, size: 36, color: context.scada.textDim),
+                            SizedBox(height: 8),
+                            Text(
                               'Departman bulunamadi',
-                              style: TextStyle(fontSize: 12, color: ScadaColors.textSecondary),
+                              style: TextStyle(fontSize: 12, color: context.scada.textSecondary),
                             ),
                           ],
                         ),
@@ -293,7 +293,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                 Icon(
                   isExpanded ? Icons.expand_more : Icons.chevron_right,
                   size: 18,
-                  color: ScadaColors.textDim,
+                  color: context.scada.textDim,
                 ),
                 const SizedBox(width: 6),
                 Container(
@@ -301,11 +301,11 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                   height: 8,
                   decoration: BoxDecoration(color: deptColor, shape: BoxShape.circle),
                 ),
-                const SizedBox(width: 8),
+                SizedBox(width: 8),
                 Expanded(
                   child: Text(
                     dept.name,
-                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary),
+                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -334,7 +334,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
             padding: const EdgeInsets.only(left: 44, bottom: 8),
             child: Text(
               'Henuz rota yok',
-              style: TextStyle(fontSize: 11, color: ScadaColors.textDim, fontStyle: FontStyle.italic),
+              style: TextStyle(fontSize: 11, color: context.scada.textDim, fontStyle: FontStyle.italic),
             ),
           ),
       ],
@@ -367,9 +367,9 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
             Icon(
               route.isMandatory ? Icons.lock : Icons.route,
               size: 14,
-              color: isSelected ? ScadaColors.cyan : ScadaColors.textDim,
+              color: isSelected ? ScadaColors.cyan : context.scada.textDim,
             ),
-            const SizedBox(width: 8),
+            SizedBox(width: 8),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -379,11 +379,11 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                      color: isSelected ? ScadaColors.cyan : ScadaColors.textPrimary,
+                      color: isSelected ? ScadaColors.cyan : context.scada.textPrimary,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 2),
+                  SizedBox(height: 2),
                   Row(
                     children: [
                       Container(
@@ -397,10 +397,10 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                           style: TextStyle(fontSize: 8, color: difficultyColor, fontWeight: FontWeight.w600),
                         ),
                       ),
-                      const SizedBox(width: 6),
+                      SizedBox(width: 6),
                       Text(
                         '${route.modules?.length ?? 0} modul',
-                        style: const TextStyle(fontSize: 9, color: ScadaColors.textDim),
+                        style: TextStyle(fontSize: 9, color: context.scada.textDim),
                       ),
                     ],
                   ),
@@ -412,7 +412,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
               height: 22,
               child: IconButton(
                 icon: const Icon(Icons.add, size: 12),
-                color: ScadaColors.textSecondary,
+                color: context.scada.textSecondary,
                 padding: EdgeInsets.zero,
                 onPressed: () => _showAddModuleDialog(route.id),
                 tooltip: 'Modul ekle',
@@ -464,31 +464,31 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
   Widget _buildSearchBar() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      decoration: const BoxDecoration(
-        color: ScadaColors.surface,
-        border: Border(bottom: BorderSide(color: ScadaColors.border)),
+      decoration: BoxDecoration(
+        color: context.scada.surface,
+        border: Border(bottom: BorderSide(color: context.scada.border)),
       ),
       child: Row(
         children: [
           const Icon(Icons.auto_awesome, size: 16, color: ScadaColors.cyan),
-          const SizedBox(width: 10),
+          SizedBox(width: 10),
           Expanded(
             child: TextField(
               controller: _searchController,
-              style: const TextStyle(fontSize: 13, color: ScadaColors.textPrimary),
+              style: TextStyle(fontSize: 13, color: context.scada.textPrimary),
               decoration: InputDecoration(
                 hintText: 'Egitim dokumanlari icinde AI arama...',
-                hintStyle: const TextStyle(fontSize: 12, color: ScadaColors.textDim),
+                hintStyle: TextStyle(fontSize: 12, color: context.scada.textDim),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 filled: true,
-                fillColor: ScadaColors.bg,
+                fillColor: context.scada.bg,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(color: ScadaColors.border),
+                  borderSide: BorderSide(color: context.scada.border),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(color: ScadaColors.border),
+                  borderSide: BorderSide(color: context.scada.border),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -496,7 +496,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                 ),
                 suffixIcon: _searchController.text.isNotEmpty
                     ? IconButton(
-                        icon: const Icon(Icons.clear, size: 16, color: ScadaColors.textSecondary),
+                        icon: Icon(Icons.clear, size: 16, color: context.scada.textSecondary),
                         onPressed: () {
                           _searchController.clear();
                           _onSearchChanged('');
@@ -523,13 +523,13 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
 
   Widget _buildSearchResults() {
     if (_isSearching) {
-      return const Center(
+      return Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             CircularProgressIndicator(color: ScadaColors.cyan, strokeWidth: 2),
             SizedBox(height: 12),
-            Text('Semantik arama yapiliyor...', style: TextStyle(fontSize: 12, color: ScadaColors.textSecondary)),
+            Text('Semantik arama yapiliyor...', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
           ],
         ),
       );
@@ -540,11 +540,11 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.search_off, size: 40, color: ScadaColors.textDim),
-            const SizedBox(height: 12),
+            Icon(Icons.search_off, size: 40, color: context.scada.textDim),
+            SizedBox(height: 12),
             Text(
               '"${_searchController.text}" icin sonuc bulunamadi',
-              style: const TextStyle(fontSize: 13, color: ScadaColors.textSecondary),
+              style: TextStyle(fontSize: 13, color: context.scada.textSecondary),
             ),
           ],
         ),
@@ -561,10 +561,10 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
             child: Row(
               children: [
                 const Icon(Icons.auto_awesome, size: 14, color: ScadaColors.cyan),
-                const SizedBox(width: 6),
+                SizedBox(width: 6),
                 Text(
                   '${_searchResults.length} sonuc bulundu',
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary),
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: context.scada.textPrimary),
                 ),
               ],
             ),
@@ -588,9 +588,9 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
           margin: const EdgeInsets.only(bottom: 8),
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: ScadaColors.card,
+            color: context.scada.card,
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: ScadaColors.border),
+            border: Border.all(color: context.scada.border),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -599,11 +599,11 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
               Row(
                 children: [
                   const Icon(Icons.picture_as_pdf, size: 14, color: ScadaColors.red),
-                  const SizedBox(width: 6),
+                  SizedBox(width: 6),
                   Expanded(
                     child: Text(
                       source,
-                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary),
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: context.scada.textPrimary),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -621,17 +621,17 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                 ],
               ),
               if (department.isNotEmpty) ...[
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
                 Text(
                   _departmentLabel(department),
-                  style: const TextStyle(fontSize: 10, color: ScadaColors.textDim),
+                  style: TextStyle(fontSize: 10, color: context.scada.textDim),
                 ),
               ],
               const SizedBox(height: 8),
               // Content snippet
               Text(
                 content.length > 300 ? '${content.substring(0, 300)}...' : content,
-                style: const TextStyle(fontSize: 12, color: ScadaColors.textSecondary, height: 1.5),
+                style: TextStyle(fontSize: 12, color: context.scada.textSecondary, height: 1.5),
               ),
             ],
           ),
@@ -659,17 +659,17 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.touch_app, size: 56, color: ScadaColors.textDim.withValues(alpha: 0.5)),
-          const SizedBox(height: 16),
-          const Text(
+          Icon(Icons.touch_app, size: 56, color: context.scada.textDim.withValues(alpha: 0.5)),
+          SizedBox(height: 16),
+          Text(
             'Sol panelden bir oge secin',
-            style: TextStyle(fontSize: 14, color: ScadaColors.textSecondary),
+            style: TextStyle(fontSize: 14, color: context.scada.textSecondary),
           ),
-          const SizedBox(height: 6),
-          const Text(
+          SizedBox(height: 6),
+          Text(
             'Departman, rota veya modul detaylarini goruntulemek icin\nagactan bir oge secin.',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 11, color: ScadaColors.textDim),
+            style: TextStyle(fontSize: 11, color: context.scada.textDim),
           ),
         ],
       ),
@@ -714,9 +714,9 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
           Container(
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
-              color: ScadaColors.card,
+              color: context.scada.card,
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: ScadaColors.border),
+              border: Border.all(color: context.scada.border),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -732,21 +732,21 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                       ),
                       child: Icon(_moduleTypeIcon(module.moduleType), size: 18, color: typeColor),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     Expanded(
                       child: Text(
                         module.title,
-                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary),
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: context.scada.textPrimary),
                       ),
                     ),
                   ],
                 ),
 
                 if (module.description != null) ...[
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
                   Text(
                     module.description!,
-                    style: const TextStyle(fontSize: 13, color: ScadaColors.textSecondary, height: 1.5),
+                    style: TextStyle(fontSize: 13, color: context.scada.textSecondary, height: 1.5),
                   ),
                 ],
 
@@ -758,7 +758,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                   children: [
                     _buildMetaChip(Icons.category, module.typeText, typeColor),
                     _buildMetaChip(Icons.timer_outlined, '${module.estimatedMinutes} dk', ScadaColors.cyan),
-                    _buildMetaChip(Icons.sort, 'Sira: ${module.sortOrder}', ScadaColors.textSecondary),
+                    _buildMetaChip(Icons.sort, 'Sira: ${module.sortOrder}', context.scada.textSecondary),
                   ],
                 ),
 
@@ -803,10 +803,10 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
           Row(
             children: [
               const Icon(Icons.description, size: 16, color: ScadaColors.cyan),
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               Text(
                 'Icerikler (${module.contents?.length ?? 0})',
-                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: context.scada.textPrimary),
               ),
             ],
           ),
@@ -816,16 +816,16 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: ScadaColors.card,
+                color: context.scada.card,
                 borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: ScadaColors.border),
+                border: Border.all(color: context.scada.border),
               ),
-              child: const Center(
+              child: Center(
                 child: Column(
                   children: [
-                    Icon(Icons.inbox_outlined, size: 32, color: ScadaColors.textDim),
+                    Icon(Icons.inbox_outlined, size: 32, color: context.scada.textDim),
                     SizedBox(height: 8),
-                    Text('Henuz icerik eklenmemis', style: TextStyle(fontSize: 12, color: ScadaColors.textSecondary)),
+                    Text('Henuz icerik eklenmemis', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
                   ],
                 ),
               ),
@@ -835,14 +835,14 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
 
           // Quiz section
           if (module.quizzes != null && module.quizzes!.isNotEmpty) ...[
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             Row(
               children: [
                 const Icon(Icons.quiz, size: 16, color: ScadaColors.amber),
-                const SizedBox(width: 8),
+                SizedBox(width: 8),
                 Text(
                   'Quizler (${module.quizzes!.length})',
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: context.scada.textPrimary),
                 ),
               ],
             ),
@@ -861,9 +861,9 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -873,12 +873,12 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
             Row(
               children: [
                 Icon(contentTypeIcon, size: 16, color: contentTypeColor),
-                const SizedBox(width: 10),
+                SizedBox(width: 10),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(content.title, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+                      Text(content.title, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
                       const SizedBox(height: 2),
                       Text(content.contentType.toUpperCase(), style: TextStyle(fontSize: 10, color: contentTypeColor)),
                     ],
@@ -905,7 +905,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                   ),
                   const SizedBox(width: 8),
                 ],
-                Text('Sira: ${content.sortOrder}', style: const TextStyle(fontSize: 9, color: ScadaColors.textDim)),
+                Text('Sira: ${content.sortOrder}', style: TextStyle(fontSize: 9, color: context.scada.textDim)),
               ],
             ),
             // PDF tags
@@ -936,30 +936,30 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Row(
           children: [
             const Icon(Icons.quiz, size: 16, color: ScadaColors.amber),
-            const SizedBox(width: 10),
+            SizedBox(width: 10),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(quiz.title, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
-                  const SizedBox(height: 2),
+                  Text(quiz.title, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
+                  SizedBox(height: 2),
                   Row(
                     children: [
-                      Text('Gecme: %${quiz.passingScore}', style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
-                      const SizedBox(width: 10),
-                      Text('Deneme: ${quiz.maxAttempts}', style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+                      Text('Gecme: %${quiz.passingScore}', style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
+                      SizedBox(width: 10),
+                      Text('Deneme: ${quiz.maxAttempts}', style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
                       if (quiz.timeLimitMinutes != null) ...[
-                        const SizedBox(width: 10),
-                        Text('${quiz.timeLimitMinutes} dk', style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+                        SizedBox(width: 10),
+                        Text('${quiz.timeLimitMinutes} dk', style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
                       ],
                     ],
                   ),
@@ -981,35 +981,35 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: ScadaColors.borderBright),
+          side: BorderSide(color: context.scada.borderBright),
         ),
-        title: const Text('Yeni Rota Ekle', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+        title: Text('Yeni Rota Ekle', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         content: Form(
           key: formKey,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Departman: ${dept.name}', style: const TextStyle(fontSize: 12, color: ScadaColors.textSecondary)),
-              const SizedBox(height: 14),
+              Text('Departman: ${dept.name}', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
+              SizedBox(height: 14),
               TextFormField(
                 controller: titleController,
-                style: const TextStyle(fontSize: 13, color: ScadaColors.textPrimary),
+                style: TextStyle(fontSize: 13, color: context.scada.textPrimary),
                 decoration: InputDecoration(
                   labelText: 'Rota Adi',
-                  labelStyle: const TextStyle(fontSize: 12, color: ScadaColors.textSecondary),
+                  labelStyle: TextStyle(fontSize: 12, color: context.scada.textSecondary),
                   filled: true,
-                  fillColor: ScadaColors.bg,
+                  fillColor: context.scada.bg,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(color: ScadaColors.border),
+                    borderSide: BorderSide(color: context.scada.border),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(color: ScadaColors.border),
+                    borderSide: BorderSide(color: context.scada.border),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -1024,7 +1024,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Iptal', style: TextStyle(color: ScadaColors.textSecondary)),
+            child: Text('Iptal', style: TextStyle(color: context.scada.textSecondary)),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -1037,7 +1037,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                 if (success && mounted) {
                   ref.read(adminProvider.notifier).loadRoutes(departmentId: dept.id);
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Rota olusturuldu'), backgroundColor: ScadaColors.surface),
+                    SnackBar(content: Text('Rota olusturuldu'), backgroundColor: context.scada.surface),
                   );
                 }
               }
@@ -1062,12 +1062,12 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
       context: context,
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setDialogState) => AlertDialog(
-          backgroundColor: ScadaColors.surface,
+          backgroundColor: context.scada.surface,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
-            side: const BorderSide(color: ScadaColors.borderBright),
+            side: BorderSide(color: context.scada.borderBright),
           ),
-          title: const Text('Yeni Modul Ekle', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+          title: Text('Yeni Modul Ekle', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
           content: Form(
             key: formKey,
             child: Column(
@@ -1075,19 +1075,19 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
               children: [
                 TextFormField(
                   controller: titleController,
-                  style: const TextStyle(fontSize: 13, color: ScadaColors.textPrimary),
+                  style: TextStyle(fontSize: 13, color: context.scada.textPrimary),
                   decoration: InputDecoration(
                     labelText: 'Modul Adi',
-                    labelStyle: const TextStyle(fontSize: 12, color: ScadaColors.textSecondary),
+                    labelStyle: TextStyle(fontSize: 12, color: context.scada.textSecondary),
                     filled: true,
-                    fillColor: ScadaColors.bg,
+                    fillColor: context.scada.bg,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: ScadaColors.border),
+                      borderSide: BorderSide(color: context.scada.border),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: ScadaColors.border),
+                      borderSide: BorderSide(color: context.scada.border),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
@@ -1096,23 +1096,23 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                   ),
                   validator: (v) => v == null || v.trim().isEmpty ? 'Modul adi zorunlu' : null,
                 ),
-                const SizedBox(height: 14),
+                SizedBox(height: 14),
                 DropdownButtonFormField<String>(
                   initialValue: selectedType,
-                  dropdownColor: ScadaColors.surface,
-                  style: const TextStyle(fontSize: 13, color: ScadaColors.textPrimary),
+                  dropdownColor: context.scada.surface,
+                  style: TextStyle(fontSize: 13, color: context.scada.textPrimary),
                   decoration: InputDecoration(
                     labelText: 'Modul Tipi',
-                    labelStyle: const TextStyle(fontSize: 12, color: ScadaColors.textSecondary),
+                    labelStyle: TextStyle(fontSize: 12, color: context.scada.textSecondary),
                     filled: true,
-                    fillColor: ScadaColors.bg,
+                    fillColor: context.scada.bg,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: ScadaColors.border),
+                      borderSide: BorderSide(color: context.scada.border),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: ScadaColors.border),
+                      borderSide: BorderSide(color: context.scada.border),
                     ),
                   ),
                   items: const [
@@ -1131,7 +1131,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('Iptal', style: TextStyle(color: ScadaColors.textSecondary)),
+              child: Text('Iptal', style: TextStyle(color: context.scada.textSecondary)),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -1145,7 +1145,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                   if (success && mounted) {
                     ref.read(adminProvider.notifier).loadRouteDetail(routeId);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Modul olusturuldu'), backgroundColor: ScadaColors.surface),
+                      SnackBar(content: Text('Modul olusturuldu'), backgroundColor: context.scada.surface),
                     );
                   }
                 }
@@ -1166,20 +1166,20 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: ScadaColors.borderBright),
+          side: BorderSide(color: context.scada.borderBright),
         ),
         title: const Text('Rota Sil', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.red)),
         content: Text(
           '"${route.title}" rotasini silmek istediginize emin misiniz?\n\nBu islem geri alinamaz ve rotaya bagli tum moduller de silinir.',
-          style: const TextStyle(fontSize: 13, color: ScadaColors.textSecondary, height: 1.5),
+          style: TextStyle(fontSize: 13, color: context.scada.textSecondary, height: 1.5),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Iptal', style: TextStyle(color: ScadaColors.textSecondary)),
+            child: Text('Iptal', style: TextStyle(color: context.scada.textSecondary)),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -1192,7 +1192,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                 });
                 ref.read(adminProvider.notifier).loadRoutes(departmentId: route.departmentId);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Rota silindi'), backgroundColor: ScadaColors.surface),
+                  SnackBar(content: Text('Rota silindi'), backgroundColor: context.scada.surface),
                 );
               }
             },
@@ -1211,20 +1211,20 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: ScadaColors.borderBright),
+          side: BorderSide(color: context.scada.borderBright),
         ),
         title: const Text('Modul Sil', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.red)),
         content: Text(
           '"${module.title}" modulunu silmek istediginize emin misiniz?\n\nBu islem geri alinamaz.',
-          style: const TextStyle(fontSize: 13, color: ScadaColors.textSecondary, height: 1.5),
+          style: TextStyle(fontSize: 13, color: context.scada.textSecondary, height: 1.5),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Iptal', style: TextStyle(color: ScadaColors.textSecondary)),
+            child: Text('Iptal', style: TextStyle(color: context.scada.textSecondary)),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -1236,7 +1236,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                   _selectedId = null;
                 });
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Modul silindi'), backgroundColor: ScadaColors.surface),
+                  SnackBar(content: Text('Modul silindi'), backgroundColor: context.scada.surface),
                 );
               }
             },
@@ -1283,7 +1283,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
       case 'assessment':
         return ScadaColors.amber;
       default:
-        return ScadaColors.textSecondary;
+        return context.scada.textSecondary;
     }
   }
 
@@ -1322,7 +1322,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
   Color _contentTypeColor(String type) {
     switch (type) {
       case 'text':
-        return ScadaColors.textSecondary;
+        return context.scada.textSecondary;
       case 'image':
         return ScadaColors.green;
       case 'video':
@@ -1332,7 +1332,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
       case 'link':
         return ScadaColors.cyan;
       default:
-        return ScadaColors.textDim;
+        return context.scada.textDim;
     }
   }
 }

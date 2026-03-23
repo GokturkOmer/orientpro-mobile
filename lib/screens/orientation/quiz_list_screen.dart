@@ -93,14 +93,14 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
     }
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: ScadaColors.textSecondary, size: 20),
+          icon: Icon(Icons.arrow_back, color: context.scada.textSecondary, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Quiz & Sinavlar', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+        title: Text('Quiz & Sinavlar', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
       ),
       body: training.isLoading
           ? const Center(child: CircularProgressIndicator(color: ScadaColors.green))
@@ -110,15 +110,15 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
                 child: TextField(
                   decoration: InputDecoration(
                     hintText: 'Quiz ara...',
-                    hintStyle: const TextStyle(color: ScadaColors.textDim, fontSize: 13),
-                    prefixIcon: const Icon(Icons.search, color: ScadaColors.textDim, size: 20),
+                    hintStyle: TextStyle(color: context.scada.textDim, fontSize: 13),
+                    prefixIcon: Icon(Icons.search, color: context.scada.textDim, size: 20),
                     filled: true,
-                    fillColor: ScadaColors.card,
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: ScadaColors.border)),
-                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: ScadaColors.border)),
+                    fillColor: context.scada.card,
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: context.scada.border)),
+                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: context.scada.border)),
                     contentPadding: const EdgeInsets.symmetric(vertical: 8),
                   ),
-                  style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
+                  style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
                   onChanged: (v) => setState(() => _searchQuery = v.toLowerCase()),
                 ),
               ),
@@ -168,11 +168,11 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
     return Padding(
       padding: const EdgeInsets.only(right: 8),
       child: ChoiceChip(
-        label: Text(label, style: TextStyle(fontSize: 11, color: selected ? Colors.black : ScadaColors.textSecondary)),
+        label: Text(label, style: TextStyle(fontSize: 11, color: selected ? Colors.black : context.scada.textSecondary)),
         selected: selected,
         selectedColor: ScadaColors.cyan,
-        backgroundColor: ScadaColors.card,
-        side: BorderSide(color: selected ? ScadaColors.cyan : ScadaColors.border),
+        backgroundColor: context.scada.card,
+        side: BorderSide(color: selected ? ScadaColors.cyan : context.scada.border),
         onSelected: (_) => onTap(),
         visualDensity: VisualDensity.compact,
       ),
@@ -180,13 +180,13 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
   }
 
   Widget _buildEmpty() {
-    return const Center(
+    return Center(
       child: Column(mainAxisSize: MainAxisSize.min, children: [
-        Icon(Icons.quiz_outlined, size: 48, color: ScadaColors.textDim),
-        SizedBox(height: 12),
-        Text('Henuz quiz bulunmuyor', style: TextStyle(fontSize: 14, color: ScadaColors.textSecondary)),
-        SizedBox(height: 4),
-        Text('Egitim rotalarina quiz eklendikce burada gorunecek', style: TextStyle(fontSize: 11, color: ScadaColors.textDim)),
+        Icon(Icons.quiz_outlined, size: 48, color: context.scada.textDim),
+        const SizedBox(height: 12),
+        Text('Henuz quiz bulunmuyor', style: TextStyle(fontSize: 14, color: context.scada.textSecondary)),
+        const SizedBox(height: 4),
+        Text('Egitim rotalarina quiz eklendikce burada gorunecek', style: TextStyle(fontSize: 11, color: context.scada.textDim)),
       ]),
     );
   }
@@ -209,15 +209,15 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
         margin: const EdgeInsets.only(bottom: 8),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: ScadaColors.card,
+          color: context.scada.card,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: ScadaColors.border),
+          border: Border.all(color: context.scada.border),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           // Baslik + durum + silme
           Row(children: [
             Expanded(
-              child: Text(item.title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+              child: Text(item.title, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
             ),
             Icon(qs.icon, size: 18, color: qs.color),
             const SizedBox(width: 4),
@@ -248,7 +248,7 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
             if (item.createdAt != null)
               Text(
                 _formatDate(item.createdAt!),
-                style: const TextStyle(fontSize: 10, color: ScadaColors.textDim),
+                style: TextStyle(fontSize: 10, color: context.scada.textDim),
               ),
           ]),
           const SizedBox(height: 8),
@@ -285,16 +285,16 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: ScadaColors.card,
-        title: const Text('Quiz Sil', style: TextStyle(color: ScadaColors.textPrimary, fontSize: 16)),
+        backgroundColor: context.scada.card,
+        title: Text('Quiz Sil', style: TextStyle(color: context.scada.textPrimary, fontSize: 16)),
         content: Text(
           "'${item.title}' quizini ve tum sorularini silmek istediginize emin misiniz?",
-          style: const TextStyle(color: ScadaColors.textSecondary, fontSize: 13),
+          style: TextStyle(color: context.scada.textSecondary, fontSize: 13),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Iptal', style: TextStyle(color: ScadaColors.textDim)),
+            child: Text('Iptal', style: TextStyle(color: context.scada.textDim)),
           ),
           TextButton(
             onPressed: () async {
@@ -319,7 +319,7 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: ScadaColors.card,
+      backgroundColor: context.scada.card,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
@@ -340,9 +340,9 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
 
   Widget _buildInfoChip(IconData icon, String text) {
     return Row(mainAxisSize: MainAxisSize.min, children: [
-      Icon(icon, size: 12, color: ScadaColors.textDim),
+      Icon(icon, size: 12, color: context.scada.textDim),
       const SizedBox(width: 3),
-      Text(text, style: const TextStyle(fontSize: 9, color: ScadaColors.textDim)),
+      Text(text, style: TextStyle(fontSize: 9, color: context.scada.textDim)),
     ]);
   }
 
@@ -496,31 +496,31 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
           Row(children: [
             const Icon(Icons.auto_awesome, color: ScadaColors.cyan, size: 24),
             const SizedBox(width: 8),
-            const Expanded(
-              child: Text('AI ile Quiz Olustur', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+            Expanded(
+              child: Text('AI ile Quiz Olustur', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
             ),
             IconButton(
-              icon: const Icon(Icons.close, color: ScadaColors.textDim, size: 20),
+              icon: Icon(Icons.close, color: context.scada.textDim, size: 20),
               onPressed: () => Navigator.pop(context),
             ),
           ]),
           const SizedBox(height: 16),
 
           // 1. Departman secimi
-          const Text('Departman', style: TextStyle(fontSize: 12, color: ScadaColors.textSecondary, fontWeight: FontWeight.w600)),
+          Text('Departman', style: TextStyle(fontSize: 12, color: context.scada.textSecondary, fontWeight: FontWeight.w600)),
           const SizedBox(height: 6),
           DropdownButtonFormField<String>(
             initialValue: _selectedDept,
             decoration: InputDecoration(
               hintText: 'Departman secin',
-              hintStyle: const TextStyle(fontSize: 13, color: ScadaColors.textDim),
+              hintStyle: TextStyle(fontSize: 13, color: context.scada.textDim),
               filled: true,
-              fillColor: ScadaColors.surface,
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
+              fillColor: context.scada.surface,
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: context.scada.border)),
               contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             ),
-            dropdownColor: ScadaColors.surface,
-            style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
+            dropdownColor: context.scada.surface,
+            style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
             items: _departments.map((d) => DropdownMenuItem(
               value: d['code'],
               child: Text(d['name']!),
@@ -540,7 +540,7 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
           const SizedBox(height: 16),
 
           // 2. Dokuman secimi
-          const Text('Dokumanlar', style: TextStyle(fontSize: 12, color: ScadaColors.textSecondary, fontWeight: FontWeight.w600)),
+          Text('Dokumanlar', style: TextStyle(fontSize: 12, color: context.scada.textSecondary, fontWeight: FontWeight.w600)),
           const SizedBox(height: 6),
           if (_isLoading)
             const Center(child: Padding(
@@ -551,13 +551,13 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: ScadaColors.surface,
+                color: context.scada.surface,
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: ScadaColors.border),
+                border: Border.all(color: context.scada.border),
               ),
-              child: const Text(
+              child: Text(
                 'Indexlenmis dokuman bulunamadi. Once Dokuman Havuzu\'na PDF yukleyin.',
-                style: TextStyle(fontSize: 11, color: ScadaColors.textDim),
+                style: TextStyle(fontSize: 11, color: context.scada.textDim),
               ),
             )
           else
@@ -577,15 +577,15 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
                 return Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: ScadaColors.surface,
+                    color: context.scada.surface,
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: ScadaColors.border),
+                    border: Border.all(color: context.scada.border),
                   ),
                   child: Text(
                     _selectedDept != null
                         ? 'Bu departmanda indexlenmis dokuman yok'
                         : 'Indexlenmis dokuman bulunamadi',
-                    style: const TextStyle(fontSize: 11, color: ScadaColors.textDim),
+                    style: TextStyle(fontSize: 11, color: context.scada.textDim),
                   ),
                 );
               }
@@ -593,9 +593,9 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
               return Container(
               constraints: const BoxConstraints(maxHeight: 200),
               decoration: BoxDecoration(
-                color: ScadaColors.surface,
+                color: context.scada.surface,
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: ScadaColors.border),
+                border: Border.all(color: context.scada.border),
               ),
               child: ListView.builder(
                 shrinkWrap: true,
@@ -626,10 +626,10 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
                         }
                       });
                     },
-                    title: Text(title, style: const TextStyle(fontSize: 12, color: ScadaColors.textPrimary), maxLines: 1, overflow: TextOverflow.ellipsis),
+                    title: Text(title, style: TextStyle(fontSize: 12, color: context.scada.textPrimary), maxLines: 1, overflow: TextOverflow.ellipsis),
                     subtitle: Text(
                       dept,
-                      style: const TextStyle(fontSize: 10, color: ScadaColors.textDim),
+                      style: TextStyle(fontSize: 10, color: context.scada.textDim),
                     ),
                     dense: true,
                     activeColor: ScadaColors.cyan,
@@ -652,18 +652,18 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
           Row(children: [
             Expanded(
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                const Text('Soru Sayisi', style: TextStyle(fontSize: 12, color: ScadaColors.textSecondary, fontWeight: FontWeight.w600)),
+                Text('Soru Sayisi', style: TextStyle(fontSize: 12, color: context.scada.textSecondary, fontWeight: FontWeight.w600)),
                 const SizedBox(height: 6),
                 DropdownButtonFormField<int>(
                   initialValue: _questionCount,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: ScadaColors.surface,
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
+                    fillColor: context.scada.surface,
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: context.scada.border)),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   ),
-                  dropdownColor: ScadaColors.surface,
-                  style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
+                  dropdownColor: context.scada.surface,
+                  style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
                   items: [5, 10, 15, 20].map((n) => DropdownMenuItem(value: n, child: Text('$n soru'))).toList(),
                   onChanged: (v) => setState(() => _questionCount = v ?? 10),
                 ),
@@ -672,18 +672,18 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
             const SizedBox(width: 12),
             Expanded(
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                const Text('Zorluk', style: TextStyle(fontSize: 12, color: ScadaColors.textSecondary, fontWeight: FontWeight.w600)),
+                Text('Zorluk', style: TextStyle(fontSize: 12, color: context.scada.textSecondary, fontWeight: FontWeight.w600)),
                 const SizedBox(height: 6),
                 DropdownButtonFormField<String>(
                   initialValue: _difficulty,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: ScadaColors.surface,
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
+                    fillColor: context.scada.surface,
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: context.scada.border)),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   ),
-                  dropdownColor: ScadaColors.surface,
-                  style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
+                  dropdownColor: context.scada.surface,
+                  style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
                   items: const [
                     DropdownMenuItem(value: 'kolay', child: Text('Kolay')),
                     DropdownMenuItem(value: 'orta', child: Text('Orta')),
@@ -697,19 +697,19 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
           const SizedBox(height: 16),
 
           // 4. Quiz basligi
-          const Text('Quiz Basligi', style: TextStyle(fontSize: 12, color: ScadaColors.textSecondary, fontWeight: FontWeight.w600)),
+          Text('Quiz Basligi', style: TextStyle(fontSize: 12, color: context.scada.textSecondary, fontWeight: FontWeight.w600)),
           const SizedBox(height: 6),
           TextField(
             controller: _titleController,
             decoration: InputDecoration(
               hintText: 'Quiz basligini girin',
-              hintStyle: const TextStyle(fontSize: 13, color: ScadaColors.textDim),
+              hintStyle: TextStyle(fontSize: 13, color: context.scada.textDim),
               filled: true,
-              fillColor: ScadaColors.surface,
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.border)),
+              fillColor: context.scada.surface,
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: context.scada.border)),
               contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             ),
-            style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
+            style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
           ),
           const SizedBox(height: 16),
 
@@ -746,11 +746,11 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
             ),
           ),
           if (_isGenerating)
-            const Padding(
-              padding: EdgeInsets.only(top: 8),
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
               child: Text(
                 'AI sorulari olusturuyor ve dogruluyor... Bu islem 30-60 saniye surebilir.',
-                style: TextStyle(fontSize: 10, color: ScadaColors.textDim),
+                style: TextStyle(fontSize: 10, color: context.scada.textDim),
                 textAlign: TextAlign.center,
               ),
             ),

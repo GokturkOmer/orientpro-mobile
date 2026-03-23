@@ -22,9 +22,9 @@ class ScadaDashboardScreen extends ConsumerWidget {
     final countAsync = ref.watch(readingCountProvider);
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         title: Row(mainAxisSize: MainAxisSize.min, children: [
           Container(
             padding: const EdgeInsets.all(4),
@@ -32,7 +32,7 @@ class ScadaDashboardScreen extends ConsumerWidget {
             child: const Icon(Icons.monitor_heart, color: ScadaColors.cyan, size: 18),
           ),
           const SizedBox(width: 8),
-          const Text('SCADA Monitor', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+          Text('SCADA Monitor', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
         actions: [
           // Live indicator
@@ -64,7 +64,7 @@ class ScadaDashboardScreen extends ConsumerWidget {
       ),
       body: RefreshIndicator(
         color: ScadaColors.cyan,
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         onRefresh: () async {
           ref.read(sensorLatestProvider.notifier).fetch();
           ref.read(alarmStatsProvider.notifier).fetch();
@@ -91,7 +91,7 @@ class ScadaDashboardScreen extends ConsumerWidget {
                 ]),
               ),
               data: (sensors) {
-                if (sensors.isEmpty) return const Center(child: Padding(padding: EdgeInsets.all(32), child: Text('Henuz sensor verisi yok', style: TextStyle(color: ScadaColors.textDim))));
+                if (sensors.isEmpty) return Center(child: Padding(padding: const EdgeInsets.all(32), child: Text('Henuz sensor verisi yok', style: TextStyle(color: context.scada.textDim))));
                 final grouped = <int, List<SensorLatestValue>>{};
                 final sensorDefs = ref.watch(sensorListProvider);
                 for (final s in sensors) {
@@ -103,7 +103,7 @@ class ScadaDashboardScreen extends ConsumerWidget {
                 }
                 final sortedKeys = grouped.keys.toList()..sort();
                 return Column(children: sortedKeys.map((uid) {
-                  final info = unitInfo[uid] ?? UnitInfo('Unit $uid', Icons.developer_board, ScadaColors.textDim);
+                  final info = unitInfo[uid] ?? UnitInfo('Unit $uid', Icons.developer_board, context.scada.textDim);
                   return _buildUnitSection(context, uid, info, grouped[uid]!);
                 }).toList());
               },
@@ -138,7 +138,7 @@ class ScadaDashboardScreen extends ConsumerWidget {
       const SizedBox(width: 6),
       Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(value, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: color)),
-        Text(label, style: const TextStyle(fontSize: 9, color: ScadaColors.textSecondary)),
+        Text(label, style: TextStyle(fontSize: 9, color: ScadaColors.textSecondary)),
       ]),
     ]);
   }
@@ -151,10 +151,10 @@ class ScadaDashboardScreen extends ConsumerWidget {
       margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-          color: hasAlarm ? ScadaColors.red.withValues(alpha: 0.5) : hasWarning ? ScadaColors.amber.withValues(alpha: 0.5) : ScadaColors.border,
+          color: hasAlarm ? ScadaColors.red.withValues(alpha: 0.5) : hasWarning ? ScadaColors.amber.withValues(alpha: 0.5) : context.scada.border,
           width: hasAlarm ? 1.5 : 1,
         ),
       ),
@@ -228,7 +228,7 @@ class ScadaDashboardScreen extends ConsumerWidget {
           border: Border.all(color: statusColor.withValues(alpha: 0.25)),
         ),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Text(shortName, style: const TextStyle(fontSize: 9, color: ScadaColors.textSecondary), overflow: TextOverflow.ellipsis, maxLines: 1),
+          Text(shortName, style: TextStyle(fontSize: 9, color: context.scada.textSecondary), overflow: TextOverflow.ellipsis, maxLines: 1),
           const SizedBox(height: 4),
           if (durumIcon != null) Icon(durumIcon, size: 18, color: valueColor),
           Text(displayValue, style: TextStyle(fontSize: isDurum ? 13 : 18, fontWeight: FontWeight.w700, color: valueColor)),
@@ -238,7 +238,7 @@ class ScadaDashboardScreen extends ConsumerWidget {
               Container(width: 5, height: 5, decoration: BoxDecoration(color: statusColor, shape: BoxShape.circle,
                 boxShadow: [BoxShadow(color: statusColor.withValues(alpha: 0.5), blurRadius: 4)])),
               const SizedBox(width: 3),
-              Text(sensor.unit, style: const TextStyle(fontSize: 9, color: ScadaColors.textDim)),
+              Text(sensor.unit, style: TextStyle(fontSize: 9, color: context.scada.textDim)),
             ]),
           if (isDurum)
             Container(width: 5, height: 5, decoration: BoxDecoration(color: valueColor, shape: BoxShape.circle,

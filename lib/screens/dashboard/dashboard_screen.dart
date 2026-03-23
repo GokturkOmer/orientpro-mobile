@@ -32,9 +32,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   Widget build(BuildContext context) {
     final auth = ref.watch(authProvider);
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         title: Row(mainAxisSize: MainAxisSize.min, children: [
           Container(
             padding: const EdgeInsets.all(4),
@@ -45,7 +45,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             child: const Icon(Icons.precision_manufacturing, color: ScadaColors.cyan, size: 20),
           ),
           const SizedBox(width: 8),
-          const Text('OrientPro', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+          Text('OrientPro', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
         actions: [
           // Live indicator
@@ -65,12 +65,12 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           ),
           _buildNotifBell(ref),
           IconButton(
-            icon: const Icon(Icons.home, size: 20, color: ScadaColors.textDim),
+            icon: Icon(Icons.home, size: 20, color: context.scada.textDim),
             tooltip: 'Modul Secimi',
             onPressed: () => Navigator.pushReplacementNamed(context, '/module-selection'),
           ),
           IconButton(
-            icon: const Icon(Icons.logout, size: 20, color: ScadaColors.textDim),
+            icon: Icon(Icons.logout, size: 20, color: context.scada.textDim),
             onPressed: () { ref.read(authProvider.notifier).logout(); Navigator.pushReplacementNamed(context, '/login'); },
           ),
         ],
@@ -79,16 +79,16 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         ? const Center(child: CircularProgressIndicator(color: ScadaColors.cyan))
         : RefreshIndicator(
             color: ScadaColors.cyan,
-            backgroundColor: ScadaColors.surface,
+            backgroundColor: context.scada.surface,
             onRefresh: _loadStats,
             child: ListView(padding: const EdgeInsets.fromLTRB(16, 16, 16, 80), children: [
               // User greeting
               Container(
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  color: ScadaColors.surface,
+                  color: context.scada.surface,
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: ScadaColors.border),
+                  border: Border.all(color: context.scada.border),
                 ),
                 child: Row(children: [
                   Container(
@@ -101,8 +101,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   ),
                   const SizedBox(width: 12),
                   Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text(auth.user?.fullName ?? '', style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
-                    Text('${auth.user?.roleText ?? ""} • ${auth.user?.departmentText ?? ""}', style: const TextStyle(fontSize: 11, color: ScadaColors.textSecondary)),
+                    Text(auth.user?.fullName ?? '', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
+                    Text('${auth.user?.roleText ?? ""} • ${auth.user?.departmentText ?? ""}', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
                   ])),
                 ]),
               ),
@@ -180,9 +180,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
       ),
       bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          color: ScadaColors.surface,
-          border: Border(top: BorderSide(color: ScadaColors.border)),
+        decoration: BoxDecoration(
+          color: context.scada.surface,
+          border: Border(top: BorderSide(color: context.scada.border)),
         ),
         child: BottomNavigationBar(
           currentIndex: 0,
@@ -194,7 +194,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           selectedItemColor: ScadaColors.cyan,
-          unselectedItemColor: ScadaColors.textDim,
+          unselectedItemColor: context.scada.textDim,
           type: BottomNavigationBarType.fixed,
           selectedFontSize: 10,
           unselectedFontSize: 10,
@@ -231,9 +231,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
   Widget _sectionHeader(String title, IconData icon) {
     return Row(children: [
-      Icon(icon, size: 14, color: ScadaColors.textDim),
+      Icon(icon, size: 14, color: context.scada.textDim),
       const SizedBox(width: 6),
-      Text(title, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 1)),
+      Text(title, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
     ]);
   }
 
@@ -243,7 +243,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
         decoration: BoxDecoration(
-          color: ScadaColors.card,
+          color: context.scada.card,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: color.withValues(alpha: 0.3)),
         ),
@@ -269,14 +269,14 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
         decoration: BoxDecoration(
-          color: ScadaColors.card,
+          color: context.scada.card,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: ScadaColors.border),
+          border: Border.all(color: context.scada.border),
         ),
         child: Column(children: [
           Text(value, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: color)),
           const SizedBox(height: 2),
-          Text(title, style: const TextStyle(fontSize: 9, color: ScadaColors.textSecondary)),
+          Text(title, style: TextStyle(fontSize: 9, color: context.scada.textSecondary)),
         ]),
       ),
     ));
@@ -286,9 +286,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     return Container(
       margin: const EdgeInsets.only(bottom: 6),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: ListTile(
         dense: true,
@@ -297,8 +297,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           decoration: BoxDecoration(color: color.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(6)),
           child: Icon(icon, color: color, size: 18),
         ),
-        title: Text(title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: ScadaColors.textPrimary)),
-        trailing: Icon(Icons.arrow_forward_ios, size: 14, color: ScadaColors.textDim),
+        title: Text(title, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: context.scada.textPrimary)),
+        trailing: Icon(Icons.arrow_forward_ios, size: 14, color: context.scada.textDim),
         onTap: () => Navigator.pushNamed(context, route),
       ),
     );

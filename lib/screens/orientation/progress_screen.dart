@@ -119,9 +119,9 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
   Widget build(BuildContext context) {
     final training = ref.watch(trainingProvider);
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
           onPressed: () => Navigator.pop(context),
@@ -136,7 +136,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
             child: const Icon(Icons.trending_up, color: ScadaColors.amber, size: 20),
           ),
           const SizedBox(width: 8),
-          const Text('Ilerleme Takibi', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+          Text('Ilerleme Takibi', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
         actions: [
           IconButton(
@@ -149,7 +149,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
           controller: _tabController,
           indicatorColor: ScadaColors.amber,
           labelColor: ScadaColors.amber,
-          unselectedLabelColor: ScadaColors.textSecondary,
+          unselectedLabelColor: context.scada.textSecondary,
           labelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
           tabs: const [
             Tab(text: 'Benim Ilerlemem'),
@@ -214,9 +214,9 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
   Widget _buildTeamProgressTab(TrainingState training) {
     if (training.teamProgress.isEmpty) {
       return Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-        const Icon(Icons.group_off, size: 48, color: ScadaColors.textDim),
+        Icon(Icons.group_off, size: 48, color: context.scada.textDim),
         const SizedBox(height: 12),
-        const Text('Departmaninizda henuz personel yok', style: TextStyle(color: ScadaColors.textSecondary, fontSize: 13)),
+        Text('Departmaninizda henuz personel yok', style: TextStyle(color: context.scada.textSecondary, fontSize: 13)),
       ]));
     }
     return ListView.builder(
@@ -237,9 +237,9 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
       margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(children: [
@@ -256,13 +256,13 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
           ),
           const SizedBox(width: 12),
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(member.userName, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+            Text(member.userName, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
             if (member.department != null)
-              Text(member.department!, style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+              Text(member.department!, style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
           ])),
           Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
             Text('%${member.completionPercent.toStringAsFixed(0)}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: progressColor)),
-            const Text('tamamlama', style: TextStyle(fontSize: 9, color: ScadaColors.textDim)),
+            Text('tamamlama', style: TextStyle(fontSize: 9, color: context.scada.textDim)),
           ]),
         ]),
         const SizedBox(height: 10),
@@ -271,20 +271,20 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
           child: LinearProgressIndicator(
             value: member.completionPercent / 100,
             minHeight: 6,
-            backgroundColor: ScadaColors.border,
+            backgroundColor: context.scada.border,
             valueColor: AlwaysStoppedAnimation<Color>(progressColor),
           ),
         ),
         const SizedBox(height: 8),
         Row(children: [
-          const Icon(Icons.verified_user, size: 12, color: ScadaColors.textDim),
+          Icon(Icons.verified_user, size: 12, color: context.scada.textDim),
           const SizedBox(width: 4),
-          Text('${member.acknowledgedCount}/${member.totalRequired} onay', style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+          Text('${member.acknowledgedCount}/${member.totalRequired} onay', style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
           const Spacer(),
           if (member.lastActivity != null) ...[
-            const Icon(Icons.access_time, size: 12, color: ScadaColors.textDim),
+            Icon(Icons.access_time, size: 12, color: context.scada.textDim),
             const SizedBox(width: 4),
-            Text('Son: ${_formatDate(member.lastActivity!)}', style: const TextStyle(fontSize: 10, color: ScadaColors.textDim)),
+            Text('Son: ${_formatDate(member.lastActivity!)}', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
           ],
         ]),
       ]),
@@ -305,17 +305,17 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: ScadaColors.surface,
+        color: context.scada.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(children: [
-            const Text('Genel Ilerleme', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+            Text('Genel Ilerleme', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
             const Spacer(),
-            Text('${stats.totalModules} modul', style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+            Text('${stats.totalModules} modul', style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
           ]),
           const SizedBox(height: 16),
           Center(
@@ -329,15 +329,15 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
                     child: CircularProgressIndicator(
                       value: percent / 100,
                       strokeWidth: 10,
-                      backgroundColor: ScadaColors.border,
+                      backgroundColor: context.scada.border,
                       valueColor: AlwaysStoppedAnimation<Color>(
                         percent >= 80 ? ScadaColors.green : percent >= 40 ? ScadaColors.amber : ScadaColors.red,
                       ),
                     ),
                   ),
                   Column(mainAxisSize: MainAxisSize.min, children: [
-                    Text('%${percent.toStringAsFixed(0)}', style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
-                    const Text('Tamamlandi', style: TextStyle(fontSize: 9, color: ScadaColors.textSecondary)),
+                    Text('%${percent.toStringAsFixed(0)}', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+                    Text('Tamamlandi', style: TextStyle(fontSize: 9, color: context.scada.textSecondary)),
                   ]),
                 ],
               ),
@@ -361,7 +361,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
         Icon(icon, color: color, size: 20),
         const SizedBox(height: 4),
         Text(value, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: color)),
-        Text(label, style: const TextStyle(fontSize: 8, color: ScadaColors.textSecondary)),
+        Text(label, style: TextStyle(fontSize: 8, color: context.scada.textSecondary)),
       ]),
     );
   }
@@ -382,7 +382,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
       margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: deptColor.withValues(alpha: 0.3)),
       ),
@@ -405,7 +405,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
             child: LinearProgressIndicator(
               value: progress,
               minHeight: 6,
-              backgroundColor: ScadaColors.border,
+              backgroundColor: context.scada.border,
               valueColor: AlwaysStoppedAnimation<Color>(deptColor),
             ),
           ),
@@ -413,7 +413,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
           Row(children: [
             Text(
               startedCount > 0 ? '$startedCount/$totalModulesInDept modul baslandi' : 'Henuz baslanmadi',
-              style: TextStyle(fontSize: 9, color: startedCount > 0 ? deptColor : ScadaColors.textDim),
+              style: TextStyle(fontSize: 9, color: startedCount > 0 ? deptColor : context.scada.textDim),
             ),
             const Spacer(),
             Text('%${(progress * 100).toInt()}', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w600, color: deptColor)),
@@ -422,7 +422,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
           Row(children: [
             _buildChip(Icons.flag, '$mandatoryRoutes zorunlu', ScadaColors.red),
             const SizedBox(width: 8),
-            _buildChip(Icons.timer, '$totalMinutes dk', ScadaColors.textSecondary),
+            _buildChip(Icons.timer, '$totalMinutes dk', context.scada.textSecondary),
             const Spacer(),
             InkWell(
               onTap: () => Navigator.pushNamed(context, '/training-routes', arguments: {'departmentId': dept.id, 'departmentName': dept.name}),
@@ -458,7 +458,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: statusColor.withValues(alpha: 0.3)),
       ),
@@ -467,7 +467,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
         const SizedBox(width: 10),
         Expanded(
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(moduleName, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: ScadaColors.textPrimary), maxLines: 2, overflow: TextOverflow.ellipsis),
+            Text(moduleName, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: context.scada.textPrimary), maxLines: 2, overflow: TextOverflow.ellipsis),
             const SizedBox(height: 4),
             Row(children: [
               Container(
@@ -476,14 +476,14 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
                 child: Text(p.statusText, style: TextStyle(fontSize: 9, color: statusColor)),
               ),
               const SizedBox(width: 6),
-              Icon(typeIcon, size: 10, color: ScadaColors.textDim),
+              Icon(typeIcon, size: 10, color: context.scada.textDim),
               const SizedBox(width: 2),
-              Text(_moduleTypeText(moduleType), style: const TextStyle(fontSize: 9, color: ScadaColors.textDim)),
+              Text(_moduleTypeText(moduleType), style: TextStyle(fontSize: 9, color: context.scada.textDim)),
               if (p.timeSpentMinutes > 0) ...[
                 const SizedBox(width: 8),
-                Icon(Icons.timer, size: 10, color: ScadaColors.textDim),
+                Icon(Icons.timer, size: 10, color: context.scada.textDim),
                 const SizedBox(width: 2),
-                Text('${p.timeSpentMinutes} dk', style: const TextStyle(fontSize: 9, color: ScadaColors.textDim)),
+                Text('${p.timeSpentMinutes} dk', style: TextStyle(fontSize: 9, color: context.scada.textDim)),
               ],
             ]),
           ]),
@@ -492,7 +492,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
           SizedBox(
             width: 36, height: 36,
             child: Stack(alignment: Alignment.center, children: [
-              CircularProgressIndicator(value: p.progressPercent / 100, strokeWidth: 3, backgroundColor: ScadaColors.border, valueColor: AlwaysStoppedAnimation<Color>(statusColor)),
+              CircularProgressIndicator(value: p.progressPercent / 100, strokeWidth: 3, backgroundColor: context.scada.border, valueColor: AlwaysStoppedAnimation<Color>(statusColor)),
               Text('%${p.progressPercent.toInt()}', style: TextStyle(fontSize: 8, color: statusColor, fontWeight: FontWeight.w600)),
             ]),
           ),
@@ -513,20 +513,20 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
     return Container(
       padding: const EdgeInsets.all(32),
       child: Column(children: [
-        Icon(Icons.school_outlined, size: 48, color: ScadaColors.textDim.withValues(alpha: 0.5)),
+        Icon(Icons.school_outlined, size: 48, color: context.scada.textDim.withValues(alpha: 0.5)),
         const SizedBox(height: 12),
-        const Text('Henuz bir egitim modulu baslatmadiniz', style: TextStyle(fontSize: 12, color: ScadaColors.textSecondary)),
+        Text('Henuz bir egitim modulu baslatmadiniz', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
         const SizedBox(height: 4),
-        const Text('Egitim Rotalari\'ndan bir modul secin', style: TextStyle(fontSize: 10, color: ScadaColors.textDim)),
+        Text('Egitim Rotalari\'ndan bir modul secin', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
       ]),
     );
   }
 
   Widget _buildSectionHeader(IconData icon, String title) {
     return Row(children: [
-      Icon(icon, size: 14, color: ScadaColors.textDim),
+      Icon(icon, size: 14, color: context.scada.textDim),
       const SizedBox(width: 6),
-      Text(title, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 1)),
+      Text(title, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
     ]);
   }
 }

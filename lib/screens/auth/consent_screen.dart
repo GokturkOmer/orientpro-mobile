@@ -60,7 +60,7 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(32),
@@ -80,11 +80,11 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
                   child: const Icon(Icons.shield, size: 36, color: ScadaColors.cyan),
                 ),
                 const SizedBox(height: 16),
-                const Text('Veri Koruma & Gizlilik',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: ScadaColors.textPrimary)),
+                Text('Veri Koruma & Gizlilik',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: context.scada.textPrimary)),
                 const SizedBox(height: 8),
-                const Text('Devam etmek icin asagidaki izinleri onaylayin',
-                  style: TextStyle(fontSize: 14, color: ScadaColors.textSecondary)),
+                Text('Devam etmek icin asagidaki izinleri onaylayin',
+                  style: TextStyle(fontSize: 14, color: context.scada.textSecondary)),
                 const SizedBox(height: 32),
 
                 // Gizlilik Politikasi
@@ -124,10 +124,10 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
                   child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     Icon(Icons.info_outline, size: 18, color: ScadaColors.cyan.withValues(alpha: 0.7)),
                     const SizedBox(width: 8),
-                    const Expanded(child: Text(
+                    Expanded(child: Text(
                       'Verilerinizi istediginiz zaman disa aktarabilir veya silme talebinde '
                       'bulunabilirsiniz. Bu islemler Profil > Gizlilik boluumunden yapilabilir.',
-                      style: TextStyle(fontSize: 12, color: ScadaColors.textDim),
+                      style: TextStyle(fontSize: 12, color: context.scada.textDim),
                     )),
                   ]),
                 ),
@@ -141,13 +141,13 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
                     onPressed: _canProceed && !_isLoading ? _submitConsent : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: ScadaColors.cyan,
-                      foregroundColor: ScadaColors.bg,
-                      disabledBackgroundColor: ScadaColors.surface,
+                      foregroundColor: context.scada.bg,
+                      disabledBackgroundColor: context.scada.surface,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     ),
                     child: _isLoading
-                        ? const SizedBox(width: 24, height: 24,
-                            child: CircularProgressIndicator(strokeWidth: 2, color: ScadaColors.bg))
+                        ? SizedBox(width: 24, height: 24,
+                            child: CircularProgressIndicator(strokeWidth: 2, color: context.scada.bg))
                         : const Text('Onayla ve Devam Et',
                             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                   ),
@@ -171,10 +171,10 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: value ? ScadaColors.green.withValues(alpha: 0.05) : ScadaColors.surface,
+        color: value ? ScadaColors.green.withValues(alpha: 0.05) : context.scada.surface,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: value ? ScadaColors.green.withValues(alpha: 0.3) : ScadaColors.border,
+          color: value ? ScadaColors.green.withValues(alpha: 0.3) : context.scada.border,
         ),
       ),
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -187,15 +187,15 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
         const SizedBox(width: 8),
         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(children: [
-            Icon(icon, size: 20, color: value ? ScadaColors.green : ScadaColors.textDim),
+            Icon(icon, size: 20, color: value ? ScadaColors.green : context.scada.textDim),
             const SizedBox(width: 8),
             Text(title, style: TextStyle(
               fontSize: 15, fontWeight: FontWeight.w600,
-              color: value ? ScadaColors.green : ScadaColors.textPrimary,
+              color: value ? ScadaColors.green : context.scada.textPrimary,
             )),
           ]),
           const SizedBox(height: 8),
-          Text(description, style: const TextStyle(fontSize: 13, color: ScadaColors.textSecondary, height: 1.4)),
+          Text(description, style: TextStyle(fontSize: 13, color: context.scada.textSecondary, height: 1.4)),
         ])),
       ]),
     );

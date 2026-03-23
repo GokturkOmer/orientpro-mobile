@@ -68,9 +68,9 @@ class _DigitalFormScreenState extends ConsumerState<DigitalFormScreen> {
     final checklistCount = _documents.length - formCount;
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
           onPressed: () => Navigator.pop(context),
@@ -85,7 +85,7 @@ class _DigitalFormScreenState extends ConsumerState<DigitalFormScreen> {
             child: const Icon(Icons.assignment, color: ScadaColors.green, size: 20),
           ),
           const SizedBox(width: 8),
-          const Text('Form & Checklistler', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+          Text('Form & Checklistler', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
       ),
       body: Column(children: [
@@ -127,9 +127,9 @@ class _DigitalFormScreenState extends ConsumerState<DigitalFormScreen> {
               ? const Center(child: CircularProgressIndicator(color: ScadaColors.green))
               : docs.isEmpty
                   ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-                      const Icon(Icons.folder_open, size: 48, color: ScadaColors.textDim),
+                      Icon(Icons.folder_open, size: 48, color: context.scada.textDim),
                       const SizedBox(height: 8),
-                      const Text('Dokuman bulunamadi', style: TextStyle(color: ScadaColors.textSecondary, fontSize: 13)),
+                      Text('Dokuman bulunamadi', style: TextStyle(color: context.scada.textSecondary, fontSize: 13)),
                     ]))
                   : RefreshIndicator(
                       onRefresh: _loadDocuments,
@@ -164,13 +164,13 @@ class _DigitalFormScreenState extends ConsumerState<DigitalFormScreen> {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 6),
           decoration: BoxDecoration(
-            color: isSelected ? ScadaColors.cyan.withValues(alpha: 0.12) : ScadaColors.card,
+            color: isSelected ? ScadaColors.cyan.withValues(alpha: 0.12) : context.scada.card,
             borderRadius: BorderRadius.circular(6),
-            border: Border.all(color: isSelected ? ScadaColors.cyan : ScadaColors.border),
+            border: Border.all(color: isSelected ? ScadaColors.cyan : context.scada.border),
           ),
           child: Text(label, textAlign: TextAlign.center, style: TextStyle(
             fontSize: 11, fontWeight: FontWeight.w600,
-            color: isSelected ? ScadaColors.cyan : ScadaColors.textSecondary,
+            color: isSelected ? ScadaColors.cyan : context.scada.textSecondary,
           )),
         ),
       ),
@@ -191,9 +191,9 @@ class _DigitalFormScreenState extends ConsumerState<DigitalFormScreen> {
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
@@ -213,9 +213,9 @@ class _DigitalFormScreenState extends ConsumerState<DigitalFormScreen> {
             const SizedBox(width: 12),
             // Info
             Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(doc['title'] ?? '', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+              Text(doc['title'] ?? '', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
               const SizedBox(height: 2),
-              Text(doc['description'] ?? '', style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary), maxLines: 2, overflow: TextOverflow.ellipsis),
+              Text(doc['description'] ?? '', style: TextStyle(fontSize: 10, color: context.scada.textSecondary), maxLines: 2, overflow: TextOverflow.ellipsis),
               const SizedBox(height: 6),
               Row(children: [
                 // Type badge
@@ -241,11 +241,11 @@ class _DigitalFormScreenState extends ConsumerState<DigitalFormScreen> {
                   ),
                 ),
                 const SizedBox(width: 6),
-                Text(sizeStr, style: const TextStyle(fontSize: 9, color: ScadaColors.textDim)),
+                Text(sizeStr, style: TextStyle(fontSize: 9, color: context.scada.textDim)),
                 // Department tag
                 if (doc['department'] != null) ...[
                   const SizedBox(width: 6),
-                  Text(doc['department'].toString(), style: const TextStyle(fontSize: 9, color: ScadaColors.textDim)),
+                  Text(doc['department'].toString(), style: TextStyle(fontSize: 9, color: context.scada.textDim)),
                 ],
               ]),
             ])),

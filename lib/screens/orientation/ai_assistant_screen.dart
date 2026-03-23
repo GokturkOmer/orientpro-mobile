@@ -77,9 +77,9 @@ class _AiAssistantScreenState extends ConsumerState<AiAssistantScreen> {
     });
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
           onPressed: () => Navigator.pop(context),
@@ -94,11 +94,11 @@ class _AiAssistantScreenState extends ConsumerState<AiAssistantScreen> {
             child: const Icon(Icons.smart_toy, color: ScadaColors.purple, size: 20),
           ),
           const SizedBox(width: 8),
-          const Text('AI Asistan', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+          Text('AI Asistan', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
         actions: [
           IconButton(
-            icon: const Icon(Icons.delete_outline, size: 20, color: ScadaColors.textDim),
+            icon: Icon(Icons.delete_outline, size: 20, color: context.scada.textDim),
             onPressed: () {
               ref.read(chatProvider.notifier).clearChat();
               final auth = ref.read(authProvider);
@@ -119,7 +119,7 @@ class _AiAssistantScreenState extends ConsumerState<AiAssistantScreen> {
                 children: _quickActions.map((action) {
                   return ActionChip(
                     avatar: Icon(action.icon, size: 14, color: ScadaColors.purple),
-                    label: Text(action.label, style: const TextStyle(fontSize: 11, color: ScadaColors.textPrimary)),
+                    label: Text(action.label, style: TextStyle(fontSize: 11, color: context.scada.textPrimary)),
                     backgroundColor: ScadaColors.purple.withValues(alpha: 0.08),
                     side: BorderSide(color: ScadaColors.purple.withValues(alpha: 0.2)),
                     onPressed: () => _sendMessage(action.query),
@@ -149,9 +149,9 @@ class _AiAssistantScreenState extends ConsumerState<AiAssistantScreen> {
           // Input
           Container(
             padding: EdgeInsets.fromLTRB(10, 10, 10, 10 + MediaQuery.of(context).padding.bottom),
-            decoration: const BoxDecoration(
-              color: ScadaColors.surface,
-              border: Border(top: BorderSide(color: ScadaColors.border)),
+            decoration: BoxDecoration(
+              color: context.scada.surface,
+              border: Border(top: BorderSide(color: context.scada.border)),
             ),
             child: Row(
               children: [
@@ -159,21 +159,21 @@ class _AiAssistantScreenState extends ConsumerState<AiAssistantScreen> {
                   child: TextField(
                     controller: _controller,
                     maxLength: ChatNotifier.maxMessageLength,
-                    style: const TextStyle(fontSize: 13, color: ScadaColors.textPrimary),
+                    style: TextStyle(fontSize: 13, color: context.scada.textPrimary),
                     decoration: InputDecoration(
                       hintText: 'Oryantasyon hakkinda sorun...',
-                      hintStyle: const TextStyle(fontSize: 12, color: ScadaColors.textDim),
+                      hintStyle: TextStyle(fontSize: 12, color: context.scada.textDim),
                       counterText: '',
                       filled: true,
-                      fillColor: ScadaColors.card,
+                      fillColor: context.scada.card,
                       contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide: const BorderSide(color: ScadaColors.border),
+                        borderSide: BorderSide(color: context.scada.border),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide: const BorderSide(color: ScadaColors.border),
+                        borderSide: BorderSide(color: context.scada.border),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
@@ -187,7 +187,7 @@ class _AiAssistantScreenState extends ConsumerState<AiAssistantScreen> {
                 const SizedBox(width: 8),
                 Container(
                   decoration: BoxDecoration(
-                    color: chat.canSend ? ScadaColors.purple : ScadaColors.textDim,
+                    color: chat.canSend ? ScadaColors.purple : context.scada.textDim,
                     shape: BoxShape.circle,
                   ),
                   child: IconButton(
@@ -211,7 +211,7 @@ class _AiAssistantScreenState extends ConsumerState<AiAssistantScreen> {
         constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: message.isUser ? ScadaColors.purple.withValues(alpha: 0.15) : ScadaColors.card,
+          color: message.isUser ? ScadaColors.purple.withValues(alpha: 0.15) : context.scada.card,
           borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(12),
             topRight: const Radius.circular(12),
@@ -219,7 +219,7 @@ class _AiAssistantScreenState extends ConsumerState<AiAssistantScreen> {
             bottomRight: Radius.circular(message.isUser ? 2 : 12),
           ),
           border: Border.all(
-            color: message.isUser ? ScadaColors.purple.withValues(alpha: 0.3) : ScadaColors.border,
+            color: message.isUser ? ScadaColors.purple.withValues(alpha: 0.3) : context.scada.border,
           ),
         ),
         child: Column(
@@ -240,19 +240,19 @@ class _AiAssistantScreenState extends ConsumerState<AiAssistantScreen> {
             MarkdownBody(
               data: message.text,
               styleSheet: MarkdownStyleSheet(
-                p: const TextStyle(fontSize: 12, color: ScadaColors.textPrimary, height: 1.4),
-                strong: const TextStyle(fontSize: 12, color: ScadaColors.textPrimary, fontWeight: FontWeight.w700),
-                listBullet: const TextStyle(fontSize: 12, color: ScadaColors.textPrimary),
+                p: TextStyle(fontSize: 12, color: context.scada.textPrimary, height: 1.4),
+                strong: TextStyle(fontSize: 12, color: context.scada.textPrimary, fontWeight: FontWeight.w700),
+                listBullet: TextStyle(fontSize: 12, color: context.scada.textPrimary),
                 h2: const TextStyle(fontSize: 14, color: ScadaColors.cyan, fontWeight: FontWeight.w600),
-                h3: const TextStyle(fontSize: 13, color: ScadaColors.textPrimary, fontWeight: FontWeight.w600),
-                code: TextStyle(fontSize: 11, color: ScadaColors.green, backgroundColor: ScadaColors.bg),
+                h3: TextStyle(fontSize: 13, color: context.scada.textPrimary, fontWeight: FontWeight.w600),
+                code: TextStyle(fontSize: 11, color: ScadaColors.green, backgroundColor: context.scada.bg),
               ),
             ),
             const SizedBox(height: 4),
             Row(children: [
               Text(
                 '${message.timestamp.hour.toString().padLeft(2, '0')}:${message.timestamp.minute.toString().padLeft(2, '0')}',
-                style: const TextStyle(fontSize: 8, color: ScadaColors.textDim),
+                style: TextStyle(fontSize: 8, color: context.scada.textDim),
               ),
               if (isLastError) ...[
                 const Spacer(),
@@ -282,16 +282,16 @@ class _AiAssistantScreenState extends ConsumerState<AiAssistantScreen> {
         margin: const EdgeInsets.only(bottom: 8),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: ScadaColors.card,
+          color: context.scada.card,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: ScadaColors.border),
+          border: Border.all(color: context.scada.border),
         ),
-        child: const Row(
+        child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: ScadaColors.purple)),
-            SizedBox(width: 8),
-            Text('Dusunuyor...', style: TextStyle(fontSize: 11, color: ScadaColors.textSecondary)),
+            const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: ScadaColors.purple)),
+            const SizedBox(width: 8),
+            Text('Dusunuyor...', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
           ],
         ),
       ),

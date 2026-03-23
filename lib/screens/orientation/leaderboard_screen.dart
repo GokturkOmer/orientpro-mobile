@@ -83,9 +83,9 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
     final currentUserId = ref.read(authProvider).user?.id;
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
           onPressed: () => Navigator.pop(context),
@@ -100,7 +100,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
             child: const Icon(Icons.leaderboard, color: ScadaColors.amber, size: 20),
           ),
           const SizedBox(width: 8),
-          const Text('Siralama', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+          Text('Siralama', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
       ),
       body: _isLoading
@@ -118,9 +118,9 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
               : _entries.isEmpty
                   ? Center(
                       child: Column(mainAxisSize: MainAxisSize.min, children: [
-                        const Icon(Icons.group_off, size: 48, color: ScadaColors.textDim),
+                        Icon(Icons.group_off, size: 48, color: context.scada.textDim),
                         const SizedBox(height: 12),
-                        const Text('Siralama verisi bulunamadi', style: TextStyle(fontSize: 13, color: ScadaColors.textSecondary)),
+                        Text('Siralama verisi bulunamadi', style: TextStyle(fontSize: 13, color: context.scada.textSecondary)),
                       ]),
                     )
                   : RefreshIndicator(
@@ -137,9 +137,9 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
 
                           // Section header
                           Row(children: [
-                            const Icon(Icons.format_list_numbered, size: 14, color: ScadaColors.textDim),
+                            Icon(Icons.format_list_numbered, size: 14, color: context.scada.textDim),
                             const SizedBox(width: 6),
-                            const Text('DEPARTMAN SIRALAMASI', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 1)),
+                            Text('DEPARTMAN SIRALAMASI', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
                           ]),
                           const SizedBox(height: 12),
 
@@ -159,9 +159,9 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: ScadaColors.surface,
+        color: context.scada.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -176,7 +176,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
   }
 
   Widget _buildPodiumItem(_LeaderboardEntry entry, int rank, double height) {
-    final color = rank == 1 ? ScadaColors.amber : rank == 2 ? ScadaColors.textSecondary : ScadaColors.orange;
+    final color = rank == 1 ? ScadaColors.amber : rank == 2 ? context.scada.textSecondary : ScadaColors.orange;
     final icon = rank == 1 ? Icons.emoji_events : Icons.military_tech;
 
     return Column(
@@ -230,10 +230,10 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: isCurrentUser ? ScadaColors.cyan.withValues(alpha: 0.06) : ScadaColors.card,
+        color: isCurrentUser ? ScadaColors.cyan.withValues(alpha: 0.06) : context.scada.card,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-          color: isCurrentUser ? ScadaColors.cyan.withValues(alpha: 0.4) : ScadaColors.border,
+          color: isCurrentUser ? ScadaColors.cyan.withValues(alpha: 0.4) : context.scada.border,
           width: isCurrentUser ? 1.5 : 1,
         ),
       ),
@@ -246,7 +246,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w700,
-              color: rank <= 3 ? ScadaColors.amber : ScadaColors.textSecondary,
+              color: rank <= 3 ? ScadaColors.amber : context.scada.textSecondary,
             ),
           ),
         ),
@@ -274,7 +274,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: isCurrentUser ? ScadaColors.cyan : ScadaColors.textPrimary,
+                  color: isCurrentUser ? ScadaColors.cyan : context.scada.textPrimary,
                 ),
                 overflow: TextOverflow.ellipsis,
               )),
@@ -291,7 +291,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
               ],
             ]),
             const SizedBox(height: 2),
-            Text('${entry.completedModules}/${entry.totalModules} modul', style: const TextStyle(fontSize: 10, color: ScadaColors.textDim)),
+            Text('${entry.completedModules}/${entry.totalModules} modul', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
           ]),
         ),
 

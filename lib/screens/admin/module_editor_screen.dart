@@ -116,10 +116,10 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
         return StatefulBuilder(
           builder: (ctx, setDialogState) {
             return AlertDialog(
-              backgroundColor: ScadaColors.card,
-              title: const Text(
+              backgroundColor: context.scada.card,
+              title: Text(
                 'Icerik Ekle',
-                style: TextStyle(color: ScadaColors.textPrimary),
+                style: TextStyle(color: context.scada.textPrimary),
               ),
               content: SingleChildScrollView(
                 child: SizedBox(
@@ -129,8 +129,8 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                     children: [
                       DropdownButtonFormField<String>(
                         initialValue: contentType,
-                        dropdownColor: ScadaColors.card,
-                        style: const TextStyle(color: ScadaColors.textPrimary),
+                        dropdownColor: context.scada.card,
+                        style: TextStyle(color: context.scada.textPrimary),
                         decoration: _inputDecoration('Icerik Tipi'),
                         items: const [
                           DropdownMenuItem(value: 'text', child: Text('Metin')),
@@ -154,10 +154,10 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                                 }
                               },
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12),
                       TextField(
                         controller: contentTitleCtrl,
-                        style: const TextStyle(color: ScadaColors.textPrimary),
+                        style: TextStyle(color: context.scada.textPrimary),
                         decoration: _inputDecoration('Baslik'),
                         enabled: !isUploading,
                       ),
@@ -168,7 +168,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            const Text('Markdown', style: TextStyle(color: ScadaColors.textDim, fontSize: 11)),
+                            Text('Markdown', style: TextStyle(color: context.scada.textDim, fontSize: 11)),
                             const SizedBox(width: 4),
                             SizedBox(
                               height: 28,
@@ -187,21 +187,21 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                             constraints: const BoxConstraints(minHeight: 120, maxHeight: 200),
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: ScadaColors.surface,
+                              color: context.scada.surface,
                               borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: ScadaColors.border),
+                              border: Border.all(color: context.scada.border),
                             ),
                             child: SingleChildScrollView(
                               child: MarkdownBody(
                                 data: contentBodyCtrl.text.isEmpty ? '*Onizleme burada gorunecek...*' : contentBodyCtrl.text,
                                 styleSheet: MarkdownStyleSheet(
-                                  p: const TextStyle(color: ScadaColors.textSecondary, fontSize: 13, height: 1.4),
-                                  h1: const TextStyle(color: ScadaColors.textPrimary, fontSize: 16, fontWeight: FontWeight.bold),
-                                  h2: const TextStyle(color: ScadaColors.textPrimary, fontSize: 15, fontWeight: FontWeight.bold),
-                                  strong: const TextStyle(color: ScadaColors.textPrimary, fontWeight: FontWeight.bold),
-                                  em: const TextStyle(color: ScadaColors.textSecondary, fontStyle: FontStyle.italic),
+                                  p: TextStyle(color: context.scada.textSecondary, fontSize: 13, height: 1.4),
+                                  h1: TextStyle(color: context.scada.textPrimary, fontSize: 16, fontWeight: FontWeight.bold),
+                                  h2: TextStyle(color: context.scada.textPrimary, fontSize: 15, fontWeight: FontWeight.bold),
+                                  strong: TextStyle(color: context.scada.textPrimary, fontWeight: FontWeight.bold),
+                                  em: TextStyle(color: context.scada.textSecondary, fontStyle: FontStyle.italic),
                                   listBullet: const TextStyle(color: ScadaColors.cyan, fontSize: 13),
-                                  code: TextStyle(color: ScadaColors.cyan, backgroundColor: ScadaColors.surface, fontSize: 12),
+                                  code: TextStyle(color: ScadaColors.cyan, backgroundColor: context.scada.surface, fontSize: 12),
                                 ),
                               ),
                             ),
@@ -209,7 +209,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                         else
                           TextField(
                             controller: contentBodyCtrl,
-                            style: const TextStyle(color: ScadaColors.textPrimary),
+                            style: TextStyle(color: context.scada.textPrimary),
                             decoration: _inputDecoration('Icerik Metni (Markdown destekli)'),
                             maxLines: 6,
                             onChanged: (_) {
@@ -223,7 +223,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                         TextField(
                           controller: contentUrlCtrl,
                           style:
-                              const TextStyle(color: ScadaColors.textPrimary),
+                              TextStyle(color: context.scada.textPrimary),
                           decoration: _inputDecoration(
                             contentType == 'image'
                                 ? 'Gorsel URL'
@@ -261,12 +261,12 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                             width: double.infinity,
                             padding: const EdgeInsets.all(24),
                             decoration: BoxDecoration(
-                              color: ScadaColors.surface,
+                              color: context.scada.surface,
                               borderRadius: BorderRadius.circular(8),
                               border: Border.all(
                                 color: pdfFileName != null
                                     ? ScadaColors.green
-                                    : ScadaColors.border,
+                                    : context.scada.border,
                                 style: pdfFileName != null
                                     ? BorderStyle.solid
                                     : BorderStyle.solid,
@@ -281,25 +281,25 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                                   size: 40,
                                   color: pdfFileName != null
                                       ? ScadaColors.red
-                                      : ScadaColors.textSecondary,
+                                      : context.scada.textSecondary,
                                 ),
-                                const SizedBox(height: 8),
+                                SizedBox(height: 8),
                                 Text(
                                   pdfFileName ?? 'PDF dosya secmek icin tikla',
                                   style: TextStyle(
                                     color: pdfFileName != null
-                                        ? ScadaColors.textPrimary
-                                        : ScadaColors.textSecondary,
+                                        ? context.scada.textPrimary
+                                        : context.scada.textSecondary,
                                     fontSize: 13,
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
                                 if (pdfFileBytes != null) ...[
-                                  const SizedBox(height: 4),
+                                  SizedBox(height: 4),
                                   Text(
                                     '${(pdfFileBytes!.length / 1024 / 1024).toStringAsFixed(2)} MB',
-                                    style: const TextStyle(
-                                      color: ScadaColors.textSecondary,
+                                    style: TextStyle(
+                                      color: context.scada.textSecondary,
                                       fontSize: 11,
                                     ),
                                   ),
@@ -328,13 +328,13 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                               onChanged: isUploading
                                   ? null
                                   : (v) => setDialogState(() => enrichExistingContents = v ?? false),
-                              title: const Text(
+                              title: Text(
                                 'Mevcut icerikleri PDF ile zenginlestir',
-                                style: TextStyle(color: ScadaColors.textPrimary, fontSize: 12, fontWeight: FontWeight.w500),
+                                style: TextStyle(color: context.scada.textPrimary, fontSize: 12, fontWeight: FontWeight.w500),
                               ),
-                              subtitle: const Text(
+                              subtitle: Text(
                                 'AI, modulun mevcut ders iceriklerini PDF\'deki bilgilerle analiz edip guncelleyecek',
-                                style: TextStyle(color: ScadaColors.textDim, fontSize: 10),
+                                style: TextStyle(color: context.scada.textDim, fontSize: 10),
                               ),
                               secondary: const Icon(Icons.auto_awesome, color: ScadaColors.purple, size: 20),
                             ),
@@ -367,7 +367,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                         ),
                         // Upload progress
                         if (isUploading) ...[
-                          const SizedBox(height: 12),
+                          SizedBox(height: 12),
                           Column(
                             children: [
                               LinearProgressIndicator(
@@ -375,21 +375,21 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                                     ? uploadProgress
                                     : null,
                                 backgroundColor:
-                                    ScadaColors.border,
+                                    context.scada.border,
                                 valueColor:
                                     const AlwaysStoppedAnimation<Color>(
                                   ScadaColors.cyan,
                                 ),
                               ),
-                              const SizedBox(height: 8),
+                              SizedBox(height: 8),
                               Text(
                                 uploadProgress > 0.99
                                     ? (enrichExistingContents
                                         ? 'AI siniflandirma + icerik zenginlestirme yapiliyor...'
                                         : 'AI siniflandirma yapiliyor...')
                                     : 'Yukleniyor... %${(uploadProgress * 100).toInt()}',
-                                style: const TextStyle(
-                                  color: ScadaColors.textSecondary,
+                                style: TextStyle(
+                                  color: context.scada.textSecondary,
                                   fontSize: 12,
                                 ),
                               ),
@@ -409,8 +409,8 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                     'Iptal',
                     style: TextStyle(
                       color: isUploading
-                          ? ScadaColors.textSecondary.withValues(alpha: 0.3)
-                          : ScadaColors.textSecondary,
+                          ? context.scada.textSecondary.withValues(alpha: 0.3)
+                          : context.scada.textSecondary,
                     ),
                   ),
                 ),
@@ -503,7 +503,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                         },
                   child: Text(
                     contentType == 'pdf' ? 'Yukle & Siniflandir' : 'Kaydet',
-                    style: const TextStyle(color: ScadaColors.bg),
+                    style: TextStyle(color: context.scada.bg),
                   ),
                 ),
               ],
@@ -527,10 +527,10 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
         return StatefulBuilder(
           builder: (ctx, setDialogState) {
             return AlertDialog(
-              backgroundColor: ScadaColors.card,
-              title: const Text(
+              backgroundColor: context.scada.card,
+              title: Text(
                 'Icerigi Duzenle',
-                style: TextStyle(color: ScadaColors.textPrimary),
+                style: TextStyle(color: context.scada.textPrimary),
               ),
               content: SingleChildScrollView(
                 child: Column(
@@ -538,8 +538,8 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                   children: [
                     DropdownButtonFormField<String>(
                       initialValue: contentType,
-                      dropdownColor: ScadaColors.card,
-                      style: const TextStyle(color: ScadaColors.textPrimary),
+                      dropdownColor: context.scada.card,
+                      style: TextStyle(color: context.scada.textPrimary),
                       decoration: _inputDecoration('Icerik Tipi'),
                       items: const [
                         DropdownMenuItem(value: 'text', child: Text('Metin')),
@@ -552,10 +552,10 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                         if (v != null) setDialogState(() => contentType = v);
                       },
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12),
                     TextField(
                       controller: contentTitleCtrl,
-                      style: const TextStyle(color: ScadaColors.textPrimary),
+                      style: TextStyle(color: context.scada.textPrimary),
                       decoration: _inputDecoration('Baslik'),
                     ),
                     const SizedBox(height: 12),
@@ -563,7 +563,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          const Text('Markdown', style: TextStyle(color: ScadaColors.textDim, fontSize: 11)),
+                          Text('Markdown', style: TextStyle(color: context.scada.textDim, fontSize: 11)),
                           const SizedBox(width: 4),
                           SizedBox(
                             height: 28,
@@ -582,21 +582,21 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                           constraints: const BoxConstraints(minHeight: 120, maxHeight: 200),
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: ScadaColors.surface,
+                            color: context.scada.surface,
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: ScadaColors.border),
+                            border: Border.all(color: context.scada.border),
                           ),
                           child: SingleChildScrollView(
                             child: MarkdownBody(
                               data: contentBodyCtrl.text.isEmpty ? '*Onizleme burada gorunecek...*' : contentBodyCtrl.text,
                               styleSheet: MarkdownStyleSheet(
-                                p: const TextStyle(color: ScadaColors.textSecondary, fontSize: 13, height: 1.4),
-                                h1: const TextStyle(color: ScadaColors.textPrimary, fontSize: 16, fontWeight: FontWeight.bold),
-                                h2: const TextStyle(color: ScadaColors.textPrimary, fontSize: 15, fontWeight: FontWeight.bold),
-                                strong: const TextStyle(color: ScadaColors.textPrimary, fontWeight: FontWeight.bold),
-                                em: const TextStyle(color: ScadaColors.textSecondary, fontStyle: FontStyle.italic),
+                                p: TextStyle(color: context.scada.textSecondary, fontSize: 13, height: 1.4),
+                                h1: TextStyle(color: context.scada.textPrimary, fontSize: 16, fontWeight: FontWeight.bold),
+                                h2: TextStyle(color: context.scada.textPrimary, fontSize: 15, fontWeight: FontWeight.bold),
+                                strong: TextStyle(color: context.scada.textPrimary, fontWeight: FontWeight.bold),
+                                em: TextStyle(color: context.scada.textSecondary, fontStyle: FontStyle.italic),
                                 listBullet: const TextStyle(color: ScadaColors.cyan, fontSize: 13),
-                                code: TextStyle(color: ScadaColors.cyan, backgroundColor: ScadaColors.surface, fontSize: 12),
+                                code: TextStyle(color: ScadaColors.cyan, backgroundColor: context.scada.surface, fontSize: 12),
                               ),
                             ),
                           ),
@@ -604,7 +604,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                       else
                         TextField(
                           controller: contentBodyCtrl,
-                          style: const TextStyle(color: ScadaColors.textPrimary),
+                          style: TextStyle(color: context.scada.textPrimary),
                           decoration: _inputDecoration('Icerik Metni (Markdown destekli)'),
                           maxLines: 6,
                         ),
@@ -612,7 +612,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                     if (contentType == 'image' || contentType == 'video')
                       TextField(
                         controller: contentUrlCtrl,
-                        style: const TextStyle(color: ScadaColors.textPrimary),
+                        style: TextStyle(color: context.scada.textPrimary),
                         decoration: _inputDecoration(
                           contentType == 'image' ? 'Gorsel URL' : 'Video URL',
                         ),
@@ -621,19 +621,19 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: ScadaColors.surface,
+                          color: context.scada.surface,
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: const Row(
+                        child: Row(
                           children: [
                             Icon(Icons.info_outline,
-                                size: 16, color: ScadaColors.textSecondary),
+                                size: 16, color: context.scada.textSecondary),
                             SizedBox(width: 8),
                             Expanded(
                               child: Text(
                                 'PDF dosyasi degistirilemez. Sadece baslik duzenlenebilir.',
                                 style: TextStyle(
-                                  color: ScadaColors.textSecondary,
+                                  color: context.scada.textSecondary,
                                   fontSize: 12,
                                 ),
                               ),
@@ -647,9 +647,9 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(ctx),
-                  child: const Text(
+                  child: Text(
                     'Iptal',
-                    style: TextStyle(color: ScadaColors.textSecondary),
+                    style: TextStyle(color: context.scada.textSecondary),
                   ),
                 ),
                 ElevatedButton(
@@ -679,9 +679,9 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                           .loadModuleDetail(widget.moduleId!);
                     }
                   },
-                  child: const Text(
+                  child: Text(
                     'Kaydet',
-                    style: TextStyle(color: ScadaColors.bg),
+                    style: TextStyle(color: context.scada.bg),
                   ),
                 ),
               ],
@@ -734,17 +734,17 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
         return StatefulBuilder(
           builder: (ctx, setDialogState) {
             return AlertDialog(
-              backgroundColor: ScadaColors.card,
+              backgroundColor: context.scada.card,
               title: Row(
                 children: [
                   const Icon(Icons.auto_awesome,
                       color: ScadaColors.cyan, size: 22),
-                  const SizedBox(width: 8),
-                  const Expanded(
+                  SizedBox(width: 8),
+                  Expanded(
                     child: Text(
                       'AI Siniflandirma Sonucu',
                       style: TextStyle(
-                          color: ScadaColors.textPrimary, fontSize: 18),
+                          color: context.scada.textPrimary, fontSize: 18),
                     ),
                   ),
                   // RAG status indicator
@@ -795,19 +795,19 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                       Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: ScadaColors.surface,
+                          color: context.scada.surface,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Row(
                           children: [
                             const Icon(Icons.picture_as_pdf,
                                 color: ScadaColors.red, size: 28),
-                            const SizedBox(width: 10),
+                            SizedBox(width: 10),
                             Expanded(
                               child: Text(
                                 fileName,
-                                style: const TextStyle(
-                                  color: ScadaColors.textPrimary,
+                                style: TextStyle(
+                                  color: context.scada.textPrimary,
                                   fontSize: 13,
                                 ),
                                 overflow: TextOverflow.ellipsis,
@@ -821,8 +821,8 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                       // Department
                       DropdownButtonFormField<String>(
                         initialValue: department,
-                        dropdownColor: ScadaColors.card,
-                        style: const TextStyle(color: ScadaColors.textPrimary),
+                        dropdownColor: context.scada.card,
+                        style: TextStyle(color: context.scada.textPrimary),
                         decoration: _inputDecoration('Departman'),
                         items: departmentLabels.entries
                             .map((e) => DropdownMenuItem(
@@ -841,8 +841,8 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                       // Difficulty
                       DropdownButtonFormField<String>(
                         initialValue: difficulty,
-                        dropdownColor: ScadaColors.card,
-                        style: const TextStyle(color: ScadaColors.textPrimary),
+                        dropdownColor: context.scada.card,
+                        style: TextStyle(color: context.scada.textPrimary),
                         decoration: _inputDecoration('Zorluk Seviyesi'),
                         items: difficultyLabels.entries
                             .map((e) => DropdownMenuItem(
@@ -859,12 +859,12 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                       const SizedBox(height: 12),
 
                       // Tags
-                      const Text(
+                      Text(
                         'Etiketler',
                         style: TextStyle(
-                            color: ScadaColors.textSecondary, fontSize: 12),
+                            color: context.scada.textSecondary, fontSize: 12),
                       ),
-                      const SizedBox(height: 6),
+                      SizedBox(height: 6),
                       Wrap(
                         spacing: 6,
                         runSpacing: 6,
@@ -873,8 +873,8 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                             (tag) => Chip(
                               label: Text(
                                 tag,
-                                style: const TextStyle(
-                                    color: ScadaColors.textPrimary,
+                                style: TextStyle(
+                                    color: context.scada.textPrimary,
                                     fontSize: 12),
                               ),
                               backgroundColor:
@@ -894,19 +894,19 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                             height: 32,
                             child: TextField(
                               controller: tagCtrl,
-                              style: const TextStyle(
-                                  color: ScadaColors.textPrimary, fontSize: 12),
+                              style: TextStyle(
+                                  color: context.scada.textPrimary, fontSize: 12),
                               decoration: InputDecoration(
                                 hintText: '+ Etiket ekle',
-                                hintStyle: const TextStyle(
-                                    color: ScadaColors.textSecondary,
+                                hintStyle: TextStyle(
+                                    color: context.scada.textSecondary,
                                     fontSize: 12),
                                 contentPadding: const EdgeInsets.symmetric(
                                     horizontal: 8, vertical: 4),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16),
-                                  borderSide: const BorderSide(
-                                      color: ScadaColors.border),
+                                  borderSide: BorderSide(
+                                      color: context.scada.border),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16),
@@ -914,7 +914,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                                       color: ScadaColors.cyan),
                                 ),
                                 filled: true,
-                                fillColor: ScadaColors.surface,
+                                fillColor: context.scada.surface,
                               ),
                               onSubmitted: (v) {
                                 if (v.trim().isNotEmpty) {
@@ -933,7 +933,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                       // Summary
                       TextField(
                         controller: summaryCtrl,
-                        style: const TextStyle(color: ScadaColors.textPrimary),
+                        style: TextStyle(color: context.scada.textPrimary),
                         decoration: _inputDecoration('AI Ozet'),
                         maxLines: 3,
                       ),
@@ -941,7 +941,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                       // Enrichment results
                       if (uploadResult['enrichment'] != null &&
                           (uploadResult['enrichment'] as List).isNotEmpty) ...[
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16),
                         Container(
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
@@ -958,16 +958,16 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                                 Text('Zenginlestirilen Icerikler',
                                     style: TextStyle(color: ScadaColors.purple, fontSize: 12, fontWeight: FontWeight.w600)),
                               ]),
-                              const SizedBox(height: 8),
+                              SizedBox(height: 8),
                               ...(uploadResult['enrichment'] as List).map((e) => Padding(
                                     padding: const EdgeInsets.only(bottom: 4),
                                     child: Row(children: [
                                       const Icon(Icons.check_circle, color: ScadaColors.green, size: 14),
-                                      const SizedBox(width: 6),
+                                      SizedBox(width: 6),
                                       Expanded(
                                         child: Text(
                                           '${e['content_title']} - ${e['changes_summary']}',
-                                          style: const TextStyle(color: ScadaColors.textSecondary, fontSize: 11),
+                                          style: TextStyle(color: context.scada.textSecondary, fontSize: 11),
                                         ),
                                       ),
                                     ]),
@@ -983,9 +983,9 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(ctx),
-                  child: const Text(
+                  child: Text(
                     'Atla',
-                    style: TextStyle(color: ScadaColors.textSecondary),
+                    style: TextStyle(color: context.scada.textSecondary),
                   ),
                 ),
                 ElevatedButton(
@@ -1045,21 +1045,21 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: ScadaColors.card,
-        title: const Text(
+        backgroundColor: context.scada.card,
+        title: Text(
           'Icerigi Sil',
-          style: TextStyle(color: ScadaColors.textPrimary),
+          style: TextStyle(color: context.scada.textPrimary),
         ),
         content: Text(
           '"${content.title}" icerigini silmek istediginize emin misiniz?',
-          style: const TextStyle(color: ScadaColors.textSecondary),
+          style: TextStyle(color: context.scada.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text(
+            child: Text(
               'Iptal',
-              style: TextStyle(color: ScadaColors.textSecondary),
+              style: TextStyle(color: context.scada.textSecondary),
             ),
           ),
           ElevatedButton(
@@ -1083,10 +1083,10 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
   InputDecoration _inputDecoration(String label) {
     return InputDecoration(
       labelText: label,
-      labelStyle: const TextStyle(color: ScadaColors.textSecondary),
+      labelStyle: TextStyle(color: context.scada.textSecondary),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: ScadaColors.border),
+        borderSide: BorderSide(color: context.scada.border),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
@@ -1101,7 +1101,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
         borderSide: const BorderSide(color: ScadaColors.red),
       ),
       filled: true,
-      fillColor: ScadaColors.surface,
+      fillColor: context.scada.surface,
     );
   }
 
@@ -1116,7 +1116,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
       case 'pdf':
         return ScadaColors.red;
       default:
-        return ScadaColors.textSecondary;
+        return context.scada.textSecondary;
     }
   }
 
@@ -1145,14 +1145,14 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
     }
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         title: Text(
           _isEditMode ? 'Modulu Duzenle' : 'Yeni Modul',
-          style: const TextStyle(color: ScadaColors.textPrimary),
+          style: TextStyle(color: context.scada.textPrimary),
         ),
-        iconTheme: const IconThemeData(color: ScadaColors.textPrimary),
+        iconTheme: IconThemeData(color: context.scada.textPrimary),
       ),
       body: admin.isLoading && _isEditMode && module == null
           ? const Center(
@@ -1179,7 +1179,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                   ],
 
                   // ===== Save Button =====
-                  const SizedBox(height: 32),
+                  SizedBox(height: 32),
                   SizedBox(
                     height: 48,
                     child: ElevatedButton(
@@ -1191,18 +1191,18 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                       ),
                       onPressed: admin.isSaving ? null : _save,
                       child: admin.isSaving
-                          ? const SizedBox(
+                          ? SizedBox(
                               width: 24,
                               height: 24,
                               child: CircularProgressIndicator(
-                                color: ScadaColors.bg,
+                                color: context.scada.bg,
                                 strokeWidth: 2,
                               ),
                             )
                           : Text(
                               _isEditMode ? 'Guncelle' : 'Olustur',
-                              style: const TextStyle(
-                                color: ScadaColors.bg,
+                              style: TextStyle(
+                                color: context.scada.bg,
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -1237,43 +1237,43 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: Form(
         key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'Modul Bilgileri',
               style: TextStyle(
-                color: ScadaColors.textPrimary,
+                color: context.scada.textPrimary,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             TextFormField(
               controller: _titleController,
-              style: const TextStyle(color: ScadaColors.textPrimary),
+              style: TextStyle(color: context.scada.textPrimary),
               decoration: _inputDecoration('Baslik *'),
               validator: (v) =>
                   (v == null || v.trim().isEmpty) ? 'Baslik gerekli' : null,
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
             TextField(
               controller: _descriptionController,
-              style: const TextStyle(color: ScadaColors.textPrimary),
+              style: TextStyle(color: context.scada.textPrimary),
               decoration: _inputDecoration('Aciklama'),
               maxLines: 3,
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
             DropdownButtonFormField<String>(
               initialValue: _moduleType,
-              dropdownColor: ScadaColors.card,
-              style: const TextStyle(color: ScadaColors.textPrimary),
+              dropdownColor: context.scada.card,
+              style: TextStyle(color: context.scada.textPrimary),
               decoration: _inputDecoration('Modul Tipi'),
               items: const [
                 DropdownMenuItem(value: 'lesson', child: Text('Ders')),
@@ -1288,10 +1288,10 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                 if (v != null) setState(() => _moduleType = v);
               },
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
             TextField(
               controller: _durationController,
-              style: const TextStyle(color: ScadaColors.textPrimary),
+              style: TextStyle(color: context.scada.textPrimary),
               decoration: _inputDecoration('Tahmini Sure (dakika)'),
               keyboardType: TextInputType.number,
             ),
@@ -1307,9 +1307,9 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1317,10 +1317,10 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 'Icerik Bolumleri',
                 style: TextStyle(
-                  color: ScadaColors.textPrimary,
+                  color: context.scada.textPrimary,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -1337,9 +1337,9 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
             Container(
               padding: const EdgeInsets.all(24),
               alignment: Alignment.center,
-              child: const Text(
+              child: Text(
                 'Henuz icerik eklenmedi',
-                style: TextStyle(color: ScadaColors.textSecondary),
+                style: TextStyle(color: context.scada.textSecondary),
               ),
             )
           else
@@ -1402,7 +1402,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
               final contents = (generationResult!['contents'] as List?) ?? [];
               final classification = generationResult!['classification'] as Map<String, dynamic>? ?? {};
               return AlertDialog(
-                backgroundColor: ScadaColors.card,
+                backgroundColor: context.scada.card,
                 title: Row(
                   children: [
                     Container(
@@ -1413,15 +1413,15 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                       ),
                       child: const Icon(Icons.check_circle, color: ScadaColors.green, size: 22),
                     ),
-                    const SizedBox(width: 10),
+                    SizedBox(width: 10),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Icerik Olusturuldu!',
-                              style: TextStyle(color: ScadaColors.textPrimary, fontSize: 16, fontWeight: FontWeight.bold)),
+                          Text('Icerik Olusturuldu!',
+                              style: TextStyle(color: context.scada.textPrimary, fontSize: 16, fontWeight: FontWeight.bold)),
                           Text('${contents.length} bolum basariyla olusturuldu',
-                              style: const TextStyle(color: ScadaColors.textDim, fontSize: 12)),
+                              style: TextStyle(color: context.scada.textDim, fontSize: 12)),
                         ],
                       ),
                     ),
@@ -1466,9 +1466,9 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                               margin: const EdgeInsets.only(bottom: 8),
                               padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
-                                color: ScadaColors.surface,
+                                color: context.scada.surface,
                                 borderRadius: BorderRadius.circular(8),
-                                border: Border.all(color: ScadaColors.border),
+                                border: Border.all(color: context.scada.border),
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1484,22 +1484,22 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                                         child: Text('${index + 1}',
                                             style: const TextStyle(color: ScadaColors.purple, fontSize: 11, fontWeight: FontWeight.bold)),
                                       ),
-                                      const SizedBox(width: 8),
+                                      SizedBox(width: 8),
                                       Expanded(
                                         child: Text(
                                           item['title'] ?? '',
-                                          style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13, fontWeight: FontWeight.w600),
+                                          style: TextStyle(color: context.scada.textPrimary, fontSize: 13, fontWeight: FontWeight.w600),
                                         ),
                                       ),
                                     ],
                                   ),
                                   if ((item['body'] ?? '').toString().isNotEmpty) ...[
-                                    const SizedBox(height: 6),
+                                    SizedBox(height: 6),
                                     Text(
                                       (item['body'] as String).length > 150
                                           ? '${(item['body'] as String).substring(0, 150)}...'
                                           : item['body'] as String,
-                                      style: const TextStyle(color: ScadaColors.textSecondary, fontSize: 11, height: 1.4),
+                                      style: TextStyle(color: context.scada.textSecondary, fontSize: 11, height: 1.4),
                                     ),
                                   ],
                                 ],
@@ -1527,15 +1527,15 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
 
             // Upload view
             return AlertDialog(
-              backgroundColor: ScadaColors.card,
+              backgroundColor: context.scada.card,
               title: Row(
                 children: [
                   const Icon(Icons.auto_awesome, color: ScadaColors.purple, size: 22),
-                  const SizedBox(width: 8),
-                  const Expanded(
+                  SizedBox(width: 8),
+                  Expanded(
                     child: Text(
                       'PDF\'den Icerik Olustur',
-                      style: TextStyle(color: ScadaColors.textPrimary, fontSize: 16),
+                      style: TextStyle(color: context.scada.textPrimary, fontSize: 16),
                     ),
                   ),
                 ],
@@ -1555,7 +1555,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(color: ScadaColors.purple.withValues(alpha: 0.3)),
                         ),
-                        child: const Column(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
@@ -1573,7 +1573,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                               '• AI icerigi analiz eder ve bolumlendirir\n'
                               '• Her bolum icin baslik ve Markdown icerik uretilir\n'
                               '• RAG indeksleme yapilir (arama icin)',
-                              style: TextStyle(color: ScadaColors.textSecondary, fontSize: 11, height: 1.5),
+                              style: TextStyle(color: context.scada.textSecondary, fontSize: 11, height: 1.5),
                             ),
                           ],
                         ),
@@ -1602,10 +1602,10 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                           width: double.infinity,
                           padding: const EdgeInsets.all(24),
                           decoration: BoxDecoration(
-                            color: ScadaColors.surface,
+                            color: context.scada.surface,
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
-                              color: pdfFileName != null ? ScadaColors.purple : ScadaColors.border,
+                              color: pdfFileName != null ? ScadaColors.purple : context.scada.border,
                               width: pdfFileName != null ? 2 : 1,
                             ),
                           ),
@@ -1614,22 +1614,22 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                               Icon(
                                 pdfFileName != null ? Icons.picture_as_pdf : Icons.cloud_upload_outlined,
                                 size: 40,
-                                color: pdfFileName != null ? ScadaColors.red : ScadaColors.textSecondary,
+                                color: pdfFileName != null ? ScadaColors.red : context.scada.textSecondary,
                               ),
-                              const SizedBox(height: 8),
+                              SizedBox(height: 8),
                               Text(
                                 pdfFileName ?? 'PDF dosya secmek icin tikla',
                                 style: TextStyle(
-                                  color: pdfFileName != null ? ScadaColors.textPrimary : ScadaColors.textSecondary,
+                                  color: pdfFileName != null ? context.scada.textPrimary : context.scada.textSecondary,
                                   fontSize: 13,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
                               if (pdfFileBytes != null) ...[
-                                const SizedBox(height: 4),
+                                SizedBox(height: 4),
                                 Text(
                                   '${(pdfFileBytes!.length / 1024 / 1024).toStringAsFixed(2)} MB',
-                                  style: const TextStyle(color: ScadaColors.textSecondary, fontSize: 11),
+                                  style: TextStyle(color: context.scada.textSecondary, fontSize: 11),
                                 ),
                               ],
                             ],
@@ -1656,13 +1656,13 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                           onChanged: isGenerating
                               ? null
                               : (v) => setDialogState(() => clearExisting = v ?? false),
-                          title: const Text(
+                          title: Text(
                             'Mevcut metin iceriklerini temizle',
-                            style: TextStyle(color: ScadaColors.textPrimary, fontSize: 12, fontWeight: FontWeight.w500),
+                            style: TextStyle(color: context.scada.textPrimary, fontSize: 12, fontWeight: FontWeight.w500),
                           ),
-                          subtitle: const Text(
+                          subtitle: Text(
                             'Modulun mevcut metin iceriklerini silerek yenileriyle degistirir',
-                            style: TextStyle(color: ScadaColors.textDim, fontSize: 10),
+                            style: TextStyle(color: context.scada.textDim, fontSize: 10),
                           ),
                           secondary: const Icon(Icons.cleaning_services, color: ScadaColors.amber, size: 20),
                         ),
@@ -1670,20 +1670,20 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
 
                       // Progress indicator
                       if (isGenerating) ...[
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16),
                         Column(
                           children: [
                             LinearProgressIndicator(
                               value: uploadProgress > 0.99 ? null : uploadProgress,
-                              backgroundColor: ScadaColors.border,
+                              backgroundColor: context.scada.border,
                               valueColor: const AlwaysStoppedAnimation<Color>(ScadaColors.purple),
                             ),
-                            const SizedBox(height: 8),
+                            SizedBox(height: 8),
                             Text(
                               uploadProgress > 0.99
                                   ? 'AI icerik olusuruyor... Bu islem 1-2 dakika surebilir'
                                   : 'Yukleniyor... %${(uploadProgress * 100).toInt()}',
-                              style: const TextStyle(color: ScadaColors.textSecondary, fontSize: 12),
+                              style: TextStyle(color: context.scada.textSecondary, fontSize: 12),
                             ),
                             if (uploadProgress > 0.99) ...[
                               const SizedBox(height: 8),
@@ -1710,7 +1710,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                   child: Text(
                     'Iptal',
                     style: TextStyle(
-                      color: isGenerating ? ScadaColors.textSecondary.withValues(alpha: 0.3) : ScadaColors.textSecondary,
+                      color: isGenerating ? context.scada.textSecondary.withValues(alpha: 0.3) : context.scada.textSecondary,
                     ),
                   ),
                 ),
@@ -1801,9 +1801,9 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: ScadaColors.surface,
+        color: context.scada.surface,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1819,7 +1819,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                     child: IconButton(
                       padding: EdgeInsets.zero,
                       icon: Icon(Icons.arrow_upward, size: 14,
-                        color: index > 0 ? ScadaColors.textSecondary : ScadaColors.textDim.withValues(alpha: 0.3)),
+                        color: index > 0 ? context.scada.textSecondary : context.scada.textDim.withValues(alpha: 0.3)),
                       onPressed: index > 0
                         ? () => _swapContentOrder(
                             ref.read(adminProvider).selectedModule?.contents ?? [], index, index - 1)
@@ -1832,7 +1832,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                     child: IconButton(
                       padding: EdgeInsets.zero,
                       icon: Icon(Icons.arrow_downward, size: 14,
-                        color: index < total - 1 ? ScadaColors.textSecondary : ScadaColors.textDim.withValues(alpha: 0.3)),
+                        color: index < total - 1 ? context.scada.textSecondary : context.scada.textDim.withValues(alpha: 0.3)),
                       onPressed: index < total - 1
                         ? () => _swapContentOrder(
                             ref.read(adminProvider).selectedModule?.contents ?? [], index, index + 1)
@@ -1884,12 +1884,12 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                   ),
                 ),
               ],
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               Expanded(
                 child: Text(
                   content.title,
-                  style: const TextStyle(
-                    color: ScadaColors.textPrimary,
+                  style: TextStyle(
+                    color: context.scada.textPrimary,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -1924,17 +1924,17 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
           if (content.isPdf) ...[
             // File info row
             if (content.fileName != null) ...[
-              const SizedBox(height: 6),
+              SizedBox(height: 6),
               Row(
                 children: [
                   const Icon(Icons.picture_as_pdf,
                       size: 14, color: ScadaColors.red),
-                  const SizedBox(width: 4),
+                  SizedBox(width: 4),
                   Expanded(
                     child: Text(
                       content.fileName!,
-                      style: const TextStyle(
-                        color: ScadaColors.textSecondary,
+                      style: TextStyle(
+                        color: context.scada.textSecondary,
                         fontSize: 12,
                       ),
                       overflow: TextOverflow.ellipsis,
@@ -1943,8 +1943,8 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                   if (content.fileSize > 0)
                     Text(
                       '${(content.fileSize / 1024 / 1024).toStringAsFixed(1)} MB',
-                      style: const TextStyle(
-                        color: ScadaColors.textSecondary,
+                      style: TextStyle(
+                        color: context.scada.textSecondary,
                         fontSize: 11,
                       ),
                     ),
@@ -1953,11 +1953,11 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
             ],
             // Summary
             if (content.summary != null && content.summary!.isNotEmpty) ...[
-              const SizedBox(height: 6),
+              SizedBox(height: 6),
               Text(
                 content.summary!,
-                style: const TextStyle(
-                  color: ScadaColors.textSecondary,
+                style: TextStyle(
+                  color: context.scada.textSecondary,
                   fontSize: 12,
                 ),
                 maxLines: 2,
@@ -1998,22 +1998,22 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
 
           // Non-PDF body preview (markdown rendered)
           if (!content.isPdf && bodyPreview.isNotEmpty) ...[
-            const SizedBox(height: 6),
+            SizedBox(height: 6),
             MarkdownBody(
               data: bodyPreview,
               styleSheet: MarkdownStyleSheet(
-                p: const TextStyle(color: ScadaColors.textSecondary, fontSize: 13, height: 1.4),
-                h1: const TextStyle(color: ScadaColors.textPrimary, fontSize: 16, fontWeight: FontWeight.bold),
-                h2: const TextStyle(color: ScadaColors.textPrimary, fontSize: 15, fontWeight: FontWeight.bold),
-                h3: const TextStyle(color: ScadaColors.textPrimary, fontSize: 14, fontWeight: FontWeight.w600),
-                strong: const TextStyle(color: ScadaColors.textPrimary, fontWeight: FontWeight.bold),
-                em: const TextStyle(color: ScadaColors.textSecondary, fontStyle: FontStyle.italic),
+                p: TextStyle(color: context.scada.textSecondary, fontSize: 13, height: 1.4),
+                h1: TextStyle(color: context.scada.textPrimary, fontSize: 16, fontWeight: FontWeight.bold),
+                h2: TextStyle(color: context.scada.textPrimary, fontSize: 15, fontWeight: FontWeight.bold),
+                h3: TextStyle(color: context.scada.textPrimary, fontSize: 14, fontWeight: FontWeight.w600),
+                strong: TextStyle(color: context.scada.textPrimary, fontWeight: FontWeight.bold),
+                em: TextStyle(color: context.scada.textSecondary, fontStyle: FontStyle.italic),
                 listBullet: const TextStyle(color: ScadaColors.cyan, fontSize: 13),
-                code: TextStyle(color: ScadaColors.cyan, backgroundColor: ScadaColors.surface, fontSize: 12),
+                code: TextStyle(color: ScadaColors.cyan, backgroundColor: context.scada.surface, fontSize: 12),
                 codeblockDecoration: BoxDecoration(
-                  color: ScadaColors.surface,
+                  color: context.scada.surface,
                   borderRadius: BorderRadius.circular(6),
-                  border: Border.all(color: ScadaColors.border),
+                  border: Border.all(color: context.scada.border),
                 ),
               ),
             ),
@@ -2093,7 +2093,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
             }
 
             return AlertDialog(
-              backgroundColor: ScadaColors.card,
+              backgroundColor: context.scada.card,
               title: Row(children: [
                 Container(
                   padding: const EdgeInsets.all(6),
@@ -2103,18 +2103,18 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                   ),
                   child: const Icon(Icons.picture_as_pdf, color: ScadaColors.red, size: 24),
                 ),
-                const SizedBox(width: 10),
+                SizedBox(width: 10),
                 Expanded(
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     Text(content.title,
-                        style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 15, fontWeight: FontWeight.w700)),
+                        style: TextStyle(color: context.scada.textPrimary, fontSize: 15, fontWeight: FontWeight.w700)),
                     Row(children: [
                       if (content.fileName != null)
-                        Text(content.fileName!, style: const TextStyle(color: ScadaColors.textDim, fontSize: 11)),
+                        Text(content.fileName!, style: TextStyle(color: context.scada.textDim, fontSize: 11)),
                       if (content.fileSize > 0) ...[
-                        const SizedBox(width: 8),
+                        SizedBox(width: 8),
                         Text('${(content.fileSize / 1024 / 1024).toStringAsFixed(1)} MB',
-                            style: const TextStyle(color: ScadaColors.textDim, fontSize: 11)),
+                            style: TextStyle(color: context.scada.textDim, fontSize: 11)),
                       ],
                     ]),
                   ]),
@@ -2149,7 +2149,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                   // Tab bar
                   Container(
                     decoration: BoxDecoration(
-                      color: ScadaColors.surface,
+                      color: context.scada.surface,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(children: [
@@ -2181,7 +2181,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(ctx),
-                  child: const Text('Kapat', style: TextStyle(color: ScadaColors.textSecondary)),
+                  child: Text('Kapat', style: TextStyle(color: context.scada.textSecondary)),
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
@@ -2222,10 +2222,10 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
             border: isSelected ? Border.all(color: ScadaColors.cyan.withValues(alpha: 0.4)) : null,
           ),
           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Icon(icon, size: 14, color: isSelected ? ScadaColors.cyan : ScadaColors.textDim),
-            const SizedBox(width: 4),
+            Icon(icon, size: 14, color: isSelected ? ScadaColors.cyan : context.scada.textDim),
+            SizedBox(width: 4),
             Text(label, style: TextStyle(
-              color: isSelected ? ScadaColors.cyan : ScadaColors.textDim,
+              color: isSelected ? ScadaColors.cyan : context.scada.textDim,
               fontSize: 11, fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
             )),
           ]),
@@ -2255,13 +2255,13 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
           child: Row(children: [
             Icon(ragStatus == 'indexed' ? Icons.check_circle : Icons.hourglass_empty,
                 color: ragStatus == 'indexed' ? ScadaColors.green : ScadaColors.amber, size: 20),
-            const SizedBox(width: 8),
+            SizedBox(width: 8),
             Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(ragStatus == 'indexed' ? 'RAG Indeksleme Tamamlandi' : 'RAG Indeksleme Bekliyor',
                   style: TextStyle(color: ragStatus == 'indexed' ? ScadaColors.green : ScadaColors.amber, fontSize: 13, fontWeight: FontWeight.w600)),
               if (chunkCount > 0)
                 Text('$chunkCount parca olarak indekslendi — semantik arama icin hazir',
-                    style: const TextStyle(color: ScadaColors.textDim, fontSize: 11)),
+                    style: TextStyle(color: context.scada.textDim, fontSize: 11)),
             ])),
           ]),
         ),
@@ -2277,7 +2277,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
 
         // Tags
         if (tags.isNotEmpty) ...[
-          const Text('Etiketler', style: TextStyle(color: ScadaColors.textDim, fontSize: 11)),
+          Text('Etiketler', style: TextStyle(color: context.scada.textDim, fontSize: 11)),
           const SizedBox(height: 6),
           Wrap(spacing: 6, runSpacing: 6, children: tags.map((tag) => Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -2293,25 +2293,25 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
 
         // Summary
         if (summary.isNotEmpty) ...[
-          const Text('AI Ozet', style: TextStyle(color: ScadaColors.textDim, fontSize: 11)),
-          const SizedBox(height: 6),
+          Text('AI Ozet', style: TextStyle(color: context.scada.textDim, fontSize: 11)),
+          SizedBox(height: 6),
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(color: ScadaColors.surface, borderRadius: BorderRadius.circular(8)),
-            child: Text(summary, style: const TextStyle(color: ScadaColors.textSecondary, fontSize: 12, height: 1.5)),
+            decoration: BoxDecoration(color: context.scada.surface, borderRadius: BorderRadius.circular(8)),
+            child: Text(summary, style: TextStyle(color: context.scada.textSecondary, fontSize: 12, height: 1.5)),
           ),
         ],
 
         // Media URL
         if (content.mediaUrl != null) ...[
-          const SizedBox(height: 12),
-          const Text('Dosya Konumu', style: TextStyle(color: ScadaColors.textDim, fontSize: 11)),
-          const SizedBox(height: 4),
+          SizedBox(height: 12),
+          Text('Dosya Konumu', style: TextStyle(color: context.scada.textDim, fontSize: 11)),
+          SizedBox(height: 4),
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(color: ScadaColors.surface, borderRadius: BorderRadius.circular(6)),
+            decoration: BoxDecoration(color: context.scada.surface, borderRadius: BorderRadius.circular(6)),
             child: Text(content.mediaUrl!, style: const TextStyle(color: ScadaColors.cyan, fontSize: 10)),
           ),
         ],
@@ -2321,26 +2321,26 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
 
   Widget _buildFullTextTab(String? fullText, bool isLoading) {
     if (isLoading) {
-      return const Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
+      return Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
         CircularProgressIndicator(color: ScadaColors.cyan),
         SizedBox(height: 12),
-        Text('RAG icerigi yukleniyor...', style: TextStyle(color: ScadaColors.textDim, fontSize: 12)),
+        Text('RAG icerigi yukleniyor...', style: TextStyle(color: context.scada.textDim, fontSize: 12)),
       ]));
     }
     if (fullText == null || fullText.isEmpty) {
-      return const Center(child: Text('Icerik bulunamadi', style: TextStyle(color: ScadaColors.textDim)));
+      return Center(child: Text('Icerik bulunamadi', style: TextStyle(color: context.scada.textDim)));
     }
     return SingleChildScrollView(
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: ScadaColors.surface,
+          color: context.scada.surface,
           borderRadius: BorderRadius.circular(8),
         ),
         child: SelectableText(
           fullText,
-          style: const TextStyle(color: ScadaColors.textSecondary, fontSize: 12, height: 1.6),
+          style: TextStyle(color: context.scada.textSecondary, fontSize: 12, height: 1.6),
         ),
       ),
     );
@@ -2348,14 +2348,14 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
 
   Widget _buildChunksTab(List<dynamic>? chunks, bool isLoading) {
     if (isLoading) {
-      return const Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
+      return Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
         CircularProgressIndicator(color: ScadaColors.cyan),
         SizedBox(height: 12),
-        Text('Chunk\'lar yukleniyor...', style: TextStyle(color: ScadaColors.textDim, fontSize: 12)),
+        Text('Chunk\'lar yukleniyor...', style: TextStyle(color: context.scada.textDim, fontSize: 12)),
       ]));
     }
     if (chunks == null || chunks.isEmpty) {
-      return const Center(child: Text('Chunk bulunamadi', style: TextStyle(color: ScadaColors.textDim)));
+      return Center(child: Text('Chunk bulunamadi', style: TextStyle(color: context.scada.textDim)));
     }
     return ListView.builder(
       itemCount: chunks.length,
@@ -2365,9 +2365,9 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
           margin: const EdgeInsets.only(bottom: 8),
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: ScadaColors.surface,
+            color: context.scada.surface,
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: ScadaColors.border),
+            border: Border.all(color: context.scada.border),
           ),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(children: [
@@ -2380,14 +2380,14 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                 child: Text('Chunk ${chunk['chunk_index'] ?? index}',
                     style: const TextStyle(color: ScadaColors.cyan, fontSize: 10, fontWeight: FontWeight.w600)),
               ),
-              const Spacer(),
+              Spacer(),
               Text('${((chunk['content'] ?? '').toString().split(' ').length)} kelime',
-                  style: const TextStyle(color: ScadaColors.textDim, fontSize: 10)),
+                  style: TextStyle(color: context.scada.textDim, fontSize: 10)),
             ]),
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             SelectableText(
               chunk['content'] ?? '',
-              style: const TextStyle(color: ScadaColors.textSecondary, fontSize: 11, height: 1.5),
+              style: TextStyle(color: context.scada.textSecondary, fontSize: 11, height: 1.5),
             ),
           ]),
         );
@@ -2404,7 +2404,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
         border: Border.all(color: color.withValues(alpha: 0.2)),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(label, style: const TextStyle(color: ScadaColors.textDim, fontSize: 10)),
+        Text(label, style: TextStyle(color: context.scada.textDim, fontSize: 10)),
         const SizedBox(height: 4),
         Text(value, style: TextStyle(color: color, fontSize: 13, fontWeight: FontWeight.w600)),
       ]),
@@ -2417,17 +2417,17 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Quiz',
             style: TextStyle(
-              color: ScadaColors.textPrimary,
+              color: context.scada.textPrimary,
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
@@ -2466,9 +2466,9 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: ScadaColors.surface,
+        color: context.scada.surface,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: Row(
         children: [
@@ -2484,23 +2484,23 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
               size: 24,
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   quiz.title,
-                  style: const TextStyle(
-                    color: ScadaColors.textPrimary,
+                  style: TextStyle(
+                    color: context.scada.textPrimary,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
                 Text(
                   'Gecme puani: ${quiz.passingScore}  |  Maks. deneme: ${quiz.maxAttempts}',
-                  style: const TextStyle(
-                    color: ScadaColors.textSecondary,
+                  style: TextStyle(
+                    color: context.scada.textSecondary,
                     fontSize: 12,
                   ),
                 ),
@@ -2525,9 +2525,9 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                 },
               );
             },
-            child: const Text(
+            child: Text(
               'Duzenle',
-              style: TextStyle(color: ScadaColors.bg, fontSize: 13),
+              style: TextStyle(color: context.scada.bg, fontSize: 13),
             ),
           ),
         ],

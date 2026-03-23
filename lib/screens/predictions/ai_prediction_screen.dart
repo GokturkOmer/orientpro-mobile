@@ -10,14 +10,14 @@ class AIPredictionScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final dataAsync = ref.watch(predictionProvider);
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         title: Row(mainAxisSize: MainAxisSize.min, children: [
           Container(padding: const EdgeInsets.all(4), decoration: BoxDecoration(color: ScadaColors.purple.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(6)),
             child: const Icon(Icons.psychology, color: ScadaColors.purple, size: 18)),
           const SizedBox(width: 8),
-          const Text('AI Ariza Tahmini', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+          Text('AI Ariza Tahmini', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
         actions: [
           IconButton(icon: const Icon(Icons.refresh, size: 20, color: ScadaColors.cyan), onPressed: () => ref.invalidate(predictionProvider)),
@@ -30,15 +30,15 @@ class AIPredictionScreen extends ConsumerWidget {
         child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
       ),
       body: dataAsync.when(
-        loading: () => const Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-          CircularProgressIndicator(color: ScadaColors.cyan),
-          SizedBox(height: 16),
-          Text('AI analiz yapiliyor...', style: TextStyle(color: ScadaColors.textSecondary)),
+        loading: () => Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
+          const CircularProgressIndicator(color: ScadaColors.cyan),
+          const SizedBox(height: 16),
+          Text('AI analiz yapiliyor...', style: TextStyle(color: context.scada.textSecondary)),
         ])),
         error: (e, _) => Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
           const Icon(Icons.error, size: 48, color: ScadaColors.red),
           const SizedBox(height: 8),
-          Text('Hata: $e', style: const TextStyle(color: ScadaColors.textSecondary)),
+          Text('Hata: $e', style: TextStyle(color: context.scada.textSecondary)),
           const SizedBox(height: 16),
           ElevatedButton(onPressed: () => ref.invalidate(predictionProvider), child: const Text('Tekrar Dene')),
         ])),
@@ -49,7 +49,7 @@ class AIPredictionScreen extends ConsumerWidget {
           final predictions = (data['predictions'] as List).cast<Map<String, dynamic>>();
 
           return RefreshIndicator(
-            color: ScadaColors.cyan, backgroundColor: ScadaColors.surface,
+            color: ScadaColors.cyan, backgroundColor: context.scada.surface,
             onRefresh: () async => ref.invalidate(predictionProvider),
             child: ListView(padding: const EdgeInsets.fromLTRB(12, 12, 12, 80), children: [
               // Summary bar
@@ -88,7 +88,7 @@ class AIPredictionScreen extends ConsumerWidget {
                     const SizedBox(height: 8),
                     const Text('Tum Sistemler Normal', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.green)),
                     const SizedBox(height: 4),
-                    const Text('AI analizi sonucunda anomali veya ariza riski tespit edilmedi.', textAlign: TextAlign.center, style: TextStyle(fontSize: 12, color: ScadaColors.textSecondary)),
+                    Text('AI analizi sonucunda anomali veya ariza riski tespit edilmedi.', textAlign: TextAlign.center, style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
                   ]),
                 ),
 
@@ -121,7 +121,7 @@ class AIPredictionScreen extends ConsumerWidget {
       Icon(icon, size: 16, color: color),
       const SizedBox(height: 2),
       Text(value, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: color)),
-      Text(label, style: const TextStyle(fontSize: 9, color: ScadaColors.textSecondary)),
+      Text(label, style: TextStyle(fontSize: 9, color: ScadaColors.textSecondary)),
     ]);
   }
 
@@ -129,7 +129,7 @@ class AIPredictionScreen extends ConsumerWidget {
     return Row(children: [
       Icon(icon, size: 14, color: ScadaColors.textDim),
       const SizedBox(width: 6),
-      Text(text, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 1)),
+      Text(text, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 1)),
     ]);
   }
 
@@ -150,8 +150,8 @@ class AIPredictionScreen extends ConsumerWidget {
             child: Icon(iconData, size: 16, color: color)),
           const SizedBox(width: 10),
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(unit['unit_name'], style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
-            Text('${sensors.length} sensor', style: const TextStyle(fontSize: 10, color: ScadaColors.textDim)),
+            Text(unit['unit_name'], style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+            Text('${sensors.length} sensor', style: TextStyle(fontSize: 10, color: ScadaColors.textDim)),
           ])),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -177,7 +177,7 @@ class AIPredictionScreen extends ConsumerWidget {
             child: Row(mainAxisSize: MainAxisSize.min, children: [
               Container(width: 5, height: 5, decoration: BoxDecoration(color: sColor, shape: BoxShape.circle)),
               const SizedBox(width: 4),
-              Text('${s["name"]}', style: const TextStyle(fontSize: 9, color: ScadaColors.textSecondary)),
+              Text('${s["name"]}', style: TextStyle(fontSize: 9, color: ScadaColors.textSecondary)),
               const SizedBox(width: 4),
               Text('${s["current_value"]}', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w600, color: sColor)),
             ]),
@@ -199,12 +199,12 @@ class AIPredictionScreen extends ConsumerWidget {
         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(a['sensor_name'], style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: color)),
           const SizedBox(height: 2),
-          Text(a['message'], style: const TextStyle(fontSize: 11, color: ScadaColors.textSecondary)),
+          Text(a['message'], style: TextStyle(fontSize: 11, color: ScadaColors.textSecondary)),
           const SizedBox(height: 4),
           Row(children: [
-            Text('Mevcut: ${a["current"]}', style: const TextStyle(fontSize: 10, color: ScadaColors.textDim)),
+            Text('Mevcut: ${a["current"]}', style: TextStyle(fontSize: 10, color: ScadaColors.textDim)),
             const SizedBox(width: 12),
-            Text('Beklenen: ${a["expected"]}', style: const TextStyle(fontSize: 10, color: ScadaColors.textDim)),
+            Text('Beklenen: ${a["expected"]}', style: TextStyle(fontSize: 10, color: ScadaColors.textDim)),
             const SizedBox(width: 12),
             Text('Z: ${a["z_score"]}', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: color)),
           ]),
@@ -227,14 +227,14 @@ class AIPredictionScreen extends ConsumerWidget {
         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(p['sensor_name'], style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: color)),
           const SizedBox(height: 2),
-          Text(p['message'], style: const TextStyle(fontSize: 11, color: ScadaColors.textSecondary)),
+          Text(p['message'], style: TextStyle(fontSize: 11, color: ScadaColors.textSecondary)),
           const SizedBox(height: 4),
           Row(children: [
             Text('~$hours saat', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: color)),
             const SizedBox(width: 12),
-            Text('Guven: %$confidence', style: const TextStyle(fontSize: 10, color: ScadaColors.textDim)),
+            Text('Guven: %$confidence', style: TextStyle(fontSize: 10, color: ScadaColors.textDim)),
             const SizedBox(width: 12),
-            Text('Esik: ${p["threshold"]}', style: const TextStyle(fontSize: 10, color: ScadaColors.textDim)),
+            Text('Esik: ${p["threshold"]}', style: TextStyle(fontSize: 10, color: ScadaColors.textDim)),
           ]),
         ])),
       ]),

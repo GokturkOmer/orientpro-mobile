@@ -22,22 +22,22 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
     final admin = ref.watch(adminProvider);
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
+        title: Text(
           'Uyelik Yonetimi',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: ScadaColors.cyan,
         onPressed: () => _showCreateUserSheet(context),
-        child: const Icon(Icons.person_add, color: ScadaColors.bg),
+        child: Icon(Icons.person_add, color: context.scada.bg),
       ),
       body: admin.isLoading && admin.users.isEmpty
           ? const Center(child: CircularProgressIndicator(color: ScadaColors.cyan))
@@ -45,8 +45,8 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
               ? Center(
                   child: Column(mainAxisSize: MainAxisSize.min, children: [
                     const Icon(Icons.error_outline, size: 48, color: ScadaColors.red),
-                    const SizedBox(height: 12),
-                    Text(admin.error!, style: const TextStyle(color: ScadaColors.textSecondary, fontSize: 12), textAlign: TextAlign.center),
+                    SizedBox(height: 12),
+                    Text(admin.error!, style: TextStyle(color: context.scada.textSecondary, fontSize: 12), textAlign: TextAlign.center),
                     const SizedBox(height: 12),
                     TextButton(
                       onPressed: () => ref.read(adminProvider.notifier).loadUsers(),
@@ -55,11 +55,11 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                   ]),
                 )
               : admin.users.isEmpty
-                  ? const Center(
+                  ? Center(
                       child: Column(mainAxisSize: MainAxisSize.min, children: [
-                        Icon(Icons.people_outline, size: 48, color: ScadaColors.textDim),
+                        Icon(Icons.people_outline, size: 48, color: context.scada.textDim),
                         SizedBox(height: 12),
-                        Text('Henuz kullanici yok', style: TextStyle(color: ScadaColors.textSecondary, fontSize: 13)),
+                        Text('Henuz kullanici yok', style: TextStyle(color: context.scada.textSecondary, fontSize: 13)),
                       ]),
                     )
                   : ListView.builder(
@@ -79,9 +79,9 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: InkWell(
         onTap: () => _showUserDetailSheet(user),
@@ -108,9 +108,9 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
             // Info
             Expanded(
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(user.fullName, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
-                const SizedBox(height: 2),
-                Text(user.email, style: const TextStyle(fontSize: 11, color: ScadaColors.textSecondary)),
+                Text(user.fullName, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
+                SizedBox(height: 2),
+                Text(user.email, style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
                 const SizedBox(height: 6),
                 Row(children: [
                   Container(
@@ -151,7 +151,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
 
     showModalBottomSheet(
       context: context,
-      backgroundColor: ScadaColors.surface,
+      backgroundColor: context.scada.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
@@ -161,18 +161,18 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
           child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(children: [
               const Icon(Icons.person, color: ScadaColors.cyan, size: 20),
-              const SizedBox(width: 8),
-              Expanded(child: Text(user.fullName, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary))),
+              SizedBox(width: 8),
+              Expanded(child: Text(user.fullName, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary))),
             ]),
-            const SizedBox(height: 4),
-            Text(user.email, style: const TextStyle(fontSize: 12, color: ScadaColors.textSecondary)),
-            Text('${user.roleText} - ${user.departmentText}', style: const TextStyle(fontSize: 12, color: ScadaColors.textDim)),
-            const Divider(color: ScadaColors.border, height: 24),
+            SizedBox(height: 4),
+            Text(user.email, style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
+            Text('${user.roleText} - ${user.departmentText}', style: TextStyle(fontSize: 12, color: context.scada.textDim)),
+            Divider(color: context.scada.border, height: 24),
 
-            const Text('Paylasilan Icerik Limiti', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
-            const SizedBox(height: 4),
-            const Text('Bu kullanicinin paylasilan kutuphanede yukleyebilecegi maksimum icerik sayisi.', style: TextStyle(fontSize: 11, color: ScadaColors.textDim)),
-            const SizedBox(height: 10),
+            Text('Paylasilan Icerik Limiti', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
+            SizedBox(height: 4),
+            Text('Bu kullanicinin paylasilan kutuphanede yukleyebilecegi maksimum icerik sayisi.', style: TextStyle(fontSize: 11, color: context.scada.textDim)),
+            SizedBox(height: 10),
             Row(children: [
               SizedBox(
                 width: 80,
@@ -180,23 +180,23 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                   controller: limitCtrl,
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 16, color: ScadaColors.textPrimary, fontWeight: FontWeight.w600),
+                  style: TextStyle(fontSize: 16, color: context.scada.textPrimary, fontWeight: FontWeight.w600),
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: ScadaColors.card,
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: ScadaColors.border)),
-                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: ScadaColors.border)),
+                    fillColor: context.scada.card,
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: context.scada.border)),
+                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: context.scada.border)),
                     focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.cyan)),
                     contentPadding: const EdgeInsets.symmetric(vertical: 10),
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12),
               Expanded(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: ScadaColors.cyan,
-                    foregroundColor: ScadaColors.bg,
+                    foregroundColor: context.scada.bg,
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   ),
@@ -279,7 +279,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: ScadaColors.surface,
+      backgroundColor: context.scada.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
@@ -306,8 +306,8 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                       ),
                       child: const Icon(Icons.person_add, color: ScadaColors.cyan, size: 20),
                     ),
-                    const SizedBox(width: 12),
-                    const Text('Yeni Uyelik Olustur', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+                    SizedBox(width: 12),
+                    Text('Yeni Uyelik Olustur', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
                   ]),
                   const SizedBox(height: 20),
 
@@ -388,7 +388,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                       return ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: ScadaColors.cyan,
-                          foregroundColor: ScadaColors.bg,
+                          foregroundColor: context.scada.bg,
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                         ),
@@ -423,7 +423,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                                 }
                               },
                         child: isSaving
-                            ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: ScadaColors.bg))
+                            ? SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: context.scada.bg))
                             : const Text('Olustur', style: TextStyle(fontWeight: FontWeight.w600)),
                       );
                     }),
@@ -450,15 +450,15 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
       keyboardType: keyboardType,
       obscureText: obscure,
       validator: validator,
-      style: const TextStyle(fontSize: 13, color: ScadaColors.textPrimary),
+      style: TextStyle(fontSize: 13, color: context.scada.textPrimary),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: const TextStyle(fontSize: 12, color: ScadaColors.textSecondary),
-        prefixIcon: Icon(icon, size: 18, color: ScadaColors.textDim),
+        labelStyle: TextStyle(fontSize: 12, color: context.scada.textSecondary),
+        prefixIcon: Icon(icon, size: 18, color: context.scada.textDim),
         filled: true,
-        fillColor: ScadaColors.card,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: ScadaColors.border)),
-        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: ScadaColors.border)),
+        fillColor: context.scada.card,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: context.scada.border)),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: context.scada.border)),
         focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.cyan)),
         contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       ),
@@ -475,16 +475,16 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
     return DropdownButtonFormField<String>(
       initialValue: value,
       onChanged: onChanged,
-      dropdownColor: ScadaColors.surface,
-      style: const TextStyle(fontSize: 13, color: ScadaColors.textPrimary),
+      dropdownColor: context.scada.surface,
+      style: TextStyle(fontSize: 13, color: context.scada.textPrimary),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: const TextStyle(fontSize: 12, color: ScadaColors.textSecondary),
-        prefixIcon: Icon(icon, size: 18, color: ScadaColors.textDim),
+        labelStyle: TextStyle(fontSize: 12, color: context.scada.textSecondary),
+        prefixIcon: Icon(icon, size: 18, color: context.scada.textDim),
         filled: true,
-        fillColor: ScadaColors.card,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: ScadaColors.border)),
-        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: ScadaColors.border)),
+        fillColor: context.scada.card,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: context.scada.border)),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: context.scada.border)),
         focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: ScadaColors.cyan)),
         contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       ),

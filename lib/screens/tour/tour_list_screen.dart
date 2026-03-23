@@ -11,9 +11,9 @@ class TourListScreen extends ConsumerWidget {
     final routesAsync = ref.watch(tourRoutesProvider);
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         title: Row(mainAxisSize: MainAxisSize.min, children: [
           Container(
             padding: const EdgeInsets.all(4),
@@ -21,7 +21,7 @@ class TourListScreen extends ConsumerWidget {
             child: const Icon(Icons.qr_code_scanner, color: ScadaColors.green, size: 18),
           ),
           const SizedBox(width: 8),
-          const Text('QR Tur Sistemi', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+          Text('QR Tur Sistemi', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
       ),
       floatingActionButton: FloatingActionButton(
@@ -35,13 +35,13 @@ class TourListScreen extends ConsumerWidget {
         error: (e, _) => Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
           const Icon(Icons.error, size: 48, color: ScadaColors.red),
           const SizedBox(height: 8),
-          Text('Hata: $e', textAlign: TextAlign.center, style: const TextStyle(color: ScadaColors.textSecondary)),
+          Text('Hata: $e', textAlign: TextAlign.center, style: TextStyle(color: context.scada.textSecondary)),
           const SizedBox(height: 16),
           ElevatedButton(onPressed: () => ref.invalidate(tourRoutesProvider), child: const Text('Tekrar Dene')),
         ])),
         data: (routes) {
           if (routes.isEmpty) {
-            return const Center(child: Text('Henuz tur rotasi tanimlanmamis', style: TextStyle(color: ScadaColors.textDim)));
+            return Center(child: Text('Henuz tur rotasi tanimlanmamis', style: TextStyle(color: context.scada.textDim)));
           }
           return ListView(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
@@ -50,23 +50,23 @@ class TourListScreen extends ConsumerWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
-                  color: ScadaColors.surface,
+                  color: context.scada.surface,
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: ScadaColors.border),
+                  border: Border.all(color: context.scada.border),
                 ),
                 child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
                   _statBadge('${routes.length}', 'Rota', ScadaColors.cyan),
-                  Container(width: 1, height: 30, color: ScadaColors.border),
+                  Container(width: 1, height: 30, color: context.scada.border),
                   _statBadge('${routes.fold<int>(0, (s, r) => s + r.checkpointCount)}', 'Nokta', ScadaColors.green),
-                  Container(width: 1, height: 30, color: ScadaColors.border),
+                  Container(width: 1, height: 30, color: context.scada.border),
                   _statBadge('${routes.fold<int>(0, (s, r) => s + r.estimatedMinutes)}', 'Dakika', ScadaColors.amber),
                 ]),
               ),
               const SizedBox(height: 16),
               Row(children: [
-                Icon(Icons.route, size: 14, color: ScadaColors.textDim),
+                Icon(Icons.route, size: 14, color: context.scada.textDim),
                 const SizedBox(width: 6),
-                const Text('AKTIF ROTALAR', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 1)),
+                Text('AKTIF ROTALAR', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
               ]),
               const SizedBox(height: 10),
               ...routes.map((route) => _routeCard(context, route)),
@@ -80,7 +80,7 @@ class TourListScreen extends ConsumerWidget {
   Widget _statBadge(String value, String label, Color color) {
     return Column(children: [
       Text(value, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: color)),
-      Text(label, style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+      Text(label, style: TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
     ]);
   }
 
@@ -100,9 +100,9 @@ class TourListScreen extends ConsumerWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
@@ -117,16 +117,16 @@ class TourListScreen extends ConsumerWidget {
             ),
             const SizedBox(width: 12),
             Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(route.name, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+              Text(route.name, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
               const SizedBox(height: 4),
               Row(children: [
-                Icon(Icons.pin_drop, size: 12, color: ScadaColors.textDim),
+                Icon(Icons.pin_drop, size: 12, color: context.scada.textDim),
                 const SizedBox(width: 3),
-                Text('${route.checkpointCount} nokta', style: const TextStyle(fontSize: 11, color: ScadaColors.textSecondary)),
+                Text('${route.checkpointCount} nokta', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
                 const SizedBox(width: 12),
-                Icon(Icons.timer, size: 12, color: ScadaColors.textDim),
+                Icon(Icons.timer, size: 12, color: context.scada.textDim),
                 const SizedBox(width: 3),
-                Text('~${route.estimatedMinutes} dk', style: const TextStyle(fontSize: 11, color: ScadaColors.textSecondary)),
+                Text('~${route.estimatedMinutes} dk', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
                 const SizedBox(width: 10),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
@@ -135,7 +135,7 @@ class TourListScreen extends ConsumerWidget {
                 ),
               ]),
             ])),
-            Icon(Icons.chevron_right, color: ScadaColors.textDim, size: 18),
+            Icon(Icons.chevron_right, color: context.scada.textDim, size: 18),
           ]),
         ),
       ),

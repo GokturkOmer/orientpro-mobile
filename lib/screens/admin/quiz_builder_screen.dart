@@ -149,7 +149,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
         return StatefulBuilder(
           builder: (ctx, setDialogState) {
             return AlertDialog(
-              backgroundColor: ScadaColors.surface,
+              backgroundColor: context.scada.surface,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               title: Text(
                 existing != null ? 'Soru Duzenle' : 'Yeni Soru Ekle',
@@ -167,7 +167,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
                         maxLines: 3,
                         required: true,
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12),
                       ...List.generate(4, (i) {
                         final letter = ['A', 'B', 'C', 'D'][i];
                         return Padding(
@@ -180,10 +180,10 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
                                 decoration: BoxDecoration(
                                   color: selectedAnswer == letter
                                       ? ScadaColors.green.withValues(alpha: 0.2)
-                                      : ScadaColors.card,
+                                      : context.scada.card,
                                   borderRadius: BorderRadius.circular(6),
                                   border: Border.all(
-                                    color: selectedAnswer == letter ? ScadaColors.green : ScadaColors.border,
+                                    color: selectedAnswer == letter ? ScadaColors.green : context.scada.border,
                                   ),
                                 ),
                                 alignment: Alignment.center,
@@ -207,22 +207,22 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
                           ),
                         );
                       }),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8),
                       DropdownButtonFormField<String>(
                         initialValue: selectedAnswer,
-                        dropdownColor: ScadaColors.card,
+                        dropdownColor: context.scada.card,
                         decoration: InputDecoration(
                           labelText: 'Dogru Cevap',
                           labelStyle: const TextStyle(color: ScadaColors.amber, fontSize: 12),
                           filled: true,
-                          fillColor: ScadaColors.card,
+                          fillColor: context.scada.card,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
-                            borderSide: const BorderSide(color: ScadaColors.border),
+                            borderSide: BorderSide(color: context.scada.border),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
-                            borderSide: const BorderSide(color: ScadaColors.border),
+                            borderSide: BorderSide(color: context.scada.border),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -270,7 +270,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: ScadaColors.cyan,
-                    foregroundColor: ScadaColors.bg,
+                    foregroundColor: context.scada.bg,
                   ),
                   onPressed: () async {
                     if (questionController.text.trim().isEmpty) return;
@@ -315,7 +315,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         title: const Text('Soru Sil', style: TextStyle(color: ScadaColors.red, fontSize: 16)),
         content: const Text(
           'Bu soruyu silmek istediginizden emin misiniz?',
@@ -357,14 +357,14 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
         labelText: label,
         labelStyle: const TextStyle(color: ScadaColors.amber, fontSize: 12),
         filled: true,
-        fillColor: ScadaColors.card,
+        fillColor: context.scada.card,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: ScadaColors.border),
+          borderSide: BorderSide(color: context.scada.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: ScadaColors.border),
+          borderSide: BorderSide(color: context.scada.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
@@ -379,9 +379,9 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
           onPressed: () => Navigator.pop(context),
@@ -413,9 +413,9 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: Form(
         key: _formKey,
@@ -464,19 +464,19 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
               label: 'Gecme Puani (%)',
               keyboardType: TextInputType.number,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ScadaColors.cyan,
-                  foregroundColor: ScadaColors.bg,
+                  foregroundColor: context.scada.bg,
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
                 onPressed: _isSaving ? null : _saveQuiz,
                 icon: _isSaving
-                    ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: ScadaColors.bg))
+                    ? SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: context.scada.bg))
                     : Icon(_isEditMode ? Icons.save : Icons.add),
                 label: Text(_isEditMode ? 'Quiz Guncelle' : 'Quiz Olustur'),
               ),
@@ -503,14 +503,14 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
         labelText: label,
         labelStyle: const TextStyle(color: ScadaColors.amber, fontSize: 12),
         filled: true,
-        fillColor: ScadaColors.surface,
+        fillColor: context.scada.surface,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: ScadaColors.border),
+          borderSide: BorderSide(color: context.scada.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: ScadaColors.border),
+          borderSide: BorderSide(color: context.scada.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
@@ -552,9 +552,9 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
             width: double.infinity,
             padding: const EdgeInsets.all(32),
             decoration: BoxDecoration(
-              color: ScadaColors.card,
+              color: context.scada.card,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: ScadaColors.border),
+              border: Border.all(color: context.scada.border),
             ),
             child: const Column(
               children: [
@@ -589,9 +589,9 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -608,7 +608,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
                     child: IconButton(
                       padding: EdgeInsets.zero,
                       icon: Icon(Icons.arrow_upward, size: 14,
-                        color: index > 0 ? ScadaColors.textSecondary : ScadaColors.textDim.withValues(alpha: 0.3)),
+                        color: index > 0 ? context.scada.textSecondary : context.scada.textDim.withValues(alpha: 0.3)),
                       onPressed: index > 0 ? () => _reorderQuestion(index, index - 1) : null,
                     ),
                   ),
@@ -617,7 +617,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
                     child: IconButton(
                       padding: EdgeInsets.zero,
                       icon: Icon(Icons.arrow_downward, size: 14,
-                        color: index < total - 1 ? ScadaColors.textSecondary : ScadaColors.textDim.withValues(alpha: 0.3)),
+                        color: index < total - 1 ? context.scada.textSecondary : context.scada.textDim.withValues(alpha: 0.3)),
                       onPressed: index < total - 1 ? () => _reorderQuestion(index, index + 1) : null,
                     ),
                   ),
@@ -657,7 +657,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
           Wrap(
             spacing: 6,
             runSpacing: 6,
@@ -667,10 +667,10 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
               return Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
-                  color: isCorrect ? ScadaColors.green.withValues(alpha: 0.15) : ScadaColors.surface,
+                  color: isCorrect ? ScadaColors.green.withValues(alpha: 0.15) : context.scada.surface,
                   borderRadius: BorderRadius.circular(6),
                   border: Border.all(
-                    color: isCorrect ? ScadaColors.green : ScadaColors.border,
+                    color: isCorrect ? ScadaColors.green : context.scada.border,
                   ),
                 ),
                 child: Text(

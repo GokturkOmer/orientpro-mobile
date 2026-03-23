@@ -33,22 +33,22 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
     final route = training.selectedRoute;
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           route?.title ?? 'Rota Detayi',
-          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary),
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: context.scada.textPrimary),
         ),
       ),
       body: training.isLoading
           ? const Center(child: CircularProgressIndicator(color: ScadaColors.cyan))
           : route == null
-              ? const Center(child: Text('Rota bulunamadi', style: TextStyle(color: ScadaColors.textSecondary)))
+              ? Center(child: Text('Rota bulunamadi', style: TextStyle(color: context.scada.textSecondary)))
               : ListView(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
                   children: [
@@ -56,9 +56,9 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
                     Container(
                       padding: const EdgeInsets.all(14),
                       decoration: BoxDecoration(
-                        color: ScadaColors.surface,
+                        color: context.scada.surface,
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: ScadaColors.border),
+                        border: Border.all(color: context.scada.border),
                       ),
                       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                         if (route.departmentName != null)
@@ -66,10 +66,10 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
                             padding: const EdgeInsets.only(bottom: 6),
                             child: Text(route.departmentName!, style: const TextStyle(fontSize: 11, color: ScadaColors.purple, fontWeight: FontWeight.w600)),
                           ),
-                        Text(route.title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+                        Text(route.title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
                         if (route.description != null) ...[
                           const SizedBox(height: 6),
-                          Text(route.description!, style: const TextStyle(fontSize: 12, color: ScadaColors.textSecondary)),
+                          Text(route.description!, style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
                         ],
                         const SizedBox(height: 12),
                         Row(children: [
@@ -86,9 +86,9 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
 
                     // Modules header
                     Row(children: [
-                      const Icon(Icons.menu_book, size: 14, color: ScadaColors.textDim),
+                      Icon(Icons.menu_book, size: 14, color: context.scada.textDim),
                       const SizedBox(width: 6),
-                      Text('MODULLER (${route.modules?.length ?? 0})', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 1)),
+                      Text('MODULLER (${route.modules?.length ?? 0})', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
                     ]),
                     const SizedBox(height: 12),
 
@@ -107,9 +107,9 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(24),
                           child: Column(mainAxisSize: MainAxisSize.min, children: [
-                            Icon(Icons.menu_book, size: 40, color: ScadaColors.textDim),
+                            Icon(Icons.menu_book, size: 40, color: context.scada.textDim),
                             const SizedBox(height: 8),
-                            const Text('Henuz modul eklenmemis', style: TextStyle(fontSize: 12, color: ScadaColors.textSecondary)),
+                            Text('Henuz modul eklenmemis', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
                           ]),
                         ),
                       ),
@@ -160,7 +160,7 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
         statusIcon = Icons.play_circle;
         statusText = 'Devam Ediyor';
       case _ModuleStatus.notStarted:
-        statusColor = ScadaColors.textDim;
+        statusColor = context.scada.textDim;
         statusIcon = Icons.radio_button_unchecked;
         statusText = 'Baslanmadi';
     }
@@ -196,7 +196,7 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
               Expanded(
                 child: Container(
                   width: 2,
-                  color: ScadaColors.border,
+                  color: context.scada.border,
                 ),
               ),
           ]),
@@ -207,7 +207,7 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
           child: Container(
             margin: const EdgeInsets.only(bottom: 12),
             decoration: BoxDecoration(
-              color: ScadaColors.card,
+              color: context.scada.card,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: statusColor.withValues(alpha: 0.3)),
             ),
@@ -233,24 +233,24 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
                       child: Center(child: Text('$index', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: ScadaColors.cyan))),
                     ),
                     const SizedBox(width: 10),
-                    Expanded(child: Text(module.title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary))),
-                    const Icon(Icons.arrow_forward_ios, size: 12, color: ScadaColors.textDim),
+                    Expanded(child: Text(module.title, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary))),
+                    Icon(Icons.arrow_forward_ios, size: 12, color: context.scada.textDim),
                   ]),
                   const SizedBox(height: 8),
                   Row(children: [
-                    Icon(typeIcon, size: 11, color: ScadaColors.textDim),
+                    Icon(typeIcon, size: 11, color: context.scada.textDim),
                     const SizedBox(width: 3),
-                    Text(module.typeText, style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+                    Text(module.typeText, style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
                     const SizedBox(width: 10),
-                    Icon(Icons.timer_outlined, size: 11, color: ScadaColors.textDim),
+                    Icon(Icons.timer_outlined, size: 11, color: context.scada.textDim),
                     const SizedBox(width: 3),
-                    Text('${module.estimatedMinutes} dk', style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+                    Text('${module.estimatedMinutes} dk', style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
                     const Spacer(),
                     if (isLocked)
                       Row(mainAxisSize: MainAxisSize.min, children: [
-                        Icon(Icons.lock, size: 11, color: ScadaColors.textDim),
+                        Icon(Icons.lock, size: 11, color: context.scada.textDim),
                         const SizedBox(width: 3),
-                        Text('Kilitli', style: TextStyle(fontSize: 9, color: ScadaColors.textDim, fontWeight: FontWeight.w500)),
+                        Text('Kilitli', style: TextStyle(fontSize: 9, color: context.scada.textDim, fontWeight: FontWeight.w500)),
                       ])
                     else
                       Container(

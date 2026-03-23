@@ -97,25 +97,25 @@ class _ContentApprovalScreenState extends ConsumerState<ContentApprovalScreen> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: ScadaColors.borderBright),
+          side: BorderSide(color: context.scada.borderBright),
         ),
-        title: const Text('Icerigi Reddet', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+        title: Text('Icerigi Reddet', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('"$title" icerigi reddedilecek.', style: const TextStyle(fontSize: 12, color: ScadaColors.textSecondary)),
-            const SizedBox(height: 12),
+            Text('"$title" icerigi reddedilecek.', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
+            SizedBox(height: 12),
             TextField(
               controller: notesController,
               maxLines: 3,
-              style: const TextStyle(fontSize: 13, color: ScadaColors.textPrimary),
-              decoration: const InputDecoration(
+              style: TextStyle(fontSize: 13, color: context.scada.textPrimary),
+              decoration: InputDecoration(
                 labelText: 'Red sebebi (opsiyonel)',
-                labelStyle: TextStyle(fontSize: 12, color: ScadaColors.textDim),
+                labelStyle: TextStyle(fontSize: 12, color: context.scada.textDim),
               ),
             ),
           ],
@@ -123,7 +123,7 @@ class _ContentApprovalScreenState extends ConsumerState<ContentApprovalScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Iptal', style: TextStyle(color: ScadaColors.textSecondary)),
+            child: Text('Iptal', style: TextStyle(color: context.scada.textSecondary)),
           ),
           TextButton(
             onPressed: () {
@@ -149,9 +149,9 @@ class _ContentApprovalScreenState extends ConsumerState<ContentApprovalScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
           onPressed: () => Navigator.pop(context),
@@ -165,8 +165,8 @@ class _ContentApprovalScreenState extends ConsumerState<ContentApprovalScreen> {
             ),
             child: const Icon(Icons.fact_check, color: ScadaColors.amber, size: 20),
           ),
-          const SizedBox(width: 8),
-          const Text('Icerik Onaylari', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+          SizedBox(width: 8),
+          Text('Icerik Onaylari', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
         actions: [
           if (_items.isNotEmpty)
@@ -199,8 +199,8 @@ class _ContentApprovalScreenState extends ConsumerState<ContentApprovalScreen> {
                   ? Center(
                       child: Column(mainAxisSize: MainAxisSize.min, children: [
                         Icon(Icons.check_circle_outline, size: 48, color: ScadaColors.green.withValues(alpha: 0.5)),
-                        const SizedBox(height: 12),
-                        const Text('Onay bekleyen icerik yok', style: TextStyle(fontSize: 13, color: ScadaColors.textSecondary)),
+                        SizedBox(height: 12),
+                        Text('Onay bekleyen icerik yok', style: TextStyle(fontSize: 13, color: context.scada.textSecondary)),
                       ]),
                     )
                   : RefreshIndicator(
@@ -220,9 +220,9 @@ class _ContentApprovalScreenState extends ConsumerState<ContentApprovalScreen> {
       margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -236,20 +236,20 @@ class _ContentApprovalScreenState extends ConsumerState<ContentApprovalScreen> {
               ),
               child: const Icon(Icons.description, color: ScadaColors.amber, size: 20),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: 12),
             Expanded(
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(item.title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary), maxLines: 2, overflow: TextOverflow.ellipsis),
-                const SizedBox(height: 4),
+                Text(item.title, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: context.scada.textPrimary), maxLines: 2, overflow: TextOverflow.ellipsis),
+                SizedBox(height: 4),
                 Row(children: [
-                  const Icon(Icons.person_outline, size: 12, color: ScadaColors.textDim),
-                  const SizedBox(width: 4),
-                  Text(item.author, style: const TextStyle(fontSize: 11, color: ScadaColors.textSecondary)),
+                  Icon(Icons.person_outline, size: 12, color: context.scada.textDim),
+                  SizedBox(width: 4),
+                  Text(item.author, style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
                   if (item.createdAt.isNotEmpty) ...[
-                    const SizedBox(width: 12),
-                    const Icon(Icons.access_time, size: 12, color: ScadaColors.textDim),
-                    const SizedBox(width: 4),
-                    Text(_formatDate(item.createdAt), style: const TextStyle(fontSize: 11, color: ScadaColors.textDim)),
+                    SizedBox(width: 12),
+                    Icon(Icons.access_time, size: 12, color: context.scada.textDim),
+                    SizedBox(width: 4),
+                    Text(_formatDate(item.createdAt), style: TextStyle(fontSize: 11, color: context.scada.textDim)),
                   ],
                 ]),
               ]),

@@ -35,12 +35,12 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
   Widget build(BuildContext context) {
     if (_error != null) {
       return Scaffold(
-        backgroundColor: ScadaColors.bg,
-        appBar: AppBar(backgroundColor: ScadaColors.surface, title: const Text('Tur')),
+        backgroundColor: context.scada.bg,
+        appBar: AppBar(backgroundColor: context.scada.surface, title: Text('Tur')),
         body: Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
           const Icon(Icons.error, size: 48, color: ScadaColors.red),
           const SizedBox(height: 8),
-          Text(_error!, textAlign: TextAlign.center, style: const TextStyle(color: ScadaColors.textSecondary)),
+          Text(_error!, textAlign: TextAlign.center, style: TextStyle(color: context.scada.textSecondary)),
           const SizedBox(height: 16),
           ElevatedButton(onPressed: () { setState(() => _error = null); _loadSession(); }, child: const Text('Tekrar Dene')),
         ])),
@@ -49,8 +49,8 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
 
     if (_session == null) {
       return Scaffold(
-        backgroundColor: ScadaColors.bg,
-        appBar: AppBar(backgroundColor: ScadaColors.surface, title: const Text('Yukleniyor...')),
+        backgroundColor: context.scada.bg,
+        appBar: AppBar(backgroundColor: context.scada.surface, title: Text('Yukleniyor...')),
         body: const Center(child: CircularProgressIndicator(color: ScadaColors.cyan)),
       );
     }
@@ -59,21 +59,21 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
     final progress = s.totalCheckpoints > 0 ? s.scannedCheckpoints / s.totalCheckpoints : 0.0;
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
-        title: Text(s.routeName, style: const TextStyle(fontSize: 14, color: ScadaColors.textPrimary)),
+        backgroundColor: context.scada.surface,
+        title: Text(s.routeName, style: TextStyle(fontSize: 14, color: context.scada.textPrimary)),
         actions: [
           if (s.status == 'active')
             PopupMenuButton<String>(
-              color: ScadaColors.surface,
+              color: context.scada.surface,
               onSelected: (v) async {
                 if (v == 'complete') await _completeTour();
                 if (v == 'cancel') await _cancelTour();
               },
               itemBuilder: (_) => [
-                const PopupMenuItem(value: 'complete', child: Row(children: [Icon(Icons.check_circle, color: ScadaColors.green, size: 16), SizedBox(width: 8), Text('Tamamla', style: TextStyle(color: ScadaColors.textPrimary))])),
-                const PopupMenuItem(value: 'cancel', child: Row(children: [Icon(Icons.cancel, color: ScadaColors.red, size: 16), SizedBox(width: 8), Text('Iptal Et', style: TextStyle(color: ScadaColors.textPrimary))])),
+                PopupMenuItem(value: 'complete', child: Row(children: [Icon(Icons.check_circle, color: ScadaColors.green, size: 16), SizedBox(width: 8), Text('Tamamla', style: TextStyle(color: context.scada.textPrimary))])),
+                PopupMenuItem(value: 'cancel', child: Row(children: [Icon(Icons.cancel, color: ScadaColors.red, size: 16), SizedBox(width: 8), Text('Iptal Et', style: TextStyle(color: context.scada.textPrimary))])),
               ],
             ),
         ],
@@ -82,10 +82,10 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
         // Progress
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          color: ScadaColors.surface,
+          color: context.scada.surface,
           child: Column(children: [
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text('${s.scannedCheckpoints}/${s.totalCheckpoints} nokta', style: const TextStyle(fontWeight: FontWeight.w600, color: ScadaColors.textPrimary, fontSize: 13)),
+              Text('${s.scannedCheckpoints}/${s.totalCheckpoints} nokta', style: TextStyle(fontWeight: FontWeight.w600, color: context.scada.textPrimary, fontSize: 13)),
               if (s.skippedCheckpoints > 0)
                 Text('${s.skippedCheckpoints} atlandi', style: const TextStyle(color: ScadaColors.amber, fontSize: 11)),
               Text('${(progress * 100).toInt()}%', style: const TextStyle(fontWeight: FontWeight.w700, color: ScadaColors.cyan, fontSize: 13)),
@@ -95,7 +95,7 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
               borderRadius: BorderRadius.circular(3),
               child: LinearProgressIndicator(
                 value: progress, minHeight: 6,
-                backgroundColor: ScadaColors.border,
+                backgroundColor: context.scada.border,
                 color: ScadaColors.cyan,
               ),
             ),
@@ -115,7 +115,7 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
       floatingActionButton: s.status == 'active' ? FloatingActionButton.extended(
         onPressed: _isProcessing ? null : () => setState(() => _isScanning = true),
         backgroundColor: ScadaColors.cyan,
-        foregroundColor: ScadaColors.bg,
+        foregroundColor: context.scada.bg,
         icon: const Icon(Icons.qr_code_scanner),
         label: Text(_isScanning ? 'Taraniyor...' : 'QR Tara', style: const TextStyle(fontWeight: FontWeight.w700)),
       ) : null,
@@ -127,16 +127,16 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
     return Container(
       height: 320,
       decoration: BoxDecoration(
-        color: ScadaColors.surface,
+        color: context.scada.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-        border: Border.all(color: ScadaColors.borderBright),
+        border: Border.all(color: context.scada.borderBright),
         boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.5), blurRadius: 20)],
       ),
       child: Column(children: [
-        Container(margin: const EdgeInsets.symmetric(vertical: 8), width: 40, height: 4, decoration: BoxDecoration(color: ScadaColors.borderBright, borderRadius: BorderRadius.circular(2))),
+        Container(margin: EdgeInsets.symmetric(vertical: 8), width: 40, height: 4, decoration: BoxDecoration(color: context.scada.borderBright, borderRadius: BorderRadius.circular(2))),
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           const Padding(padding: EdgeInsets.only(left: 16), child: Text('QR Kodu Okutun', style: TextStyle(color: ScadaColors.cyan, fontWeight: FontWeight.w600, fontSize: 13))),
-          IconButton(icon: const Icon(Icons.close, color: ScadaColors.textDim), onPressed: () => setState(() => _isScanning = false)),
+          IconButton(icon: Icon(Icons.close, color: context.scada.textDim), onPressed: () => setState(() => _isScanning = false)),
         ]),
         Expanded(
           child: ClipRRect(
@@ -194,20 +194,20 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
           const Icon(Icons.check_circle, color: ScadaColors.green, size: 18),
           const SizedBox(width: 8),
           Expanded(child: Text(result.checkpointName, style: const TextStyle(fontWeight: FontWeight.w600, color: ScadaColors.green, fontSize: 13))),
-          Text('${result.remaining} kaldi', style: const TextStyle(fontSize: 11, color: ScadaColors.textDim)),
+          Text('${result.remaining} kaldi', style: TextStyle(fontSize: 11, color: context.scada.textDim)),
         ]),
         if (result.instructions != null) ...[
           const SizedBox(height: 6),
-          Text(result.instructions!, style: const TextStyle(fontSize: 11, color: ScadaColors.textSecondary)),
+          Text(result.instructions!, style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
         ],
         if (result.checkItems.isNotEmpty) ...[
           const SizedBox(height: 8),
           ...result.checkItems.map((item) => Padding(
             padding: const EdgeInsets.only(bottom: 3),
             child: Row(children: [
-              Icon(Icons.check_box_outline_blank, size: 14, color: ScadaColors.textDim),
+              Icon(Icons.check_box_outline_blank, size: 14, color: context.scada.textDim),
               const SizedBox(width: 6),
-              Expanded(child: Text(item, style: const TextStyle(fontSize: 11, color: ScadaColors.textSecondary))),
+              Expanded(child: Text(item, style: TextStyle(fontSize: 11, color: context.scada.textSecondary))),
             ]),
           )),
         ],
@@ -222,16 +222,16 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
       case 'ok': statusColor = ScadaColors.green; statusIcon = Icons.check_circle; break;
       case 'skipped': statusColor = ScadaColors.amber; statusIcon = Icons.skip_next; break;
       case 'issue': statusColor = ScadaColors.red; statusIcon = Icons.warning; break;
-      default: statusColor = ScadaColors.textDim; statusIcon = Icons.radio_button_unchecked;
+      default: statusColor = context.scada.textDim; statusIcon = Icons.radio_button_unchecked;
     }
 
     return Container(
       margin: const EdgeInsets.only(bottom: 6),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: cp.scanned ? statusColor.withValues(alpha: 0.06) : ScadaColors.card,
+        color: cp.scanned ? statusColor.withValues(alpha: 0.06) : context.scada.card,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: cp.scanned ? statusColor.withValues(alpha: 0.3) : ScadaColors.border),
+        border: Border.all(color: cp.scanned ? statusColor.withValues(alpha: 0.3) : context.scada.border),
       ),
       child: Row(children: [
         Container(
@@ -243,8 +243,8 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
         ),
         const SizedBox(width: 10),
         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(cp.name, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: cp.scanned ? statusColor : ScadaColors.textPrimary)),
-          if (cp.location != null) Text(cp.location!, style: const TextStyle(fontSize: 10, color: ScadaColors.textDim)),
+          Text(cp.name, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: cp.scanned ? statusColor : context.scada.textPrimary)),
+          if (cp.location != null) Text(cp.location!, style: TextStyle(fontSize: 10, color: context.scada.textDim)),
         ])),
         if (cp.photoRequired) Icon(Icons.camera_alt, size: 13, color: ScadaColors.amber.withValues(alpha: 0.5)),
         if (!cp.scanned && _session?.status == 'active')
@@ -258,12 +258,12 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: ScadaColors.surface,
-        title: Text('${cp.name} atla', style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 14)),
-        content: TextField(controller: controller, style: const TextStyle(color: ScadaColors.textPrimary),
+        backgroundColor: context.scada.surface,
+        title: Text('${cp.name} atla', style: TextStyle(color: context.scada.textPrimary, fontSize: 14)),
+        content: TextField(controller: controller, style: TextStyle(color: context.scada.textPrimary),
           decoration: const InputDecoration(hintText: 'Atlama sebebi (zorunlu)')),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Vazgec', style: TextStyle(color: ScadaColors.textDim))),
+          TextButton(onPressed: () => Navigator.pop(ctx), child: Text('Vazgec', style: TextStyle(color: context.scada.textDim))),
           ElevatedButton(onPressed: () async {
             if (controller.text.isEmpty) return;
             Navigator.pop(ctx);
@@ -277,10 +277,10 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
 
   void _showCompletionDialog() {
     showDialog(context: context, builder: (ctx) => AlertDialog(
-      backgroundColor: ScadaColors.surface,
+      backgroundColor: context.scada.surface,
       icon: const Icon(Icons.celebration, size: 48, color: ScadaColors.green),
       title: const Text('Tur Tamamlandi!', style: TextStyle(color: ScadaColors.green)),
-      content: const Text('Tum kontrol noktalari tarandi.', style: TextStyle(color: ScadaColors.textSecondary)),
+      content: Text('Tum kontrol noktalari tarandi.', style: TextStyle(color: context.scada.textSecondary)),
       actions: [ElevatedButton(onPressed: () { Navigator.pop(ctx); Navigator.pop(context); }, child: const Text('Tamam'))],
     ));
   }
@@ -294,11 +294,11 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
       }
       if (mounted) {
         showDialog(context: context, builder: (ctx) => AlertDialog(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         icon: const Icon(Icons.check_circle, size: 48, color: ScadaColors.green),
         title: const Text('Tur Tamamlandi', style: TextStyle(color: ScadaColors.green)),
         content: Text('Taranan: ${result['scanned']}/${result['total']}\nAtlanan: ${result['skipped']}\nTamamlanma: %${result['completion_rate']}',
-          style: const TextStyle(color: ScadaColors.textSecondary)),
+          style: TextStyle(color: context.scada.textSecondary)),
         actions: [ElevatedButton(onPressed: () { Navigator.pop(ctx); Navigator.pop(context); }, child: const Text('Tamam'))],
       ));
       }
@@ -307,11 +307,11 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
 
   Future<void> _cancelTour() async {
     final confirmed = await showDialog<bool>(context: context, builder: (ctx) => AlertDialog(
-      backgroundColor: ScadaColors.surface,
-      title: const Text('Turu iptal et?', style: TextStyle(color: ScadaColors.textPrimary)),
-      content: const Text('Bu islem geri alinamaz.', style: TextStyle(color: ScadaColors.textSecondary)),
+      backgroundColor: context.scada.surface,
+      title: Text('Turu iptal et?', style: TextStyle(color: context.scada.textPrimary)),
+      content: Text('Bu islem geri alinamaz.', style: TextStyle(color: context.scada.textSecondary)),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Vazgec', style: TextStyle(color: ScadaColors.textDim))),
+        TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text('Vazgec', style: TextStyle(color: context.scada.textDim))),
         ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.red.withValues(alpha: 0.15), foregroundColor: ScadaColors.red),
           onPressed: () => Navigator.pop(ctx, true), child: const Text('Iptal Et')),
       ],

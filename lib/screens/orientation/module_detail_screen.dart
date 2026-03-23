@@ -55,16 +55,16 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
     final module = training.selectedModule;
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           module?.title ?? 'Modul Detayi',
-          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary),
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: context.scada.textPrimary),
         ),
       ),
       body: training.isLoading
@@ -75,7 +75,7 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
                   child: Column(mainAxisSize: MainAxisSize.min, children: [
                     const Icon(Icons.lock, size: 48, color: ScadaColors.orange),
                     const SizedBox(height: 16),
-                    Text(training.error!, style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 14), textAlign: TextAlign.center),
+                    Text(training.error!, style: TextStyle(color: context.scada.textPrimary, fontSize: 14), textAlign: TextAlign.center),
                     const SizedBox(height: 16),
                     ElevatedButton.icon(
                       onPressed: () => Navigator.pop(context),
@@ -86,7 +86,7 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
                   ]),
                 ))
               : module == null
-                  ? const Center(child: Text('Modul bulunamadi', style: TextStyle(color: ScadaColors.textSecondary)))
+                  ? Center(child: Text('Modul bulunamadi', style: TextStyle(color: context.scada.textSecondary)))
               : ListView(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
                   children: [
@@ -94,9 +94,9 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
                     Container(
                       padding: const EdgeInsets.all(14),
                       decoration: BoxDecoration(
-                        color: ScadaColors.surface,
+                        color: context.scada.surface,
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: ScadaColors.border),
+                        border: Border.all(color: context.scada.border),
                       ),
                       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                         Row(children: [
@@ -113,20 +113,20 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
                           ),
                           const SizedBox(width: 10),
                           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                            Text(module.title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+                            Text(module.title, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
                             if (module.description != null)
-                              Text(module.description!, style: const TextStyle(fontSize: 11, color: ScadaColors.textSecondary)),
+                              Text(module.description!, style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
                           ])),
                         ]),
                         const SizedBox(height: 10),
                         Row(children: [
-                          Icon(Icons.category, size: 12, color: ScadaColors.textDim),
+                          Icon(Icons.category, size: 12, color: context.scada.textDim),
                           const SizedBox(width: 4),
-                          Text(module.typeText, style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+                          Text(module.typeText, style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
                           const SizedBox(width: 12),
-                          Icon(Icons.timer_outlined, size: 12, color: ScadaColors.textDim),
+                          Icon(Icons.timer_outlined, size: 12, color: context.scada.textDim),
                           const SizedBox(width: 4),
-                          Text('${module.estimatedMinutes} dk', style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+                          Text('${module.estimatedMinutes} dk', style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
                         ]),
                       ]),
                     ),
@@ -135,9 +135,9 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
                     if (module.contents != null && module.contents!.isNotEmpty) ...[
                       const SizedBox(height: 20),
                       Row(children: [
-                        const Icon(Icons.article, size: 14, color: ScadaColors.textDim),
+                        Icon(Icons.article, size: 14, color: context.scada.textDim),
                         const SizedBox(width: 6),
-                        Text('ICERIKLER (${module.contents!.length})', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 1)),
+                        Text('ICERIKLER (${module.contents!.length})', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
                       ]),
                       const SizedBox(height: 12),
                       ...module.contents!.map((content) => _buildContentCard(content)),
@@ -147,9 +147,9 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
                     if (module.quizzes != null && module.quizzes!.isNotEmpty) ...[
                       const SizedBox(height: 20),
                       Row(children: [
-                        const Icon(Icons.quiz, size: 14, color: ScadaColors.textDim),
+                        Icon(Icons.quiz, size: 14, color: context.scada.textDim),
                         const SizedBox(width: 6),
-                        Text('QUIZLER (${module.quizzes!.length})', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 1)),
+                        Text('QUIZLER (${module.quizzes!.length})', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
                       ]),
                       const SizedBox(height: 12),
                       ...module.quizzes!.map((quiz) => _buildQuizCard(quiz)),
@@ -181,7 +181,7 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
       'pdf' => ScadaColors.red,
       'image' => ScadaColors.amber,
       'checklist' => ScadaColors.green,
-      _ => ScadaColors.textDim,
+      _ => context.scada.textDim,
     };
 
     // PDF ve resim icin ExpansionTile yerine direkt gosterim
@@ -190,9 +190,9 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: isMediaContent
           ? Column(
@@ -205,7 +205,7 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
                     Icon(typeIcon, color: typeColor, size: 20),
                     const SizedBox(width: 8),
                     Expanded(
-                      child: Text(content.title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+                      child: Text(content.title, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
                     ),
                   ]),
                 ),
@@ -220,9 +220,9 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
               tilePadding: const EdgeInsets.symmetric(horizontal: 12),
               childrenPadding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
               leading: Icon(typeIcon, color: typeColor, size: 20),
-              title: Text(content.title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
-              iconColor: ScadaColors.textDim,
-              collapsedIconColor: ScadaColors.textDim,
+              title: Text(content.title, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
+              iconColor: context.scada.textDim,
+              collapsedIconColor: context.scada.textDim,
               children: [
                 ContentViewer(content: content),
               ],
@@ -245,7 +245,7 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
         const SizedBox(width: 12),
         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           const Text('Egitim Onaylandi', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.green)),
-          Text('Onay tarihi: $formatted', style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+          Text('Onay tarihi: $formatted', style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
         ])),
       ]),
     );
@@ -287,7 +287,7 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: ScadaColors.green.withValues(alpha: 0.3)),
       ),
@@ -302,17 +302,17 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
           ),
           child: const Icon(Icons.quiz, color: ScadaColors.green, size: 20),
         ),
-        title: Text(quiz.title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+        title: Text(quiz.title, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
         subtitle: Row(children: [
           if (quiz.timeLimitMinutes != null) ...[
-            Icon(Icons.timer, size: 11, color: ScadaColors.textDim),
+            Icon(Icons.timer, size: 11, color: context.scada.textDim),
             const SizedBox(width: 3),
-            Text('${quiz.timeLimitMinutes} dk', style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+            Text('${quiz.timeLimitMinutes} dk', style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
             const SizedBox(width: 8),
           ],
-          Text('Gecme: %${quiz.passingScore}', style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+          Text('Gecme: %${quiz.passingScore}', style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
           const SizedBox(width: 8),
-          Text('${quiz.maxAttempts} deneme', style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+          Text('${quiz.maxAttempts} deneme', style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
         ]),
         trailing: ElevatedButton(
           onPressed: () => Navigator.pushNamed(context, '/quiz', arguments: quiz.id),

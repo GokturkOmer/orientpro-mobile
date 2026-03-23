@@ -77,16 +77,16 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: ScadaColors.surface,
-        title: const Text('Dokumani Sil', style: TextStyle(color: ScadaColors.textPrimary, fontSize: 16)),
+        backgroundColor: context.scada.surface,
+        title: Text('Dokumani Sil', style: TextStyle(color: context.scada.textPrimary, fontSize: 16)),
         content: Text(
           '"$docTitle" dokumanini silmek istediginize emin misiniz?\n\nBu islem geri alinamaz.',
-          style: const TextStyle(color: ScadaColors.textSecondary, fontSize: 13),
+          style: TextStyle(color: context.scada.textSecondary, fontSize: 13),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Iptal', style: TextStyle(color: ScadaColors.textSecondary)),
+            child: Text('Iptal', style: TextStyle(color: context.scada.textSecondary)),
           ),
           TextButton(
             onPressed: () async {
@@ -128,11 +128,11 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
         return StatefulBuilder(
           builder: (ctx, setDialogState) {
             return AlertDialog(
-              backgroundColor: ScadaColors.card,
+              backgroundColor: context.scada.card,
               title: Row(children: [
                 const Icon(Icons.upload_file, color: ScadaColors.red, size: 22),
-                const SizedBox(width: 8),
-                const Text('PDF Yukle', style: TextStyle(color: ScadaColors.textPrimary, fontSize: 16)),
+                SizedBox(width: 8),
+                Text('PDF Yukle', style: TextStyle(color: context.scada.textPrimary, fontSize: 16)),
               ]),
               content: SingleChildScrollView(
                 child: SizedBox(
@@ -143,12 +143,12 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                       // Title field
                       TextField(
                         controller: titleCtrl,
-                        style: const TextStyle(color: ScadaColors.textPrimary),
+                        style: TextStyle(color: context.scada.textPrimary),
                         decoration: InputDecoration(
                           labelText: 'Baslik (opsiyonel)',
-                          labelStyle: const TextStyle(color: ScadaColors.textSecondary, fontSize: 12),
+                          labelStyle: TextStyle(color: context.scada.textSecondary, fontSize: 12),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: ScadaColors.border),
+                            borderSide: BorderSide(color: context.scada.border),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           focusedBorder: OutlineInputBorder(
@@ -156,7 +156,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           filled: true,
-                          fillColor: ScadaColors.surface,
+                          fillColor: context.scada.surface,
                           contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                         ),
                         enabled: !isUploading,
@@ -186,24 +186,24 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                           width: double.infinity,
                           padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
-                            color: ScadaColors.surface,
+                            color: context.scada.surface,
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
-                              color: pdfFileName != null ? ScadaColors.green : ScadaColors.border,
+                              color: pdfFileName != null ? ScadaColors.green : context.scada.border,
                               width: pdfFileName != null ? 2 : 1,
                             ),
                           ),
                           child: Column(children: [
                             Icon(
                               pdfFileName != null ? Icons.picture_as_pdf : Icons.cloud_upload_outlined,
-                              color: pdfFileName != null ? ScadaColors.red : ScadaColors.textDim,
+                              color: pdfFileName != null ? ScadaColors.red : context.scada.textDim,
                               size: 36,
                             ),
-                            const SizedBox(height: 8),
+                            SizedBox(height: 8),
                             Text(
                               pdfFileName ?? 'PDF dosyasi secmek icin tiklayin',
                               style: TextStyle(
-                                color: pdfFileName != null ? ScadaColors.textPrimary : ScadaColors.textSecondary,
+                                color: pdfFileName != null ? context.scada.textPrimary : context.scada.textSecondary,
                                 fontSize: 12,
                               ),
                               textAlign: TextAlign.center,
@@ -211,7 +211,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                             if (pdfFileBytes != null)
                               Text(
                                 '${(pdfFileBytes!.length / 1024 / 1024).toStringAsFixed(1)} MB',
-                                style: const TextStyle(color: ScadaColors.textDim, fontSize: 10),
+                                style: TextStyle(color: context.scada.textDim, fontSize: 10),
                               ),
                           ]),
                         ),
@@ -226,7 +226,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(color: ScadaColors.purple.withValues(alpha: 0.3)),
                         ),
-                        child: const Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                           Icon(Icons.auto_awesome, color: ScadaColors.purple, size: 16),
                           SizedBox(width: 8),
                           Expanded(
@@ -235,7 +235,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                               '- Departman ve zorluk siniflandirmasi yapar\n'
                               '- Anahtar etiketler olusturur\n'
                               '- Semantik arama icin indeksler',
-                              style: TextStyle(color: ScadaColors.textSecondary, fontSize: 10, height: 1.4),
+                              style: TextStyle(color: context.scada.textSecondary, fontSize: 10, height: 1.4),
                             ),
                           ),
                         ]),
@@ -243,10 +243,10 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
 
                       // Upload progress
                       if (isUploading) ...[
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16),
                         LinearProgressIndicator(
                           value: uploadProgress < 1.0 ? uploadProgress : null,
-                          backgroundColor: ScadaColors.surface,
+                          backgroundColor: context.scada.surface,
                           color: uploadProgress >= 1.0 ? ScadaColors.purple : ScadaColors.cyan,
                         ),
                         const SizedBox(height: 8),
@@ -271,7 +271,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
               actions: [
                 TextButton(
                   onPressed: isUploading ? null : () => Navigator.pop(ctx),
-                  child: Text(uploadResult != null ? 'Kapat' : 'Iptal', style: const TextStyle(color: ScadaColors.textSecondary)),
+                  child: Text(uploadResult != null ? 'Kapat' : 'Iptal', style: TextStyle(color: context.scada.textSecondary)),
                 ),
                 if (uploadResult == null)
                   ElevatedButton.icon(
@@ -357,10 +357,10 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
         _resultRow('Zorluk', _difficultyLabel(classification['difficulty'] ?? 'beginner')),
         _resultRow('RAG', ragStatus == 'indexed' ? 'Indekslendi' : ragStatus),
         if (classification['summary'] != null) ...[
-          const SizedBox(height: 6),
+          SizedBox(height: 6),
           Text(
             classification['summary'],
-            style: const TextStyle(color: ScadaColors.textSecondary, fontSize: 11, fontStyle: FontStyle.italic),
+            style: TextStyle(color: context.scada.textSecondary, fontSize: 11, fontStyle: FontStyle.italic),
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
           ),
@@ -388,8 +388,8 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 4),
       child: Row(children: [
-        SizedBox(width: 80, child: Text(label, style: const TextStyle(color: ScadaColors.textDim, fontSize: 11))),
-        Text(value, style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 11, fontWeight: FontWeight.w500)),
+        SizedBox(width: 80, child: Text(label, style: TextStyle(color: context.scada.textDim, fontSize: 11))),
+        Text(value, style: TextStyle(color: context.scada.textPrimary, fontSize: 11, fontWeight: FontWeight.w500)),
       ]),
     );
   }
@@ -420,9 +420,9 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
           onPressed: () => Navigator.pop(context),
@@ -436,12 +436,12 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
             ),
             child: const Icon(Icons.library_books, color: ScadaColors.red, size: 20),
           ),
-          const SizedBox(width: 8),
-          const Text('Dokuman Havuzu', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+          SizedBox(width: 8),
+          Text('Dokuman Havuzu', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh, color: ScadaColors.textDim, size: 20),
+            icon: Icon(Icons.refresh, color: context.scada.textDim, size: 20),
             onPressed: _loadDocuments,
           ),
         ],
@@ -457,15 +457,15 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
           // Search & Filter bar
           Container(
             padding: const EdgeInsets.all(12),
-            color: ScadaColors.surface,
+            color: context.scada.surface,
             child: Column(children: [
               // Search
               TextField(
                 controller: _searchController,
-                style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
+                style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
                 decoration: InputDecoration(
                   hintText: 'Semantik arama... (icerik bazli)',
-                  hintStyle: const TextStyle(color: ScadaColors.textDim, fontSize: 12),
+                  hintStyle: TextStyle(color: context.scada.textDim, fontSize: 12),
                   prefixIcon: const Icon(Icons.auto_awesome, color: ScadaColors.purple, size: 18),
                   suffixIcon: _isSearching
                       ? const Padding(
@@ -474,7 +474,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                         )
                       : _searchController.text.isNotEmpty
                           ? IconButton(
-                              icon: const Icon(Icons.clear, size: 16, color: ScadaColors.textDim),
+                              icon: Icon(Icons.clear, size: 16, color: context.scada.textDim),
                               onPressed: () {
                                 _searchController.clear();
                                 _onSearchChanged('');
@@ -482,7 +482,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                             )
                           : null,
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: ScadaColors.border),
+                    borderSide: BorderSide(color: context.scada.border),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   focusedBorder: OutlineInputBorder(
@@ -490,7 +490,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   filled: true,
-                  fillColor: ScadaColors.card,
+                  fillColor: context.scada.card,
                   contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                 ),
                 onChanged: _onSearchChanged,
@@ -533,13 +533,13 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
       padding: const EdgeInsets.only(right: 6),
       child: ChoiceChip(
         label: Text(label, style: TextStyle(
-          color: selected ? Colors.white : ScadaColors.textSecondary,
+          color: selected ? Colors.white : context.scada.textSecondary,
           fontSize: 11,
         )),
         selected: selected,
         selectedColor: ScadaColors.cyan,
-        backgroundColor: ScadaColors.card,
-        side: BorderSide(color: selected ? ScadaColors.cyan : ScadaColors.border),
+        backgroundColor: context.scada.card,
+        side: BorderSide(color: selected ? ScadaColors.cyan : context.scada.border),
         onSelected: (_) {
           setState(() => _selectedDepartment = dept);
           _loadDocuments();
@@ -551,11 +551,11 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
   Widget _buildEmptyState() {
     return Center(
       child: Column(mainAxisSize: MainAxisSize.min, children: [
-        Icon(Icons.folder_off, color: ScadaColors.textDim, size: 64),
-        const SizedBox(height: 16),
-        const Text('Henuz dokuman yuklenmemis', style: TextStyle(color: ScadaColors.textSecondary, fontSize: 14)),
-        const SizedBox(height: 8),
-        const Text('PDF yuklemek icin asagidaki butonu kullanin', style: TextStyle(color: ScadaColors.textDim, fontSize: 12)),
+        Icon(Icons.folder_off, color: context.scada.textDim, size: 64),
+        SizedBox(height: 16),
+        Text('Henuz dokuman yuklenmemis', style: TextStyle(color: context.scada.textSecondary, fontSize: 14)),
+        SizedBox(height: 8),
+        Text('PDF yuklemek icin asagidaki butonu kullanin', style: TextStyle(color: context.scada.textDim, fontSize: 12)),
       ]),
     );
   }
@@ -587,9 +587,9 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
       margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         // Header row
@@ -603,31 +603,31 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
             ),
             child: const Icon(Icons.picture_as_pdf, color: ScadaColors.red, size: 24),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
           Expanded(
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(
                 doc['title'] ?? doc['file_name'] ?? 'Bilinmeyen',
-                style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13, fontWeight: FontWeight.w600),
+                style: TextStyle(color: context.scada.textPrimary, fontSize: 13, fontWeight: FontWeight.w600),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              const SizedBox(height: 2),
+              SizedBox(height: 2),
               Row(children: [
                 Text(
                   doc['file_name'] ?? '',
-                  style: const TextStyle(color: ScadaColors.textDim, fontSize: 10),
+                  style: TextStyle(color: context.scada.textDim, fontSize: 10),
                 ),
-                const SizedBox(width: 8),
+                SizedBox(width: 8),
                 Text(
                   '${(fileSize / 1024 / 1024).toStringAsFixed(1)} MB',
-                  style: const TextStyle(color: ScadaColors.textDim, fontSize: 10),
+                  style: TextStyle(color: context.scada.textDim, fontSize: 10),
                 ),
                 if (createdAt != null) ...[
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   Text(
                     '${createdAt.day}.${createdAt.month}.${createdAt.year}',
-                    style: const TextStyle(color: ScadaColors.textDim, fontSize: 10),
+                    style: TextStyle(color: context.scada.textDim, fontSize: 10),
                   ),
                 ],
               ]),
@@ -676,10 +676,10 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
 
         // Summary
         if (summary.isNotEmpty) ...[
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
           Text(
             summary,
-            style: const TextStyle(color: ScadaColors.textSecondary, fontSize: 11, height: 1.4),
+            style: TextStyle(color: context.scada.textSecondary, fontSize: 11, height: 1.4),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
@@ -744,8 +744,8 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
     }
 
     if (_searchResults.isEmpty) {
-      return const Center(
-        child: Text('Sonuc bulunamadi', style: TextStyle(color: ScadaColors.textDim, fontSize: 13)),
+      return Center(
+        child: Text('Sonuc bulunamadi', style: TextStyle(color: context.scada.textDim, fontSize: 13)),
       );
     }
 
@@ -762,18 +762,18 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
           margin: const EdgeInsets.only(bottom: 8),
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: ScadaColors.card,
+            color: context.scada.card,
             borderRadius: BorderRadius.circular(8),
             border: Border.all(color: scoreColor.withValues(alpha: 0.3)),
           ),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(children: [
               Icon(Icons.auto_awesome, color: ScadaColors.purple, size: 14),
-              const SizedBox(width: 6),
+              SizedBox(width: 6),
               Expanded(
                 child: Text(
                   r['source'] ?? 'Bilinmeyen kaynak',
-                  style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 12, fontWeight: FontWeight.w600),
+                  style: TextStyle(color: context.scada.textPrimary, fontSize: 12, fontWeight: FontWeight.w600),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -790,10 +790,10 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                 ),
               ),
             ]),
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             Text(
               r['content'] ?? '',
-              style: const TextStyle(color: ScadaColors.textSecondary, fontSize: 11, height: 1.4),
+              style: TextStyle(color: context.scada.textSecondary, fontSize: 11, height: 1.4),
               maxLines: 4,
               overflow: TextOverflow.ellipsis,
             ),

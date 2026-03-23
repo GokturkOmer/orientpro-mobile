@@ -116,16 +116,16 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
     }
 
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           _selectedDeptName ?? 'Egitim Rotalari',
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary),
         ),
       ),
       body: Column(children: [
@@ -135,15 +135,15 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
           child: TextField(
             decoration: InputDecoration(
               hintText: 'Rota ara...',
-              hintStyle: const TextStyle(color: ScadaColors.textDim, fontSize: 13),
-              prefixIcon: const Icon(Icons.search, color: ScadaColors.textDim, size: 20),
+              hintStyle: TextStyle(color: context.scada.textDim, fontSize: 13),
+              prefixIcon: Icon(Icons.search, color: context.scada.textDim, size: 20),
               filled: true,
-              fillColor: ScadaColors.card,
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: ScadaColors.border)),
-              enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: ScadaColors.border)),
+              fillColor: context.scada.card,
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: context.scada.border)),
+              enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: context.scada.border)),
               contentPadding: const EdgeInsets.symmetric(vertical: 8),
             ),
-            style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 13),
+            style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
             onChanged: (v) => setState(() => _searchQuery = v.toLowerCase()),
           ),
         ),
@@ -190,9 +190,9 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
               : filteredRoutes.isEmpty
                   ? Center(
                       child: Column(mainAxisSize: MainAxisSize.min, children: [
-                        const Icon(Icons.route, size: 48, color: ScadaColors.textDim),
+                        Icon(Icons.route, size: 48, color: context.scada.textDim),
                         const SizedBox(height: 12),
-                        const Text('Henuz egitim rotasi bulunmuyor', style: TextStyle(color: ScadaColors.textSecondary, fontSize: 13)),
+                        Text('Henuz egitim rotasi bulunmuyor', style: TextStyle(color: context.scada.textSecondary, fontSize: 13)),
                       ]),
                     )
                   : ListView.builder(
@@ -214,7 +214,7 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
       child: FilterChip(
         label: Text(label, style: TextStyle(
           fontSize: 11,
-          color: isSelected ? ScadaColors.bg : chipColor,
+          color: isSelected ? context.scada.bg : chipColor,
           fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
         )),
         selected: isSelected,
@@ -235,7 +235,7 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
       child: FilterChip(
         label: Text(label, style: TextStyle(
           fontSize: 10,
-          color: isSelected ? ScadaColors.bg : color,
+          color: isSelected ? context.scada.bg : color,
           fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
         )),
         selected: isSelected,
@@ -276,9 +276,9 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
-        color: ScadaColors.card,
+        color: context.scada.card,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: ScadaColors.border),
+        border: Border.all(color: context.scada.border),
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
@@ -288,7 +288,7 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(children: [
               Expanded(
-                child: Text(route.title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+                child: Text(route.title, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
               ),
               if (route.isMandatory)
                 Container(
@@ -302,7 +302,7 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
             ]),
             if (route.description != null) ...[
               const SizedBox(height: 6),
-              Text(route.description!, style: const TextStyle(fontSize: 11, color: ScadaColors.textSecondary), maxLines: 2, overflow: TextOverflow.ellipsis),
+              Text(route.description!, style: TextStyle(fontSize: 11, color: context.scada.textSecondary), maxLines: 2, overflow: TextOverflow.ellipsis),
             ],
             const SizedBox(height: 10),
             Row(children: [
@@ -315,15 +315,15 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
                 child: Text(route.difficultyText, style: TextStyle(fontSize: 9, color: difficultyColor, fontWeight: FontWeight.w600)),
               ),
               const SizedBox(width: 8),
-              const Icon(Icons.timer_outlined, size: 12, color: ScadaColors.textDim),
+              Icon(Icons.timer_outlined, size: 12, color: context.scada.textDim),
               const SizedBox(width: 3),
-              Text('${route.estimatedMinutes} dk', style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+              Text('${route.estimatedMinutes} dk', style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
               const SizedBox(width: 8),
-              const Icon(Icons.check_circle_outline, size: 12, color: ScadaColors.textDim),
+              Icon(Icons.check_circle_outline, size: 12, color: context.scada.textDim),
               const SizedBox(width: 3),
-              Text('Gecme: %${route.passingScore}', style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+              Text('Gecme: %${route.passingScore}', style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
               const Spacer(),
-              const Icon(Icons.arrow_forward_ios, size: 12, color: ScadaColors.textDim),
+              Icon(Icons.arrow_forward_ios, size: 12, color: context.scada.textDim),
             ]),
           ]),
         ),
