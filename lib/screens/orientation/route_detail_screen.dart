@@ -92,13 +92,15 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
                     ]),
                     const SizedBox(height: 12),
 
-                    // Module timeline
+                    // Module timeline (siralama: ilk modul acik, sonrakiler icin oncekini tamamla)
                     if (route.modules != null && route.modules!.isNotEmpty)
                       ...route.modules!.asMap().entries.map((entry) {
                         final idx = entry.key;
                         final module = entry.value;
                         final isLast = idx == route.modules!.length - 1;
-                        return _buildTimelineItem(idx + 1, module, isLast);
+                        // Ilk modul her zaman acik, sonrakiler onceki modullere bagli
+                        final isLocked = idx > 0; // Gercek tamamlanma durumu backend'den gelmeli
+                        return _buildTimelineItem(idx + 1, module, isLast, isLocked: isLocked);
                       })
                     else
                       Center(
@@ -131,7 +133,7 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
     );
   }
 
-  Widget _buildTimelineItem(int index, dynamic module, bool isLast) {
+  Widget _buildTimelineItem(int index, dynamic module, bool isLast, {bool isLocked = false}) {
     // Modul durumunu belirle: tamamlanan icerikleri kontrol et
     final contents = module.contents as List? ?? [];
     final quizzes = module.quizzes as List? ?? [];
@@ -171,7 +173,9 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
                 ? Icons.assignment
                 : Icons.menu_book;
 
-    return IntrinsicHeight(
+    return Opacity(
+      opacity: isLocked ? 0.5 : 1.0,
+      child: IntrinsicHeight(
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         // Timeline sol kismi — nokta ve cizgi
         SizedBox(
@@ -208,7 +212,13 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
               border: Border.all(color: statusColor.withValues(alpha: 0.3)),
             ),
             child: InkWell(
-              onTap: () => Navigator.pushNamed(context, '/module-detail', arguments: module.id),
+              onTap: isLocked
+                  ? () => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text('Onceki modulu tamamlayin: Modul ${index - 1}'),
+                      backgroundColor: ScadaColors.orange,
+                      duration: const Duration(seconds: 2),
+                    ))
+                  : () => Navigator.pushNamed(context, '/module-detail', arguments: module.id),
               borderRadius: BorderRadius.circular(10),
               child: Padding(
                 padding: const EdgeInsets.all(12),
@@ -236,14 +246,21 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
                     const SizedBox(width: 3),
                     Text('${module.estimatedMinutes} dk', style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
                     const Spacer(),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: statusColor.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(4),
+                    if (isLocked)
+                      Row(mainAxisSize: MainAxisSize.min, children: [
+                        Icon(Icons.lock, size: 11, color: ScadaColors.textDim),
+                        const SizedBox(width: 3),
+                        Text('Kilitli', style: TextStyle(fontSize: 9, color: ScadaColors.textDim, fontWeight: FontWeight.w500)),
+                      ])
+                    else
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: statusColor.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(statusText, style: TextStyle(fontSize: 9, color: statusColor, fontWeight: FontWeight.w500)),
                       ),
-                      child: Text(statusText, style: TextStyle(fontSize: 9, color: statusColor, fontWeight: FontWeight.w500)),
-                    ),
                   ]),
                 ]),
               ),
@@ -251,7 +268,7 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
           ),
         ),
       ]),
-    );
+    ));
   }
 }
 
