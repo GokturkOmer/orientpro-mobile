@@ -46,10 +46,11 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
       final q = questions[i];
       maxScore += q.points;
       final selected = _selectedAnswers[i];
-      if (selected != null && selected.toString() == q.correctAnswer) {
+      // Backend correct_answer 1-tabanli (1,2,3...), frontend 0-tabanli (0,1,2...)
+      if (selected != null && (selected + 1).toString() == q.correctAnswer) {
         totalScore += q.points;
       }
-      answers[q.id] = selected?.toString() ?? '';
+      answers[q.id] = selected != null ? (selected + 1).toString() : '';
     }
 
     final auth = ref.read(authProvider);
@@ -206,10 +207,9 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
     final maxScore = questions.fold<double>(0, (sum, q) => sum + q.points);
     final percent = maxScore > 0 ? (_score / maxScore * 100) : 0.0;
 
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(mainAxisSize: MainAxisSize.min, children: [
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(24),
+      child: Column(mainAxisSize: MainAxisSize.min, children: [
           Icon(
             _passed == true ? Icons.celebration : Icons.sentiment_dissatisfied,
             size: 64,
@@ -238,9 +238,10 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
             final idx = entry.key;
             final q = entry.value;
             final userAnswer = _selectedAnswers[idx];
-            final isCorrect = userAnswer?.toString() == q.correctAnswer;
+            // Backend 1-tabanli, frontend 0-tabanli
+            final isCorrect = userAnswer != null && (userAnswer + 1).toString() == q.correctAnswer;
             final options = q.options as List<dynamic>? ?? [];
-            final correctIdx = int.tryParse(q.correctAnswer) ?? -1;
+            final correctIdx = (int.tryParse(q.correctAnswer) ?? 0) - 1; // 1-tabanli -> 0-tabanli
 
             return Container(
               margin: const EdgeInsets.only(bottom: 8),
@@ -306,7 +307,6 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
             child: const Text('Geri Don', style: TextStyle(fontSize: 13, color: Colors.white)),
           ),
         ]),
-      ),
     );
   }
 }

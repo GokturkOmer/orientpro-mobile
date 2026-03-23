@@ -1,5 +1,7 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fl_chart/fl_chart.dart';
 import '../../core/theme/app_theme.dart';
 import '../../providers/admin_provider.dart';
 import '../../providers/auth_provider.dart';
@@ -141,6 +143,12 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
 
                 const SizedBox(height: 20),
 
+                // Charts section
+                if (admin.routes.isNotEmpty) ...[
+                  _buildChartsSection(admin),
+                  const SizedBox(height: 20),
+                ],
+
                 // Quick Actions header
                 Row(children: [
                   const Icon(Icons.flash_on, size: 14, color: ScadaColors.textDim),
@@ -231,6 +239,203 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
         ]),
       ),
     );
+  }
+
+  Widget _buildChartsSection(AdminState admin) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Row(children: [
+        const Icon(Icons.bar_chart, size: 14, color: ScadaColors.textDim),
+        const SizedBox(width: 6),
+        const Text('ISTATISTIKLER', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 1)),
+      ]),
+      const SizedBox(height: 12),
+
+      // Departman bazli rota dagilimi — Bar Chart
+      Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: ScadaColors.card,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: ScadaColors.border),
+        ),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Text('Departman Bazli Rota Dagilimi',
+            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+          const SizedBox(height: 16),
+          SizedBox(
+            height: 180,
+            child: _buildDepartmentBarChart(admin),
+          ),
+        ]),
+      ),
+
+      const SizedBox(height: 12),
+
+      // Modul dagilimi — Pie Chart
+      Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: ScadaColors.card,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: ScadaColors.border),
+        ),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Text('Icerik Dagilimi',
+            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+          const SizedBox(height: 16),
+          SizedBox(
+            height: 180,
+            child: Row(children: [
+              Expanded(child: _buildContentPieChart(admin)),
+              const SizedBox(width: 16),
+              _buildPieLegend(admin),
+            ]),
+          ),
+        ]),
+      ),
+    ]);
+  }
+
+  Widget _buildDepartmentBarChart(AdminState admin) {
+    // Departman bazli rota sayisi
+    final deptMap = <String, int>{};
+    for (final route in admin.routes) {
+      final dept = route.department ?? 'Genel';
+      deptMap[dept] = (deptMap[dept] ?? 0) + 1;
+    }
+    final depts = deptMap.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
+    final maxVal = depts.isEmpty ? 1.0 : depts.first.value.toDouble();
+
+    const colors = [ScadaColors.cyan, ScadaColors.green, ScadaColors.amber, ScadaColors.purple, ScadaColors.orange, ScadaColors.red];
+
+    return BarChart(
+      BarChartData(
+        alignment: BarChartAlignment.spaceAround,
+        maxY: maxVal + 1,
+        barTouchData: BarTouchData(enabled: false),
+        titlesData: FlTitlesData(
+          show: true,
+          bottomTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              getTitlesWidget: (value, meta) {
+                final idx = value.toInt();
+                if (idx < 0 || idx >= depts.length) return const SizedBox.shrink();
+                final label = depts[idx].key;
+                return Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Text(
+                    label.length > 8 ? '${label.substring(0, 8)}..' : label,
+                    style: const TextStyle(fontSize: 9, color: ScadaColors.textDim),
+                  ),
+                );
+              },
+              reservedSize: 24,
+            ),
+          ),
+          leftTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 28,
+              getTitlesWidget: (value, meta) {
+                if (value % 1 != 0) return const SizedBox.shrink();
+                return Text('${value.toInt()}', style: const TextStyle(fontSize: 9, color: ScadaColors.textDim));
+              },
+            ),
+          ),
+          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        ),
+        gridData: FlGridData(
+          show: true,
+          drawVerticalLine: false,
+          horizontalInterval: 1,
+          getDrawingHorizontalLine: (value) => FlLine(
+            color: ScadaColors.border.withValues(alpha: 0.3),
+            strokeWidth: 0.5,
+          ),
+        ),
+        borderData: FlBorderData(show: false),
+        barGroups: List.generate(depts.length, (i) {
+          return BarChartGroupData(
+            x: i,
+            barRods: [
+              BarChartRodData(
+                toY: depts[i].value.toDouble(),
+                color: colors[i % colors.length],
+                width: 20,
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
+              ),
+            ],
+          );
+        }),
+      ),
+    );
+  }
+
+  Widget _buildContentPieChart(AdminState admin) {
+    final routeCount = admin.routes.length;
+    final moduleCount = admin.routes.fold<int>(0, (sum, r) => sum + (r.modules?.length ?? 0));
+    final quizCount = admin.routes.fold<int>(0, (sum, r) {
+      return sum + (r.modules?.fold<int>(0, (s, m) => s + (m.quizzes?.length ?? 0)) ?? 0);
+    });
+
+    final total = max(1, routeCount + moduleCount + quizCount);
+
+    return PieChart(
+      PieChartData(
+        sectionsSpace: 2,
+        centerSpaceRadius: 30,
+        sections: [
+          PieChartSectionData(
+            value: routeCount.toDouble(),
+            color: ScadaColors.cyan,
+            title: '$routeCount',
+            titleStyle: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white),
+            radius: 40,
+            titlePositionPercentageOffset: 0.55,
+          ),
+          PieChartSectionData(
+            value: moduleCount.toDouble(),
+            color: ScadaColors.green,
+            title: '$moduleCount',
+            titleStyle: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white),
+            radius: 40,
+            titlePositionPercentageOffset: 0.55,
+          ),
+          PieChartSectionData(
+            value: quizCount > 0 ? quizCount.toDouble() : 0.5,
+            color: ScadaColors.amber,
+            title: '$quizCount',
+            titleStyle: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white),
+            radius: 40,
+            titlePositionPercentageOffset: 0.55,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPieLegend(AdminState admin) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _legendItem(ScadaColors.cyan, 'Rotalar', admin.routes.length),
+        const SizedBox(height: 8),
+        _legendItem(ScadaColors.green, 'Moduller', admin.routes.fold<int>(0, (sum, r) => sum + (r.modules?.length ?? 0))),
+        const SizedBox(height: 8),
+        _legendItem(ScadaColors.amber, 'Quizler', admin.routes.fold<int>(0, (sum, r) => sum + (r.modules?.fold<int>(0, (s, m) => s + (m.quizzes?.length ?? 0)) ?? 0))),
+      ],
+    );
+  }
+
+  Widget _legendItem(Color color, String label, int count) {
+    return Row(children: [
+      Container(width: 10, height: 10, decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(2))),
+      const SizedBox(width: 6),
+      Text('$label ($count)', style: const TextStyle(fontSize: 11, color: ScadaColors.textSecondary)),
+    ]);
   }
 
   Widget _buildActionCard({
