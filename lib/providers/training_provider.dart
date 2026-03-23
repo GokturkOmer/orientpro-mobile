@@ -278,14 +278,17 @@ class TrainingNotifier extends Notifier<TrainingState> {
   Future<void> loadProgressData(String userId, {String? department, bool isSupervisor = false}) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
-      // Paralel: departments, routes, modules
+      // Paralel: departments, routes
       await Future.wait([
         loadDepartments(),
         loadRoutes(),
-      ]);
-      await loadModules(); // routes gerekli olduğu için sırayla
-      await loadStats(userId);
-      await loadProgress(userId);
+      ]).timeout(const Duration(seconds: 15), onTimeout: () => []);
+      await loadModules(); // routes gerekli
+      // Stats ve progress paralel
+      await Future.wait([
+        loadStats(userId),
+        loadProgress(userId),
+      ]).timeout(const Duration(seconds: 15), onTimeout: () => []);
 
       if (isSupervisor && department != null) {
         final team = await loadTeamProgress(department);
@@ -294,7 +297,7 @@ class TrainingNotifier extends Notifier<TrainingState> {
         state = state.copyWith(isLoading: false);
       }
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: 'Veri yuklenemedi');
+      state = state.copyWith(isLoading: false, error: 'Ilerleme verisi yuklenemedi');
     }
   }
 
