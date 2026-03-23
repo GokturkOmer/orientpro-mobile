@@ -89,7 +89,8 @@ class ChatNotifier extends Notifier<ChatBotState> {
 
       final reply = response.data['response'] ?? response.data['answer'] ?? response.data['message'] ?? 'Yanit alinamadi.';
       final sources = response.data['sources'] != null ? List<String>.from(response.data['sources']) : <String>[];
-      final botMsg = ChatMessage(text: reply.toString(), isUser: false, sources: sources);
+      final verified = response.data['verified'] as bool?;
+      final botMsg = ChatMessage(text: reply.toString(), isUser: false, sources: sources, verified: verified);
       state = state.copyWith(messages: [...state.messages, botMsg], isLoading: false);
     } on DioException catch (e) {
       final errText = 'Hata: ${ErrorHelper.getMessage(e)}';

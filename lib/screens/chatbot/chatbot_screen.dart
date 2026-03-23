@@ -189,19 +189,37 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
                     codeblockDecoration: BoxDecoration(color: const Color(0xFF0d1520), borderRadius: BorderRadius.circular(8)),
                   ),
                 ),
-          if (message.sources.isNotEmpty) ...[
+          if (message.sources.isNotEmpty || message.verified != null) ...[
             const SizedBox(height: 10),
             const Divider(color: Color(0xFF243040), height: 1),
             const SizedBox(height: 8),
-            Wrap(spacing: 6, runSpacing: 4, children: message.sources.map((s) => Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-              decoration: BoxDecoration(color: const Color(0xFF1a2a3a), borderRadius: BorderRadius.circular(10)),
-              child: Row(mainAxisSize: MainAxisSize.min, children: [
-                const Icon(Icons.description, size: 10, color: Colors.grey),
-                const SizedBox(width: 4),
-                Text(s, style: const TextStyle(fontSize: 10, color: Colors.grey)),
-              ]),
-            )).toList()),
+            // Dogrulama gostergesi
+            if (message.verified != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 6),
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                  Icon(
+                    message.verified! ? Icons.verified : Icons.warning_amber,
+                    size: 12,
+                    color: message.verified! ? Colors.green : Colors.orange,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    message.verified! ? 'Dogrulandi' : 'Dogrulanamadi — yetkiliye danisin',
+                    style: TextStyle(fontSize: 10, color: message.verified! ? Colors.green : Colors.orange),
+                  ),
+                ]),
+              ),
+            if (message.sources.isNotEmpty)
+              Wrap(spacing: 6, runSpacing: 4, children: message.sources.map((s) => Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(color: const Color(0xFF1a2a3a), borderRadius: BorderRadius.circular(10)),
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                  const Icon(Icons.description, size: 10, color: Colors.grey),
+                  const SizedBox(width: 4),
+                  Text(s, style: const TextStyle(fontSize: 10, color: Colors.grey)),
+                ]),
+              )).toList()),
           ],
         ]),
       ),
