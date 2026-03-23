@@ -92,12 +92,13 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
                     ]),
                     const SizedBox(height: 12),
 
-                    // Module list
+                    // Module timeline
                     if (route.modules != null && route.modules!.isNotEmpty)
                       ...route.modules!.asMap().entries.map((entry) {
                         final idx = entry.key;
                         final module = entry.value;
-                        return _buildModuleItem(idx + 1, module);
+                        final isLast = idx == route.modules!.length - 1;
+                        return _buildTimelineItem(idx + 1, module, isLast);
                       })
                     else
                       Center(
@@ -130,7 +131,38 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
     );
   }
 
-  Widget _buildModuleItem(int index, module) {
+  Widget _buildTimelineItem(int index, dynamic module, bool isLast) {
+    // Modul durumunu belirle: tamamlanan icerikleri kontrol et
+    final contents = module.contents as List? ?? [];
+    final quizzes = module.quizzes as List? ?? [];
+    final totalItems = contents.length + quizzes.length;
+
+    // Basit durum tahmini: icerik ve quiz varsa
+    // Gercek tamamlanma durumu backend'den gelmeli, simdilik index bazli gosterim
+    _ModuleStatus status = _ModuleStatus.notStarted;
+    if (totalItems == 0) {
+      status = _ModuleStatus.notStarted;
+    }
+
+    final Color statusColor;
+    final IconData statusIcon;
+    final String statusText;
+
+    switch (status) {
+      case _ModuleStatus.completed:
+        statusColor = ScadaColors.green;
+        statusIcon = Icons.check_circle;
+        statusText = 'Tamamlandi';
+      case _ModuleStatus.inProgress:
+        statusColor = ScadaColors.orange;
+        statusIcon = Icons.play_circle;
+        statusText = 'Devam Ediyor';
+      case _ModuleStatus.notStarted:
+        statusColor = ScadaColors.textDim;
+        statusIcon = Icons.radio_button_unchecked;
+        statusText = 'Baslanmadi';
+    }
+
     final typeIcon = module.moduleType == 'video'
         ? Icons.play_circle_fill
         : module.moduleType == 'practice'
@@ -139,37 +171,89 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
                 ? Icons.assignment
                 : Icons.menu_book;
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      decoration: BoxDecoration(
-        color: ScadaColors.card,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: ScadaColors.border),
-      ),
-      child: ListTile(
-        dense: true,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-        leading: Container(
-          width: 32, height: 32,
-          decoration: BoxDecoration(
-            color: ScadaColors.cyan.withValues(alpha: 0.12),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Center(child: Text('$index', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: ScadaColors.cyan))),
+    return IntrinsicHeight(
+      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        // Timeline sol kismi — nokta ve cizgi
+        SizedBox(
+          width: 40,
+          child: Column(children: [
+            // Durum noktasi
+            Container(
+              width: 28, height: 28,
+              decoration: BoxDecoration(
+                color: statusColor.withValues(alpha: 0.15),
+                shape: BoxShape.circle,
+                border: Border.all(color: statusColor, width: 2),
+              ),
+              child: Center(child: Icon(statusIcon, size: 14, color: statusColor)),
+            ),
+            // Dikey cizgi (son eleman degilse)
+            if (!isLast)
+              Expanded(
+                child: Container(
+                  width: 2,
+                  color: ScadaColors.border,
+                ),
+              ),
+          ]),
         ),
-        title: Text(module.title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
-        subtitle: Row(children: [
-          Icon(typeIcon, size: 11, color: ScadaColors.textDim),
-          const SizedBox(width: 3),
-          Text(module.typeText, style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
-          const SizedBox(width: 8),
-          Icon(Icons.timer_outlined, size: 11, color: ScadaColors.textDim),
-          const SizedBox(width: 3),
-          Text('${module.estimatedMinutes} dk', style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
-        ]),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 12, color: ScadaColors.textDim),
-        onTap: () => Navigator.pushNamed(context, '/module-detail', arguments: module.id),
-      ),
+        const SizedBox(width: 8),
+        // Modul karti
+        Expanded(
+          child: Container(
+            margin: const EdgeInsets.only(bottom: 12),
+            decoration: BoxDecoration(
+              color: ScadaColors.card,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: statusColor.withValues(alpha: 0.3)),
+            ),
+            child: InkWell(
+              onTap: () => Navigator.pushNamed(context, '/module-detail', arguments: module.id),
+              borderRadius: BorderRadius.circular(10),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Row(children: [
+                    Container(
+                      width: 28, height: 28,
+                      decoration: BoxDecoration(
+                        color: ScadaColors.cyan.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Center(child: Text('$index', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: ScadaColors.cyan))),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(child: Text(module.title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary))),
+                    const Icon(Icons.arrow_forward_ios, size: 12, color: ScadaColors.textDim),
+                  ]),
+                  const SizedBox(height: 8),
+                  Row(children: [
+                    Icon(typeIcon, size: 11, color: ScadaColors.textDim),
+                    const SizedBox(width: 3),
+                    Text(module.typeText, style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+                    const SizedBox(width: 10),
+                    Icon(Icons.timer_outlined, size: 11, color: ScadaColors.textDim),
+                    const SizedBox(width: 3),
+                    Text('${module.estimatedMinutes} dk', style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
+                    const Spacer(),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: statusColor.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(statusText, style: TextStyle(fontSize: 9, color: statusColor, fontWeight: FontWeight.w500)),
+                    ),
+                  ]),
+                ]),
+              ),
+            ),
+          ),
+        ),
+      ]),
     );
   }
 }
+
+enum _ModuleStatus { completed, inProgress, notStarted }
+
