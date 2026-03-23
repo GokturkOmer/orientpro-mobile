@@ -69,8 +69,24 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
       ),
       body: training.isLoading
           ? const Center(child: CircularProgressIndicator(color: ScadaColors.cyan))
-          : module == null
-              ? const Center(child: Text('Modul bulunamadi', style: TextStyle(color: ScadaColors.textSecondary)))
+          : training.error != null
+              ? Center(child: Padding(
+                  padding: const EdgeInsets.all(32),
+                  child: Column(mainAxisSize: MainAxisSize.min, children: [
+                    const Icon(Icons.lock, size: 48, color: ScadaColors.orange),
+                    const SizedBox(height: 16),
+                    Text(training.error!, style: const TextStyle(color: ScadaColors.textPrimary, fontSize: 14), textAlign: TextAlign.center),
+                    const SizedBox(height: 16),
+                    ElevatedButton.icon(
+                      onPressed: () => Navigator.pop(context),
+                      icon: const Icon(Icons.arrow_back, size: 16),
+                      label: const Text('Geri Don'),
+                      style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.orange, foregroundColor: Colors.white),
+                    ),
+                  ]),
+                ))
+              : module == null
+                  ? const Center(child: Text('Modul bulunamadi', style: TextStyle(color: ScadaColors.textSecondary)))
               : ListView(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
                   children: [
