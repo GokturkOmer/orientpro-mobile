@@ -380,8 +380,6 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
       return sum + (r.modules?.fold<int>(0, (s, m) => s + (m.quizzes?.length ?? 0)) ?? 0);
     });
 
-    final total = max(1, routeCount + moduleCount + quizCount);
-
     return PieChart(
       PieChartData(
         sectionsSpace: 2,
