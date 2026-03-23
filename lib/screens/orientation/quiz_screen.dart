@@ -47,7 +47,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
       maxScore += q.points;
       final selected = _selectedAnswers[i];
       if (selected != null) {
-        final options = q.options as List<dynamic>? ?? [];
+        final options = q.options ?? [];
         final selectedText = selected < options.length ? options[selected].toString() : '';
         // Backend correct_answer iki formatta olabilir:
         // 1) Index: "1", "2", "3" (seed data)
