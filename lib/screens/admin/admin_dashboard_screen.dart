@@ -300,7 +300,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
     // Departman bazli rota sayisi
     final deptMap = <String, int>{};
     for (final route in admin.routes) {
-      final dept = route.department ?? 'Genel';
+      final dept = route.departmentName ?? 'Genel';
       deptMap[dept] = (deptMap[dept] ?? 0) + 1;
     }
     final depts = deptMap.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
