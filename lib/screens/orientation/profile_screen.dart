@@ -41,6 +41,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final profileState = ref.watch(profileProvider);
     final profile = profileState.profile;
     final summary = profileState.summary;
+    final auth = ref.watch(authProvider);
 
     return Scaffold(
       backgroundColor: ScadaColors.bg,
@@ -214,6 +215,25 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           border: Border.all(color: ScadaColors.border),
                         ),
                         child: Text(profile.bio!, style: const TextStyle(fontSize: 12, color: ScadaColors.textSecondary)),
+                      ),
+                    ],
+
+                    // Abonelik Yonetimi (sadece admin)
+                    if (auth.user?.role == 'admin' || auth.user?.role == 'facility_manager') ...[
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton.icon(
+                          onPressed: () => Navigator.pushNamed(context, '/subscription'),
+                          icon: const Icon(Icons.card_membership, size: 18),
+                          label: const Text('Abonelik Yonetimi'),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: ScadaColors.cyan,
+                            side: BorderSide(color: ScadaColors.cyan.withValues(alpha: 0.3)),
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                          ),
+                        ),
                       ),
                     ],
 
