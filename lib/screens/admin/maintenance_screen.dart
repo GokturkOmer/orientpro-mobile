@@ -34,21 +34,52 @@ class _MaintenanceScreenState extends ConsumerState<MaintenanceScreen> {
     setState(() { _loading = true; _error = null; });
     try {
       final dio = ref.read(authDioProvider);
-      final results = await Future.wait([
-        dio.get('/health/detailed'),
-        dio.get('/maintenance/system-info'),
-        dio.get('/maintenance/db-stats'),
-        dio.get('/maintenance/recent-activity?limit=20'),
-      ]);
+
+      // Sirayla cagir — hangi endpoint hatali bulalim
+      Map<String, dynamic> health = {};
+      Map<String, dynamic> system = {};
+      Map<String, dynamic> dbStats = {};
+      List<dynamic> activity = [];
+
+      try {
+        final r1 = await dio.get('/health/detailed');
+        health = Map<String, dynamic>.from(r1.data as Map);
+      } catch (e) {
+        health = {'overall': 'bilinmiyor', 'services': {}, 'error': '$e'};
+      }
+
+      try {
+        final r2 = await dio.get('/maintenance/system-info');
+        system = Map<String, dynamic>.from(r2.data as Map);
+      } catch (e) {
+        system = {'cpu_percent': 0, 'memory': {}, 'disk': {}, 'error': '$e'};
+      }
+
+      try {
+        final r3 = await dio.get('/maintenance/db-stats');
+        dbStats = Map<String, dynamic>.from(r3.data as Map);
+      } catch (e) {
+        dbStats = {'tables': {}, 'database_size': 'bilinmiyor', 'error': '$e'};
+      }
+
+      try {
+        final r4 = await dio.get('/maintenance/recent-activity', queryParameters: {'limit': 20});
+        activity = r4.data as List;
+      } catch (_) {
+        activity = [];
+      }
+
+      if (!mounted) return;
       setState(() {
-        _health = results[0].data as Map<String, dynamic>;
-        _system = results[1].data as Map<String, dynamic>;
-        _dbStats = results[2].data as Map<String, dynamic>;
-        _recentActivity = results[3].data as List;
+        _health = health;
+        _system = system;
+        _dbStats = dbStats;
+        _recentActivity = activity;
         _loading = false;
       });
     } catch (e) {
-      setState(() { _loading = false; _error = ErrorHelper.getMessage(e); });
+      if (!mounted) return;
+      setState(() { _loading = false; _error = 'Hata: $e'; });
     }
   }
 
@@ -115,7 +146,7 @@ class _MaintenanceScreenState extends ConsumerState<MaintenanceScreen> {
   // ===== SERVIS SAGLIGI =====
   Widget _buildHealthSection() {
     final overall = _health['overall'] ?? 'bilinmiyor';
-    final services = _health['services'] as Map<String, dynamic>? ?? {};
+    final services = _health['services'] != null ? Map<String, dynamic>.from(_health['services'] as Map) : <String, dynamic>{};
     final isHealthy = overall == 'saglikli';
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -137,7 +168,7 @@ class _MaintenanceScreenState extends ConsumerState<MaintenanceScreen> {
           const SizedBox(height: 12),
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             ...services.entries.map((e) {
-              final svc = e.value as Map<String, dynamic>;
+              final svc = e.value is Map ? Map<String, dynamic>.from(e.value as Map) : <String, dynamic>{};
               final ok = svc['status'] == 'ok';
               final ms = svc['response_ms'];
               return Column(children: [
@@ -155,8 +186,8 @@ class _MaintenanceScreenState extends ConsumerState<MaintenanceScreen> {
 
   // ===== SUNUCU BILGILERI =====
   Widget _buildSystemSection() {
-    final mem = _system['memory'] as Map<String, dynamic>? ?? {};
-    final disk = _system['disk'] as Map<String, dynamic>? ?? {};
+    final mem = _system['memory'] != null ? Map<String, dynamic>.from(_system['memory'] as Map) : <String, dynamic>{};
+    final disk = _system['disk'] != null ? Map<String, dynamic>.from(_system['disk'] as Map) : <String, dynamic>{};
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       _sectionHeader(Icons.computer, 'SUNUCU BILGILERI'),
@@ -190,7 +221,7 @@ class _MaintenanceScreenState extends ConsumerState<MaintenanceScreen> {
 
   // ===== VERITABANI ISTATISTIKLERI =====
   Widget _buildDbStatsSection() {
-    final tables = _dbStats['tables'] as Map<String, dynamic>? ?? {};
+    final tables = _dbStats['tables'] != null ? Map<String, dynamic>.from(_dbStats['tables'] as Map) : <String, dynamic>{};
     final dbSize = _dbStats['database_size'] ?? 'bilinmiyor';
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
