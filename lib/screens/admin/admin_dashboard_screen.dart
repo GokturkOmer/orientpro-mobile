@@ -239,6 +239,12 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                   title: 'Rol Yonetimi',
                   onTap: () => Navigator.pushNamed(context, '/admin/roles'),
                 ),
+                const SizedBox(height: 8),
+                _buildActionCard(
+                  icon: Icons.developer_board,
+                  title: 'Bakim Paneli',
+                  onTap: () => Navigator.pushNamed(context, '/admin/maintenance'),
+                ),
 
                 const SizedBox(height: 16),
               ]),
