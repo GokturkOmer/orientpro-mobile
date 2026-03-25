@@ -43,3 +43,22 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Sensitive / Secret files
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+google-services.json
+GoogleService-Info.plist
+
+# Claude Code worktrees & local settings
+.claude/worktrees/
+.claude/settings.local.json
+
+# OS files
+Thumbs.db
+Desktop.ini
