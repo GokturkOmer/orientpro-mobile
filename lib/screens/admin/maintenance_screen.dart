@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/network/auth_dio.dart';
-import '../../core/utils/error_helper.dart';
+
 
 class MaintenanceScreen extends ConsumerStatefulWidget {
   const MaintenanceScreen({super.key});
@@ -15,14 +15,11 @@ class _MaintenanceScreenState extends ConsumerState<MaintenanceScreen> {
   bool _loading = true;
   String? _error;
 
-  // Health
   Map<String, dynamic> _health = {};
-  // System
   Map<String, dynamic> _system = {};
-  // DB stats
   Map<String, dynamic> _dbStats = {};
-  // Recent activity
   List<dynamic> _recentActivity = [];
+  List<dynamic> _dockerServices = [];
 
   @override
   void initState() {
@@ -69,12 +66,21 @@ class _MaintenanceScreenState extends ConsumerState<MaintenanceScreen> {
         activity = [];
       }
 
+      List<dynamic> docker = [];
+      try {
+        final r5 = await dio.get('/maintenance/docker-services');
+        docker = r5.data as List;
+      } catch (_) {
+        docker = [];
+      }
+
       if (!mounted) return;
       setState(() {
         _health = health;
         _system = system;
         _dbStats = dbStats;
         _recentActivity = activity;
+        _dockerServices = docker;
         _loading = false;
       });
     } catch (e) {
@@ -131,6 +137,10 @@ class _MaintenanceScreenState extends ConsumerState<MaintenanceScreen> {
                     padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                       _buildHealthSection(),
+                      const SizedBox(height: 20),
+                      _buildDockerSection(),
+                      const SizedBox(height: 20),
+                      _buildActionsSection(),
                       const SizedBox(height: 20),
                       _buildSystemSection(),
                       const SizedBox(height: 20),
@@ -261,6 +271,221 @@ class _MaintenanceScreenState extends ConsumerState<MaintenanceScreen> {
         ]),
       ),
     ]);
+  }
+
+  // ===== DOCKER SERVISLERI =====
+  Widget _buildDockerSection() {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      _sectionHeader(Icons.dns, 'DOCKER SERVISLERI'),
+      const SizedBox(height: 12),
+      if (_dockerServices.isEmpty)
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(color: context.scada.card, borderRadius: BorderRadius.circular(8), border: Border.all(color: context.scada.border)),
+          child: Text('Docker servis bilgisi alinamadi', style: TextStyle(fontSize: 12, color: context.scada.textDim)),
+        )
+      else
+        ..._dockerServices.map((svc) {
+          final s = svc is Map ? Map<String, dynamic>.from(svc) : <String, dynamic>{};
+          final name = s['name'] ?? '';
+          final running = s['running'] == true;
+          final status = s['status'] ?? 'unknown';
+          final image = s['image'] ?? '';
+          final startedAt = s['started_at'] ?? '';
+
+          return Container(
+            margin: const EdgeInsets.only(bottom: 8),
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: context.scada.card,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: (running ? ScadaColors.green : ScadaColors.red).withValues(alpha: 0.3)),
+            ),
+            child: Row(children: [
+              Container(
+                width: 8, height: 8,
+                decoration: BoxDecoration(shape: BoxShape.circle, color: running ? ScadaColors.green : ScadaColors.red),
+              ),
+              const SizedBox(width: 10),
+              Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(_serviceFriendlyName(name), style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
+                Text('$status ${image.isNotEmpty ? "• $image" : ""}', style: TextStyle(fontSize: 9, color: context.scada.textDim)),
+                if (startedAt.isNotEmpty) Text('Baslangic: $startedAt', style: TextStyle(fontSize: 9, color: context.scada.textDim)),
+              ])),
+              SizedBox(
+                height: 28,
+                child: ElevatedButton(
+                  onPressed: () => _restartDocker(name),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ScadaColors.amber.withValues(alpha: 0.15),
+                    foregroundColor: ScadaColors.amber,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+                    elevation: 0,
+                  ),
+                  child: const Row(mainAxisSize: MainAxisSize.min, children: [
+                    Icon(Icons.refresh, size: 12),
+                    SizedBox(width: 4),
+                    Text('Restart', style: TextStyle(fontSize: 10)),
+                  ]),
+                ),
+              ),
+            ]),
+          );
+        }),
+    ]);
+  }
+
+  // ===== HIZLI AKSIYONLAR =====
+  Widget _buildActionsSection() {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      _sectionHeader(Icons.flash_on, 'HIZLI AKSIYONLAR'),
+      const SizedBox(height: 12),
+      Row(children: [
+        Expanded(child: _actionButton(
+          icon: Icons.cleaning_services,
+          label: 'Redis Cache\nTemizle',
+          color: ScadaColors.orange,
+          onTap: _clearRedisCache,
+        )),
+        const SizedBox(width: 8),
+        Expanded(child: _actionButton(
+          icon: Icons.storage,
+          label: 'DB Vacuum\nOptimize',
+          color: ScadaColors.purple,
+          onTap: _vacuumDb,
+        )),
+        const SizedBox(width: 8),
+        Expanded(child: _actionButton(
+          icon: Icons.play_arrow,
+          label: 'Zamanlanmis\nGorevler',
+          color: ScadaColors.cyan,
+          onTap: _runScheduledTasks,
+        )),
+      ]),
+    ]);
+  }
+
+  Widget _actionButton({required IconData icon, required String label, required Color color, required VoidCallback onTap}) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(10),
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: color.withValues(alpha: 0.08),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: color.withValues(alpha: 0.25)),
+        ),
+        child: Column(children: [
+          Icon(icon, color: color, size: 24),
+          const SizedBox(height: 8),
+          Text(label, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: color), textAlign: TextAlign.center),
+        ]),
+      ),
+    );
+  }
+
+  Future<void> _restartDocker(String containerName) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: context.scada.surface,
+        title: Text('Servisi Yeniden Baslat', style: TextStyle(color: context.scada.textPrimary)),
+        content: Text('${_serviceFriendlyName(containerName)} yeniden baslatilacak. Emin misiniz?', style: TextStyle(color: context.scada.textSecondary)),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text('Iptal', style: TextStyle(color: context.scada.textDim))),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.amber),
+            child: const Text('Yeniden Baslat'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+
+    try {
+      final dio = ref.read(authDioProvider);
+      final response = await dio.post('/maintenance/docker-restart/$containerName');
+      final result = response.data is Map ? Map<String, dynamic>.from(response.data as Map) : <String, dynamic>{};
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(result['message'] ?? 'Tamamlandi'),
+          backgroundColor: result['success'] == true ? ScadaColors.green : ScadaColors.red,
+        ));
+        _loadAll(); // Yenile
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Hata: $e'), backgroundColor: ScadaColors.red));
+      }
+    }
+  }
+
+  Future<void> _clearRedisCache() async {
+    try {
+      final dio = ref.read(authDioProvider);
+      final response = await dio.post('/maintenance/clear-redis-cache');
+      final result = response.data is Map ? Map<String, dynamic>.from(response.data as Map) : <String, dynamic>{};
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(result['message'] ?? 'Tamamlandi'),
+          backgroundColor: result['success'] == true ? ScadaColors.green : ScadaColors.red,
+        ));
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Hata: $e'), backgroundColor: ScadaColors.red));
+      }
+    }
+  }
+
+  Future<void> _vacuumDb() async {
+    try {
+      final dio = ref.read(authDioProvider);
+      final response = await dio.post('/maintenance/vacuum-db');
+      final result = response.data is Map ? Map<String, dynamic>.from(response.data as Map) : <String, dynamic>{};
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(result['message'] ?? 'Tamamlandi'),
+          backgroundColor: result['success'] == true ? ScadaColors.green : ScadaColors.red,
+        ));
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Hata: $e'), backgroundColor: ScadaColors.red));
+      }
+    }
+  }
+
+  Future<void> _runScheduledTasks() async {
+    try {
+      final dio = ref.read(authDioProvider);
+      final response = await dio.post('/health/run-tasks');
+      final result = response.data is Map ? Map<String, dynamic>.from(response.data as Map) : <String, dynamic>{};
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Gorevler tamamlandi: ${result.keys.join(", ")}'),
+          backgroundColor: ScadaColors.green,
+        ));
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Hata: $e'), backgroundColor: ScadaColors.red));
+      }
+    }
+  }
+
+  String _serviceFriendlyName(String name) {
+    const names = {
+      'orientpro-db': 'PostgreSQL',
+      'orientpro-redis': 'Redis',
+      'orientpro-minio': 'MinIO',
+      'orientpro-ollama': 'Ollama (AI)',
+    };
+    return names[name] ?? name;
   }
 
   // ===== SON AKTIVITELER =====
