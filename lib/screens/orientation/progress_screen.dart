@@ -20,6 +20,7 @@ class ProgressScreen extends ConsumerStatefulWidget {
 class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTickerProviderStateMixin {
   bool _isSupervisor = false;
   TabController? _tabController;
+  List<SpacedReview> _pendingReviews = [];
 
   @override
   void initState() {
@@ -46,6 +47,9 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
       department: auth.user!.department,
       isSupervisor: _isSupervisor,
     );
+    // Tekrar gereken konulari yukle
+    final reviews = await ref.read(trainingProvider.notifier).loadPendingReviews(auth.user!.id);
+    if (mounted) setState(() => _pendingReviews = reviews);
   }
 
   Future<void> _downloadReport() async {
@@ -191,6 +195,15 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
         children: [
           if (training.stats != null) _buildOverallProgressCard(training.stats!),
+
+          // Tekrar gereken konular
+          if (_pendingReviews.isNotEmpty) ...[
+            const SizedBox(height: 20),
+            _buildSectionHeader(Icons.replay, 'TEKRAR GEREKEN KONULAR'),
+            const SizedBox(height: 12),
+            ..._pendingReviews.map((review) => _buildReviewCard(review, training)),
+          ],
+
           const SizedBox(height: 20),
           _buildSectionHeader(Icons.business, 'DEPARTMAN BAZLI ILERLEME'),
           const SizedBox(height: 12),
@@ -506,6 +519,85 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
       case 'practice': return 'Uygulama';
       case 'assessment': return 'Degerlendirme';
       default: return 'Ders';
+    }
+  }
+
+  Widget _buildReviewCard(SpacedReview review, TrainingState training) {
+    final info = training.moduleMap[review.moduleId];
+    final moduleName = info?.title ?? 'Modul';
+    final weakCount = review.weakQuestionIds?.length ?? 0;
+    final reasonText = review.reason == 'quiz_fail' ? 'Quiz basarisiz' : 'Dusuk puan';
+    final intervalText = '${review.intervalDays} gun araliklarla tekrar';
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: context.scada.card,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: ScadaColors.orange.withValues(alpha: 0.4)),
+      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Row(children: [
+          Container(
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              color: ScadaColors.orange.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: const Icon(Icons.replay, color: ScadaColors.orange, size: 18),
+          ),
+          const SizedBox(width: 10),
+          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(moduleName, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary), maxLines: 1, overflow: TextOverflow.ellipsis),
+            const SizedBox(height: 2),
+            Row(children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                decoration: BoxDecoration(color: ScadaColors.orange.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(4)),
+                child: Text(reasonText, style: const TextStyle(fontSize: 9, color: ScadaColors.orange)),
+              ),
+              const SizedBox(width: 6),
+              Text('$weakCount zayif soru', style: TextStyle(fontSize: 9, color: context.scada.textDim)),
+            ]),
+          ])),
+        ]),
+        const SizedBox(height: 10),
+        Row(children: [
+          Icon(Icons.schedule, size: 12, color: context.scada.textDim),
+          const SizedBox(width: 4),
+          Text(intervalText, style: TextStyle(fontSize: 10, color: context.scada.textDim)),
+          const Spacer(),
+          SizedBox(
+            height: 30,
+            child: ElevatedButton.icon(
+              onPressed: () => _startReview(review),
+              icon: const Icon(Icons.play_arrow, size: 14),
+              label: const Text('Tekrar Et', style: TextStyle(fontSize: 11)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: ScadaColors.orange,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+              ),
+            ),
+          ),
+        ]),
+      ]),
+    );
+  }
+
+  Future<void> _startReview(SpacedReview review) async {
+    // Tamamla ve quiz ekranina yonlendir
+    final success = await ref.read(trainingProvider.notifier).completeReview(review.id);
+    if (success && mounted) {
+      Navigator.pushNamed(context, '/quiz', arguments: {'quizId': review.quizId});
+      // Listeyi guncelle
+      final auth = ref.read(authProvider);
+      if (auth.user != null) {
+        final reviews = await ref.read(trainingProvider.notifier).loadPendingReviews(auth.user!.id);
+        if (mounted) setState(() => _pendingReviews = reviews);
+      }
     }
   }
 

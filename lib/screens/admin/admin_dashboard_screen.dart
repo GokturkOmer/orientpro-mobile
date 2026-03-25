@@ -213,6 +213,12 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                   title: 'Icerik Kutuphanesi',
                   onTap: () => Navigator.pushNamed(context, '/library'),
                 ),
+                const SizedBox(height: 8),
+                _buildActionCard(
+                  icon: Icons.analytics,
+                  title: 'Kullanim Analitigi',
+                  onTap: () => Navigator.pushNamed(context, '/admin/analytics'),
+                ),
 
                 const SizedBox(height: 16),
               ]),

@@ -1,11 +1,11 @@
 # OrientPro Projesi
 
 ## Tech Stack
-- **Backend**: FastAPI (Python 3.11), PostgreSQL 16 (TimescaleDB), Redis 7, Docker
+- **Backend**: FastAPI (Python 3.12), PostgreSQL 16 (TimescaleDB), Redis 7, Docker
 - **Frontend**: Flutter 3.x (Web + cross-platform ready), Dart
 - **State Management**: Riverpod 3.x (NotifierProvider kullan, StateProvider/ChangeNotifier YASAK)
 - **HTTP Client**: Dio 5.9.1 — auth gerektiren istekler `authDioProvider` uzerinden yapilir
-- **AI**: Ollama + Gemma3 4B (GPU), ChromaDB (RAG)
+- **AI**: Gemini 2.5 Flash (API) + nomic-embed-text (Ollama, lokal GPU), ChromaDB (RAG)
 - **Ortam**: Backend WSL2 Ubuntu (Docker), Frontend Windows
 
 ## Dosya Konumlari
@@ -13,6 +13,10 @@
 - **Flutter**: `C:\Users\omera\orientpro_mobile\`
 - **ChromaDB verisi**: `~/orientpro/backend/data/chromadb/` (/tmp DEGIL)
 - **Proje dokumani**: `C:\Users\omera\Downloads\OrientPro_Proje_Ozeti.md`
+
+## GitHub
+- **Repo:** https://github.com/GokturkOmer/orientpro-mobile (private)
+- **Push:** `"/c/Program Files/GitHub CLI/gh.exe" auth setup-git && git push origin main`
 
 ## Komutlar
 
