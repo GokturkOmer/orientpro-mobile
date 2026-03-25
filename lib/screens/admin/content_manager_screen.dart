@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/auth/role_helper.dart';
+import '../../core/network/auth_dio.dart';
 import '../../providers/admin_provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../models/training.dart';
@@ -854,6 +855,90 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
     );
   }
 
+  Future<void> _showVersionHistory(String contentId) async {
+    final dio = ref.read(authDioProvider);
+    try {
+      final response = await dio.get('/training/contents/$contentId/versions');
+      final versions = response.data as List;
+      if (!mounted) return;
+      showModalBottomSheet(
+        context: context,
+        backgroundColor: context.scada.surface,
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
+        builder: (ctx) => Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+            Row(children: [
+              const Icon(Icons.history, size: 18, color: ScadaColors.purple),
+              const SizedBox(width: 8),
+              Text('Versiyon Gecmisi', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+            ]),
+            const SizedBox(height: 12),
+            if (versions.isEmpty)
+              Padding(
+                padding: const EdgeInsets.all(24),
+                child: Text('Henuz versiyon gecmisi yok', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
+              )
+            else
+              ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: MediaQuery.of(ctx).size.height * 0.4),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: versions.length,
+                  itemBuilder: (_, i) {
+                    final v = versions[i] as Map<String, dynamic>;
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 8),
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: context.scada.card,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: context.scada.border),
+                      ),
+                      child: Row(children: [
+                        Container(
+                          width: 28, height: 28,
+                          decoration: BoxDecoration(color: ScadaColors.purple.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(14)),
+                          child: Center(child: Text('v${v['version_number']}', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: ScadaColors.purple))),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                          Text(v['title'] ?? '', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: context.scada.textPrimary), maxLines: 1, overflow: TextOverflow.ellipsis),
+                          if (v['change_note'] != null)
+                            Text(v['change_note'], style: TextStyle(fontSize: 10, color: context.scada.textDim)),
+                          Text(v['created_at']?.toString().substring(0, 10) ?? '', style: TextStyle(fontSize: 9, color: context.scada.textDim)),
+                        ])),
+                        TextButton(
+                          onPressed: () async {
+                            Navigator.pop(ctx);
+                            try {
+                              await dio.post('/training/contents/$contentId/rollback/${v['id']}');
+                              if (mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('v${v['version_number']} versiyonuna geri donuldu'), backgroundColor: ScadaColors.green));
+                              }
+                            } catch (_) {
+                              if (mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Geri donus basarisiz'), backgroundColor: ScadaColors.red));
+                              }
+                            }
+                          },
+                          child: const Text('Geri Al', style: TextStyle(fontSize: 10, color: ScadaColors.orange)),
+                        ),
+                      ]),
+                    );
+                  },
+                ),
+              ),
+          ]),
+        ),
+      );
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Versiyon gecmisi yuklenemedi'), backgroundColor: ScadaColors.red));
+      }
+    }
+  }
+
   Widget _buildContentCard(ModuleContent content) {
     final contentTypeIcon = _contentTypeIcon(content.contentType);
     final contentTypeColor = _contentTypeColor(content.contentType);
@@ -906,6 +991,22 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                   const SizedBox(width: 8),
                 ],
                 Text('Sira: ${content.sortOrder}', style: TextStyle(fontSize: 9, color: context.scada.textDim)),
+                const SizedBox(width: 4),
+                InkWell(
+                  onTap: () => _showVersionHistory(content.id),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: ScadaColors.purple.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: const Row(mainAxisSize: MainAxisSize.min, children: [
+                      Icon(Icons.history, size: 12, color: ScadaColors.purple),
+                      SizedBox(width: 2),
+                      Text('Gecmis', style: TextStyle(fontSize: 9, color: ScadaColors.purple, fontWeight: FontWeight.w600)),
+                    ]),
+                  ),
+                ),
               ],
             ),
             // PDF tags

@@ -52,6 +52,8 @@ import 'screens/admin/document_pool_screen.dart';
 import 'screens/admin/user_management_screen.dart';
 import 'screens/admin/content_approval_screen.dart';
 import 'screens/admin/analytics_screen.dart';
+import 'screens/admin/sector_template_screen.dart';
+import 'screens/admin/role_management_screen.dart';
 import 'screens/orientation/certificate_screen.dart';
 import 'screens/orientation/badges_screen.dart';
 import 'screens/orientation/leaderboard_screen.dart';
@@ -128,6 +130,8 @@ class OrientProApp extends ConsumerWidget {
         '/admin/users': (context) => const _AdminGuard(child: UserManagementScreen()),
         '/admin/approvals': (context) => const _ContentEditorGuard(child: ContentApprovalScreen()),
         '/admin/analytics': (context) => const _AdminGuard(child: AnalyticsScreen()),
+        '/admin/templates': (context) => const _AdminGuard(child: SectorTemplateScreen()),
+        '/admin/roles': (context) => const _AdminGuard(child: RoleManagementScreen()),
         '/badges': (context) => const BadgesScreen(),
         '/leaderboard': (context) => const LeaderboardScreen(),
       },

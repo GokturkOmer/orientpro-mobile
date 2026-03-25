@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/config/api_config.dart';
 import '../../providers/admin_provider.dart';
 import '../../providers/auth_provider.dart';
 
@@ -218,6 +220,24 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                   icon: Icons.analytics,
                   title: 'Kullanim Analitigi',
                   onTap: () => Navigator.pushNamed(context, '/admin/analytics'),
+                ),
+                const SizedBox(height: 8),
+                _buildActionCard(
+                  icon: Icons.table_chart,
+                  title: 'Excel Export',
+                  onTap: () => _exportExcel(context),
+                ),
+                const SizedBox(height: 8),
+                _buildActionCard(
+                  icon: Icons.category,
+                  title: 'Sektor Sablonlari',
+                  onTap: () => Navigator.pushNamed(context, '/admin/templates'),
+                ),
+                const SizedBox(height: 8),
+                _buildActionCard(
+                  icon: Icons.shield,
+                  title: 'Rol Yonetimi',
+                  onTap: () => Navigator.pushNamed(context, '/admin/roles'),
                 ),
 
                 const SizedBox(height: 16),
@@ -439,6 +459,30 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
       SizedBox(width: 6),
       Text('$label ($count)', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
     ]);
+  }
+
+  Future<void> _exportExcel(BuildContext context) async {
+    final token = ref.read(authProvider).token;
+    if (token == null) return;
+    final url = '${ApiConfig.webUrl}/training/export-excel?token=$token';
+    try {
+      final uri = Uri.parse(url);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Excel indirilemedi'), backgroundColor: ScadaColors.red),
+          );
+        }
+      }
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Excel indirme hatasi'), backgroundColor: ScadaColors.red),
+        );
+      }
+    }
   }
 
   Widget _buildActionCard({
