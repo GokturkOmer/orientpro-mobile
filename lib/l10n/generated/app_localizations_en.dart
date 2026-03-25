@@ -769,133 +769,174 @@ class SEn extends S {
     return 'Page not found: $uri';
   }
 
-  // --- Certificate ---
   @override
   String get certificateTitle => 'Completion Certificate';
+
   @override
   String get certificateHeader => 'COMPLETION CERTIFICATE';
+
   @override
   String get certificateConfirms => 'This certifies that';
+
   @override
-  String get certificateCompleted => 'has successfully completed the following training route';
+  String get certificateCompleted =>
+      'has successfully completed the following training route';
+
   @override
   String get certificateDate => 'Date';
+
   @override
   String get certificateId => 'Certificate No';
+
   @override
   String get certificateDownload => 'Download PDF';
+
   @override
   String get certificateDownloadError => 'Failed to download PDF';
 
-  // --- Badges ---
   @override
   String get badgesTitle => 'Badges';
+
   @override
   String get badgesEarned => 'Badges earned';
+
   @override
   String get badgesAll => 'ALL BADGES';
+
   @override
   String get badgeEarned => 'Earned';
+
   @override
   String get badgeFirstStep => 'First Step';
+
   @override
   String get badgeFirstStepDesc => 'Complete your first training module';
+
   @override
   String get badgeQuizMaster => 'Quiz Master';
+
   @override
   String get badgeQuizMasterDesc => 'Pass 5 quizzes successfully';
+
   @override
   String get badgeFastLearner => 'Fast Learner';
+
   @override
   String get badgeFastLearnerDesc => 'Complete a module in under 10 minutes';
+
   @override
   String get badgePerfectScore => 'Perfect Score';
+
   @override
   String get badgePerfectScoreDesc => 'Score 100% on a quiz';
+
   @override
   String get badgeTeamPlayer => 'Team Player';
+
   @override
   String get badgeTeamPlayerDesc => 'Complete all modules in a route';
+
   @override
   String get badgeBookworm => 'Bookworm';
+
   @override
   String get badgeBookwormDesc => 'Read 10 library documents';
 
-  // --- Leaderboard ---
   @override
   String get leaderboardTitle => 'Leaderboard';
+
   @override
   String get leaderboardSection => 'DEPARTMENT RANKING';
+
   @override
   String get leaderboardEmpty => 'No ranking data available';
+
   @override
   String get leaderboardYou => 'You';
 
-  // --- Content Approval ---
   @override
   String get approvalTitle => 'Content Approvals';
+
   @override
   String get approvalEmpty => 'No content pending approval';
+
   @override
   String get approvalApprove => 'Approve';
+
   @override
   String get approvalReject => 'Reject';
+
   @override
   String get approvalRejectTitle => 'Reject Content';
+
   @override
   String get approvalRejectReason => 'Rejection reason (optional)';
+
   @override
   String get approvalApproved => 'Content approved';
+
   @override
   String get approvalRejected => 'Content rejected';
 
-  // --- Theme ---
   @override
   String get themeToggle => 'Toggle Theme';
+
   @override
   String get themeDark => 'Dark Theme';
+
   @override
   String get themeLight => 'Light Theme';
 
-  // --- Progress Report ---
   @override
   String get progressReportDownload => 'Download Report';
+
   @override
   String get progressReportError => 'Failed to download report';
 
-  // --- Dashboard ---
   @override
   String get dashboardTitle => 'Dashboard';
+
   @override
   String dashboardWelcome(String name) {
     return 'Welcome, $name';
   }
 
-  // --- Common extras ---
   @override
   String get commonLoading => 'Loading...';
+
   @override
   String get commonNoData => 'No data available';
+
   @override
   String get commonSearch => 'Search...';
+
   @override
   String get commonFilter => 'Filter';
+
   @override
   String get commonSort => 'Sort';
+
   @override
   String get commonRefresh => 'Refresh';
+
   @override
   String get commonSettings => 'Settings';
+
   @override
   String get commonLogout => 'Sign Out';
+
   @override
   String get commonYes => 'Yes';
+
   @override
   String get commonNo => 'No';
+
   @override
   String get commonConfirm => 'Confirm';
+
   @override
   String get commonSuccess => 'Success';
+
   @override
   String get commonFailed => 'Failed';
 }

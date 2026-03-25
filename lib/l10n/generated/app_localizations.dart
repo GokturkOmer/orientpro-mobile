@@ -1506,76 +1506,340 @@ abstract class S {
   /// **'Sayfa bulunamadi: {uri}'**
   String pageNotFound(String uri);
 
-  // --- Certificate ---
+  /// No description provided for @certificateTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tamamlama Sertifikasi'**
   String get certificateTitle;
+
+  /// No description provided for @certificateHeader.
+  ///
+  /// In tr, this message translates to:
+  /// **'TAMAMLAMA SERTIFIKASI'**
   String get certificateHeader;
+
+  /// No description provided for @certificateConfirms.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu belge ile onaylanir ki'**
   String get certificateConfirms;
+
+  /// No description provided for @certificateCompleted.
+  ///
+  /// In tr, this message translates to:
+  /// **'asagidaki egitim rotasini basariyla tamamlamistir'**
   String get certificateCompleted;
+
+  /// No description provided for @certificateDate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tarih'**
   String get certificateDate;
+
+  /// No description provided for @certificateId.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sertifika No'**
   String get certificateId;
+
+  /// No description provided for @certificateDownload.
+  ///
+  /// In tr, this message translates to:
+  /// **'PDF Indir'**
   String get certificateDownload;
+
+  /// No description provided for @certificateDownloadError.
+  ///
+  /// In tr, this message translates to:
+  /// **'PDF indirilemedi'**
   String get certificateDownloadError;
 
-  // --- Badges ---
+  /// No description provided for @badgesTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rozetler'**
   String get badgesTitle;
+
+  /// No description provided for @badgesEarned.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rozet kazanildi'**
   String get badgesEarned;
+
+  /// No description provided for @badgesAll.
+  ///
+  /// In tr, this message translates to:
+  /// **'TUM ROZETLER'**
   String get badgesAll;
+
+  /// No description provided for @badgeEarned.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kazanildi'**
   String get badgeEarned;
+
+  /// No description provided for @badgeFirstStep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ilk Adim'**
   String get badgeFirstStep;
+
+  /// No description provided for @badgeFirstStepDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ilk egitim modulunu tamamla'**
   String get badgeFirstStepDesc;
+
+  /// No description provided for @badgeQuizMaster.
+  ///
+  /// In tr, this message translates to:
+  /// **'Quiz Ustasi'**
   String get badgeQuizMaster;
+
+  /// No description provided for @badgeQuizMasterDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'5 quizi basariyla gec'**
   String get badgeQuizMasterDesc;
+
+  /// No description provided for @badgeFastLearner.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hizli Ogrenci'**
   String get badgeFastLearner;
+
+  /// No description provided for @badgeFastLearnerDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bir modulu 10 dakikadan kisa surede tamamla'**
   String get badgeFastLearnerDesc;
+
+  /// No description provided for @badgePerfectScore.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tam Puan'**
   String get badgePerfectScore;
+
+  /// No description provided for @badgePerfectScoreDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bir quizden %100 al'**
   String get badgePerfectScoreDesc;
+
+  /// No description provided for @badgeTeamPlayer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Takim Oyuncusu'**
   String get badgeTeamPlayer;
+
+  /// No description provided for @badgeTeamPlayerDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bir rotadaki tum modulleri tamamla'**
   String get badgeTeamPlayerDesc;
+
+  /// No description provided for @badgeBookworm.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilgi Kurdu'**
   String get badgeBookworm;
+
+  /// No description provided for @badgeBookwormDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'10 kutuphane dokumanini oku'**
   String get badgeBookwormDesc;
 
-  // --- Leaderboard ---
+  /// No description provided for @leaderboardTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Siralama'**
   String get leaderboardTitle;
+
+  /// No description provided for @leaderboardSection.
+  ///
+  /// In tr, this message translates to:
+  /// **'DEPARTMAN SIRALAMASI'**
   String get leaderboardSection;
+
+  /// No description provided for @leaderboardEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Siralama verisi bulunamadi'**
   String get leaderboardEmpty;
+
+  /// No description provided for @leaderboardYou.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sen'**
   String get leaderboardYou;
 
-  // --- Content Approval ---
+  /// No description provided for @approvalTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Icerik Onaylari'**
   String get approvalTitle;
+
+  /// No description provided for @approvalEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Onay bekleyen icerik yok'**
   String get approvalEmpty;
+
+  /// No description provided for @approvalApprove.
+  ///
+  /// In tr, this message translates to:
+  /// **'Onayla'**
   String get approvalApprove;
+
+  /// No description provided for @approvalReject.
+  ///
+  /// In tr, this message translates to:
+  /// **'Reddet'**
   String get approvalReject;
+
+  /// No description provided for @approvalRejectTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Icerigi Reddet'**
   String get approvalRejectTitle;
+
+  /// No description provided for @approvalRejectReason.
+  ///
+  /// In tr, this message translates to:
+  /// **'Red sebebi (opsiyonel)'**
   String get approvalRejectReason;
+
+  /// No description provided for @approvalApproved.
+  ///
+  /// In tr, this message translates to:
+  /// **'Icerik onaylandi'**
   String get approvalApproved;
+
+  /// No description provided for @approvalRejected.
+  ///
+  /// In tr, this message translates to:
+  /// **'Icerik reddedildi'**
   String get approvalRejected;
 
-  // --- Theme ---
+  /// No description provided for @themeToggle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tema Degistir'**
   String get themeToggle;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In tr, this message translates to:
+  /// **'Karanlik Tema'**
   String get themeDark;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aydinlik Tema'**
   String get themeLight;
 
-  // --- Progress Report ---
+  /// No description provided for @progressReportDownload.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rapor Indir'**
   String get progressReportDownload;
+
+  /// No description provided for @progressReportError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rapor indirilemedi'**
   String get progressReportError;
 
-  // --- Dashboard ---
+  /// No description provided for @dashboardTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kontrol Paneli'**
   String get dashboardTitle;
+
+  /// No description provided for @dashboardWelcome.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hosgeldin, {name}'**
   String dashboardWelcome(String name);
 
-  // --- Common extras ---
+  /// No description provided for @commonLoading.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yukleniyor...'**
   String get commonLoading;
+
+  /// No description provided for @commonNoData.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri bulunamadi'**
   String get commonNoData;
+
+  /// No description provided for @commonSearch.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ara...'**
   String get commonSearch;
+
+  /// No description provided for @commonFilter.
+  ///
+  /// In tr, this message translates to:
+  /// **'Filtrele'**
   String get commonFilter;
+
+  /// No description provided for @commonSort.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sirala'**
   String get commonSort;
+
+  /// No description provided for @commonRefresh.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yenile'**
   String get commonRefresh;
+
+  /// No description provided for @commonSettings.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ayarlar'**
   String get commonSettings;
+
+  /// No description provided for @commonLogout.
+  ///
+  /// In tr, this message translates to:
+  /// **'Cikis Yap'**
   String get commonLogout;
+
+  /// No description provided for @commonYes.
+  ///
+  /// In tr, this message translates to:
+  /// **'Evet'**
   String get commonYes;
+
+  /// No description provided for @commonNo.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hayir'**
   String get commonNo;
+
+  /// No description provided for @commonConfirm.
+  ///
+  /// In tr, this message translates to:
+  /// **'Onayla'**
   String get commonConfirm;
+
+  /// No description provided for @commonSuccess.
+  ///
+  /// In tr, this message translates to:
+  /// **'Basarili'**
   String get commonSuccess;
+
+  /// No description provided for @commonFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Basarisiz'**
   String get commonFailed;
 }
 

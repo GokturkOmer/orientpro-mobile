@@ -769,133 +769,175 @@ class STr extends S {
     return 'Sayfa bulunamadi: $uri';
   }
 
-  // --- Certificate ---
   @override
   String get certificateTitle => 'Tamamlama Sertifikasi';
+
   @override
   String get certificateHeader => 'TAMAMLAMA SERTIFIKASI';
+
   @override
   String get certificateConfirms => 'Bu belge ile onaylanir ki';
+
   @override
-  String get certificateCompleted => 'asagidaki egitim rotasini basariyla tamamlamistir';
+  String get certificateCompleted =>
+      'asagidaki egitim rotasini basariyla tamamlamistir';
+
   @override
   String get certificateDate => 'Tarih';
+
   @override
   String get certificateId => 'Sertifika No';
+
   @override
   String get certificateDownload => 'PDF Indir';
+
   @override
   String get certificateDownloadError => 'PDF indirilemedi';
 
-  // --- Badges ---
   @override
   String get badgesTitle => 'Rozetler';
+
   @override
   String get badgesEarned => 'Rozet kazanildi';
+
   @override
   String get badgesAll => 'TUM ROZETLER';
+
   @override
   String get badgeEarned => 'Kazanildi';
+
   @override
   String get badgeFirstStep => 'Ilk Adim';
+
   @override
   String get badgeFirstStepDesc => 'Ilk egitim modulunu tamamla';
+
   @override
   String get badgeQuizMaster => 'Quiz Ustasi';
+
   @override
   String get badgeQuizMasterDesc => '5 quizi basariyla gec';
+
   @override
   String get badgeFastLearner => 'Hizli Ogrenci';
+
   @override
-  String get badgeFastLearnerDesc => 'Bir modulu 10 dakikadan kisa surede tamamla';
+  String get badgeFastLearnerDesc =>
+      'Bir modulu 10 dakikadan kisa surede tamamla';
+
   @override
   String get badgePerfectScore => 'Tam Puan';
+
   @override
   String get badgePerfectScoreDesc => 'Bir quizden %100 al';
+
   @override
   String get badgeTeamPlayer => 'Takim Oyuncusu';
+
   @override
   String get badgeTeamPlayerDesc => 'Bir rotadaki tum modulleri tamamla';
+
   @override
   String get badgeBookworm => 'Bilgi Kurdu';
+
   @override
   String get badgeBookwormDesc => '10 kutuphane dokumanini oku';
 
-  // --- Leaderboard ---
   @override
   String get leaderboardTitle => 'Siralama';
+
   @override
   String get leaderboardSection => 'DEPARTMAN SIRALAMASI';
+
   @override
   String get leaderboardEmpty => 'Siralama verisi bulunamadi';
+
   @override
   String get leaderboardYou => 'Sen';
 
-  // --- Content Approval ---
   @override
   String get approvalTitle => 'Icerik Onaylari';
+
   @override
   String get approvalEmpty => 'Onay bekleyen icerik yok';
+
   @override
   String get approvalApprove => 'Onayla';
+
   @override
   String get approvalReject => 'Reddet';
+
   @override
   String get approvalRejectTitle => 'Icerigi Reddet';
+
   @override
   String get approvalRejectReason => 'Red sebebi (opsiyonel)';
+
   @override
   String get approvalApproved => 'Icerik onaylandi';
+
   @override
   String get approvalRejected => 'Icerik reddedildi';
 
-  // --- Theme ---
   @override
   String get themeToggle => 'Tema Degistir';
+
   @override
   String get themeDark => 'Karanlik Tema';
+
   @override
   String get themeLight => 'Aydinlik Tema';
 
-  // --- Progress Report ---
   @override
   String get progressReportDownload => 'Rapor Indir';
+
   @override
   String get progressReportError => 'Rapor indirilemedi';
 
-  // --- Dashboard ---
   @override
   String get dashboardTitle => 'Kontrol Paneli';
+
   @override
   String dashboardWelcome(String name) {
     return 'Hosgeldin, $name';
   }
 
-  // --- Common extras ---
   @override
   String get commonLoading => 'Yukleniyor...';
+
   @override
   String get commonNoData => 'Veri bulunamadi';
+
   @override
   String get commonSearch => 'Ara...';
+
   @override
   String get commonFilter => 'Filtrele';
+
   @override
   String get commonSort => 'Sirala';
+
   @override
   String get commonRefresh => 'Yenile';
+
   @override
   String get commonSettings => 'Ayarlar';
+
   @override
   String get commonLogout => 'Cikis Yap';
+
   @override
   String get commonYes => 'Evet';
+
   @override
   String get commonNo => 'Hayir';
+
   @override
   String get commonConfirm => 'Onayla';
+
   @override
   String get commonSuccess => 'Basarili';
+
   @override
   String get commonFailed => 'Basarisiz';
 }
