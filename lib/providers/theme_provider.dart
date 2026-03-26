@@ -36,7 +36,9 @@ class ThemeNotifier extends Notifier<ThemeState> {
     state = ThemeState(themeMode: newMode);
     try {
       await _storage.write(key: _keyThemeMode, value: newMode == ThemeMode.light ? 'light' : 'dark');
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('toggleTheme hata: $e');
+    }
   }
 
   bool get isDark => state.themeMode == ThemeMode.dark;

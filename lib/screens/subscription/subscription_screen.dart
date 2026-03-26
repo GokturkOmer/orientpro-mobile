@@ -38,7 +38,9 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
       try {
         final invRes = await dio.get('/payments/invoices');
         invoiceList = List<Map<String, dynamic>>.from(invRes.data ?? []);
-      } catch (_) {}
+      } catch (e) {
+        debugPrint('_loadData hata: $e');
+      }
 
       setState(() {
         _subscription = subRes.data;

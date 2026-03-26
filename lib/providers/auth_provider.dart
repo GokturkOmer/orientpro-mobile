@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import '../models/user.dart';
@@ -226,7 +227,9 @@ class AuthNotifier extends Notifier<AuthState> {
             await SecureStorage.saveUserJson(jsonEncode(freshUser.toJson()));
             state = AuthState(user: freshUser, token: state.token, autoLoginChecked: true);
             return true;
-          } catch (_) {}
+          } catch (e) {
+            debugPrint('tryAutoLogin hata: $e');
+          }
         }
         // Refresh de basarisiz — temizle ve login ekranina yonlendir
         await SecureStorage.clearAll();
@@ -247,7 +250,9 @@ class AuthNotifier extends Notifier<AuthState> {
       try {
         await _dio.post('/auth/logout',
             options: Options(headers: {'Authorization': 'Bearer $currentToken'}));
-      } catch (_) {}
+      } catch (e) {
+        debugPrint('logout hata: $e');
+      }
     }
     await SecureStorage.clearAll();
     state = AuthState(autoLoginChecked: true);

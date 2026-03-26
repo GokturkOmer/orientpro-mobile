@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import '../models/announcement.dart';
@@ -95,7 +96,9 @@ class AnnouncementNotifier extends Notifier<AnnouncementState> {
       if (department != null) params['department'] = department;
       final resp = await _dio.get('/announcements/unread-count/$userId', queryParameters: params);
       state = state.copyWith(unreadCount: resp.data['unread_count'] ?? 0);
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('loadUnreadCount hata: $e');
+    }
   }
 
   Future<bool> markAsRead(String announcementId) async {

@@ -141,7 +141,9 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
     try {
       final dt = DateTime.parse(dateStr);
       dayLabel = '${dayNames[dt.weekday - 1]} ${dt.day}.${dt.month.toString().padLeft(2, '0')}';
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('_buildDayCard hata: $e');
+    }
 
     final isToday = dateStr == _todayStr();
 

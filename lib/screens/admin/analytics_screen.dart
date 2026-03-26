@@ -86,7 +86,9 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
             deptStats.add({'name': dept['name'] ?? dept['code'], 'code': dept['code'], 'member_count': 0, 'avg_completion': 0.0});
           }
         }
-      } catch (_) {}
+      } catch (e) {
+        debugPrint('_loadData hata: $e');
+      }
 
       setState(() {
         _activeUsers = usage['active_users'] ?? 0;

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import '../models/training.dart';
@@ -348,7 +349,9 @@ class TrainingNotifier extends Notifier<TrainingState> {
       if (response.data != null) {
         return TrainingAcknowledgment.fromJson(response.data);
       }
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('checkModuleAcknowledgment hata: $e');
+    }
     return null;
   }
 
@@ -398,13 +401,17 @@ class TrainingNotifier extends Notifier<TrainingState> {
   Future<void> generateReminders(String userId) async {
     try {
       await _dio.post('/training/reminders/generate/$userId');
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('generateReminders hata: $e');
+    }
   }
 
   Future<void> markReminderRead(String reminderId) async {
     try {
       await _dio.put('/training/reminders/$reminderId/read');
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('markReminderRead hata: $e');
+    }
   }
 
   void dismissReminder(String reminderId) {
