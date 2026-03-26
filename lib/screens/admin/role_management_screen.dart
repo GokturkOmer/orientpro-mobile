@@ -16,7 +16,7 @@ class _RoleManagementScreenState extends ConsumerState<RoleManagementScreen> {
   bool _loading = true;
   String? _error;
 
-  static const _resources = ['training', 'content', 'users', 'reports', 'settings'];
+  static const _resources = ['training', 'content', 'users', 'reports', 'settings', 'work_orders'];
   static const _actions = ['view', 'create', 'edit', 'delete', 'approve'];
   static const _resourceLabels = {
     'training': 'Egitim',
@@ -24,6 +24,7 @@ class _RoleManagementScreenState extends ConsumerState<RoleManagementScreen> {
     'users': 'Kullanicilar',
     'reports': 'Raporlar',
     'settings': 'Ayarlar',
+    'work_orders': 'Is Emirleri',
   };
 
   @override
@@ -134,72 +135,149 @@ class _RoleManagementScreenState extends ConsumerState<RoleManagementScreen> {
       permSet.add('${p['resource']}:${p['action']}');
     }
 
+    bool saving = false;
+
     showModalBottomSheet(
       context: context,
       backgroundColor: context.scada.surface,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
-      builder: (ctx) => DraggableScrollableSheet(
-        initialChildSize: 0.7,
-        maxChildSize: 0.9,
-        minChildSize: 0.4,
-        expand: false,
-        builder: (_, scrollCtrl) => Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
-          child: Column(children: [
-            Row(children: [
-              const Icon(Icons.shield, size: 18, color: ScadaColors.cyan),
-              const SizedBox(width: 8),
-              Text('${role['name']} — Izinler', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
-              if (role['is_system'] == true) ...[
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setSheetState) => DraggableScrollableSheet(
+          initialChildSize: 0.75,
+          maxChildSize: 0.9,
+          minChildSize: 0.4,
+          expand: false,
+          builder: (_, scrollCtrl) => Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+            child: Column(children: [
+              Row(children: [
+                const Icon(Icons.shield, size: 18, color: ScadaColors.cyan),
                 const SizedBox(width: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                  decoration: BoxDecoration(color: ScadaColors.amber.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(4)),
-                  child: const Text('Sistem', style: TextStyle(fontSize: 9, color: ScadaColors.amber, fontWeight: FontWeight.w600)),
-                ),
-              ],
-            ]),
-            const SizedBox(height: 12),
-            Expanded(
-              child: ListView(
-                controller: scrollCtrl,
-                children: [
-                  // Baslik satiri
-                  Row(children: [
-                    SizedBox(width: 80, child: Text('Kaynak', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary))),
-                    ..._actions.map((a) => Expanded(
-                      child: Center(child: Text(a, style: TextStyle(fontSize: 9, fontWeight: FontWeight.w600, color: context.scada.textSecondary))),
-                    )),
-                  ]),
-                  const Divider(),
-                  // Kaynak satırlari
-                  ..._resources.map((resource) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: Row(children: [
-                      SizedBox(width: 80, child: Text(_resourceLabels[resource] ?? resource, style: TextStyle(fontSize: 11, color: context.scada.textPrimary))),
-                      ..._actions.map((action) {
-                        final key = '$resource:$action';
-                        final hasPermission = permSet.contains(key);
-                        return Expanded(
-                          child: Center(
-                            child: Icon(
-                              hasPermission ? Icons.check_circle : Icons.remove_circle_outline,
-                              size: 18,
-                              color: hasPermission ? ScadaColors.green : context.scada.textDim.withValues(alpha: 0.3),
-                            ),
-                          ),
-                        );
-                      }),
-                    ]),
-                  )),
+                Expanded(child: Text('${role['name']} — Izinler', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: context.scada.textPrimary))),
+                if (role['is_system'] == true) ...[
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(color: ScadaColors.amber.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(4)),
+                    child: const Text('Sistem', style: TextStyle(fontSize: 9, color: ScadaColors.amber, fontWeight: FontWeight.w600)),
+                  ),
+                  const SizedBox(width: 8),
                 ],
+                ElevatedButton.icon(
+                  onPressed: saving ? null : () async {
+                    setSheetState(() => saving = true);
+                    await _savePermissions(role['id'], permSet);
+                    setSheetState(() => saving = false);
+                    if (ctx.mounted) Navigator.pop(ctx);
+                  },
+                  icon: saving
+                      ? const SizedBox(width: 14, height: 14, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                      : const Icon(Icons.save, size: 16),
+                  label: const Text('Kaydet'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ScadaColors.cyan,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    textStyle: const TextStyle(fontSize: 12),
+                  ),
+                ),
+              ]),
+              const SizedBox(height: 12),
+              Expanded(
+                child: ListView(
+                  controller: scrollCtrl,
+                  children: [
+                    // Baslik satiri
+                    Row(children: [
+                      SizedBox(width: 90, child: Text('Kaynak', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary))),
+                      ..._actions.map((a) => Expanded(
+                        child: Center(child: Text(_actionLabel(a), style: TextStyle(fontSize: 9, fontWeight: FontWeight.w600, color: context.scada.textSecondary))),
+                      )),
+                    ]),
+                    const Divider(),
+                    // Kaynak satırlari — tiklanabilir checkbox
+                    ..._resources.map((resource) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 2),
+                      child: Row(children: [
+                        SizedBox(width: 90, child: Text(_resourceLabels[resource] ?? resource, style: TextStyle(fontSize: 11, color: context.scada.textPrimary))),
+                        ..._actions.map((action) {
+                          final key = '$resource:$action';
+                          final hasPermission = permSet.contains(key);
+                          return Expanded(
+                            child: Center(
+                              child: GestureDetector(
+                                onTap: () {
+                                  setSheetState(() {
+                                    if (hasPermission) {
+                                      permSet.remove(key);
+                                    } else {
+                                      permSet.add(key);
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  width: 28, height: 28,
+                                  decoration: BoxDecoration(
+                                    color: hasPermission ? ScadaColors.green.withValues(alpha: 0.15) : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(6),
+                                    border: Border.all(
+                                      color: hasPermission ? ScadaColors.green : context.scada.textDim.withValues(alpha: 0.2),
+                                      width: 1.5,
+                                    ),
+                                  ),
+                                  child: hasPermission
+                                      ? const Icon(Icons.check, size: 16, color: ScadaColors.green)
+                                      : null,
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                      ]),
+                    )),
+                  ],
+                ),
               ),
-            ),
-          ]),
+            ]),
+          ),
         ),
       ),
     );
+  }
+
+  String _actionLabel(String action) {
+    switch (action) {
+      case 'view': return 'Goruntule';
+      case 'create': return 'Olustur';
+      case 'edit': return 'Duzenle';
+      case 'delete': return 'Sil';
+      case 'approve': return 'Onayla';
+      default: return action;
+    }
+  }
+
+  Future<void> _savePermissions(String roleId, Set<String> permSet) async {
+    try {
+      final dio = ref.read(authDioProvider);
+      final permissions = permSet.map((key) {
+        final parts = key.split(':');
+        return {'resource': parts[0], 'action': parts[1]};
+      }).toList();
+
+      await dio.put('/roles/$roleId/permissions', data: {'permissions': permissions});
+      await _loadRoles();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Izinler kaydedildi'), backgroundColor: ScadaColors.green),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(ErrorHelper.getMessage(e)), backgroundColor: ScadaColors.red),
+        );
+      }
+    }
   }
 
   @override
