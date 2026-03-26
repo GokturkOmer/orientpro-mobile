@@ -1,12 +1,13 @@
+import 'dart:io' show File, Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:path_provider/path_provider.dart';
 import '../../core/theme/app_theme.dart';
-import '../../core/config/api_config.dart';
 import '../../core/network/auth_dio.dart';
+import '../../core/utils/file_saver.dart' as file_saver;
 import '../../providers/admin_provider.dart';
 import '../../providers/auth_provider.dart';
 
@@ -483,22 +484,26 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
         '/training/export-excel',
         options: Options(responseType: ResponseType.bytes),
       );
-      // Web: Blob download
+      final bytes = response.data as List<int>;
+      final fileName = 'orientpro_egitim_raporu_${DateTime.now().toIso8601String().split('T').first}.xlsx';
+
       if (kIsWeb) {
-        // Web'de auth header ile doğrudan indirme yapılamaz,
-        // tarayıcı açması gerekiyor — geçici olarak eski yol
-        final token = ref.read(authProvider).token;
-        if (token == null) return;
-        final url = '${ApiConfig.webUrl}/training/export-excel?token=$token';
-        final uri = Uri.parse(url);
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri, mode: LaunchMode.externalApplication);
+        await file_saver.saveFileWeb(bytes, fileName);
+      } else {
+        String dirPath;
+        if (Platform.isAndroid) {
+          final dir = await getExternalStorageDirectory();
+          dirPath = dir?.path ?? (await getApplicationDocumentsDirectory()).path;
+        } else {
+          dirPath = (await getApplicationDocumentsDirectory()).path;
         }
-        return;
+        final file = File('$dirPath/$fileName');
+        await file.writeAsBytes(bytes);
       }
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Excel indirildi'), backgroundColor: ScadaColors.green),
+          SnackBar(content: Text('Rapor indirildi: $fileName'), backgroundColor: ScadaColors.green),
         );
       }
     } catch (_) {
