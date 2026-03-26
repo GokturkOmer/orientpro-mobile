@@ -204,8 +204,14 @@ class AdminNotifier extends Notifier<AdminState> {
       if (departmentId != null) params['department_id'] = departmentId;
       final response = await _dio.get('/training/routes',
         queryParameters: params);
-      final routes = (response.data as List).map((r) => TrainingRoute.fromJson(r)).toList();
-      state = state.copyWith(routes: routes);
+      final newRoutes = (response.data as List).map((r) => TrainingRoute.fromJson(r)).toList();
+      if (departmentId != null) {
+        // Merge: mevcut rotalari koru, sadece bu departmanin rotalarini guncelle
+        final existing = state.routes.where((r) => r.departmentId != departmentId).toList();
+        state = state.copyWith(routes: [...existing, ...newRoutes]);
+      } else {
+        state = state.copyWith(routes: newRoutes);
+      }
     } on DioException catch (e) {
       state = state.copyWith(error: ErrorHelper.getMessage(e));
     } catch (e) {
