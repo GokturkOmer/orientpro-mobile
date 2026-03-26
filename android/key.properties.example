@@ -1,0 +1,10 @@
+# Release keystore config
+# 1. Keystore olustur:
+#    keytool -genkey -v -keystore orientpro-release.jks -keyalg RSA -keysize 2048 -validity 10000 -alias orientpro
+# 2. Bu dosyayi key.properties olarak kopyala ve degerleri doldur
+# 3. .jks dosyasini android/ altina koy
+
+storePassword=BURAYA_STORE_SIFRE
+keyPassword=BURAYA_KEY_SIFRE
+keyAlias=orientpro
+storeFile=../orientpro-release.jks
