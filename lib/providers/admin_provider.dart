@@ -590,8 +590,8 @@ class AdminNotifier extends Notifier<AdminState> {
     try {
       final formData = FormData.fromMap({
         'file': MultipartFile.fromBytes(fileBytes, filename: fileName),
-        if (moduleId != null) 'module_id': moduleId,
-        if (title != null) 'title': title,
+        'module_id': ?moduleId,
+        'title': ?title,
         'enrich_contents': enrichContents ? 'true' : 'false',
       });
 
@@ -639,7 +639,7 @@ class AdminNotifier extends Notifier<AdminState> {
       final formData = FormData.fromMap({
         'file': MultipartFile.fromBytes(fileBytes, filename: fileName),
         'module_id': moduleId,
-        if (title != null) 'title': title,
+        'title': ?title,
         'clear_existing': clearExisting ? 'true' : 'false',
       });
 

@@ -229,7 +229,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 _buildActionCard(
                   icon: Icons.table_chart,
                   title: 'Excel Export',
-                  onTap: () => _exportExcel(context),
+                  onTap: _exportExcel,
                 ),
                 const SizedBox(height: 8),
                 _buildActionCard(
@@ -477,7 +477,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
     ]);
   }
 
-  Future<void> _exportExcel(BuildContext context) async {
+  Future<void> _exportExcel() async {
     try {
       final dio = ref.read(authDioProvider);
       final response = await dio.get(

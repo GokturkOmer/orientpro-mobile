@@ -62,7 +62,7 @@ class RoleHelper {
     if (role == 'admin') return null;
     final mapped = _roleDeptMap[role];
     if (mapped != null) return mapped;
-    return {if (userDept != null) userDept, 'GEN'};
+    return {?userDept, 'GEN'};
   }
 
   // ===== TEKNIK ALT-DAL TAG FILTRELEME =====

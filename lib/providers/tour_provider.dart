@@ -50,7 +50,7 @@ class TourService {
     try {
       final dio = _ref.read(authDioProvider);
       final res = await dio.post('/tours/sessions/$sessionId/scan', queryParameters: {
-        'qr_code': qrCode, 'status': status, if (notes != null) 'notes': notes,
+        'qr_code': qrCode, 'status': status, 'notes': ?notes,
       });
       return ScanResult.fromJson(res.data);
     } catch (e) {
@@ -74,7 +74,7 @@ class TourService {
     try {
       final dio = _ref.read(authDioProvider);
       final res = await dio.put('/tours/sessions/$sessionId/complete', queryParameters: {
-        if (notes != null) 'notes': notes,
+        'notes': ?notes,
       });
       return res.data;
     } catch (e) {
