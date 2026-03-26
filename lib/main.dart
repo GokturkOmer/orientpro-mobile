@@ -56,6 +56,7 @@ import 'screens/admin/analytics_screen.dart';
 import 'screens/admin/sector_template_screen.dart';
 import 'screens/admin/role_management_screen.dart';
 import 'screens/admin/maintenance_screen.dart';
+import 'screens/admin/help_screen.dart';
 import 'screens/orientation/certificate_screen.dart';
 import 'screens/orientation/badges_screen.dart';
 import 'screens/orientation/leaderboard_screen.dart';
@@ -136,6 +137,7 @@ class OrientProApp extends ConsumerWidget {
         '/admin/templates': (context) => const _AdminGuard(child: SectorTemplateScreen()),
         '/admin/roles': (context) => const _AdminGuard(child: RoleManagementScreen()),
         '/admin/maintenance': (context) => const _AdminGuard(child: MaintenanceScreen()),
+        '/admin/help': (context) => const _AdminGuard(child: HelpScreen()),
         '/badges': (context) => const BadgesScreen(),
         '/leaderboard': (context) => const LeaderboardScreen(),
       },

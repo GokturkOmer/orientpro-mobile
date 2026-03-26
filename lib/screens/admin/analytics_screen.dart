@@ -1,9 +1,14 @@
+import 'dart:io' show File, Platform;
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:path_provider/path_provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/network/auth_dio.dart';
 import '../../core/utils/error_helper.dart';
+import '../../core/utils/file_saver.dart' as file_saver;
 import '../../widgets/scada_app_bar.dart';
 import '../../widgets/stat_card.dart';
 import '../../widgets/section_header.dart';
@@ -19,6 +24,7 @@ class AnalyticsScreen extends ConsumerStatefulWidget {
 
 class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
   bool _loading = true;
+  bool _exporting = false;
   String? _error;
 
   // Usage data
@@ -39,6 +45,9 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
   double _passRate = 0;
   double _averageScore = 0;
 
+  // Departman bazli veri
+  List<Map<String, dynamic>> _departmentStats = [];
+
   @override
   void initState() {
     super.initState();
@@ -57,6 +66,28 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
       final usage = results[0].data as Map<String, dynamic>;
       final training = results[1].data as Map<String, dynamic>;
 
+      // Departman listesini de cek
+      List<Map<String, dynamic>> deptStats = [];
+      try {
+        final deptRes = await dio.get('/training/departments');
+        final depts = deptRes.data as List;
+        for (final dept in depts) {
+          try {
+            final teamRes = await dio.get('/training/team-progress/${dept['code']}');
+            final members = teamRes.data as List;
+            deptStats.add({
+              'name': dept['name'] ?? dept['code'],
+              'code': dept['code'],
+              'member_count': members.length,
+              'avg_completion': members.isEmpty ? 0.0
+                  : members.fold<double>(0, (sum, m) => sum + ((m['completion_percent'] ?? 0) as num).toDouble()) / members.length,
+            });
+          } catch (_) {
+            deptStats.add({'name': dept['name'] ?? dept['code'], 'code': dept['code'], 'member_count': 0, 'avg_completion': 0.0});
+          }
+        }
+      } catch (_) {}
+
       setState(() {
         _activeUsers = usage['active_users'] ?? 0;
         _maxUsers = usage['max_users'] ?? 0;
@@ -74,6 +105,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
         _passRate = (training['pass_rate'] ?? 0).toDouble();
         _averageScore = (training['average_score'] ?? 0).toDouble();
 
+        _departmentStats = deptStats;
         _loading = false;
       });
     } catch (e) {
@@ -108,11 +140,17 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
                     physics: const AlwaysScrollableScrollPhysics(),
                     padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      _buildExportButton(),
+                      const SizedBox(height: 16),
                       _buildUsageSection(),
                       const SizedBox(height: 20),
                       _buildTrainingSection(),
                       const SizedBox(height: 20),
                       _buildChartsSection(),
+                      if (_departmentStats.isNotEmpty) ...[
+                        const SizedBox(height: 20),
+                        _buildDepartmentSection(),
+                      ],
                     ]),
                   ),
                 ),
@@ -384,6 +422,127 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
         Text(subtitle, style: TextStyle(fontSize: 10, color: context.scada.textDim)),
       ]),
     );
+  }
+
+  // ===== EXCEL EXPORT =====
+
+  Widget _buildExportButton() {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton.icon(
+        onPressed: _exporting ? null : _exportExcel,
+        icon: _exporting
+            ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: ScadaColors.green))
+            : const Icon(Icons.file_download, size: 18),
+        label: Text(_exporting ? 'Hazirlaniyor...' : 'Excel Raporu Indir', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: ScadaColors.green.withValues(alpha: 0.12),
+          foregroundColor: ScadaColors.green,
+          side: BorderSide(color: ScadaColors.green.withValues(alpha: 0.3)),
+          padding: const EdgeInsets.symmetric(vertical: 14),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _exportExcel() async {
+    setState(() => _exporting = true);
+    try {
+      final dio = ref.read(authDioProvider);
+      final response = await dio.get(
+        '/training/export-excel',
+        options: Options(responseType: ResponseType.bytes),
+      );
+      final bytes = response.data as List<int>;
+      final fileName = 'orientpro_egitim_raporu_${DateTime.now().toIso8601String().split('T').first}.xlsx';
+
+      if (kIsWeb) {
+        await file_saver.saveFileWeb(bytes, fileName);
+      } else {
+        String dirPath;
+        if (Platform.isAndroid) {
+          final dir = await getExternalStorageDirectory();
+          dirPath = dir?.path ?? (await getApplicationDocumentsDirectory()).path;
+        } else {
+          dirPath = (await getApplicationDocumentsDirectory()).path;
+        }
+        final file = File('$dirPath/$fileName');
+        await file.writeAsBytes(bytes);
+      }
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Rapor indirildi: $fileName'), backgroundColor: ScadaColors.green),
+        );
+      }
+    } on DioException catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(ErrorHelper.getMessage(e)), backgroundColor: ScadaColors.red),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Export hatasi'), backgroundColor: ScadaColors.red),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _exporting = false);
+    }
+  }
+
+  // ===== DEPARTMAN KIRILIMI =====
+
+  Widget _buildDepartmentSection() {
+    final colors = [ScadaColors.cyan, ScadaColors.green, ScadaColors.amber, ScadaColors.orange, ScadaColors.purple, ScadaColors.red];
+
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      const SectionHeader(icon: Icons.business, title: 'DEPARTMAN KIRILIMI'),
+      const SizedBox(height: 12),
+
+      // Departman tamamlanma bar chart
+      Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: context.scada.card,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: context.scada.border),
+        ),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text('Departman Bazli Tamamlanma Orani', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
+          const SizedBox(height: 16),
+          ..._departmentStats.asMap().entries.map((entry) {
+            final i = entry.key;
+            final dept = entry.value;
+            final color = colors[i % colors.length];
+            final avg = (dept['avg_completion'] as num).toDouble();
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Row(children: [
+                  Expanded(child: Text(dept['name'] as String, style: TextStyle(fontSize: 12, color: context.scada.textPrimary))),
+                  Text('${dept['member_count']} kisi', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
+                  const SizedBox(width: 8),
+                  Text('%${avg.toStringAsFixed(0)}', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: color)),
+                ]),
+                const SizedBox(height: 6),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: LinearProgressIndicator(
+                    value: avg / 100,
+                    minHeight: 8,
+                    backgroundColor: context.scada.border,
+                    valueColor: AlwaysStoppedAnimation<Color>(color),
+                  ),
+                ),
+              ]),
+            );
+          }),
+        ]),
+      ),
+    ]);
   }
 }
 

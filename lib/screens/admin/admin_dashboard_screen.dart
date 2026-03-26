@@ -248,6 +248,12 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                   title: 'Bakim Paneli',
                   onTap: () => Navigator.pushNamed(context, '/admin/maintenance'),
                 ),
+                const SizedBox(height: 8),
+                _buildActionCard(
+                  icon: Icons.help_outline,
+                  title: 'Yardim & SSS',
+                  onTap: () => Navigator.pushNamed(context, '/admin/help'),
+                ),
 
                 const SizedBox(height: 16),
               ]),
