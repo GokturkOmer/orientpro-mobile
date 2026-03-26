@@ -68,7 +68,8 @@ class _BadgesScreenState extends ConsumerState<BadgesScreen> {
   Widget build(BuildContext context) {
     final badgeState = ref.watch(badgeProvider);
     final earnedCodes = badgeState.earnedCodes;
-    final earnedCount = earnedCodes.length;
+    final earnedBadges = badgeState.catalog.where((b) => earnedCodes.contains(b.code)).toList();
+    final lockedBadges = badgeState.catalog.where((b) => !earnedCodes.contains(b.code)).toList();
     final totalCount = badgeState.catalog.length;
 
     return Scaffold(
@@ -103,11 +104,11 @@ class _BadgesScreenState extends ConsumerState<BadgesScreen> {
                     padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
                     children: [
                       // Summary card
-                      _buildSummaryCard(earnedCount, totalCount),
+                      _buildSummaryCard(earnedBadges.length, totalCount),
                       const SizedBox(height: 20),
 
                       // Kazanilan rozetler
-                      if (earnedCount > 0) ...[
+                      if (earnedBadges.isNotEmpty) ...[
                         const SectionHeader(icon: Icons.verified, title: 'KAZANILAN ROZETLER'),
                         const SizedBox(height: 12),
                         GridView.builder(
@@ -116,9 +117,9 @@ class _BadgesScreenState extends ConsumerState<BadgesScreen> {
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2, childAspectRatio: 0.85, crossAxisSpacing: 10, mainAxisSpacing: 10,
                           ),
-                          itemCount: badgeState.catalog.where((b) => earnedCodes.contains(b.code)).length,
+                          itemCount: earnedBadges.length,
                           itemBuilder: (context, index) {
-                            final badge = badgeState.catalog.where((b) => earnedCodes.contains(b.code)).toList()[index];
+                            final badge = earnedBadges[index];
                             final earned = badgeState.earnedBadges.firstWhere((e) => e.badgeCode == badge.code);
                             return _buildBadgeCard(badge, true, earnedAt: earned.earnedAt);
                           },
@@ -127,7 +128,7 @@ class _BadgesScreenState extends ConsumerState<BadgesScreen> {
                       ],
 
                       // Kilitli rozetler
-                      if (totalCount > earnedCount) ...[
+                      if (lockedBadges.isNotEmpty) ...[
                         const SectionHeader(icon: Icons.lock_outline, title: 'KILITLI ROZETLER'),
                         const SizedBox(height: 12),
                         GridView.builder(
@@ -136,10 +137,9 @@ class _BadgesScreenState extends ConsumerState<BadgesScreen> {
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2, childAspectRatio: 0.85, crossAxisSpacing: 10, mainAxisSpacing: 10,
                           ),
-                          itemCount: badgeState.catalog.where((b) => !earnedCodes.contains(b.code)).length,
+                          itemCount: lockedBadges.length,
                           itemBuilder: (context, index) {
-                            final badge = badgeState.catalog.where((b) => !earnedCodes.contains(b.code)).toList()[index];
-                            return _buildBadgeCard(badge, false);
+                            return _buildBadgeCard(lockedBadges[index], false);
                           },
                         ),
                       ],

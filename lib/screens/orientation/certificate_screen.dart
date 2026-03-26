@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/network/auth_dio.dart';
+import '../../core/utils/file_saver.dart' as file_saver;
 import '../../providers/auth_provider.dart';
 
 class CertificateScreen extends ConsumerWidget {
@@ -196,10 +197,11 @@ class CertificateScreen extends ConsumerWidget {
       final bytes = response.data as List<int>;
 
       if (kIsWeb) {
-        // Web: authDio ile indirdik, kullaniciya bilgi ver
+        final webFileName = 'sertifika_${routeId.length > 8 ? routeId.substring(0, 8) : routeId}.pdf';
+        await file_saver.saveFileWeb(bytes, webFileName);
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Sertifika hazir — tarayiciniz uzerinden indirildi'), backgroundColor: ScadaColors.green),
+            const SnackBar(content: Text('Sertifika indirildi'), backgroundColor: ScadaColors.green),
           );
         }
         return;
