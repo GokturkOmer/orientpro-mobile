@@ -1,12 +1,17 @@
+import 'dart:io' show File, Platform;
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:path_provider/path_provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/training_provider.dart';
 import '../../models/training.dart';
 import '../../core/theme/app_theme.dart';
-import '../../core/config/api_config.dart';
 import '../../core/auth/role_helper.dart';
+import '../../core/network/auth_dio.dart';
+import '../../core/utils/error_helper.dart';
+import '../../core/utils/file_saver.dart' as file_saver;
 import '../../core/utils/status_helper.dart';
 import '../../core/utils/department_filter.dart';
 import '../../widgets/section_header.dart';
@@ -55,18 +60,42 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
 
   Future<void> _downloadReport() async {
     final auth = ref.read(authProvider);
-    if (auth.user == null || auth.token == null) return;
-    final url = '${ApiConfig.webUrl}/training/stats/${auth.user!.id}?format=pdf&token=${auth.token}';
+    if (auth.user == null) return;
+
     try {
-      final uri = Uri.parse(url);
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      final dio = ref.read(authDioProvider);
+      final response = await dio.get(
+        '/training/stats/${auth.user!.id}',
+        queryParameters: {'format': 'pdf'},
+        options: Options(responseType: ResponseType.bytes),
+      );
+      final bytes = response.data as List<int>;
+      final fileName = 'ilerleme_raporu_${DateTime.now().toIso8601String().split('T').first}.pdf';
+
+      if (kIsWeb) {
+        await file_saver.saveFileWeb(bytes, fileName);
       } else {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Rapor indirilemedi'), backgroundColor: ScadaColors.red),
-          );
+        String dirPath;
+        if (Platform.isAndroid) {
+          final dir = await getExternalStorageDirectory();
+          dirPath = dir?.path ?? (await getApplicationDocumentsDirectory()).path;
+        } else {
+          dirPath = (await getApplicationDocumentsDirectory()).path;
         }
+        final file = File('$dirPath/$fileName');
+        await file.writeAsBytes(bytes);
+      }
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Rapor indirildi: $fileName'), backgroundColor: ScadaColors.green),
+        );
+      }
+    } on DioException catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(ErrorHelper.getMessage(e)), backgroundColor: ScadaColors.red),
+        );
       }
     } catch (_) {
       if (mounted) {
