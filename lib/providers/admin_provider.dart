@@ -135,7 +135,7 @@ class AdminNotifier extends Notifier<AdminState> {
 
   Future<bool> toggleUserActive(String userId) async {
     try {
-      await _dio.patch('/auth/users/$userId');
+      await _dio.patch('/auth/users/$userId', data: {});
       await loadUsers();
       return true;
     } on DioException catch (e) {
@@ -172,6 +172,27 @@ class AdminNotifier extends Notifier<AdminState> {
       state = state.copyWith(error: ErrorHelper.getMessage(e));
     } catch (e) {
       state = state.copyWith(error: ErrorHelper.getMessage(e));
+    }
+  }
+
+  Future<bool> createDepartment({required String name, required String code, String? description, String? color}) async {
+    state = state.copyWith(isSaving: true, error: null, successMessage: null);
+    try {
+      await _dio.post('/training/departments', data: {
+        'name': name,
+        'code': code,
+        if (description != null) 'description': description,
+        if (color != null) 'color': color,
+      });
+      state = state.copyWith(isSaving: false, successMessage: 'Departman olusturuldu');
+      await loadDepartments();
+      return true;
+    } on DioException catch (e) {
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
+      return false;
+    } catch (e) {
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
+      return false;
     }
   }
 
@@ -251,6 +272,21 @@ class AdminNotifier extends Notifier<AdminState> {
 
       );
       state = state.copyWith(isSaving: false, successMessage: 'Rota basariyla silindi');
+      return true;
+    } on DioException catch (e) {
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
+      return false;
+    } catch (e) {
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
+      return false;
+    }
+  }
+
+  Future<bool> deleteDepartment(String id) async {
+    state = state.copyWith(isSaving: true, error: null, successMessage: null);
+    try {
+      await _dio.delete('/training/departments/$id');
+      state = state.copyWith(isSaving: false, successMessage: 'Departman basariyla silindi');
       return true;
     } on DioException catch (e) {
       state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));

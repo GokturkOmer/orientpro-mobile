@@ -138,10 +138,49 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
             Switch(
               value: user.isActive,
               activeThumbColor: ScadaColors.green,
-              onChanged: (_) => ref.read(adminProvider.notifier).toggleUserActive(user.id),
+              onChanged: (_) => _confirmToggleActive(user),
             ),
           ]),
         ),
+      ),
+    );
+  }
+
+  void _confirmToggleActive(dynamic user) {
+    final willDeactivate = user.isActive;
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: context.scada.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text(
+          willDeactivate ? 'Kullaniciyi Pasife Al' : 'Kullaniciyi Aktif Et',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary),
+        ),
+        content: Text(
+          willDeactivate
+              ? '"${user.fullName}" hesabi pasife alinacak. Kullanici giris yapamayacak. Devam etmek istiyor musunuz?'
+              : '"${user.fullName}" hesabi tekrar aktif edilecek. Devam etmek istiyor musunuz?',
+          style: TextStyle(fontSize: 13, color: context.scada.textSecondary),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text('Iptal', style: TextStyle(color: context.scada.textDim)),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              ref.read(adminProvider.notifier).toggleUserActive(user.id);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: willDeactivate ? ScadaColors.red : ScadaColors.green,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+            child: Text(willDeactivate ? 'Pasife Al' : 'Aktif Et'),
+          ),
+        ],
       ),
     );
   }

@@ -208,6 +208,17 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                     tooltip: 'Yenile',
                   ),
                 ),
+                SizedBox(
+                  width: 28,
+                  height: 28,
+                  child: IconButton(
+                    icon: const Icon(Icons.add_circle_outline, size: 16),
+                    color: ScadaColors.cyan,
+                    padding: EdgeInsets.zero,
+                    onPressed: _showAddDepartmentDialog,
+                    tooltip: 'Yeni departman ekle',
+                  ),
+                ),
               ],
             ),
           ),
@@ -321,6 +332,19 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                     tooltip: 'Rota ekle',
                   ),
                 ),
+                const SizedBox(width: 2),
+                SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: IconButton(
+                    icon: const Icon(Icons.delete_outline, size: 14),
+                    color: ScadaColors.red.withValues(alpha: 0.5),
+                    hoverColor: ScadaColors.red.withValues(alpha: 0.1),
+                    padding: EdgeInsets.zero,
+                    onPressed: () => _confirmDeleteDepartment(dept),
+                    tooltip: 'Departmani sil',
+                  ),
+                ),
               ],
             ),
           ),
@@ -350,13 +374,16 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
             ? ScadaColors.amber
             : ScadaColors.red;
 
-    return InkWell(
-      onTap: () {
-        _selectRoute(route.id);
-        onNarrowSelect?.call();
-      },
-      child: Container(
-        padding: const EdgeInsets.only(left: 36, right: 8, top: 6, bottom: 6),
+    return GestureDetector(
+      onSecondaryTap: () => _showRouteActions(route),
+      child: InkWell(
+        onTap: () {
+          _selectRoute(route.id);
+          onNarrowSelect?.call();
+        },
+        onLongPress: () => _showRouteActions(route),
+        child: Container(
+          padding: const EdgeInsets.only(left: 36, right: 8, top: 6, bottom: 6),
         decoration: BoxDecoration(
           color: isSelected ? ScadaColors.cyan.withValues(alpha: 0.08) : Colors.transparent,
           border: isSelected
@@ -419,8 +446,22 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                 tooltip: 'Modul ekle',
               ),
             ),
+            const SizedBox(width: 2),
+            SizedBox(
+              width: 22,
+              height: 22,
+              child: IconButton(
+                icon: const Icon(Icons.delete_outline, size: 12),
+                color: ScadaColors.red.withValues(alpha: 0.6),
+                hoverColor: ScadaColors.red.withValues(alpha: 0.1),
+                padding: EdgeInsets.zero,
+                onPressed: () => _confirmDeleteRoute(route),
+                tooltip: 'Rotayi sil',
+              ),
+            ),
           ],
         ),
+      ),
       ),
     );
   }
@@ -1074,6 +1115,223 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
   }
 
   // ===== DIALOGS =====
+
+  void _showRouteActions(TrainingRoute route) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: context.scada.surface,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
+      builder: (ctx) => SafeArea(
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            child: Row(children: [
+              const Icon(Icons.route, color: ScadaColors.cyan, size: 18),
+              const SizedBox(width: 8),
+              Expanded(child: Text(route.title, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: context.scada.textPrimary), overflow: TextOverflow.ellipsis)),
+            ]),
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.edit, color: ScadaColors.cyan, size: 20),
+            title: Text('Rotayi Duzenle', style: TextStyle(fontSize: 13, color: context.scada.textPrimary)),
+            onTap: () {
+              Navigator.pop(ctx);
+              Navigator.pushNamed(context, '/admin/route-editor', arguments: {'routeId': route.id});
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.delete_outline, color: ScadaColors.red, size: 20),
+            title: const Text('Rotayi Sil', style: TextStyle(fontSize: 13, color: ScadaColors.red)),
+            onTap: () {
+              Navigator.pop(ctx);
+              _confirmDeleteRoute(route);
+            },
+          ),
+          const SizedBox(height: 8),
+        ]),
+      ),
+    );
+  }
+
+  void _confirmDeleteRoute(TrainingRoute route) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: context.scada.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text('Rotayi Sil', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+        content: Text(
+          '"${route.title}" rotasi ve icindeki tum moduller silinecek. Bu islem geri alinamaz. Devam etmek istiyor musunuz?',
+          style: TextStyle(fontSize: 13, color: context.scada.textSecondary),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text('Iptal', style: TextStyle(color: context.scada.textDim)),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.pop(ctx);
+              final success = await ref.read(adminProvider.notifier).deleteRoute(route.id);
+              if (mounted) {
+                if (success) {
+                  if (_selectedId == route.id) {
+                    setState(() { _selectedType = null; _selectedId = null; });
+                  }
+                  _refresh();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Rota silindi'), backgroundColor: ScadaColors.green),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(ref.read(adminProvider).error ?? 'Silme hatasi'), backgroundColor: ScadaColors.red),
+                  );
+                }
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: ScadaColors.red,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+            child: const Text('Sil'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _confirmDeleteDepartment(Department dept) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: context.scada.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text('Departmani Sil', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+        content: Text(
+          '"${dept.name}" departmani ve icindeki tum rotalar/moduller silinecek. Bu islem geri alinamaz. Devam etmek istiyor musunuz?',
+          style: TextStyle(fontSize: 13, color: context.scada.textSecondary),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text('Iptal', style: TextStyle(color: context.scada.textDim)),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.pop(ctx);
+              final success = await ref.read(adminProvider.notifier).deleteDepartment(dept.id);
+              if (mounted) {
+                if (success) {
+                  setState(() { _expandedDepartments.remove(dept.id); });
+                  _refresh();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Departman silindi'), backgroundColor: ScadaColors.green),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(ref.read(adminProvider).error ?? 'Silme hatasi'), backgroundColor: ScadaColors.red),
+                  );
+                }
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: ScadaColors.red,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+            child: const Text('Sil'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showAddDepartmentDialog() {
+    final nameController = TextEditingController();
+    final codeController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
+
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: context.scada.surface,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: BorderSide(color: context.scada.borderBright),
+        ),
+        title: Text('Yeni Departman Ekle', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+        content: Form(
+          key: formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                controller: nameController,
+                style: TextStyle(color: context.scada.textPrimary),
+                decoration: InputDecoration(
+                  labelText: 'Departman Adi',
+                  labelStyle: TextStyle(color: context.scada.textSecondary),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: context.scada.borderBright)),
+                ),
+                validator: (v) => v == null || v.trim().isEmpty ? 'Departman adi gerekli' : null,
+                onChanged: (v) {
+                  // Auto-generate code from name
+                  codeController.text = v.trim().toLowerCase().replaceAll(RegExp(r'[^a-z0-9]'), '_');
+                },
+              ),
+              const SizedBox(height: 12),
+              TextFormField(
+                controller: codeController,
+                style: TextStyle(color: context.scada.textPrimary),
+                decoration: InputDecoration(
+                  labelText: 'Kod (otomatik)',
+                  labelStyle: TextStyle(color: context.scada.textSecondary),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: context.scada.borderBright)),
+                  helperText: 'Benzersiz kisaltma kodu',
+                  helperStyle: TextStyle(color: context.scada.textDim, fontSize: 10),
+                ),
+                validator: (v) => v == null || v.trim().isEmpty ? 'Kod gerekli' : null,
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text('Iptal', style: TextStyle(color: context.scada.textDim)),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              if (!formKey.currentState!.validate()) return;
+              Navigator.pop(ctx);
+              final success = await ref.read(adminProvider.notifier).createDepartment(
+                name: nameController.text.trim(),
+                code: codeController.text.trim(),
+              );
+              if (mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(success ? 'Departman olusturuldu' : (ref.read(adminProvider).error ?? 'Hata')),
+                    backgroundColor: success ? ScadaColors.green : ScadaColors.red,
+                  ),
+                );
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: ScadaColors.cyan,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+            child: const Text('Ekle'),
+          ),
+        ],
+      ),
+    );
+  }
 
   void _showAddRouteDialog(Department dept) {
     final titleController = TextEditingController();
