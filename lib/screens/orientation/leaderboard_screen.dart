@@ -1,40 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:dio/dio.dart';
 import '../../core/theme/app_theme.dart';
-import '../../core/network/auth_dio.dart';
 import '../../providers/auth_provider.dart';
+import '../../providers/leaderboard_provider.dart';
 import '../../widgets/scada_app_bar.dart';
 import '../../widgets/section_header.dart';
-
-class _LeaderboardEntry {
-  final String userId;
-  final String userName;
-  final String? department;
-  final double completionPercent;
-  final int completedModules;
-  final int totalModules;
-
-  _LeaderboardEntry({
-    required this.userId,
-    required this.userName,
-    this.department,
-    required this.completionPercent,
-    required this.completedModules,
-    required this.totalModules,
-  });
-
-  factory _LeaderboardEntry.fromJson(Map<String, dynamic> json) {
-    return _LeaderboardEntry(
-      userId: json['user_id'] ?? '',
-      userName: json['user_name'] ?? json['userName'] ?? 'Bilinmeyen',
-      department: json['department'],
-      completionPercent: (json['completion_percent'] ?? json['completionPercent'] ?? 0).toDouble(),
-      completedModules: json['completed_modules'] ?? json['completedModules'] ?? 0,
-      totalModules: json['total_modules'] ?? json['totalModules'] ?? 0,
-    );
-  }
-}
 
 class LeaderboardScreen extends ConsumerStatefulWidget {
   const LeaderboardScreen({super.key});
@@ -44,45 +14,19 @@ class LeaderboardScreen extends ConsumerStatefulWidget {
 }
 
 class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
-  List<_LeaderboardEntry> _entries = [];
-  bool _isLoading = true;
-  String? _error;
-
   @override
   void initState() {
     super.initState();
-    _loadLeaderboard();
-  }
-
-  Future<void> _loadLeaderboard() async {
-    setState(() { _isLoading = true; _error = null; });
-    try {
-      final dio = ref.read(authDioProvider);
-      final auth = ref.read(authProvider);
-      final department = auth.user?.department ?? 'teknik';
-      final response = await dio.get('/training/team-progress/$department');
-      final data = response.data as List;
-      final entries = data.map((d) => _LeaderboardEntry.fromJson(d)).toList();
-      // Sort by completion percent descending
-      entries.sort((a, b) => b.completionPercent.compareTo(a.completionPercent));
-      // Take top 10
-      setState(() {
-        _entries = entries.take(10).toList();
-        _isLoading = false;
-      });
-    } on DioException catch (e) {
-      setState(() {
-        _isLoading = false;
-        _error = e.response?.data?['detail'] ?? 'Siralama yuklenemedi';
-      });
-    } catch (e) {
-      setState(() { _isLoading = false; _error = 'Beklenmeyen hata'; });
-    }
+    Future.microtask(() {
+      final department = ref.read(authProvider).user?.department ?? 'teknik';
+      ref.read(leaderboardProvider.notifier).loadLeaderboard(department);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final currentUserId = ref.read(authProvider).user?.id;
+    final leaderboard = ref.watch(leaderboardProvider);
 
     return Scaffold(
       backgroundColor: context.scada.bg,
@@ -91,19 +35,25 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
         titleIcon: Icons.leaderboard,
         titleIconColor: ScadaColors.amber,
       ),
-      body: _isLoading
+      body: leaderboard.isLoading
           ? const Center(child: CircularProgressIndicator(color: ScadaColors.amber))
-          : _error != null
+          : leaderboard.error != null
               ? Center(
                   child: Column(mainAxisSize: MainAxisSize.min, children: [
                     Icon(Icons.error_outline, size: 48, color: ScadaColors.red.withValues(alpha: 0.5)),
                     const SizedBox(height: 12),
-                    Text(_error!, style: const TextStyle(fontSize: 12, color: ScadaColors.red)),
+                    Text(leaderboard.error!, style: const TextStyle(fontSize: 12, color: ScadaColors.red)),
                     const SizedBox(height: 12),
-                    TextButton(onPressed: _loadLeaderboard, child: const Text('Tekrar Dene', style: TextStyle(color: ScadaColors.amber))),
+                    TextButton(
+                      onPressed: () {
+                        final department = ref.read(authProvider).user?.department ?? 'teknik';
+                        ref.read(leaderboardProvider.notifier).loadLeaderboard(department);
+                      },
+                      child: const Text('Tekrar Dene', style: TextStyle(color: ScadaColors.amber)),
+                    ),
                   ]),
                 )
-              : _entries.isEmpty
+              : leaderboard.entries.isEmpty
                   ? Center(
                       child: Column(mainAxisSize: MainAxisSize.min, children: [
                         Icon(Icons.group_off, size: 48, color: context.scada.textDim),
@@ -113,23 +63,21 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
                     )
                   : RefreshIndicator(
                       color: ScadaColors.amber,
-                      onRefresh: _loadLeaderboard,
+                      onRefresh: () async {
+                        final department = ref.read(authProvider).user?.department ?? 'teknik';
+                        await ref.read(leaderboardProvider.notifier).loadLeaderboard(department);
+                      },
                       child: ListView(
                         padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
                         children: [
-                          // Top 3 podium
-                          if (_entries.length >= 3) ...[
-                            _buildPodium(),
+                          if (leaderboard.entries.length >= 3) ...[
+                            _buildPodium(leaderboard.entries),
                             const SizedBox(height: 20),
                           ],
-
-                          // Section header
                           const SectionHeader(icon: Icons.format_list_numbered, title: 'DEPARTMAN SIRALAMASI'),
                           const SizedBox(height: 12),
-
-                          // Full list
-                          ...List.generate(_entries.length, (index) {
-                            final entry = _entries[index];
+                          ...List.generate(leaderboard.entries.length, (index) {
+                            final entry = leaderboard.entries[index];
                             final isCurrentUser = entry.userId == currentUserId;
                             return _buildRankCard(index + 1, entry, isCurrentUser);
                           }),
@@ -139,7 +87,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
     );
   }
 
-  Widget _buildPodium() {
+  Widget _buildPodium(List<LeaderboardEntry> entries) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -151,15 +99,15 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          if (_entries.length > 1) _buildPodiumItem(_entries[1], 2, 80),
-          _buildPodiumItem(_entries[0], 1, 100),
-          if (_entries.length > 2) _buildPodiumItem(_entries[2], 3, 64),
+          if (entries.length > 1) _buildPodiumItem(entries[1], 2, 80),
+          _buildPodiumItem(entries[0], 1, 100),
+          if (entries.length > 2) _buildPodiumItem(entries[2], 3, 64),
         ],
       ),
     );
   }
 
-  Widget _buildPodiumItem(_LeaderboardEntry entry, int rank, double height) {
+  Widget _buildPodiumItem(LeaderboardEntry entry, int rank, double height) {
     final color = rank == 1 ? ScadaColors.amber : rank == 2 ? context.scada.textSecondary : ScadaColors.orange;
     final icon = rank == 1 ? Icons.emoji_events : Icons.military_tech;
 
@@ -203,7 +151,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
     );
   }
 
-  Widget _buildRankCard(int rank, _LeaderboardEntry entry, bool isCurrentUser) {
+  Widget _buildRankCard(int rank, LeaderboardEntry entry, bool isCurrentUser) {
     final progressColor = entry.completionPercent >= 80
         ? ScadaColors.green
         : entry.completionPercent >= 40
@@ -222,7 +170,6 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
         ),
       ),
       child: Row(children: [
-        // Rank number
         SizedBox(
           width: 32,
           child: Text(
@@ -234,8 +181,6 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
             ),
           ),
         ),
-
-        // Avatar
         Container(
           width: 32, height: 32,
           decoration: BoxDecoration(
@@ -248,8 +193,6 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
           )),
         ),
         const SizedBox(width: 10),
-
-        // Name
         Expanded(
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(children: [
@@ -278,8 +221,6 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
             Text('${entry.completedModules}/${entry.totalModules} modul', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
           ]),
         ),
-
-        // Percentage
         Text('%${entry.completionPercent.toStringAsFixed(0)}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: progressColor)),
       ]),
     );

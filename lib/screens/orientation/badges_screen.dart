@@ -1,99 +1,75 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_theme.dart';
-import '../../providers/training_provider.dart';
+import '../../models/badge.dart';
+import '../../providers/badge_provider.dart';
 import '../../widgets/scada_app_bar.dart';
 import '../../widgets/section_header.dart';
 
-class _BadgeInfo {
-  final String id;
-  final String name;
-  final String description;
-  final IconData icon;
-  final Color color;
-  final bool Function(TrainingState training) checkEarned;
-
-  const _BadgeInfo({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.icon,
-    required this.color,
-    required this.checkEarned,
-  });
-}
-
-class BadgesScreen extends ConsumerWidget {
+class BadgesScreen extends ConsumerStatefulWidget {
   const BadgesScreen({super.key});
 
-  static final List<_BadgeInfo> _badges = [
-    _BadgeInfo(
-      id: 'ilk_adim',
-      name: 'Ilk Adim',
-      description: 'Ilk egitim modulunu tamamla',
-      icon: Icons.flag,
-      color: ScadaColors.green,
-      checkEarned: (t) => t.progress.any((p) => p.status == 'completed'),
-    ),
-    _BadgeInfo(
-      id: 'quiz_ustasi',
-      name: 'Quiz Ustasi',
-      description: '5 quizi basariyla gec',
-      icon: Icons.quiz,
-      color: ScadaColors.cyan,
-      checkEarned: (t) => (t.stats?.quizzesPassed ?? 0) >= 5,
-    ),
-    _BadgeInfo(
-      id: 'hizli_ogrenci',
-      name: 'Hizli Ogrenci',
-      description: 'Bir modulu 10 dakikadan kisa surede tamamla',
-      icon: Icons.bolt,
-      color: ScadaColors.amber,
-      checkEarned: (t) => t.progress.any((p) => p.status == 'completed' && p.timeSpentMinutes > 0 && p.timeSpentMinutes < 10),
-    ),
-    _BadgeInfo(
-      id: 'tam_puan',
-      name: 'Tam Puan',
-      description: 'Bir quizden %100 al',
-      icon: Icons.star,
-      color: ScadaColors.orange,
-      checkEarned: (t) => t.quizResults.any((r) => r.score == r.maxScore && r.maxScore > 0),
-    ),
-    _BadgeInfo(
-      id: 'takim_oyuncusu',
-      name: 'Takim Oyuncusu',
-      description: 'Bir rotadaki tum modulleri tamamla',
-      icon: Icons.group,
-      color: ScadaColors.purple,
-      checkEarned: (t) {
-        if (t.routes.isEmpty) return false;
-        for (final route in t.routes) {
-          if (route.modules == null || route.modules!.isEmpty) continue;
-          final moduleIds = route.modules!.map((m) => m.id).toSet();
-          final completedIds = t.progress
-              .where((p) => p.status == 'completed' && moduleIds.contains(p.moduleId))
-              .map((p) => p.moduleId)
-              .toSet();
-          if (completedIds.length == moduleIds.length) return true;
-        }
-        return false;
-      },
-    ),
-    _BadgeInfo(
-      id: 'bilgi_kurdu',
-      name: 'Bilgi Kurdu',
-      description: '10 kutuphane dokumanini oku',
-      icon: Icons.menu_book,
-      color: ScadaColors.cyanDim,
-      // Library reading is not tracked in training state, so this stays locked for now
-      checkEarned: (t) => false,
-    ),
-  ];
+  @override
+  ConsumerState<BadgesScreen> createState() => _BadgesScreenState();
+}
+
+class _BadgesScreenState extends ConsumerState<BadgesScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() async {
+      await ref.read(badgeProvider.notifier).loadBadges();
+      final result = await ref.read(badgeProvider.notifier).checkAndAward();
+      if (result != null && result.newlyAwarded.isNotEmpty && mounted) {
+        _showNewBadgesDialog(result.newlyAwarded);
+      }
+    });
+  }
+
+  void _showNewBadgesDialog(List<Map<String, dynamic>> badges) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: context.scada.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Row(children: [
+          const Icon(Icons.celebration, color: ScadaColors.amber, size: 24),
+          const SizedBox(width: 8),
+          Text('Yeni Rozet!', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+        ]),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: badges.map((b) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 6),
+            child: Row(children: [
+              Text(b['badge_icon'] ?? '', style: const TextStyle(fontSize: 24)),
+              const SizedBox(width: 12),
+              Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(b['badge_name'] ?? '', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
+                Text(_levelText(b['badge_level']), style: TextStyle(fontSize: 10, color: _levelColor(b['badge_level']))),
+              ])),
+            ]),
+          )).toList(),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              ref.read(badgeProvider.notifier).clearNewlyAwarded();
+            },
+            child: const Text('Harika!', style: TextStyle(color: ScadaColors.amber, fontWeight: FontWeight.w600)),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final training = ref.watch(trainingProvider);
-    final earnedCount = _badges.where((b) => b.checkEarned(training)).length;
+  Widget build(BuildContext context) {
+    final badgeState = ref.watch(badgeProvider);
+    final earnedCodes = badgeState.earnedCodes;
+    final earnedCount = earnedCodes.length;
+    final totalCount = badgeState.catalog.length;
 
     return Scaffold(
       backgroundColor: context.scada.bg,
@@ -102,85 +78,129 @@ class BadgesScreen extends ConsumerWidget {
         titleIcon: Icons.emoji_events,
         titleIconColor: ScadaColors.purple,
       ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
-        children: [
-          // Summary card
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: context.scada.surface,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: context.scada.border),
-            ),
-            child: Row(children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: ScadaColors.purple.withValues(alpha: 0.12),
-                  shape: BoxShape.circle,
+      body: badgeState.isLoading
+          ? const Center(child: CircularProgressIndicator(color: ScadaColors.purple))
+          : badgeState.error != null
+              ? Center(
+                  child: Column(mainAxisSize: MainAxisSize.min, children: [
+                    Icon(Icons.error_outline, size: 48, color: ScadaColors.red.withValues(alpha: 0.5)),
+                    const SizedBox(height: 12),
+                    Text(badgeState.error!, style: const TextStyle(fontSize: 12, color: ScadaColors.red)),
+                    const SizedBox(height: 12),
+                    TextButton(
+                      onPressed: () => ref.read(badgeProvider.notifier).loadBadges(),
+                      child: const Text('Tekrar Dene', style: TextStyle(color: ScadaColors.purple)),
+                    ),
+                  ]),
+                )
+              : RefreshIndicator(
+                  color: ScadaColors.purple,
+                  onRefresh: () async {
+                    await ref.read(badgeProvider.notifier).loadBadges();
+                    await ref.read(badgeProvider.notifier).checkAndAward();
+                  },
+                  child: ListView(
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
+                    children: [
+                      // Summary card
+                      _buildSummaryCard(earnedCount, totalCount),
+                      const SizedBox(height: 20),
+
+                      // Kazanilan rozetler
+                      if (earnedCount > 0) ...[
+                        const SectionHeader(icon: Icons.verified, title: 'KAZANILAN ROZETLER'),
+                        const SizedBox(height: 12),
+                        GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, childAspectRatio: 0.85, crossAxisSpacing: 10, mainAxisSpacing: 10,
+                          ),
+                          itemCount: badgeState.catalog.where((b) => earnedCodes.contains(b.code)).length,
+                          itemBuilder: (context, index) {
+                            final badge = badgeState.catalog.where((b) => earnedCodes.contains(b.code)).toList()[index];
+                            final earned = badgeState.earnedBadges.firstWhere((e) => e.badgeCode == badge.code);
+                            return _buildBadgeCard(badge, true, earnedAt: earned.earnedAt);
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+
+                      // Kilitli rozetler
+                      if (totalCount > earnedCount) ...[
+                        const SectionHeader(icon: Icons.lock_outline, title: 'KILITLI ROZETLER'),
+                        const SizedBox(height: 12),
+                        GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, childAspectRatio: 0.85, crossAxisSpacing: 10, mainAxisSpacing: 10,
+                          ),
+                          itemCount: badgeState.catalog.where((b) => !earnedCodes.contains(b.code)).length,
+                          itemBuilder: (context, index) {
+                            final badge = badgeState.catalog.where((b) => !earnedCodes.contains(b.code)).toList()[index];
+                            return _buildBadgeCard(badge, false);
+                          },
+                        ),
+                      ],
+                    ],
+                  ),
                 ),
-                child: const Icon(Icons.emoji_events, color: ScadaColors.purple, size: 28),
-              ),
-              const SizedBox(width: 16),
-              Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text('$earnedCount / ${_badges.length}', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
-                Text('Rozet kazanildi', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
-              ])),
-              SizedBox(
-                width: 56, height: 56,
-                child: Stack(alignment: Alignment.center, children: [
-                  CircularProgressIndicator(
-                    value: _badges.isEmpty ? 0 : earnedCount / _badges.length,
-                    strokeWidth: 5,
-                    backgroundColor: context.scada.border,
-                    valueColor: const AlwaysStoppedAnimation<Color>(ScadaColors.purple),
-                  ),
-                  Text(
-                    '%${(_badges.isEmpty ? 0 : earnedCount / _badges.length * 100).toInt()}',
-                    style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: ScadaColors.purple),
-                  ),
-                ]),
-              ),
-            ]),
-          ),
-
-          const SizedBox(height: 20),
-
-          // Section header
-          const SectionHeader(icon: Icons.military_tech, title: 'TUM ROZETLER'),
-          const SizedBox(height: 12),
-
-          // Badges grid
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 0.85,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-            ),
-            itemCount: _badges.length,
-            itemBuilder: (context, index) {
-              final badge = _badges[index];
-              final earned = badge.checkEarned(training);
-              return _buildBadgeCard(context, badge, earned);
-            },
-          ),
-        ],
-      ),
     );
   }
 
-  Widget _buildBadgeCard(BuildContext context, _BadgeInfo badge, bool earned) {
+  Widget _buildSummaryCard(int earned, int total) {
+    final percent = total > 0 ? earned / total : 0.0;
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: context.scada.surface,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: context.scada.border),
+      ),
+      child: Row(children: [
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: ScadaColors.purple.withValues(alpha: 0.12),
+            shape: BoxShape.circle,
+          ),
+          child: const Icon(Icons.emoji_events, color: ScadaColors.purple, size: 28),
+        ),
+        const SizedBox(width: 16),
+        Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text('$earned / $total', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+          Text('Rozet kazanildi', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
+        ])),
+        SizedBox(
+          width: 56, height: 56,
+          child: Stack(alignment: Alignment.center, children: [
+            CircularProgressIndicator(
+              value: percent,
+              strokeWidth: 5,
+              backgroundColor: context.scada.border,
+              valueColor: const AlwaysStoppedAnimation<Color>(ScadaColors.purple),
+            ),
+            Text(
+              '%${(percent * 100).toInt()}',
+              style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: ScadaColors.purple),
+            ),
+          ]),
+        ),
+      ]),
+    );
+  }
+
+  Widget _buildBadgeCard(BadgeCatalogItem badge, bool earned, {String? earnedAt}) {
+    final levelColor = _levelColor(badge.level);
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: earned ? context.scada.card : context.scada.surface,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: earned ? badge.color.withValues(alpha: 0.4) : context.scada.border,
+          color: earned ? levelColor.withValues(alpha: 0.4) : context.scada.border,
           width: earned ? 1.5 : 1,
         ),
       ),
@@ -191,20 +211,18 @@ class BadgesScreen extends ConsumerWidget {
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
               color: earned
-                  ? badge.color.withValues(alpha: 0.15)
+                  ? levelColor.withValues(alpha: 0.15)
                   : context.scada.textDim.withValues(alpha: 0.1),
               shape: BoxShape.circle,
               border: Border.all(
                 color: earned
-                    ? badge.color.withValues(alpha: 0.3)
+                    ? levelColor.withValues(alpha: 0.3)
                     : context.scada.textDim.withValues(alpha: 0.2),
               ),
             ),
-            child: Icon(
-              earned ? badge.icon : Icons.lock,
-              color: earned ? badge.color : context.scada.textDim,
-              size: 28,
-            ),
+            child: earned
+                ? Text(badge.icon, style: const TextStyle(fontSize: 28))
+                : Icon(Icons.lock, color: context.scada.textDim, size: 28),
           ),
           const SizedBox(height: 12),
           Text(
@@ -232,14 +250,43 @@ class BadgesScreen extends ConsumerWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(
-                color: badge.color.withValues(alpha: 0.12),
+                color: levelColor.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(4),
               ),
-              child: Text('Kazanildi', style: TextStyle(fontSize: 8, fontWeight: FontWeight.w600, color: badge.color)),
+              child: Text(
+                _levelText(badge.level),
+                style: TextStyle(fontSize: 8, fontWeight: FontWeight.w600, color: levelColor),
+              ),
             ),
           ],
         ],
       ),
     );
+  }
+
+  Color _levelColor(String? level) {
+    switch (level) {
+      case 'gold':
+        return ScadaColors.amber;
+      case 'silver':
+        return ScadaColors.cyan;
+      case 'bronze':
+        return ScadaColors.orange;
+      default:
+        return ScadaColors.purple;
+    }
+  }
+
+  String _levelText(String? level) {
+    switch (level) {
+      case 'gold':
+        return 'Altin';
+      case 'silver':
+        return 'Gumus';
+      case 'bronze':
+        return 'Bronz';
+      default:
+        return 'Kazanildi';
+    }
   }
 }

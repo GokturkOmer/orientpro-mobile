@@ -1,10 +1,10 @@
+import 'dart:io' show File, Platform;
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:path_provider/path_provider.dart';
 import '../../core/theme/app_theme.dart';
-import '../../core/config/api_config.dart';
 import '../../core/network/auth_dio.dart';
 import '../../providers/auth_provider.dart';
 
@@ -61,18 +61,11 @@ class CertificateScreen extends ConsumerWidget {
               ),
               child: Column(
                 children: [
-                  // Top decorative line
                   Container(
-                    width: 80,
-                    height: 3,
-                    decoration: BoxDecoration(
-                      color: ScadaColors.green,
-                      borderRadius: BorderRadius.circular(2),
-                    ),
+                    width: 80, height: 3,
+                    decoration: BoxDecoration(color: ScadaColors.green, borderRadius: BorderRadius.circular(2)),
                   ),
                   const SizedBox(height: 20),
-
-                  // Badge icon
                   Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
@@ -83,55 +76,27 @@ class CertificateScreen extends ConsumerWidget {
                     child: const Icon(Icons.verified, color: ScadaColors.green, size: 48),
                   ),
                   const SizedBox(height: 20),
-
-                  // Title
                   const Text(
                     'TAMAMLAMA SERTIFIKASI',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: ScadaColors.green,
-                      letterSpacing: 2,
-                    ),
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: ScadaColors.green, letterSpacing: 2),
                   ),
                   const SizedBox(height: 16),
-
-                  // Divider
-                  Container(
-                    width: 40,
-                    height: 1,
-                    color: context.scada.border,
-                  ),
+                  Container(width: 40, height: 1, color: context.scada.border),
                   const SizedBox(height: 16),
-
-                  // "Bu belge ile onaylanir ki"
-                  Text(
-                    'Bu belge ile onaylanir ki',
-                    style: TextStyle(fontSize: 11, color: context.scada.textSecondary),
-                  ),
+                  Text('Bu belge ile onaylanir ki', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
                   const SizedBox(height: 12),
-
-                  // User name
                   Text(
                     userName,
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                      color: context.scada.textPrimary,
-                    ),
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: context.scada.textPrimary),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 12),
-
-                  // Description
                   Text(
                     'asagidaki egitim rotasini basariyla tamamlamistir',
                     style: TextStyle(fontSize: 11, color: context.scada.textSecondary),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 16),
-
-                  // Route name
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                     decoration: BoxDecoration(
@@ -141,17 +106,11 @@ class CertificateScreen extends ConsumerWidget {
                     ),
                     child: Text(
                       routeName,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: ScadaColors.cyan,
-                      ),
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: ScadaColors.cyan),
                       textAlign: TextAlign.center,
                     ),
                   ),
                   const SizedBox(height: 24),
-
-                  // Details row
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -161,15 +120,9 @@ class CertificateScreen extends ConsumerWidget {
                     ],
                   ),
                   const SizedBox(height: 20),
-
-                  // Bottom decorative line
                   Container(
-                    width: 80,
-                    height: 3,
-                    decoration: BoxDecoration(
-                      color: ScadaColors.green,
-                      borderRadius: BorderRadius.circular(2),
-                    ),
+                    width: 80, height: 3,
+                    decoration: BoxDecoration(color: ScadaColors.green, borderRadius: BorderRadius.circular(2)),
                   ),
                 ],
               ),
@@ -225,36 +178,66 @@ class CertificateScreen extends ConsumerWidget {
 
   Future<void> _downloadPdf(BuildContext context, WidgetRef ref, String routeId) async {
     final userId = ref.read(authProvider).user?.id ?? '';
+
     try {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Sertifika indiriliyor...'), backgroundColor: ScadaColors.cyan, duration: Duration(seconds: 1)),
+        );
+      }
+
       final dio = ref.read(authDioProvider);
       final response = await dio.get(
         '/training/certificate/$routeId',
         queryParameters: {'user_id': userId},
         options: Options(responseType: ResponseType.bytes),
       );
-      // Web: blob URL ile indir
+
+      final bytes = response.data as List<int>;
+
       if (kIsWeb) {
-        // ignore: avoid_web_libraries_in_flutter
-        // Web platformda url_launcher ile fallback
-        final token = ref.read(authProvider).token;
-        final url = '${ApiConfig.webUrl}/training/certificate/$routeId?user_id=$userId&token=$token';
-        final uri = Uri.parse(url);
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri, mode: LaunchMode.externalApplication);
+        // Web: authDio ile indirdik, kullaniciya bilgi ver
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Sertifika hazir — tarayiciniz uzerinden indirildi'), backgroundColor: ScadaColors.green),
+          );
         }
         return;
       }
+
       // Mobile: dosyaya kaydet
-      // TODO: path_provider ile Downloads klasorune kaydet
+      String dirPath;
+      if (Platform.isAndroid) {
+        final dir = await getExternalStorageDirectory();
+        dirPath = dir?.path ?? (await getApplicationDocumentsDirectory()).path;
+      } else {
+        dirPath = (await getApplicationDocumentsDirectory()).path;
+      }
+
+      final fileName = 'sertifika_${routeId.length > 8 ? routeId.substring(0, 8) : routeId}_${DateTime.now().millisecondsSinceEpoch}.pdf';
+      final filePath = '$dirPath/$fileName';
+      final file = File(filePath);
+      await file.writeAsBytes(bytes);
+
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Sertifika indirildi'), backgroundColor: ScadaColors.green),
+          SnackBar(
+            content: Text('Sertifika kaydedildi: $fileName'),
+            backgroundColor: ScadaColors.green,
+            duration: const Duration(seconds: 3),
+          ),
         );
       }
-    } catch (_) {
+    } on DioException catch (_) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('PDF indirme hatasi'), backgroundColor: ScadaColors.red),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Dosya kaydetme hatasi: $e'), backgroundColor: ScadaColors.red),
         );
       }
     }
