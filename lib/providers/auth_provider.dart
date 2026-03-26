@@ -71,6 +71,26 @@ class AuthNotifier extends Notifier<AuthState> {
     }
   }
 
+  /// Kurum kaydi — organizasyon + admin kullanici olusturur
+  Future<Map<String, dynamic>> registerOrganization(String email, String fullName, String password, String orgName, {String sector = 'hotel'}) async {
+    state = AuthState(isLoading: true, autoLoginChecked: state.autoLoginChecked);
+    try {
+      await _dio.post('/auth/register-organization', data: {
+        'email': email,
+        'full_name': fullName,
+        'password': password,
+        'organization_name': orgName,
+        'sector': sector,
+      });
+      state = AuthState(autoLoginChecked: state.autoLoginChecked);
+      return {'success': true};
+    } on DioException catch (e) {
+      final msg = ErrorHelper.getMessage(e);
+      state = AuthState(error: msg, autoLoginChecked: state.autoLoginChecked);
+      return {'success': false, 'error': msg};
+    }
+  }
+
   /// Login islemi — basarili olursa token ve kullanici bilgisi kalici olarak saklanir
   /// Birden fazla organizasyona uyeyse org secim ekrani gosterilir
   Future<bool> login(String email, String password) async {

@@ -1,8 +1,15 @@
+import 'permission_helper.dart';
+
 class RoleHelper {
   // ===== TEMEL ROL KONTROLLERI =====
 
-  /// Admin: sadece 'admin' rolu
-  static bool isAdmin(String? role) => role == 'admin';
+  /// Admin: DB permissions varsa settings:edit kontrol eder, yoksa hardcoded fallback
+  static bool isAdmin(String? role, {List<Map<String, dynamic>>? permissions}) {
+    if (permissions != null && permissions.isNotEmpty) {
+      return PermissionHelper(permissions).canAccessAdmin;
+    }
+    return role == 'admin';
+  }
 
   /// Pro erisim: admin + tum teknik ekip
   static const _proRoles = {
@@ -19,16 +26,27 @@ class RoleHelper {
     'fb_mudur', 'spa_mudur',
     'elektrik_sefi', 'mekanik_sefi', 'tesisat_sefi',
   };
-  static bool isSupervisor(String? role) => _supervisorRoles.contains(role);
+  static bool isSupervisor(String? role, {List<Map<String, dynamic>>? permissions}) {
+    if (permissions != null && permissions.isNotEmpty) {
+      final ph = PermissionHelper(permissions);
+      return ph.hasPermission('users', 'view') && ph.hasPermission('reports', 'view');
+    }
+    return _supervisorRoles.contains(role);
+  }
 
-  /// Icerik duzenleme: admin + mudur + sef roller
+  /// Icerik duzenleme: DB permissions varsa content:edit kontrol eder
   static const _contentEditorRoles = {
     'admin', 'teknik_mudur',
     'resepsiyon_mudur', 'hk_mudur', 'guvenlik_mudur', 'mutfak_mudur',
     'fb_mudur', 'spa_mudur',
     'elektrik_sefi', 'mekanik_sefi', 'tesisat_sefi',
   };
-  static bool canEditContent(String? role) => _contentEditorRoles.contains(role);
+  static bool canEditContent(String? role, {List<Map<String, dynamic>>? permissions}) {
+    if (permissions != null && permissions.isNotEmpty) {
+      return PermissionHelper(permissions).canEditContent;
+    }
+    return _contentEditorRoles.contains(role);
+  }
 
   // ===== DEPARTMAN FILTRELEME =====
 

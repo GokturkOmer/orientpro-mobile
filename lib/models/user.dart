@@ -11,15 +11,18 @@ class User {
   final int sharedUploadLimit;
   final String? organizationId;
   final String? organizationName;
-  User({required this.id, required this.email, required this.fullName, required this.role, this.department, this.phone, this.specialization, this.photoUrl, required this.isActive, this.sharedUploadLimit = 5, this.organizationId, this.organizationName});
+  final List<Map<String, dynamic>> permissions;
+  User({required this.id, required this.email, required this.fullName, required this.role, this.department, this.phone, this.specialization, this.photoUrl, required this.isActive, this.sharedUploadLimit = 5, this.organizationId, this.organizationName, this.permissions = const []});
   factory User.fromJson(Map<String, dynamic> json) {
-    return User(id: json['id'], email: json['email'], fullName: json['full_name'], role: json['role'], department: json['department'], phone: json['phone'], specialization: json['specialization'], photoUrl: json['photo_url'], isActive: json['is_active'] ?? true, sharedUploadLimit: json['shared_upload_limit'] ?? 5, organizationId: json['organization_id'], organizationName: json['organization']?['name']);
+    return User(id: json['id'], email: json['email'], fullName: json['full_name'], role: json['role'], department: json['department'], phone: json['phone'], specialization: json['specialization'], photoUrl: json['photo_url'], isActive: json['is_active'] ?? true, sharedUploadLimit: json['shared_upload_limit'] ?? 5, organizationId: json['organization_id'], organizationName: json['organization']?['name'],
+      permissions: (json['permissions'] as List?)?.map((e) => Map<String, dynamic>.from(e)).toList() ?? const [],
+    );
   }
   Map<String, dynamic> toJson() => {
     'id': id, 'email': email, 'full_name': fullName, 'role': role,
     'department': department, 'phone': phone, 'specialization': specialization,
     'photo_url': photoUrl, 'is_active': isActive, 'shared_upload_limit': sharedUploadLimit,
-    'organization_id': organizationId,
+    'organization_id': organizationId, 'permissions': permissions,
   };
   String get roleText {
     const map = {

@@ -14,8 +14,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmController = TextEditingController();
+  final _orgNameController = TextEditingController();
   bool _obscure = true;
   bool _obscureConfirm = true;
+  bool _isOrgRegistration = false;
   String? _localError;
 
   String? _validateInputs() {
@@ -26,6 +28,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
     if (name.isEmpty || email.isEmpty || password.isEmpty) {
       return 'Tum alanlari doldurun';
+    }
+    if (_isOrgRegistration && _orgNameController.text.trim().isEmpty) {
+      return 'Kurum adini girin';
     }
     if (!email.contains('@') || !email.contains('.')) {
       return 'Gecerli bir e-posta adresi girin';
@@ -56,11 +61,21 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     }
     setState(() => _localError = null);
 
-    final result = await ref.read(authProvider.notifier).register(
-      _emailController.text.trim(),
-      _nameController.text.trim(),
-      _passwordController.text,
-    );
+    final Map<String, dynamic> result;
+    if (_isOrgRegistration) {
+      result = await ref.read(authProvider.notifier).registerOrganization(
+        _emailController.text.trim(),
+        _nameController.text.trim(),
+        _passwordController.text,
+        _orgNameController.text.trim(),
+      );
+    } else {
+      result = await ref.read(authProvider.notifier).register(
+        _emailController.text.trim(),
+        _nameController.text.trim(),
+        _passwordController.text,
+      );
+    }
 
     if (result['success'] == true && mounted) {
       Navigator.pushReplacementNamed(
@@ -109,12 +124,48 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   border: Border.all(color: context.scada.border),
                 ),
                 child: Column(children: [
-                  Row(children: [
-                    Icon(Icons.app_registration, size: 14, color: context.scada.textDim),
-                    const SizedBox(width: 6),
-                    Text('KAYIT BILGILERI', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
-                  ]),
+                  // Kayit tipi toggle
+                  Container(
+                    decoration: BoxDecoration(
+                      color: context.scada.surface,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(children: [
+                      Expanded(child: GestureDetector(
+                        onTap: () => setState(() => _isOrgRegistration = false),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          decoration: BoxDecoration(
+                            color: !_isOrgRegistration ? ScadaColors.cyan.withValues(alpha: 0.15) : Colors.transparent,
+                            borderRadius: BorderRadius.circular(8),
+                            border: !_isOrgRegistration ? Border.all(color: ScadaColors.cyan.withValues(alpha: 0.4)) : null,
+                          ),
+                          child: Center(child: Text('Bireysel', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600,
+                            color: !_isOrgRegistration ? ScadaColors.cyan : context.scada.textDim))),
+                        ),
+                      )),
+                      Expanded(child: GestureDetector(
+                        onTap: () => setState(() => _isOrgRegistration = true),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          decoration: BoxDecoration(
+                            color: _isOrgRegistration ? ScadaColors.green.withValues(alpha: 0.15) : Colors.transparent,
+                            borderRadius: BorderRadius.circular(8),
+                            border: _isOrgRegistration ? Border.all(color: ScadaColors.green.withValues(alpha: 0.4)) : null,
+                          ),
+                          child: Center(child: Text('Kurum', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600,
+                            color: _isOrgRegistration ? ScadaColors.green : context.scada.textDim))),
+                        ),
+                      )),
+                    ]),
+                  ),
                   const SizedBox(height: 16),
+
+                  // Kurum adi (sadece kurum kaydi modunda)
+                  if (_isOrgRegistration) ...[
+                    _buildField(_orgNameController, 'Kurum Adi', Icons.business, TextInputType.text),
+                    const SizedBox(height: 14),
+                  ],
 
                   // Ad Soyad
                   _buildField(_nameController, 'Ad Soyad', Icons.person_outline, TextInputType.name),

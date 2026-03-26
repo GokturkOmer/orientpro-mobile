@@ -204,7 +204,7 @@ class _AdminGuard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final auth = ref.watch(authProvider);
-    if (RoleHelper.isAdmin(auth.user?.role)) return child;
+    if (RoleHelper.isAdmin(auth.user?.role, permissions: auth.user?.permissions)) return child;
     return const _AccessDeniedScreen();
   }
 }
@@ -217,7 +217,7 @@ class _ContentEditorGuard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final auth = ref.watch(authProvider);
-    if (RoleHelper.canEditContent(auth.user?.role)) return child;
+    if (RoleHelper.canEditContent(auth.user?.role, permissions: auth.user?.permissions)) return child;
     return const _AccessDeniedScreen();
   }
 }
