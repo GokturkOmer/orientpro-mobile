@@ -94,7 +94,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
               const SizedBox(height: 20),
               const Text('OrientPro', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: ScadaColors.cyan, letterSpacing: 2)),
               const SizedBox(height: 4),
-              Text('SCADA & Tesis Yonetim Sistemi', style: TextStyle(fontSize: 12, color: context.scada.textSecondary, letterSpacing: 1)),
+              Text('Calisan Egitim & Oryantasyon Platformu', style: TextStyle(fontSize: 12, color: context.scada.textSecondary, letterSpacing: 1)),
               const SizedBox(height: 8),
               // Version badge
               Container(
@@ -211,7 +211,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                 ]),
               ),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: 16),
+              // Kayit Ol linki
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Text('Hesabiniz yok mu?', style: TextStyle(fontSize: 12, color: context.scada.textDim)),
+                TextButton(
+                  onPressed: () => Navigator.pushNamed(context, '/register'),
+                  child: const Text('Kayit Ol', style: TextStyle(fontSize: 12, color: ScadaColors.green, fontWeight: FontWeight.w600)),
+                ),
+              ]),
+
+              const SizedBox(height: 12),
               // Footer
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Container(width: 6, height: 6, decoration: BoxDecoration(color: ScadaColors.green.withValues(alpha: 0.6), shape: BoxShape.circle)),

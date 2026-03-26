@@ -13,6 +13,7 @@ import 'screens/auth/email_verification_screen.dart';
 import 'screens/auth/select_organization_screen.dart';
 import 'screens/auth/consent_screen.dart';
 import 'screens/auth/onboarding_screen.dart';
+import 'screens/auth/register_screen.dart';
 import 'screens/dashboard/dashboard_screen.dart';
 import 'screens/equipment/equipment_list_screen.dart';
 import 'screens/work_orders/work_order_list_screen.dart';
@@ -94,6 +95,7 @@ class OrientProApp extends ConsumerWidget {
       routes: {
         '/': (context) => const SplashScreen(),
         '/login': (context) => const LoginScreen(),
+        '/register': (context) => const RegisterScreen(),
         '/forgot-password': (context) => const ForgotPasswordScreen(),
         '/select-organization': (context) => const SelectOrganizationScreen(),
         '/consent': (context) => const ConsentScreen(),

@@ -51,6 +51,26 @@ class AuthNotifier extends Notifier<AuthState> {
   @override
   AuthState build() => AuthState();
 
+  /// Public kayit islemi — basarili olursa e-posta dogrulama ekranina yonlendirilir
+  Future<Map<String, dynamic>> register(String email, String fullName, String password) async {
+    state = AuthState(isLoading: true, autoLoginChecked: state.autoLoginChecked);
+    try {
+      await _dio.post('/auth/register', data: {
+        'email': email,
+        'full_name': fullName,
+        'password': password,
+        'role': 'staff',
+        'department': 'genel',
+      });
+      state = AuthState(autoLoginChecked: state.autoLoginChecked);
+      return {'success': true};
+    } on DioException catch (e) {
+      final msg = ErrorHelper.getMessage(e);
+      state = AuthState(error: msg, autoLoginChecked: state.autoLoginChecked);
+      return {'success': false, 'error': msg};
+    }
+  }
+
   /// Login islemi — basarili olursa token ve kullanici bilgisi kalici olarak saklanir
   /// Birden fazla organizasyona uyeyse org secim ekrani gosterilir
   Future<bool> login(String email, String password) async {

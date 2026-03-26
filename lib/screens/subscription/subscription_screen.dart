@@ -1,7 +1,11 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:dio/dio.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/network/auth_dio.dart';
+import '../../core/utils/error_helper.dart';
 
 /// Abonelik durumu ve plan yonetimi ekrani.
 /// Mevcut plan, kalan sure, plan yukseltme ve fatura gecmisi gosterir.
@@ -287,22 +291,190 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
   }
 
   void _showUpgradeDialog(Map<String, dynamic> plan) {
-    showDialog(context: context, builder: (ctx) => AlertDialog(
-      backgroundColor: context.scada.surface,
-      title: Text('${plan['display_name']} Planina Yukselt',
-        style: TextStyle(color: context.scada.textPrimary)),
-      content: Text(
-        'Bu plan aylik ${(plan['price_monthly'] ?? 0).toStringAsFixed(0)} TL veya '
-        'yillik ${(plan['price_yearly'] ?? 0).toStringAsFixed(0)} TL.\n\n'
-        'Yukseltme icin lufen destek ekibi ile iletisime gecin.',
-        style: TextStyle(color: context.scada.textSecondary)),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(ctx),
-          child: Text('Kapat', style: TextStyle(color: context.scada.textDim)),
-        ),
-      ],
+    String selectedPeriod = 'monthly';
+
+    showDialog(context: context, builder: (ctx) => StatefulBuilder(
+      builder: (ctx, setDialogState) => AlertDialog(
+        backgroundColor: context.scada.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text('${plan['display_name']} Planina Yukselt',
+          style: TextStyle(color: context.scada.textPrimary, fontSize: 18, fontWeight: FontWeight.w700)),
+        content: Column(mainAxisSize: MainAxisSize.min, children: [
+          // Fiyat secimi
+          Row(children: [
+            Expanded(child: _buildPeriodOption(
+              'Aylik',
+              '${(plan['price_monthly'] ?? 0).toStringAsFixed(0)} TL/ay',
+              selectedPeriod == 'monthly',
+              () => setDialogState(() => selectedPeriod = 'monthly'),
+            )),
+            const SizedBox(width: 10),
+            Expanded(child: _buildPeriodOption(
+              'Yillik',
+              '${(plan['price_yearly'] ?? 0).toStringAsFixed(0)} TL/yil',
+              selectedPeriod == 'yearly',
+              () => setDialogState(() => selectedPeriod = 'yearly'),
+            )),
+          ]),
+          const SizedBox(height: 16),
+          // Ozellikler
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: context.scada.bg,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              _buildFeatureRow(Icons.people, '${plan['max_users'] ?? '?'} kullanici'),
+              _buildFeatureRow(Icons.cloud, '${plan['max_storage_gb'] ?? '?'} GB depolama'),
+              if (plan['features'] != null && (plan['features'] as Map).containsKey('ai_chatbot'))
+                _buildFeatureRow(Icons.smart_toy, 'AI Asistan'),
+              if (plan['features'] != null && (plan['features'] as Map).containsKey('analytics'))
+                _buildFeatureRow(Icons.analytics, 'Detayli Analitik'),
+            ]),
+          ),
+        ]),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text('Iptal', style: TextStyle(color: context.scada.textDim)),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              _startCheckout(plan, selectedPeriod);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: ScadaColors.green,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+            child: const Text('Odemeye Gec'),
+          ),
+        ],
+      ),
     ));
+  }
+
+  Widget _buildPeriodOption(String label, String price, bool selected, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: selected ? ScadaColors.cyan.withValues(alpha: 0.08) : context.scada.bg,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: selected ? ScadaColors.cyan : context.scada.border,
+            width: selected ? 2 : 1,
+          ),
+        ),
+        child: Column(children: [
+          Text(label, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600,
+            color: selected ? ScadaColors.cyan : context.scada.textSecondary)),
+          const SizedBox(height: 4),
+          Text(price, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700,
+            color: selected ? ScadaColors.cyan : context.scada.textPrimary)),
+        ]),
+      ),
+    );
+  }
+
+  Widget _buildFeatureRow(IconData icon, String text) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: Row(children: [
+        Icon(icon, size: 14, color: ScadaColors.green),
+        const SizedBox(width: 8),
+        Text(text, style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
+      ]),
+    );
+  }
+
+  Future<void> _startCheckout(Map<String, dynamic> plan, String billingPeriod) async {
+    setState(() { _isLoading = true; _error = null; });
+    try {
+      final dio = ref.read(authDioProvider);
+      final response = await dio.post('/payments/checkout', data: {
+        'plan_id': plan['id'],
+        'billing_period': billingPeriod,
+      });
+
+      final checkoutHtml = response.data['checkout_form_content'] as String?;
+      final token = response.data['token'] as String?;
+
+      if (checkoutHtml != null && checkoutHtml.isNotEmpty) {
+        setState(() => _isLoading = false);
+        if (mounted) _showCheckoutForm(checkoutHtml);
+      } else if (token != null) {
+        // Token varsa iyzico sayfasina yonlendir
+        setState(() => _isLoading = false);
+        final uri = Uri.parse('https://sandbox-merchant.iyzipay.com/checkout?token=$token');
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(uri, mode: LaunchMode.externalApplication);
+        }
+      } else {
+        setState(() { _isLoading = false; _error = 'Odeme formu olusturulamadi'; });
+      }
+    } on DioException catch (e) {
+      setState(() { _isLoading = false; _error = ErrorHelper.getMessage(e); });
+    } catch (e) {
+      setState(() { _isLoading = false; _error = 'Odeme baslatilamadi'; });
+    }
+  }
+
+  void _showCheckoutForm(String htmlContent) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: context.scada.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Row(children: [
+          const Icon(Icons.payment, color: ScadaColors.green, size: 20),
+          const SizedBox(width: 8),
+          Text('Odeme', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+          const Spacer(),
+          IconButton(icon: const Icon(Icons.close, size: 20), onPressed: () {
+            Navigator.pop(ctx);
+            _loadData();
+          }),
+        ]),
+        content: SizedBox(
+          width: double.maxFinite,
+          height: 400,
+          child: kIsWeb
+            ? const Center(child: Text('Odeme sayfasi tarayicinizda acilacak'))
+            : SingleChildScrollView(
+                child: Column(children: [
+                  const Icon(Icons.open_in_browser, size: 48, color: ScadaColors.cyan),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Odeme formu hazir. Tarayicinizda aciliyor...',
+                    style: TextStyle(fontSize: 14, color: context.scada.textSecondary),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Odeme tamamlandiktan sonra bu sayfaya donun ve yenileyin.',
+                    style: TextStyle(fontSize: 12, color: context.scada.textDim),
+                    textAlign: TextAlign.center,
+                  ),
+                ]),
+              ),
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              _loadData();
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.cyan),
+            child: const Text('Odeme Tamamlandi — Yenile'),
+          ),
+        ],
+      ),
+    );
   }
 
   String _formatDate(String? dateStr) {
