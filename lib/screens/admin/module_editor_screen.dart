@@ -1,3 +1,18 @@
+// Modul Editor — egitim modulu olusturma/duzenleme ekrani
+//
+// Yapi:
+//   1. State & Form Logic       (satir ~20-1165)   — form controllers, API islemleri
+//   2. build() & Layout         (satir ~1166-1235)  — ana scaffold, tab yapisi
+//   3. _buildModuleForm()       (satir ~1236-1303)  — modul bilgi formu
+//   4. _buildContentSection()   (satir ~1304-1789)  — icerik yonetimi
+//   5. _buildContentCard()      (satir ~1790-2236)  — tekil icerik karti + PDF detay dialog
+//   6. RAG Tab Widget'lari      (satir ~2237-2413)  — classification, fulltext, chunks
+//   7. Quiz Section             (satir ~2414-2537)  — quiz listesi ve quiz karti
+//
+// NOT: Bu dosya buyuk (~2500 satir). RAG tab widget'lari ve quiz section
+// gelecekte ayri dosyalara cikarilabilir. State bagimliliklari nedeniyle
+// simdilik tek dosyada tutulmaktadir.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';

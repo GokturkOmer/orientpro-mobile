@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_theme.dart';
 import '../../providers/training_provider.dart';
+import '../../widgets/scada_app_bar.dart';
+import '../../widgets/section_header.dart';
 
 class _BadgeInfo {
   final String id;
@@ -95,24 +97,10 @@ class BadgesScreen extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: context.scada.bg,
-      appBar: AppBar(
-        backgroundColor: context.scada.surface,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Row(mainAxisSize: MainAxisSize.min, children: [
-          Container(
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              color: ScadaColors.purple.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: const Icon(Icons.emoji_events, color: ScadaColors.purple, size: 20),
-          ),
-          const SizedBox(width: 8),
-          Text('Rozetler', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
-        ]),
+      appBar: const ScadaAppBar(
+        title: 'Rozetler',
+        titleIcon: Icons.emoji_events,
+        titleIconColor: ScadaColors.purple,
       ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
@@ -160,11 +148,7 @@ class BadgesScreen extends ConsumerWidget {
           const SizedBox(height: 20),
 
           // Section header
-          Row(children: [
-            Icon(Icons.military_tech, size: 14, color: context.scada.textDim),
-            const SizedBox(width: 6),
-            Text('TUM ROZETLER', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
-          ]),
+          const SectionHeader(icon: Icons.military_tech, title: 'TUM ROZETLER'),
           const SizedBox(height: 12),
 
           // Badges grid

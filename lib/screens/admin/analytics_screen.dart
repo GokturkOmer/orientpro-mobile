@@ -4,6 +4,9 @@ import 'package:fl_chart/fl_chart.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/network/auth_dio.dart';
 import '../../core/utils/error_helper.dart';
+import '../../widgets/scada_app_bar.dart';
+import '../../widgets/stat_card.dart';
+import '../../widgets/section_header.dart';
 
 /// Kullanim analitigi ekrani — admin icin
 /// Backend endpoint: GET /analytics/usage + GET /analytics/training-summary
@@ -85,24 +88,10 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.scada.bg,
-      appBar: AppBar(
-        backgroundColor: context.scada.surface,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Row(mainAxisSize: MainAxisSize.min, children: [
-          Container(
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              color: ScadaColors.purple.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: const Icon(Icons.analytics, color: ScadaColors.purple, size: 20),
-          ),
-          const SizedBox(width: 8),
-          Text('Kullanim Analitigi', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
-        ]),
+      appBar: const ScadaAppBar(
+        title: 'Kullanim Analitigi',
+        titleIcon: Icons.analytics,
+        titleIconColor: ScadaColors.purple,
       ),
       body: _loading
           ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -154,7 +143,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
 
   Widget _buildUsageSection() {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      _sectionHeader(Icons.people, 'KULLANIM OZETI'),
+      const SectionHeader(icon: Icons.people, title: 'KULLANIM OZETI'),
       const SizedBox(height: 12),
 
       // Kullanici kullanim orani — buyuk kart
@@ -196,11 +185,11 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
 
       // 3 stat kart
       Row(children: [
-        _statCard('Departman', '$_departments', Icons.business, ScadaColors.cyan),
+        StatCard(label: 'Departman', value: '$_departments', color: ScadaColors.cyan, icon: Icons.business, padding: 14, borderRadius: 12),
         const SizedBox(width: 8),
-        _statCard('Rota', '$_trainingRoutes', Icons.route, ScadaColors.green),
+        StatCard(label: 'Rota', value: '$_trainingRoutes', color: ScadaColors.green, icon: Icons.route, padding: 14, borderRadius: 12),
         const SizedBox(width: 8),
-        _statCard('Modul', '$_trainingModules', Icons.school, ScadaColors.amber),
+        StatCard(label: 'Modul', value: '$_trainingModules', color: ScadaColors.amber, icon: Icons.school, padding: 14, borderRadius: 12),
       ]),
     ]);
   }
@@ -209,7 +198,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
 
   Widget _buildTrainingSection() {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      _sectionHeader(Icons.school, 'EGITIM ISTATISTIKLERI'),
+      const SectionHeader(icon: Icons.school, title: 'EGITIM ISTATISTIKLERI'),
       const SizedBox(height: 12),
 
       // Tamamlanma ve basari kartlari
@@ -265,7 +254,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
 
   Widget _buildChartsSection() {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      _sectionHeader(Icons.bar_chart, 'GRAFIKLER'),
+      const SectionHeader(icon: Icons.bar_chart, title: 'GRAFIKLER'),
       const SizedBox(height: 12),
 
       // Egitim ozet bar chart
@@ -364,34 +353,6 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
   }
 
   // ===== YARDIMCI WIDGETLAR =====
-
-  Widget _sectionHeader(IconData icon, String text) {
-    return Row(children: [
-      Icon(icon, size: 14, color: context.scada.textDim),
-      const SizedBox(width: 6),
-      Text(text, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
-    ]);
-  }
-
-  Widget _statCard(String label, String value, IconData icon, Color color) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: context.scada.card,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: color.withValues(alpha: 0.3)),
-        ),
-        child: Column(children: [
-          Icon(icon, color: color, size: 22),
-          const SizedBox(height: 8),
-          Text(value, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: color)),
-          const SizedBox(height: 4),
-          Text(label, style: TextStyle(fontSize: 9, color: context.scada.textSecondary), textAlign: TextAlign.center),
-        ]),
-      ),
-    );
-  }
 
   Widget _progressCard(String title, double percent, String subtitle, Color color) {
     return Container(

@@ -4,6 +4,8 @@ import 'package:dio/dio.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/network/auth_dio.dart';
 import '../../providers/auth_provider.dart';
+import '../../widgets/scada_app_bar.dart';
+import '../../widgets/section_header.dart';
 
 class _LeaderboardEntry {
   final String userId;
@@ -84,24 +86,10 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
 
     return Scaffold(
       backgroundColor: context.scada.bg,
-      appBar: AppBar(
-        backgroundColor: context.scada.surface,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Row(mainAxisSize: MainAxisSize.min, children: [
-          Container(
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              color: ScadaColors.amber.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: const Icon(Icons.leaderboard, color: ScadaColors.amber, size: 20),
-          ),
-          const SizedBox(width: 8),
-          Text('Siralama', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
-        ]),
+      appBar: const ScadaAppBar(
+        title: 'Siralama',
+        titleIcon: Icons.leaderboard,
+        titleIconColor: ScadaColors.amber,
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator(color: ScadaColors.amber))
@@ -136,11 +124,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
                           ],
 
                           // Section header
-                          Row(children: [
-                            Icon(Icons.format_list_numbered, size: 14, color: context.scada.textDim),
-                            const SizedBox(width: 6),
-                            Text('DEPARTMAN SIRALAMASI', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
-                          ]),
+                          const SectionHeader(icon: Icons.format_list_numbered, title: 'DEPARTMAN SIRALAMASI'),
                           const SizedBox(height: 12),
 
                           // Full list

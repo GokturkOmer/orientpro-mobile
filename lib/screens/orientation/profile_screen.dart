@@ -4,6 +4,9 @@ import '../../providers/auth_provider.dart';
 import '../../providers/profile_provider.dart';
 import '../../models/user_profile.dart';
 import '../../core/theme/app_theme.dart';
+import '../../widgets/scada_app_bar.dart';
+import '../../widgets/stat_card.dart';
+import '../../widgets/section_header.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -45,24 +48,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
     return Scaffold(
       backgroundColor: context.scada.bg,
-      appBar: AppBar(
-        backgroundColor: context.scada.surface,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Row(mainAxisSize: MainAxisSize.min, children: [
-          Container(
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              color: ScadaColors.orange.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: const Icon(Icons.person, color: ScadaColors.orange, size: 20),
-          ),
-          const SizedBox(width: 8),
-          Text('Profil Karti', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
-        ]),
+      appBar: ScadaAppBar(
+        title: 'Profil Karti',
+        titleIcon: Icons.person,
+        titleIconColor: ScadaColors.orange,
         actions: [
           if (profile != null)
             IconButton(
@@ -114,17 +103,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     if (summary != null) ...[
                       const SizedBox(height: 12),
                       Row(children: [
-                        _buildStatCard('Egitim', '${summary.completedTrainings}', ScadaColors.green),
+                        StatCard(label: 'Egitim', value: '${summary.completedTrainings}', color: ScadaColors.green, borderRadius: 8),
                         const SizedBox(width: 8),
-                        _buildStatCard('Belge', '${summary.documentCount}', ScadaColors.cyan),
+                        StatCard(label: 'Belge', value: '${summary.documentCount}', color: ScadaColors.cyan, borderRadius: 8),
                         const SizedBox(width: 8),
-                        _buildStatCard('Form', '${summary.formCount}', ScadaColors.purple),
+                        StatCard(label: 'Form', value: '${summary.formCount}', color: ScadaColors.purple, borderRadius: 8),
                       ]),
                     ],
 
                     // Contact info
                     const SizedBox(height: 16),
-                    _buildSectionHeader('ILETISIM BILGILERI', Icons.contact_phone),
+                    const SectionHeader(title: 'ILETISIM BILGILERI', icon: Icons.contact_phone),
                     const SizedBox(height: 8),
                     _buildInfoCard([
                       _buildInfoRow(Icons.email, 'E-posta', profile.email ?? '-'),
@@ -134,7 +123,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
                     // Emergency contact
                     const SizedBox(height: 16),
-                    _buildSectionHeader('ACIL DURUM KISI', Icons.emergency),
+                    const SectionHeader(title: 'ACIL DURUM KISI', icon: Icons.emergency),
                     const SizedBox(height: 8),
                     _buildInfoCard([
                       _buildInfoRow(Icons.person, 'Ad Soyad', profile.emergencyName ?? '-'),
@@ -144,7 +133,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
                     // Personal info
                     const SizedBox(height: 16),
-                    _buildSectionHeader('KISISEL BILGILER', Icons.badge),
+                    const SectionHeader(title: 'KISISEL BILGILER', icon: Icons.badge),
                     const SizedBox(height: 8),
                     _buildInfoCard([
                       _buildInfoRow(Icons.cake, 'Dogum Tarihi', profile.birthDate ?? '-'),
@@ -157,7 +146,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     // Skills
                     if (profile.skills.isNotEmpty) ...[
                       const SizedBox(height: 16),
-                      _buildSectionHeader('YETENEKLER', Icons.star),
+                      const SectionHeader(title: 'YETENEKLER', icon: Icons.star),
                       const SizedBox(height: 8),
                       Wrap(
                         spacing: 6,
@@ -177,7 +166,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     // Certifications
                     if (profile.certifications.isNotEmpty) ...[
                       const SizedBox(height: 16),
-                      _buildSectionHeader('SERTIFIKALAR', Icons.verified),
+                      const SectionHeader(title: 'SERTIFIKALAR', icon: Icons.verified),
                       const SizedBox(height: 8),
                       ...profile.certifications.map<Widget>((c) {
                         final cert = c is Map ? c : {};
@@ -205,7 +194,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     // Bio
                     if (profile.bio != null && profile.bio!.isNotEmpty) ...[
                       const SizedBox(height: 16),
-                      _buildSectionHeader('HAKKINDA', Icons.info_outline),
+                      const SectionHeader(title: 'HAKKINDA', icon: Icons.info_outline),
                       const SizedBox(height: 8),
                       Container(
                         padding: const EdgeInsets.all(12),
@@ -240,32 +229,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     const SizedBox(height: 24),
                   ],
                 ),
-    );
-  }
-
-  Widget _buildSectionHeader(String title, IconData icon) {
-    return Row(children: [
-      Icon(icon, size: 14, color: context.scada.textDim),
-      const SizedBox(width: 6),
-      Text(title, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
-    ]);
-  }
-
-  Widget _buildStatCard(String label, String value, Color color) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: context.scada.card,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: color.withValues(alpha: 0.3)),
-        ),
-        child: Column(children: [
-          Text(value, style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: color)),
-          const SizedBox(height: 2),
-          Text(label, style: TextStyle(fontSize: 9, color: context.scada.textSecondary)),
-        ]),
-      ),
     );
   }
 

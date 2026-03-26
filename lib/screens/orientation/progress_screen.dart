@@ -9,6 +9,7 @@ import '../../core/config/api_config.dart';
 import '../../core/auth/role_helper.dart';
 import '../../core/utils/status_helper.dart';
 import '../../core/utils/department_filter.dart';
+import '../../widgets/section_header.dart';
 
 class ProgressScreen extends ConsumerStatefulWidget {
   const ProgressScreen({super.key});
@@ -199,13 +200,13 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
           // Tekrar gereken konular
           if (_pendingReviews.isNotEmpty) ...[
             const SizedBox(height: 20),
-            _buildSectionHeader(Icons.replay, 'TEKRAR GEREKEN KONULAR'),
+            const SectionHeader(icon: Icons.replay, title: 'TEKRAR GEREKEN KONULAR'),
             const SizedBox(height: 12),
             ..._pendingReviews.map((review) => _buildReviewCard(review, training)),
           ],
 
           const SizedBox(height: 20),
-          _buildSectionHeader(Icons.business, 'DEPARTMAN BAZLI ILERLEME'),
+          const SectionHeader(icon: Icons.business, title: 'DEPARTMAN BAZLI ILERLEME'),
           const SizedBox(height: 12),
           ...departments.map((dept) {
             final deptRoutes = routes.where((r) => r.departmentId == dept.id).toList();
@@ -213,7 +214,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
             return _buildDepartmentProgressCard(dept, deptRoutes, training);
           }),
           const SizedBox(height: 20),
-          _buildSectionHeader(Icons.list_alt, 'MODUL DETAY'),
+          const SectionHeader(icon: Icons.list_alt, title: 'MODUL DETAY'),
           const SizedBox(height: 12),
           if (training.progress.isEmpty)
             _buildEmptyState()
@@ -614,11 +615,4 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
     );
   }
 
-  Widget _buildSectionHeader(IconData icon, String title) {
-    return Row(children: [
-      Icon(icon, size: 14, color: context.scada.textDim),
-      const SizedBox(width: 6),
-      Text(title, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
-    ]);
-  }
 }
