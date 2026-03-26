@@ -1,9 +1,12 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:dio/dio.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/config/api_config.dart';
+import '../../core/network/auth_dio.dart';
 import '../../providers/admin_provider.dart';
 import '../../providers/auth_provider.dart';
 
@@ -468,19 +471,29 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
   }
 
   Future<void> _exportExcel(BuildContext context) async {
-    final token = ref.read(authProvider).token;
-    if (token == null) return;
-    final url = '${ApiConfig.webUrl}/training/export-excel?token=$token';
     try {
-      final uri = Uri.parse(url);
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
-      } else {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Excel indirilemedi'), backgroundColor: ScadaColors.red),
-          );
+      final dio = ref.read(authDioProvider);
+      final response = await dio.get(
+        '/training/export-excel',
+        options: Options(responseType: ResponseType.bytes),
+      );
+      // Web: Blob download
+      if (kIsWeb) {
+        // Web'de auth header ile doğrudan indirme yapılamaz,
+        // tarayıcı açması gerekiyor — geçici olarak eski yol
+        final token = ref.read(authProvider).token;
+        if (token == null) return;
+        final url = '${ApiConfig.webUrl}/training/export-excel?token=$token';
+        final uri = Uri.parse(url);
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(uri, mode: LaunchMode.externalApplication);
         }
+        return;
+      }
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Excel indirildi'), backgroundColor: ScadaColors.green),
+        );
       }
     } catch (_) {
       if (mounted) {

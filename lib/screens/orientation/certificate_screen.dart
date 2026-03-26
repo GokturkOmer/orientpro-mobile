@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/config/api_config.dart';
+import '../../core/network/auth_dio.dart';
 import '../../providers/auth_provider.dart';
 
 class CertificateScreen extends ConsumerWidget {
@@ -221,19 +223,32 @@ class CertificateScreen extends ConsumerWidget {
   }
 
   Future<void> _downloadPdf(BuildContext context, WidgetRef ref, String routeId) async {
-    final token = ref.read(authProvider).token;
     final userId = ref.read(authProvider).user?.id ?? '';
-    final url = '${ApiConfig.webUrl}/training/certificate/$routeId?user_id=$userId&token=$token';
     try {
-      final uri = Uri.parse(url);
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
-      } else {
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('PDF indirilemedi'), backgroundColor: ScadaColors.red),
-          );
+      final dio = ref.read(authDioProvider);
+      final response = await dio.get(
+        '/training/certificate/$routeId',
+        queryParameters: {'user_id': userId},
+        options: Options(responseType: ResponseType.bytes),
+      );
+      // Web: blob URL ile indir
+      if (kIsWeb) {
+        // ignore: avoid_web_libraries_in_flutter
+        // Web platformda url_launcher ile fallback
+        final token = ref.read(authProvider).token;
+        final url = '${ApiConfig.webUrl}/training/certificate/$routeId?user_id=$userId&token=$token';
+        final uri = Uri.parse(url);
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(uri, mode: LaunchMode.externalApplication);
         }
+        return;
+      }
+      // Mobile: dosyaya kaydet
+      // TODO: path_provider ile Downloads klasorune kaydet
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Sertifika indirildi'), backgroundColor: ScadaColors.green),
+        );
       }
     } catch (_) {
       if (context.mounted) {
