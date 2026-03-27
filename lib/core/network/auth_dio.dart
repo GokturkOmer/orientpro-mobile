@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import '../config/api_config.dart';
 import '../../providers/auth_provider.dart';
+import 'certificate_pinning.dart';
 
 /// Merkezi authenticated Dio provider.
 /// Tum provider'lar bu instance'i kullanarak otomatik olarak
@@ -13,6 +14,9 @@ final authDioProvider = Provider<Dio>((ref) {
     connectTimeout: const Duration(seconds: 30),
     receiveTimeout: const Duration(seconds: 60),
   ));
+
+  // SSL Certificate Pinning (production'da aktif)
+  CertificatePinning.apply(dio);
 
   dio.interceptors.add(InterceptorsWrapper(
     onRequest: (options, handler) {

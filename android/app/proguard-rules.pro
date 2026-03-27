@@ -14,3 +14,6 @@
 # Gson / JSON serialization
 -keepattributes Signature
 -keepattributes *Annotation*
+
+# Flutter Secure Storage
+-keep class com.it_nomads.fluttersecurestorage.** { *; }
