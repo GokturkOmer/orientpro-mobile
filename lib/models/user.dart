@@ -12,10 +12,12 @@ class User {
   final String? organizationId;
   final String? organizationName;
   final List<Map<String, dynamic>> permissions;
-  User({required this.id, required this.email, required this.fullName, required this.role, this.department, this.phone, this.specialization, this.photoUrl, required this.isActive, this.sharedUploadLimit = 5, this.organizationId, this.organizationName, this.permissions = const []});
+  final bool isSuperAdmin;
+  User({required this.id, required this.email, required this.fullName, required this.role, this.department, this.phone, this.specialization, this.photoUrl, required this.isActive, this.sharedUploadLimit = 5, this.organizationId, this.organizationName, this.permissions = const [], this.isSuperAdmin = false});
   factory User.fromJson(Map<String, dynamic> json) {
     return User(id: json['id'], email: json['email'], fullName: json['full_name'], role: json['role'], department: json['department'], phone: json['phone'], specialization: json['specialization'], photoUrl: json['photo_url'], isActive: json['is_active'] ?? true, sharedUploadLimit: json['shared_upload_limit'] ?? 5, organizationId: json['organization_id'], organizationName: json['organization']?['name'],
       permissions: (json['permissions'] as List?)?.map((e) => Map<String, dynamic>.from(e)).toList() ?? const [],
+      isSuperAdmin: json['is_super_admin'] ?? false,
     );
   }
   Map<String, dynamic> toJson() => {

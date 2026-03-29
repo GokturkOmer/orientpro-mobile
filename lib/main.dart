@@ -57,6 +57,7 @@ import 'screens/admin/sector_template_screen.dart';
 import 'screens/admin/role_management_screen.dart';
 import 'screens/admin/maintenance_screen.dart';
 import 'screens/admin/help_screen.dart';
+import 'screens/super_admin/super_admin_screen.dart';
 import 'screens/orientation/certificate_screen.dart';
 import 'screens/orientation/badges_screen.dart';
 import 'screens/orientation/leaderboard_screen.dart';
@@ -138,6 +139,7 @@ class OrientProApp extends ConsumerWidget {
         '/admin/roles': (context) => const _AdminGuard(child: RoleManagementScreen()),
         '/admin/maintenance': (context) => const _AdminGuard(child: MaintenanceScreen()),
         '/admin/help': (context) => const _AdminGuard(child: HelpScreen()),
+        '/super-admin': (context) => const _SuperAdminGuard(child: SuperAdminScreen()),
         '/badges': (context) => const BadgesScreen(),
         '/leaderboard': (context) => const LeaderboardScreen(),
       },
@@ -205,6 +207,19 @@ class _AdminGuard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final auth = ref.watch(authProvider);
     if (RoleHelper.isAdmin(auth.user?.role, permissions: auth.user?.permissions)) return child;
+    return const _AccessDeniedScreen();
+  }
+}
+
+/// Platform sahibi icin route guard — is_super_admin==true zorunlu
+class _SuperAdminGuard extends ConsumerWidget {
+  final Widget child;
+  const _SuperAdminGuard({required this.child});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final auth = ref.watch(authProvider);
+    if (auth.user?.isSuperAdmin == true) return child;
     return const _AccessDeniedScreen();
   }
 }
