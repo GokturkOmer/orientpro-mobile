@@ -25,6 +25,7 @@ class User {
     'department': department, 'phone': phone, 'specialization': specialization,
     'photo_url': photoUrl, 'is_active': isActive, 'shared_upload_limit': sharedUploadLimit,
     'organization_id': organizationId, 'permissions': permissions,
+    'is_super_admin': isSuperAdmin,
   };
   String get roleText {
     const map = {
