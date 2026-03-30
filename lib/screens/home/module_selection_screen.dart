@@ -94,6 +94,21 @@ class ModuleSelectionScreen extends ConsumerWidget {
                           ),
                         ),
 
+                        // Super Admin Paneli - sadece platform sahibi
+                        if (auth.user != null && auth.user!.isSuperAdmin) ...[
+                          const SizedBox(height: 16),
+                          SizedBox(
+                            width: double.infinity,
+                            child: _SmallModuleCard(
+                              title: 'Platform',
+                              subtitle: 'Super Admin',
+                              icon: Icons.shield_outlined,
+                              color: const Color(0xFFE53935),
+                              onTap: () => Navigator.pushNamed(context, '/super-admin'),
+                            ),
+                          ),
+                        ],
+
                         // Alt kartlar
                         const SizedBox(height: 16),
                         Row(
