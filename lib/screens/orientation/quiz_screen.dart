@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/training_provider.dart';
+import '../../providers/micro_learning_provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../widgets/acknowledgment_dialog.dart';
 
@@ -15,6 +16,11 @@ class QuizScreen extends ConsumerStatefulWidget {
 class _QuizScreenState extends ConsumerState<QuizScreen> {
   bool _loaded = false;
   String? _quizId;
+  // Mikro-ogrenme'den gelirse module + assignment bilgisi tasir
+  String? _microModuleId;
+  String? _microModuleTitle;
+  String? _microRouteId;
+  String? _microAssignmentId;
   final Map<int, int> _selectedAnswers = {};  // questionIndex -> selectedOptionIndex
   bool _submitted = false;
   bool? _passed;
@@ -24,7 +30,18 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (!_loaded) {
-      _quizId = ModalRoute.of(context)?.settings.arguments as String?;
+      final args = ModalRoute.of(context)?.settings.arguments;
+      if (args is String) {
+        // Eski kullanim: sadece quizId
+        _quizId = args;
+      } else if (args is Map) {
+        // Mikro-ogrenme: quizId + module bilgisi
+        _quizId = args['quizId'] as String?;
+        _microModuleId = args['moduleId'] as String?;
+        _microModuleTitle = args['moduleTitle'] as String?;
+        _microRouteId = args['routeId'] as String?;
+        _microAssignmentId = args['assignmentId'] as String?;
+      }
       if (_quizId != null) {
         Future.microtask(() {
           ref.read(trainingProvider.notifier).loadQuizQuestions(_quizId!);
@@ -63,15 +80,24 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
     }
 
     final auth = ref.read(authProvider);
-    if (auth.user != null && _quizId != null) {
+    if (auth.user == null || _quizId == null) return;
+
+    if (_microAssignmentId != null) {
+      // Mikro-ogrenme quiz akisi — microLearningProvider kullan
+      final result = await ref.read(microLearningProvider.notifier).submitQuiz(
+        _microAssignmentId!, answers.map((k, v) => MapEntry(k, v.toString())),
+      );
+      if (result != null && mounted) {
+        Navigator.pushReplacementNamed(context, '/micro-quiz-result', arguments: result);
+      } else {
+        setState(() { _submitted = true; _passed = false; _score = totalScore; });
+      }
+    } else {
+      // Standart egitim quiz akisi — trainingProvider kullan
       final passed = await ref.read(trainingProvider.notifier).submitQuiz(
         _quizId!, auth.user!.id, totalScore, maxScore, answers,
       );
-      setState(() {
-        _submitted = true;
-        _passed = passed;
-        _score = totalScore;
-      });
+      setState(() { _submitted = true; _passed = passed; _score = totalScore; });
     }
   }
 
@@ -293,15 +319,30 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: () async {
-                  final training = ref.read(trainingProvider);
-                  final module = training.selectedModule;
-                  if (module == null) return;
-                  await AcknowledgmentDialog.show(
+                  // Module bilgisi: mikro-ogrenme'den veya training state'den
+                  String? moduleId = _microModuleId;
+                  String? routeId = _microRouteId;
+                  String? moduleTitle = _microModuleTitle;
+
+                  if (moduleId == null) {
+                    final training = ref.read(trainingProvider);
+                    final module = training.selectedModule;
+                    if (module == null) return;
+                    moduleId = module.id;
+                    routeId = module.routeId;
+                    moduleTitle = module.title;
+                  }
+
+                  final result = await AcknowledgmentDialog.show(
                     context,
-                    moduleId: module.id,
-                    routeId: module.routeId,
-                    moduleTitle: module.title,
+                    moduleId: moduleId,
+                    routeId: routeId ?? '',
+                    moduleTitle: moduleTitle ?? 'Egitim',
                   );
+                  if (result == true && context.mounted) {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context, '/orientation-dashboard', (route) => route.isFirst);
+                  }
                 },
                 icon: const Icon(Icons.verified_user, size: 18),
                 label: const Text('Egitimi Onayla', style: TextStyle(fontWeight: FontWeight.w600)),

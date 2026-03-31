@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/theme/app_theme.dart';
 import 'core/auth/role_helper.dart';
 import 'models/equipment.dart';
+import 'models/micro_learning.dart';
 import 'providers/auth_provider.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/auth/splash_screen.dart';
@@ -61,8 +62,13 @@ import 'screens/super_admin/super_admin_screen.dart';
 import 'screens/orientation/certificate_screen.dart';
 import 'screens/orientation/badges_screen.dart';
 import 'screens/orientation/leaderboard_screen.dart';
+import 'screens/orientation/today_screen.dart';
+import 'screens/admin/micro_learning_assign_screen.dart';
+import 'screens/admin/micro_learning_results_screen.dart';
+import 'screens/orientation/micro_quiz_result_screen.dart';
 import 'screens/subscription/subscription_screen.dart';
 import 'providers/theme_provider.dart';
+import 'services/local_notification_service.dart';
 
 void main() {
   // Flutter framework hatalari
@@ -78,6 +84,7 @@ void main() {
     return true;
   };
 
+  LocalNotificationService.initialize();
   runApp(const ProviderScope(child: OrientProApp()));
 }
 
@@ -142,8 +149,15 @@ class OrientProApp extends ConsumerWidget {
         '/super-admin': (context) => const _SuperAdminGuard(child: SuperAdminScreen()),
         '/badges': (context) => const BadgesScreen(),
         '/leaderboard': (context) => const LeaderboardScreen(),
+        '/today': (context) => const TodayScreen(),
+        '/admin/micro-learning': (context) => const _AdminGuard(child: MicroLearningAssignScreen()),
+        '/admin/micro-learning-results': (context) => const _AdminGuard(child: MicroLearningResultsScreen()),
       },
       onGenerateRoute: (settings) {
+        if (settings.name == '/micro-quiz-result') {
+          final result = settings.arguments as MicroQuizResult;
+          return MaterialPageRoute(builder: (_) => MicroQuizResultScreen(result: result));
+        }
         if (settings.name == '/certificate') {
           return MaterialPageRoute(builder: (_) => const CertificateScreen(), settings: settings);
         }

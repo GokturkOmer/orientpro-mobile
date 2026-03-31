@@ -93,6 +93,40 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                   ]),
                 ),
 
+                // Bugunku Egitimim karti
+                const SizedBox(height: 12),
+                InkWell(
+                  borderRadius: BorderRadius.circular(10),
+                  onTap: () => Navigator.pushNamed(context, '/today'),
+                  child: Container(
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                        ScadaColors.cyan.withValues(alpha: 0.15),
+                        ScadaColors.purple.withValues(alpha: 0.1),
+                      ]),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: ScadaColors.cyan.withValues(alpha: 0.3)),
+                    ),
+                    child: Row(children: [
+                      Container(
+                        width: 40, height: 40,
+                        decoration: BoxDecoration(
+                          color: ScadaColors.cyan.withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Icon(Icons.auto_stories, color: ScadaColors.cyan, size: 22),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                        Text('Bugunku Egitimim', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+                        Text('Mikro-ogrenme kartlarini goruntule', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
+                      ])),
+                      Icon(Icons.chevron_right, color: ScadaColors.cyan, size: 22),
+                    ]),
+                  ),
+                ),
+
                 // Stats cards
                 if (training.stats != null) ...[
                   const SizedBox(height: 12),

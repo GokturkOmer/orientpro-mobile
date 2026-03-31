@@ -197,6 +197,18 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 ),
                 const SizedBox(height: 8),
                 _buildActionCard(
+                  icon: Icons.auto_stories,
+                  title: 'Mikro-Ogrenme Ata',
+                  onTap: () => Navigator.pushNamed(context, '/admin/micro-learning'),
+                ),
+                const SizedBox(height: 8),
+                _buildActionCard(
+                  icon: Icons.assessment,
+                  title: 'Egitim Sonuclari',
+                  onTap: () => Navigator.pushNamed(context, '/admin/micro-learning-results'),
+                ),
+                const SizedBox(height: 8),
+                _buildActionCard(
                   icon: Icons.quiz,
                   title: 'Quiz Olustur',
                   onTap: () => Navigator.pushNamed(context, '/quizzes'),
