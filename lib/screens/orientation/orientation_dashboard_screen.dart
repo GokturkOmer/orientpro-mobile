@@ -6,6 +6,7 @@ import '../../providers/announcement_provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/auth/role_helper.dart';
 import '../../core/utils/department_filter.dart';
+import '../../widgets/notif_bell.dart';
 
 class OrientationDashboardScreen extends ConsumerStatefulWidget {
   const OrientationDashboardScreen({super.key});
@@ -54,6 +55,7 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
           Text('Oryantasyon', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
         actions: [
+          const NotifBell(),
           IconButton(
             icon: Icon(Icons.logout, size: 20, color: context.scada.textDim),
             onPressed: () {

@@ -4,6 +4,7 @@ import '../../providers/auth_provider.dart';
 import '../../providers/theme_provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/auth/role_helper.dart';
+import '../../widgets/notif_bell.dart';
 
 class ModuleSelectionScreen extends ConsumerWidget {
   const ModuleSelectionScreen({super.key});
@@ -45,6 +46,7 @@ class ModuleSelectionScreen extends ConsumerWidget {
                     ),
                   ]),
                   Row(mainAxisSize: MainAxisSize.min, children: [
+                    const NotifBell(),
                     IconButton(
                       icon: Icon(
                         ref.watch(themeProvider).themeMode == ThemeMode.dark

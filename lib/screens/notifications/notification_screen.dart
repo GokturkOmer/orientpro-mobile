@@ -4,12 +4,25 @@ import '../../models/notification_model.dart';
 import '../../providers/notification_provider.dart';
 import '../../core/theme/app_theme.dart';
 
-class NotificationScreen extends ConsumerWidget {
+class NotificationScreen extends ConsumerStatefulWidget {
   const NotificationScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final notifsAsync = ref.watch(notificationListProvider);
+  ConsumerState<NotificationScreen> createState() => _NotificationScreenState();
+}
+
+class _NotificationScreenState extends ConsumerState<NotificationScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => ref.read(notificationProvider.notifier).loadNotifications());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(notificationProvider);
+    final notifs = state.notifications;
+
     return Scaffold(
       backgroundColor: context.scada.bg,
       appBar: AppBar(
@@ -22,7 +35,7 @@ class NotificationScreen extends ConsumerWidget {
         ]),
         actions: [
           TextButton.icon(
-            onPressed: () async { await ref.read(notificationServiceProvider).markAllRead(); ref.invalidate(notificationListProvider); ref.invalidate(unreadCountProvider); },
+            onPressed: () => ref.read(notificationProvider.notifier).markAllRead(),
             icon: const Icon(Icons.done_all, size: 16, color: ScadaColors.cyan),
             label: const Text('Tumu Okundu', style: TextStyle(fontSize: 11, color: ScadaColors.cyan)),
           ),
@@ -34,32 +47,26 @@ class NotificationScreen extends ConsumerWidget {
         tooltip: 'AI Asistan',
         child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
       ),
-      body: notifsAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator(color: ScadaColors.cyan)),
-        error: (e, _) => Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-          const Icon(Icons.error, size: 48, color: ScadaColors.red),
-          const SizedBox(height: 8),
-          Text('Hata: $e', style: TextStyle(color: context.scada.textSecondary)),
-        ])),
-        data: (notifs) {
-          if (notifs.isEmpty) {
-            return Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-              Icon(Icons.notifications_none, size: 64, color: context.scada.textDim),
-              const SizedBox(height: 12),
-              Text('Bildirim yok', style: TextStyle(color: context.scada.textDim)),
-            ]));
-          }
-          return RefreshIndicator(
-            color: ScadaColors.cyan, backgroundColor: context.scada.surface,
-            onRefresh: () async { ref.invalidate(notificationListProvider); ref.invalidate(unreadCountProvider); },
-            child: ListView.builder(
-              padding: const EdgeInsets.fromLTRB(12, 8, 12, 80),
-              itemCount: notifs.length,
-              itemBuilder: (ctx, i) => _notifCard(context, ref, notifs[i]),
-            ),
-          );
-        },
-      ),
+      body: state.isLoading
+          ? const Center(child: CircularProgressIndicator(color: ScadaColors.cyan))
+          : notifs.isEmpty
+              ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
+                  Icon(Icons.notifications_none, size: 64, color: context.scada.textDim),
+                  const SizedBox(height: 12),
+                  Text('Bildirim yok', style: TextStyle(color: context.scada.textDim)),
+                ]))
+              : RefreshIndicator(
+                  color: ScadaColors.cyan, backgroundColor: context.scada.surface,
+                  onRefresh: () async {
+                    await ref.read(notificationProvider.notifier).loadNotifications();
+                    await ref.read(notificationProvider.notifier).refreshUnreadCount();
+                  },
+                  child: ListView.builder(
+                    padding: const EdgeInsets.fromLTRB(12, 8, 12, 80),
+                    itemCount: notifs.length,
+                    itemBuilder: (ctx, i) => _notifCard(context, ref, notifs[i]),
+                  ),
+                ),
     );
   }
 
@@ -77,6 +84,7 @@ class NotificationScreen extends ConsumerWidget {
       case 'tour': categoryIcon = Icons.qr_code_scanner; break;
       case 'report': categoryIcon = Icons.analytics; break;
       case 'system': categoryIcon = Icons.settings; break;
+      case 'training': categoryIcon = Icons.school; break;
       default: categoryIcon = Icons.notifications;
     }
     return Container(
@@ -90,11 +98,9 @@ class NotificationScreen extends ConsumerWidget {
         borderRadius: BorderRadius.circular(10),
         onTap: () {
           if (!notif.isRead) {
-            ref.read(notificationServiceProvider).markAsRead(notif.id);
-            ref.invalidate(notificationListProvider);
-            ref.invalidate(unreadCountProvider);
+            ref.read(notificationProvider.notifier).markAsRead(notif.id);
           }
-          _showDetailSheet(context, notif, severityColor, categoryIcon);
+          _showDetailSheet(context, ref, notif, severityColor, categoryIcon);
         },
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -127,7 +133,7 @@ class NotificationScreen extends ConsumerWidget {
     );
   }
 
-  void _showDetailSheet(BuildContext context, AppNotification notif, Color severityColor, IconData categoryIcon) {
+  void _showDetailSheet(BuildContext context, WidgetRef ref, AppNotification notif, Color severityColor, IconData categoryIcon) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -136,7 +142,7 @@ class NotificationScreen extends ConsumerWidget {
         margin: const EdgeInsets.only(top: 80),
         decoration: BoxDecoration(
           color: context.scada.surface,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
           border: Border(top: BorderSide(color: context.scada.borderBright)),
         ),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -170,11 +176,9 @@ class NotificationScreen extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.all(20),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              // Message
               Text(notif.message, style: TextStyle(fontSize: 14, color: context.scada.textPrimary, height: 1.5)),
               const SizedBox(height: 16),
 
-              // Info rows
               _infoRow(Icons.access_time, 'Zaman', _timeAgo(notif.createdAt)),
               if (notif.source != null) _infoRow(Icons.source, 'Kaynak', notif.source!),
               _infoRow(Icons.category, 'Kategori', _catLabel(notif.category)),
@@ -182,7 +186,6 @@ class NotificationScreen extends ConsumerWidget {
 
               const SizedBox(height: 20),
 
-              // Action buttons
               Row(children: [
                 Expanded(child: _actionButton(ctx, notif, severityColor)),
                 const SizedBox(width: 10),
@@ -232,6 +235,11 @@ class NotificationScreen extends ConsumerWidget {
         icon = Icons.monitor_heart;
         action = () { Navigator.pop(ctx); Navigator.pushNamed(ctx, '/scada'); };
         break;
+      case 'training':
+        label = 'Egitime Git';
+        icon = Icons.school;
+        action = () { Navigator.pop(ctx); Navigator.pushNamed(ctx, '/orientation-dashboard'); };
+        break;
       default:
         label = 'Panele Git';
         icon = Icons.dashboard;
@@ -258,14 +266,14 @@ class NotificationScreen extends ConsumerWidget {
       child: Row(children: [
         Icon(icon, size: 14, color: ScadaColors.textDim),
         const SizedBox(width: 8),
-        Text('$label:', style: TextStyle(fontSize: 11, color: ScadaColors.textDim)),
+        Text('$label:', style: const TextStyle(fontSize: 11, color: ScadaColors.textDim)),
         const SizedBox(width: 8),
-        Text(value, style: TextStyle(fontSize: 11, color: ScadaColors.textSecondary, fontWeight: FontWeight.w500)),
+        Text(value, style: const TextStyle(fontSize: 11, color: ScadaColors.textSecondary, fontWeight: FontWeight.w500)),
       ]),
     );
   }
 
   String _sevLabel(String s) { switch (s) { case 'critical': return 'KRITIK'; case 'warning': return 'UYARI'; default: return 'BILGI'; } }
-  String _catLabel(String c) { switch (c) { case 'alarm': return 'ALARM'; case 'maintenance': return 'BAKIM'; case 'tour': return 'TUR'; case 'report': return 'RAPOR'; case 'system': return 'SISTEM'; default: return 'DIGER'; } }
+  String _catLabel(String c) { switch (c) { case 'alarm': return 'ALARM'; case 'maintenance': return 'BAKIM'; case 'tour': return 'TUR'; case 'report': return 'RAPOR'; case 'system': return 'SISTEM'; case 'training': return 'EGITIM'; default: return 'DIGER'; } }
   String _timeAgo(DateTime dt) { final d = DateTime.now().difference(dt); if (d.inMinutes < 1) return 'simdi'; if (d.inMinutes < 60) return '${d.inMinutes} dk once'; if (d.inHours < 24) return '${d.inHours} saat once'; return '${d.inDays} gun once'; }
 }

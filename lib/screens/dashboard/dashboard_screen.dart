@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/network/auth_dio.dart';
 import '../../providers/auth_provider.dart';
 import '../../core/theme/app_theme.dart';
-import '../../providers/notification_provider.dart';
+import '../../widgets/notif_bell.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
@@ -63,7 +63,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               const Text('ONLINE', style: TextStyle(fontSize: 9, color: ScadaColors.green, fontWeight: FontWeight.w700)),
             ]),
           ),
-          _buildNotifBell(ref),
+          const NotifBell(),
           IconButton(
             icon: Icon(Icons.home, size: 20, color: context.scada.textDim),
             tooltip: 'Modul Secimi',
@@ -206,26 +206,6 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildNotifBell(WidgetRef ref) {
-    final countAsync = ref.watch(unreadCountProvider);
-    final unread = countAsync.whenOrNull(data: (d) => d) ?? 0;
-    return Stack(
-      children: [
-        IconButton(
-          icon: const Icon(Icons.notifications_outlined, size: 22, color: ScadaColors.amber),
-          onPressed: () => Navigator.pushNamed(context, '/notifications'),
-        ),
-        if (unread > 0)
-          Positioned(right: 6, top: 6, child: Container(
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(color: ScadaColors.red, shape: BoxShape.circle,
-              boxShadow: [BoxShadow(color: ScadaColors.red.withValues(alpha: 0.5), blurRadius: 4)]),
-            child: Text('$unread', style: const TextStyle(fontSize: 9, color: Colors.white, fontWeight: FontWeight.w700)),
-          )),
-      ],
     );
   }
 

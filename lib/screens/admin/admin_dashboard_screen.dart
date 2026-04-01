@@ -154,117 +154,133 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                   const SizedBox(height: 20),
                 ],
 
-                // Quick Actions header
-                Row(children: [
-                  Icon(Icons.flash_on, size: 14, color: context.scada.textDim),
-                  SizedBox(width: 6),
-                  Text('HIZLI ISLEMLER', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
-                ]),
-                const SizedBox(height: 12),
-
-                // Action cards
+                // ═══════════════════════════════════════
+                // GRUP 1: EGITIM & ICERIK
+                // ═══════════════════════════════════════
+                _buildSectionHeader('EGITIM & ICERIK', Icons.school),
+                const SizedBox(height: 10),
                 _buildActionCard(
                   icon: Icons.folder_open,
                   title: 'Icerik Yonetimi',
+                  subtitle: 'Rotalar, moduller ve quizler',
+                  color: ScadaColors.purple,
                   onTap: () => Navigator.pushNamed(context, '/admin/content'),
                 ),
                 const SizedBox(height: 8),
                 _buildActionCard(
-                  icon: Icons.add_circle_outline,
-                  title: 'Yeni Rota Olustur',
-                  onTap: () => Navigator.pushNamed(context, '/admin/route-editor'),
+                  icon: Icons.auto_stories,
+                  title: 'Mikro-Ogrenme',
+                  subtitle: 'Atama yap ve sonuclari goruntule',
+                  color: ScadaColors.purple,
+                  onTap: () => Navigator.pushNamed(context, '/admin/micro-learning'),
                 ),
                 const SizedBox(height: 8),
                 _buildActionCard(
                   icon: Icons.library_books,
                   title: 'Dokuman Havuzu',
+                  subtitle: 'Egitim icerikleri, chatbot verisi, prosedurler',
+                  color: ScadaColors.purple,
                   onTap: () => Navigator.pushNamed(context, '/admin/documents'),
                 ),
-                const SizedBox(height: 8),
-                _buildActionCard(
-                  icon: Icons.school,
-                  title: 'Yeni Modul Olustur',
-                  onTap: () {
-                    // Rota secimi gerekiyor — icerik yonetimine yonlendir
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Modul olusturmak icin once bir rota secin'),
-                        backgroundColor: ScadaColors.amber,
-                      ),
-                    );
-                    Navigator.pushNamed(context, '/admin/content');
-                  },
-                ),
-                const SizedBox(height: 8),
-                _buildActionCard(
-                  icon: Icons.auto_stories,
-                  title: 'Mikro-Ogrenme Ata',
-                  onTap: () => Navigator.pushNamed(context, '/admin/micro-learning'),
-                ),
-                const SizedBox(height: 8),
-                _buildActionCard(
-                  icon: Icons.assessment,
-                  title: 'Egitim Sonuclari',
-                  onTap: () => Navigator.pushNamed(context, '/admin/micro-learning-results'),
-                ),
-                const SizedBox(height: 8),
-                _buildActionCard(
-                  icon: Icons.quiz,
-                  title: 'Quiz Olustur',
-                  onTap: () => Navigator.pushNamed(context, '/quizzes'),
-                ),
-                const SizedBox(height: 8),
+
+                const SizedBox(height: 20),
+
+                // ═══════════════════════════════════════
+                // GRUP 2: KULLANICILAR & ILETISIM
+                // ═══════════════════════════════════════
+                _buildSectionHeader('KULLANICILAR & ILETISIM', Icons.people),
+                const SizedBox(height: 10),
                 _buildActionCard(
                   icon: Icons.people,
                   title: 'Uyelik Yonetimi',
+                  subtitle: 'Kullanici hesaplari ve durumlar',
+                  color: ScadaColors.cyan,
                   onTap: () => Navigator.pushNamed(context, '/admin/users'),
-                ),
-                const SizedBox(height: 8),
-                _buildActionCard(
-                  icon: Icons.campaign,
-                  title: 'Duyuru Yonetimi',
-                  onTap: () => Navigator.pushNamed(context, '/announcements'),
-                ),
-                const SizedBox(height: 8),
-                _buildActionCard(
-                  icon: Icons.folder_open,
-                  title: 'Icerik Kutuphanesi',
-                  onTap: () => Navigator.pushNamed(context, '/library'),
-                ),
-                const SizedBox(height: 8),
-                _buildActionCard(
-                  icon: Icons.analytics,
-                  title: 'Kullanim Analitigi',
-                  onTap: () => Navigator.pushNamed(context, '/admin/analytics'),
-                ),
-                const SizedBox(height: 8),
-                _buildActionCard(
-                  icon: Icons.table_chart,
-                  title: 'Excel Export',
-                  onTap: _exportExcel,
-                ),
-                const SizedBox(height: 8),
-                _buildActionCard(
-                  icon: Icons.category,
-                  title: 'Sektor Sablonlari',
-                  onTap: () => Navigator.pushNamed(context, '/admin/templates'),
                 ),
                 const SizedBox(height: 8),
                 _buildActionCard(
                   icon: Icons.shield,
                   title: 'Rol Yonetimi',
+                  subtitle: 'Roller ve erisim izinleri',
+                  color: ScadaColors.cyan,
                   onTap: () => Navigator.pushNamed(context, '/admin/roles'),
+                ),
+                const SizedBox(height: 8),
+                _buildActionCard(
+                  icon: Icons.campaign,
+                  title: 'Duyuru Yonetimi',
+                  subtitle: 'Sirket ici duyurular',
+                  color: ScadaColors.cyan,
+                  onTap: () => Navigator.pushNamed(context, '/announcements'),
+                ),
+
+                const SizedBox(height: 20),
+
+                // ═══════════════════════════════════════
+                // GRUP 3: RAPORLAMA
+                // ═══════════════════════════════════════
+                _buildSectionHeader('RAPORLAMA', Icons.bar_chart),
+                const SizedBox(height: 10),
+                _buildActionCard(
+                  icon: Icons.analytics,
+                  title: 'Kullanim Analitigi',
+                  subtitle: 'Kullanici aktiviteleri ve trendler',
+                  color: ScadaColors.green,
+                  onTap: () => Navigator.pushNamed(context, '/admin/analytics'),
+                ),
+                const SizedBox(height: 8),
+                _buildActionCard(
+                  icon: Icons.assessment,
+                  title: 'Egitim Sonuclari',
+                  subtitle: 'Quiz sonuclari ve ilerleme raporlari',
+                  color: ScadaColors.green,
+                  onTap: () => Navigator.pushNamed(context, '/admin/micro-learning-results'),
+                ),
+                const SizedBox(height: 8),
+                _buildActionCard(
+                  icon: Icons.table_chart,
+                  title: 'Excel Export',
+                  subtitle: 'Egitim verilerini indir',
+                  color: ScadaColors.green,
+                  onTap: _exportExcel,
+                ),
+
+                const SizedBox(height: 20),
+
+                // ═══════════════════════════════════════
+                // GRUP 4: SISTEM
+                // ═══════════════════════════════════════
+                _buildSectionHeader('SISTEM', Icons.settings),
+                const SizedBox(height: 10),
+                _buildActionCard(
+                  icon: Icons.menu_book,
+                  title: 'Icerik Kutuphanesi',
+                  subtitle: 'Paylasimli online kutuphane',
+                  color: ScadaColors.amber,
+                  onTap: () => Navigator.pushNamed(context, '/library'),
                 ),
                 const SizedBox(height: 8),
                 _buildActionCard(
                   icon: Icons.developer_board,
                   title: 'Bakim Paneli',
+                  subtitle: 'Sistem bakimi ve izleme',
+                  color: ScadaColors.amber,
                   onTap: () => Navigator.pushNamed(context, '/admin/maintenance'),
+                ),
+                const SizedBox(height: 8),
+                _buildActionCard(
+                  icon: Icons.category,
+                  title: 'Sektor Sablonlari',
+                  subtitle: 'Hazir egitim sablonlari',
+                  color: ScadaColors.amber,
+                  onTap: () => Navigator.pushNamed(context, '/admin/templates'),
                 ),
                 const SizedBox(height: 8),
                 _buildActionCard(
                   icon: Icons.help_outline,
                   title: 'Yardim & SSS',
+                  subtitle: 'Kullanim kilavuzu',
+                  color: ScadaColors.amber,
                   onTap: () => Navigator.pushNamed(context, '/admin/help'),
                 ),
 
@@ -527,11 +543,22 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
     }
   }
 
+  Widget _buildSectionHeader(String title, IconData icon) {
+    return Row(children: [
+      Icon(icon, size: 14, color: context.scada.textDim),
+      const SizedBox(width: 6),
+      Text(title, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
+    ]);
+  }
+
   Widget _buildActionCard({
     required IconData icon,
     required String title,
     required VoidCallback onTap,
+    String? subtitle,
+    Color? color,
   }) {
+    final c = color ?? ScadaColors.cyan;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(8),
@@ -546,14 +573,20 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: ScadaColors.cyan.withValues(alpha: 0.12),
+              color: c.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(icon, color: ScadaColors.cyan, size: 22),
+            child: Icon(icon, color: c, size: 22),
           ),
-          SizedBox(width: 12),
+          const SizedBox(width: 12),
           Expanded(
-            child: Text(title, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(title, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
+              if (subtitle != null) ...[
+                const SizedBox(height: 2),
+                Text(subtitle, style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
+              ],
+            ]),
           ),
           Icon(Icons.arrow_forward_ios, size: 14, color: context.scada.textDim),
         ]),

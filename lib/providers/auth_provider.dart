@@ -94,12 +94,13 @@ class AuthNotifier extends Notifier<AuthState> {
 
   /// Login islemi — basarili olursa token ve kullanici bilgisi kalici olarak saklanir
   /// Birden fazla organizasyona uyeyse org secim ekrani gosterilir
-  Future<bool> login(String email, String password) async {
+  Future<bool> login(String email, String password, {bool rememberMe = false}) async {
     state = AuthState(isLoading: true, autoLoginChecked: true);
     try {
       final response = await _dio.post('/auth/login', data: {
         'email': email,
         'password': password,
+        'remember_me': rememberMe,
       });
 
       // Multi-org secimi gerekiyorsa

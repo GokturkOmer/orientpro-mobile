@@ -15,6 +15,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscure = true;
+  bool _rememberMe = false;
   late AnimationController _pulseCtrl;
 
   @override
@@ -30,6 +31,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
     final success = await ref.read(authProvider.notifier).login(
       _emailController.text,
       _passwordController.text,
+      rememberMe: _rememberMe,
     );
     if (success && mounted) {
       final authState = ref.read(authProvider);
@@ -164,13 +166,36 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                   ),
                   const SizedBox(height: 4),
 
-                  // Sifremi unuttum
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () => Navigator.pushNamed(context, '/forgot-password'),
-                      child: const Text('Sifremi Unuttum', style: TextStyle(fontSize: 12, color: ScadaColors.cyan)),
-                    ),
+                  const SizedBox(height: 4),
+
+                  // Beni Hatirla + Sifremi Unuttum
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () => setState(() => _rememberMe = !_rememberMe),
+                        child: Row(mainAxisSize: MainAxisSize.min, children: [
+                          SizedBox(
+                            width: 20, height: 20,
+                            child: Checkbox(
+                              value: _rememberMe,
+                              onChanged: (v) => setState(() => _rememberMe = v ?? false),
+                              activeColor: ScadaColors.cyan,
+                              side: BorderSide(color: context.scada.textDim),
+                              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              visualDensity: VisualDensity.compact,
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          Text('Beni Hatirla', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
+                        ]),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.pushNamed(context, '/forgot-password'),
+                        style: TextButton.styleFrom(padding: EdgeInsets.zero, minimumSize: Size.zero, tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+                        child: const Text('Sifremi Unuttum', style: TextStyle(fontSize: 12, color: ScadaColors.cyan)),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 4),
 
