@@ -42,6 +42,7 @@ class _DocumentPickerDialogState extends ConsumerState<DocumentPickerDialog> {
   String? _selectedDept;
   List<Map<String, dynamic>> _docs = [];
   bool _loading = true;
+  String? _error;
   final Set<String> _selectedIds = {};
 
   static const _departments = [
@@ -73,8 +74,11 @@ class _DocumentPickerDialogState extends ConsumerState<DocumentPickerDialog> {
         _docs = (resp.data as List).cast<Map<String, dynamic>>();
         _loading = false;
       });
-    } catch (_) {
-      setState(() => _loading = false);
+    } catch (e) {
+      setState(() {
+        _loading = false;
+        _error = 'Dokumanlar yuklenemedi';
+      });
     }
   }
 
@@ -173,9 +177,11 @@ class _DocumentPickerDialogState extends ConsumerState<DocumentPickerDialog> {
         Expanded(
           child: _loading
               ? const Center(child: CircularProgressIndicator(color: ScadaColors.cyan))
-              : _docs.isEmpty
-                  ? Center(child: Text('Bu kategoride dokuman yok', style: TextStyle(color: context.scada.textSecondary)))
-                  : ListView.builder(
+              : _error != null
+                  ? Center(child: Text(_error!, style: TextStyle(color: ScadaColors.red, fontSize: 13)))
+                  : _docs.isEmpty
+                      ? Center(child: Text('Bu kategoride dokuman yok', style: TextStyle(color: context.scada.textSecondary)))
+                      : ListView.builder(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       itemCount: _docs.length,
                       itemBuilder: (_, i) => _buildDocCard(_docs[i]),

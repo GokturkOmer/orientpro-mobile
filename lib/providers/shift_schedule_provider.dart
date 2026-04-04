@@ -48,29 +48,32 @@ class ShiftScheduleModel {
 class ShiftScheduleState {
   final List<ShiftScheduleModel> shifts;
   final bool isLoading;
-  final bool isSaving;
+  final String? savingShiftId;
   final String? error;
   final String? successMessage;
 
   const ShiftScheduleState({
     this.shifts = const [],
     this.isLoading = false,
-    this.isSaving = false,
+    this.savingShiftId,
     this.error,
     this.successMessage,
   });
 
+  bool get isSaving => savingShiftId != null;
+
   ShiftScheduleState copyWith({
     List<ShiftScheduleModel>? shifts,
     bool? isLoading,
-    bool? isSaving,
+    String? savingShiftId,
+    bool clearSaving = false,
     String? error,
     String? successMessage,
   }) {
     return ShiftScheduleState(
       shifts: shifts ?? this.shifts,
       isLoading: isLoading ?? this.isLoading,
-      isSaving: isSaving ?? this.isSaving,
+      savingShiftId: clearSaving ? null : (savingShiftId ?? this.savingShiftId),
       error: error,
       successMessage: successMessage,
     );
@@ -99,14 +102,14 @@ class ShiftScheduleNotifier extends Notifier<ShiftScheduleState> {
   }
 
   Future<bool> updateShift(String id, Map<String, String> data) async {
-    state = state.copyWith(isSaving: true, error: null, successMessage: null);
+    state = state.copyWith(savingShiftId: id, error: null, successMessage: null);
     try {
       await _dio.put('/shift-schedules/$id', data: data);
       await loadShifts();
-      state = state.copyWith(isSaving: false, successMessage: 'Vardiya guncellendi');
+      state = state.copyWith(clearSaving: true, successMessage: 'Vardiya guncellendi');
       return true;
     } on DioException catch (e) {
-      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
+      state = state.copyWith(clearSaving: true, error: ErrorHelper.getMessage(e));
       return false;
     }
   }

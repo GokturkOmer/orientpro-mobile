@@ -29,7 +29,7 @@ class _ShiftScheduleScreenState extends ConsumerState<ShiftScheduleScreen> {
     final st = ref.watch(shiftScheduleProvider);
 
     ref.listen<ShiftScheduleState>(shiftScheduleProvider, (prev, next) {
-      if (next.successMessage != null) {
+      if (next.successMessage != null && prev?.successMessage != next.successMessage) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(next.successMessage!), backgroundColor: ScadaColors.green),
         );
@@ -164,7 +164,7 @@ class _ShiftCardState extends ConsumerState<_ShiftCard> {
   Widget build(BuildContext context) {
     final color = _shiftColors[widget.shift.shiftType] ?? ScadaColors.cyan;
     final name = _shiftNames[widget.shift.shiftType] ?? widget.shift.shiftType;
-    final isSaving = ref.watch(shiftScheduleProvider).isSaving;
+    final isSaving = ref.watch(shiftScheduleProvider).savingShiftId == widget.shift.id;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 16),

@@ -260,9 +260,9 @@ class _AccessDeniedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ScadaColors.bg,
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
-        backgroundColor: ScadaColors.surface,
+        backgroundColor: context.scada.surface,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
           onPressed: () => Navigator.pop(context),
@@ -279,9 +279,9 @@ class _AccessDeniedScreen extends StatelessWidget {
             child: const Icon(Icons.lock, size: 48, color: ScadaColors.red),
           ),
           const SizedBox(height: 20),
-          const Text('Erisim Yetkiniz Yok', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+          Text('Erisim Yetkiniz Yok', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
           const SizedBox(height: 8),
-          const Text('Bu sayfaya erisim icin yetkiniz bulunmamaktadir.', style: TextStyle(fontSize: 13, color: ScadaColors.textSecondary)),
+          Text('Bu sayfaya erisim icin yetkiniz bulunmamaktadir.', style: TextStyle(fontSize: 13, color: context.scada.textSecondary)),
           const SizedBox(height: 24),
           TextButton.icon(
             onPressed: () => Navigator.pushReplacementNamed(context, '/module-selection'),

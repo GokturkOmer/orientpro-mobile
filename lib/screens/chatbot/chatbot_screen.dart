@@ -21,6 +21,13 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
   final ScrollController _scrollController = ScrollController();
   bool _isUploading = false;
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   Future<void> _uploadPdf() async {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
