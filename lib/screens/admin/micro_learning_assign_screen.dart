@@ -377,10 +377,11 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
               width: _selectedShift == s['code'] ? 2 : 1,
             ),
           ),
+          // ignore: deprecated_member_use
           child: RadioListTile<String>(
             value: s['code']!,
-            groupValue: _selectedShift,
-            onChanged: (v) => setState(() => _selectedShift = v!),
+            groupValue: _selectedShift, // ignore: deprecated_member_use
+            onChanged: (v) => setState(() => _selectedShift = v!), // ignore: deprecated_member_use
             title: Text(s['name']!, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
             subtitle: Row(children: [
               Icon(Icons.notifications_outlined, size: 14, color: ScadaColors.cyan),

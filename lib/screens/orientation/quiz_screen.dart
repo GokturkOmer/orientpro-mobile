@@ -339,10 +339,10 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                     routeId: routeId ?? '',
                     moduleTitle: moduleTitle ?? 'Egitim',
                   );
-                  if (result == true && context.mounted) {
-                    Navigator.pushNamedAndRemoveUntil(
-                      context, '/orientation-dashboard', (route) => route.isFirst);
-                  }
+                  if (result != true) return;
+                  if (!context.mounted) return;
+                  // ignore: use_build_context_synchronously
+                  Navigator.pushNamedAndRemoveUntil(context, '/orientation-dashboard', (route) => route.isFirst);
                 },
                 icon: const Icon(Icons.verified_user, size: 18),
                 label: const Text('Egitimi Onayla', style: TextStyle(fontWeight: FontWeight.w600)),

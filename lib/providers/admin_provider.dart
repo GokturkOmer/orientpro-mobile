@@ -181,8 +181,8 @@ class AdminNotifier extends Notifier<AdminState> {
       await _dio.post('/training/departments', data: {
         'name': name,
         'code': code,
-        if (description != null) 'description': description,
-        if (color != null) 'color': color,
+        'description': ?description,
+        'color': ?color,
       });
       state = state.copyWith(isSaving: false, successMessage: 'Departman olusturuldu');
       await loadDepartments();

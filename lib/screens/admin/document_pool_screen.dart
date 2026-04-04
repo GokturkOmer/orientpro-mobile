@@ -166,7 +166,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
 
                       // Departman secici
                       DropdownButtonFormField<String>(
-                        value: selectedDepartment,
+                        initialValue: selectedDepartment,
                         decoration: InputDecoration(
                           labelText: 'Departman',
                           labelStyle: TextStyle(color: context.scada.textSecondary, fontSize: 12),

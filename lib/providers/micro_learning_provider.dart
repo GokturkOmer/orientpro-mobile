@@ -142,9 +142,9 @@ class MicroLearningNotifier extends Notifier<MicroLearningState> {
       await _dio.post('/micro-learning/assign', data: {
         'module_ids': moduleIds,
         'shift_type': shiftType,
-        if (userIds != null) 'user_ids': userIds,
-        if (departmentCode != null) 'department_code': departmentCode,
-        if (routeId != null) 'route_id': routeId,
+        'user_ids': ?userIds,
+        'department_code': ?departmentCode,
+        'route_id': ?routeId,
       });
       state = state.copyWith(isLoading: false);
       return true;

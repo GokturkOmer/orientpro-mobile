@@ -16,8 +16,8 @@ class DocumentPickerDialog extends ConsumerStatefulWidget {
   });
 
   /// Dialog'u acar ve secilen dokuman(lar)i dondurur.
-  /// Tek secim: Map<String, dynamic>? — secilen dokuman
-  /// Coklu secim: List<Map<String, dynamic>>? — secilen dokumanlar
+  /// Tek secim: `Map<String, dynamic>?` — secilen dokuman
+  /// Coklu secim: `List<Map<String, dynamic>>?` — secilen dokumanlar
   static Future<dynamic> show(
     BuildContext context, {
     bool multiSelect = false,

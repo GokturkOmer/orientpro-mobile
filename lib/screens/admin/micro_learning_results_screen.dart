@@ -221,7 +221,7 @@ class _MicroLearningResultsScreenState extends ConsumerState<MicroLearningResult
       final resp = await dio.get('/training/acknowledgments/$userId');
       final acks = List<Map<String, dynamic>>.from(resp.data ?? []);
 
-      if (!mounted) return;
+      if (!context.mounted) return;
       showModalBottomSheet(
         context: context,
         backgroundColor: Colors.transparent,
@@ -296,7 +296,7 @@ class _MicroLearningResultsScreenState extends ConsumerState<MicroLearningResult
         ),
       );
     } on DioException catch (e) {
-      if (mounted) {
+      if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Onaylar yuklenemedi: ${ErrorHelper.getMessage(e)}'), backgroundColor: ScadaColors.red),
         );
