@@ -119,6 +119,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
     bool isUploading = false;
     double uploadProgress = 0;
     final titleCtrl = TextEditingController();
+    String selectedDepartment = 'genel';
     Map<String, dynamic>? uploadResult;
 
     await showDialog(
@@ -160,6 +161,39 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                           contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                         ),
                         enabled: !isUploading,
+                      ),
+                      const SizedBox(height: 12),
+
+                      // Departman secici
+                      DropdownButtonFormField<String>(
+                        value: selectedDepartment,
+                        decoration: InputDecoration(
+                          labelText: 'Departman',
+                          labelStyle: TextStyle(color: context.scada.textSecondary, fontSize: 12),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: context.scada.border),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: ScadaColors.cyan),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          filled: true,
+                          fillColor: context.scada.surface,
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                        ),
+                        dropdownColor: context.scada.card,
+                        style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
+                        items: const [
+                          DropdownMenuItem(value: 'genel', child: Text('Genel')),
+                          DropdownMenuItem(value: 'teknik', child: Text('Teknik Servis')),
+                          DropdownMenuItem(value: 'hk', child: Text('Kat Hizmetleri')),
+                          DropdownMenuItem(value: 'fb', child: Text('F&B')),
+                          DropdownMenuItem(value: 'on_buro', child: Text('On Buro')),
+                          DropdownMenuItem(value: 'guvenlik', child: Text('Guvenlik')),
+                          DropdownMenuItem(value: 'kurumsal', child: Text('Kurumsal (Tum calisanlar)')),
+                        ],
+                        onChanged: isUploading ? null : (v) => setDialogState(() => selectedDepartment = v ?? 'genel'),
                       ),
                       const SizedBox(height: 12),
 
@@ -297,6 +331,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                               fileBytes: pdfFileBytes!,
                               mimeType: 'application/pdf',
                               title: titleCtrl.text.trim().isNotEmpty ? titleCtrl.text.trim() : null,
+                              department: selectedDepartment,
                             );
 
                             if (mounted) {
@@ -404,6 +439,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
       'fb': 'Yiyecek Icecek',
       'guvenlik': 'Guvenlik',
       'genel': 'Genel',
+      'kurumsal': 'Kurumsal',
     };
     return map[key] ?? key;
   }
@@ -507,6 +543,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                   _buildFilterChip('on_buro', 'On Buro'),
                   _buildFilterChip('guvenlik', 'Guvenlik'),
                   _buildFilterChip('genel', 'Genel'),
+                  _buildFilterChip('kurumsal', 'Kurumsal'),
                 ]),
               ),
             ]),

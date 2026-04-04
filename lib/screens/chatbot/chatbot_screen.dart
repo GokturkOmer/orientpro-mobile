@@ -240,7 +240,7 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
           const SizedBox(width: 8),
           SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: ScadaColors.cyan.withValues(alpha: 0.7))),
           const SizedBox(width: 8),
-          Text('Analiz ediliyor...', style: TextStyle(color: context.scada.textSecondary, fontSize: 13)),
+          Text('Kontrol ediliyor...', style: TextStyle(color: context.scada.textSecondary, fontSize: 13)),
         ]),
       ),
     );

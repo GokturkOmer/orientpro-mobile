@@ -65,6 +65,7 @@ import 'screens/orientation/leaderboard_screen.dart';
 import 'screens/orientation/today_screen.dart';
 import 'screens/admin/micro_learning_assign_screen.dart';
 import 'screens/admin/micro_learning_results_screen.dart';
+import 'screens/admin/shift_schedule_screen.dart';
 import 'screens/orientation/micro_quiz_result_screen.dart';
 import 'screens/subscription/subscription_screen.dart';
 import 'providers/theme_provider.dart';
@@ -152,6 +153,7 @@ class OrientProApp extends ConsumerWidget {
         '/today': (context) => const TodayScreen(),
         '/admin/micro-learning': (context) => const _AdminGuard(child: MicroLearningAssignScreen()),
         '/admin/micro-learning-results': (context) => const _AdminGuard(child: MicroLearningResultsScreen()),
+        '/admin/shift-schedules': (context) => const _AdminGuard(child: ShiftScheduleScreen()),
       },
       onGenerateRoute: (settings) {
         if (settings.name == '/micro-quiz-result') {

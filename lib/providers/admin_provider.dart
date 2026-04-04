@@ -626,6 +626,7 @@ class AdminNotifier extends Notifier<AdminState> {
     required String mimeType,
     String? moduleId,
     String? title,
+    String? department,
     bool enrichContents = false,
   }) async {
     state = state.copyWith(isSaving: true, error: null, successMessage: null, uploadProgress: 0.0);
@@ -634,6 +635,7 @@ class AdminNotifier extends Notifier<AdminState> {
         'file': MultipartFile.fromBytes(fileBytes, filename: fileName),
         'module_id': ?moduleId,
         'title': ?title,
+        'department': ?department,
         'enrich_contents': enrichContents ? 'true' : 'false',
       });
 
@@ -664,6 +666,54 @@ class AdminNotifier extends Notifier<AdminState> {
       return null;
     } catch (e) {
       state = state.copyWith(isSaving: false, uploadProgress: null, error: ErrorHelper.getMessage(e));
+      return null;
+    }
+  }
+
+  /// Dokuman Havuzu'ndaki mevcut PDF'den modul icerigi olustur (tekrar yuklemeden)
+  Future<Map<String, dynamic>?> generateModuleFromDocument({
+    required String contentId,
+    required String moduleId,
+    bool clearExisting = false,
+  }) async {
+    state = state.copyWith(isSaving: true, error: null, successMessage: null);
+    try {
+      final response = await _dio.post(
+        '/training/generate-from-document',
+        data: {'content_id': contentId, 'module_id': moduleId, 'clear_existing': clearExisting},
+        options: Options(receiveTimeout: const Duration(seconds: 300)),
+      );
+      final data = response.data as Map<String, dynamic>;
+      state = state.copyWith(isSaving: false, successMessage: '${data['generated_count']} bolum olusturuldu (taslak)');
+      return data;
+    } on DioException catch (e) {
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
+      return null;
+    }
+  }
+
+  /// Dokuman Havuzu'ndaki PDF'den mikro-ogrenme drip kartlari + quiz olustur
+  Future<Map<String, dynamic>?> generateDripCardsFromDocument({
+    required String contentId,
+    required String moduleId,
+    int dayCount = 5,
+    bool generateQuiz = true,
+  }) async {
+    state = state.copyWith(isSaving: true, error: null, successMessage: null);
+    try {
+      final response = await _dio.post(
+        '/training/generate-drip-cards',
+        data: {
+          'content_id': contentId, 'module_id': moduleId,
+          'day_count': dayCount, 'generate_quiz': generateQuiz,
+        },
+        options: Options(receiveTimeout: const Duration(seconds: 300)),
+      );
+      final data = response.data as Map<String, dynamic>;
+      state = state.copyWith(isSaving: false, successMessage: '${data['cards_generated']} kart olusturuldu');
+      return data;
+    } on DioException catch (e) {
+      state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
       return null;
     }
   }

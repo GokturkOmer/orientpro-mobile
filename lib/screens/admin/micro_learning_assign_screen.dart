@@ -4,6 +4,7 @@ import '../../providers/admin_provider.dart';
 import '../../providers/training_provider.dart';
 import '../../providers/micro_learning_provider.dart';
 import '../../core/theme/app_theme.dart';
+import 'widgets/document_picker_dialog.dart';
 
 class MicroLearningAssignScreen extends ConsumerStatefulWidget {
   const MicroLearningAssignScreen({super.key});
@@ -97,12 +98,90 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
 
   // ── ADIM 1: MODUL SEC ──
 
+  Future<void> _showGenerateFromDocumentFlow() async {
+    final doc = await DocumentPickerDialog.show(context);
+    if (doc == null || !mounted) return;
+
+    // Gun sayisi sec
+    int dayCount = 5;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setDlgState) => AlertDialog(
+          backgroundColor: context.scada.card,
+          title: Text('Drip Kartlari Olustur', style: TextStyle(color: context.scada.textPrimary, fontSize: 15)),
+          content: Column(mainAxisSize: MainAxisSize.min, children: [
+            Text('"${doc['title']}" dokumanindan mikro-ogrenme kartlari olusturulacak.',
+                style: TextStyle(color: context.scada.textSecondary, fontSize: 12)),
+            const SizedBox(height: 16),
+            Text('Gun Sayisi', style: TextStyle(color: context.scada.textDim, fontSize: 11)),
+            Slider(
+              value: dayCount.toDouble(), min: 3, max: 7, divisions: 4,
+              label: '$dayCount gun',
+              activeColor: ScadaColors.green,
+              onChanged: (v) => setDlgState(() => dayCount = v.round()),
+            ),
+            Text('$dayCount gun x 3 kart = ${dayCount * 3} kart + quiz',
+                style: TextStyle(color: context.scada.textSecondary, fontSize: 11)),
+          ]),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text('Iptal', style: TextStyle(color: context.scada.textSecondary))),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(ctx, true),
+              style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.green),
+              child: const Text('Olustur', style: TextStyle(color: Colors.white)),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (confirmed != true || !mounted) return;
+
+    // Modul secimi gerekli — once rota/modul sec
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Oncelikle bir rota ve modul secin, ardindan kartlar bu module olusturulacak.'),
+        backgroundColor: ScadaColors.cyan,
+      ),
+    );
+    // TODO: Ileride otomatik modul olusturma akisi eklenebilir
+  }
+
   Widget _buildModuleSelection() {
     final training = ref.watch(trainingProvider);
 
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
+        // Dokumandan Olustur butonu
+        InkWell(
+          onTap: _showGenerateFromDocumentFlow,
+          borderRadius: BorderRadius.circular(10),
+          child: Container(
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: ScadaColors.green.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: ScadaColors.green.withValues(alpha: 0.3)),
+            ),
+            child: Row(children: [
+              const Icon(Icons.auto_awesome, color: ScadaColors.green, size: 22),
+              const SizedBox(width: 12),
+              Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text('Dokumandan Olustur', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.green)),
+                const SizedBox(height: 2),
+                Text('Havuzdaki bir PDF den otomatik drip kartlari + quiz olustur',
+                    style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
+              ])),
+              const Icon(Icons.arrow_forward_ios, color: ScadaColors.green, size: 14),
+            ]),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Divider(color: context.scada.border),
+        const SizedBox(height: 12),
+
         // Rota filtresi
         Text('Egitim Rotasi', style: TextStyle(fontSize: 12, color: context.scada.textDim)),
         const SizedBox(height: 6),

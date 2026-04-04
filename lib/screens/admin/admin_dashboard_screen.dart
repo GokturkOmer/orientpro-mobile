@@ -277,6 +277,14 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 ),
                 const SizedBox(height: 8),
                 _buildActionCard(
+                  icon: Icons.schedule,
+                  title: 'Vardiya Ayarlari',
+                  subtitle: 'Vardiya ve mola saatleri',
+                  color: ScadaColors.amber,
+                  onTap: () => Navigator.pushNamed(context, '/admin/shift-schedules'),
+                ),
+                const SizedBox(height: 8),
+                _buildActionCard(
                   icon: Icons.help_outline,
                   title: 'Yardim & SSS',
                   subtitle: 'Kullanim kilavuzu',

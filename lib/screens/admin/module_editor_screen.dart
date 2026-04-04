@@ -21,6 +21,7 @@ import 'dart:typed_data';
 import '../../core/theme/app_theme.dart';
 import '../../providers/admin_provider.dart';
 import '../../models/training.dart';
+import 'widgets/document_picker_dialog.dart';
 
 class ModuleEditorScreen extends ConsumerStatefulWidget {
   const ModuleEditorScreen({super.key, required this.routeId, this.moduleId});
@@ -1391,11 +1392,73 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                   onPressed: _showGenerateFromPdfDialog,
                 ),
               ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ScadaColors.green,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  icon: const Icon(Icons.folder_open, size: 18),
+                  label: const Text('Havuzdan Sec'),
+                  onPressed: _showGenerateFromDocumentDialog,
+                ),
+              ),
             ],
           ),
         ],
       ),
     );
+  }
+
+  void _showGenerateFromDocumentDialog() async {
+    final doc = await DocumentPickerDialog.show(context);
+    if (doc == null || !mounted) return;
+
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: context.scada.card,
+        title: Text('Dokumandan Icerik Olustur', style: TextStyle(color: context.scada.textPrimary, fontSize: 15)),
+        content: Text(
+          '"${doc['title']}" dokumanindan bu module icerik oluturulsun mu?\n\nMevcut metin icerikleri silinecek, yerine AI uretimi gelecek (taslak olarak).',
+          style: TextStyle(color: context.scada.textSecondary, fontSize: 12),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text('Iptal', style: TextStyle(color: context.scada.textSecondary))),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.green),
+            child: const Text('Olustur', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm != true || !mounted) return;
+
+    final result = await ref.read(adminProvider.notifier).generateModuleFromDocument(
+      contentId: doc['id'],
+      moduleId: widget.moduleId!,
+      clearExisting: true,
+    );
+
+    if (mounted) {
+      if (result != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('${result['generated_count']} bolum olusturuldu (taslak)'), backgroundColor: ScadaColors.green),
+        );
+        ref.read(adminProvider.notifier).loadModuleDetail(widget.moduleId!);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(ref.read(adminProvider).error ?? 'Icerik olusturulamadi'), backgroundColor: ScadaColors.red),
+        );
+      }
+    }
   }
 
   void _showGenerateFromPdfDialog() {
