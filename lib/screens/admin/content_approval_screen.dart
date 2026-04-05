@@ -123,7 +123,7 @@ class _ContentApprovalScreenState extends ConsumerState<ContentApprovalScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text('Iptal', style: TextStyle(color: context.scada.textSecondary)),
+            child: Text('İptal', style: TextStyle(color: context.scada.textSecondary)),
           ),
           TextButton(
             onPressed: () {

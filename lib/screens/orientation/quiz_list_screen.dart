@@ -215,7 +215,7 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
           border: Border.all(color: context.scada.border),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          // Baslik + durum + silme
+          // Başlık + durum + silme
           Row(children: [
             Expanded(
               child: Text(item.title, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
@@ -289,7 +289,7 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
         backgroundColor: context.scada.card,
         title: Text('Quiz Sil', style: TextStyle(color: context.scada.textPrimary, fontSize: 16)),
         content: Text(
-          "'${item.title}' quizini ve tum sorularını silmek istediginize emin misiniz?",
+          "'${item.title}' quizini ve tum sorularını silmek istediğinize emin misiniz?",
           style: TextStyle(color: context.scada.textSecondary, fontSize: 13),
         ),
         actions: [
@@ -427,7 +427,7 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
 
   Future<void> _generateQuiz() async {
     if (_selectedDocIds.isEmpty) {
-      setState(() => _error = 'En az 1 doküman secin');
+      setState(() => _error = 'En az 1 doküman seçin');
       return;
     }
     if (_titleController.text.trim().isEmpty) {
@@ -442,7 +442,7 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
 
     final admin = ref.read(adminProvider.notifier);
 
-    // Doc ID'leri doc_id formatinda gonder (ChromaDB doc_id)
+    // Doc ID'leri doc_id formatinda gönder (ChromaDB doc_id)
     final docIds = _selectedDocIds.toList();
 
     final result = await admin.generateQuizFromDocs(
@@ -513,7 +513,7 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
           DropdownButtonFormField<String>(
             initialValue: _selectedDept,
             decoration: InputDecoration(
-              hintText: 'Departman secin',
+              hintText: 'Departman seçin',
               hintStyle: TextStyle(fontSize: 13, color: context.scada.textDim),
               filled: true,
               fillColor: context.scada.surface,
@@ -649,7 +649,7 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
             ),
           const SizedBox(height: 16),
 
-          // 3. Soru sayisi ve zorluk
+          // 3. Soru sayısı ve zorluk
           Row(children: [
             Expanded(
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -750,7 +750,7 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
             Padding(
               padding: const EdgeInsets.only(top: 8),
               child: Text(
-                'AI sorulari oluşturuyor ve dogruluyor... Bu işlem 30-60 saniye surebilir.',
+                'AI soruları oluşturuyor ve dogruluyor... Bu işlem 30-60 saniye surebilir.',
                 style: TextStyle(fontSize: 10, color: context.scada.textDim),
                 textAlign: TextAlign.center,
               ),
@@ -771,7 +771,7 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
     if (doc.containsKey('doc_id')) {
       return doc['doc_id'].toString();
     }
-    // metadata_json icinde rag_doc_id
+    // metadata_json içinde rag_doc_id
     final meta = doc['metadata_json'];
     if (meta is Map) {
       if (meta.containsKey('rag_doc_id') && meta['rag_doc_id'] != null) {

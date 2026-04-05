@@ -6,8 +6,8 @@ import '../core/config/api_config.dart';
 import '../core/theme/app_theme.dart';
 
 /// Eğitim içeriği goruntuleyici.
-/// Metin içerikleri dogrudan gosterir, dosya içerikleri icin
-/// dosya adi + boyut + indirme butonu gosterir.
+/// Metin içerikleri dogrudan gösterir, dosya içerikleri icin
+/// dosya adi + boyut + indirme butonu gösterir.
 class ContentViewer extends StatelessWidget {
   final ModuleContent content;
   const ContentViewer({super.key, required this.content});

@@ -265,7 +265,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(ctx),
-                  child: const Text('Iptal', style: TextStyle(color: ScadaColors.amber)),
+                  child: const Text('İptal', style: TextStyle(color: ScadaColors.amber)),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -324,7 +324,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Iptal', style: TextStyle(color: ScadaColors.amber)),
+            child: const Text('İptal', style: TextStyle(color: ScadaColors.amber)),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.red),

@@ -73,7 +73,7 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
               },
               itemBuilder: (_) => [
                 PopupMenuItem(value: 'complete', child: Row(children: [Icon(Icons.check_circle, color: ScadaColors.green, size: 16), SizedBox(width: 8), Text('Tamamla', style: TextStyle(color: context.scada.textPrimary))])),
-                PopupMenuItem(value: 'cancel', child: Row(children: [Icon(Icons.cancel, color: ScadaColors.red, size: 16), SizedBox(width: 8), Text('Iptal Et', style: TextStyle(color: context.scada.textPrimary))])),
+                PopupMenuItem(value: 'cancel', child: Row(children: [Icon(Icons.cancel, color: ScadaColors.red, size: 16), SizedBox(width: 8), Text('İptal Et', style: TextStyle(color: context.scada.textPrimary))])),
               ],
             ),
         ],
@@ -280,7 +280,7 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
       backgroundColor: context.scada.surface,
       icon: const Icon(Icons.celebration, size: 48, color: ScadaColors.green),
       title: const Text('Tur Tamamlandi!', style: TextStyle(color: ScadaColors.green)),
-      content: Text('Tum kontrol noktalari tarandi.', style: TextStyle(color: context.scada.textSecondary)),
+      content: Text('Tum kontrol noktaları tarandi.', style: TextStyle(color: context.scada.textSecondary)),
       actions: [ElevatedButton(onPressed: () { Navigator.pop(ctx); Navigator.pop(context); }, child: const Text('Tamam'))],
     ));
   }
@@ -313,7 +313,7 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
       actions: [
         TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text('Vazgec', style: TextStyle(color: context.scada.textDim))),
         ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.red.withValues(alpha: 0.15), foregroundColor: ScadaColors.red),
-          onPressed: () => Navigator.pop(ctx, true), child: const Text('Iptal Et')),
+          onPressed: () => Navigator.pop(ctx, true), child: const Text('İptal Et')),
       ],
     ));
     if (confirmed == true) { await ref.read(tourServiceProvider).cancelSession(widget.sessionId); if (mounted) Navigator.pop(context); }

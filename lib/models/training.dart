@@ -36,7 +36,7 @@ class TrainingRoute {
   factory TrainingRoute.fromJson(Map<String, dynamic> json) {
     return TrainingRoute(
       id: json['id'], departmentId: json['department_id'], title: json['title'], description: json['description'], difficulty: json['difficulty'] ?? 'beginner', estimatedMinutes: json['estimated_minutes'] ?? 60, isMandatory: json['is_mandatory'] ?? true, isActive: json['is_active'] ?? true, sortOrder: json['sort_order'] ?? 0, passingScore: json['passing_score'] ?? 70, certificateEnabled: json['certificate_enabled'] ?? false, tags: json['tags'], departmentName: json['department_name'],
-      modules: json['modules'] != null ? (json['modules'] as List).map((m) => TrainingModule.fromJson(m)).toList() : null,
+      modules: json['modüles'] != null ? (json['modüles'] as List).map((m) => TrainingModule.fromJson(m)).toList() : null,
     );
   }
 

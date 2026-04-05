@@ -121,7 +121,7 @@ class AdminNotifier extends Notifier<AdminState> {
         'department': department,
         if (phone != null && phone.isNotEmpty) 'phone': phone,
       });
-      state = state.copyWith(isSaving: false, successMessage: 'Kullanici başarıyla oluşturuldu');
+      state = state.copyWith(isSaving: false, successMessage: 'Kullanıcı başarıyla oluşturuldu');
       await loadUsers();
       return true;
     } on DioException catch (e) {
@@ -326,7 +326,7 @@ class AdminNotifier extends Notifier<AdminState> {
         data: data,
 
       );
-      state = state.copyWith(isSaving: false, successMessage: 'Modul başarıyla oluşturuldu');
+      state = state.copyWith(isSaving: false, successMessage: 'Modül başarıyla oluşturuldu');
       return true;
     } on DioException catch (e) {
       state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
@@ -345,7 +345,7 @@ class AdminNotifier extends Notifier<AdminState> {
         data: data,
 
       );
-      state = state.copyWith(isSaving: false, successMessage: 'Modul başarıyla güncellendi');
+      state = state.copyWith(isSaving: false, successMessage: 'Modül başarıyla güncellendi');
       return true;
     } on DioException catch (e) {
       state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
@@ -363,7 +363,7 @@ class AdminNotifier extends Notifier<AdminState> {
         '/training/modules/$id',
 
       );
-      state = state.copyWith(isSaving: false, successMessage: 'Modul başarıyla silindi');
+      state = state.copyWith(isSaving: false, successMessage: 'Modül başarıyla silindi');
       return true;
     } on DioException catch (e) {
       state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
@@ -382,7 +382,7 @@ class AdminNotifier extends Notifier<AdminState> {
         data: {'module_ids': moduleIds},
 
       );
-      state = state.copyWith(isSaving: false, successMessage: 'Modul sirasi güncellendi');
+      state = state.copyWith(isSaving: false, successMessage: 'Modül sirasi güncellendi');
       return true;
     } on DioException catch (e) {
       state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
@@ -670,7 +670,7 @@ class AdminNotifier extends Notifier<AdminState> {
     }
   }
 
-  /// Doküman Havuzu'ndaki mevcut PDF'den modul içeriği oluştur (tekrar yüklemeden)
+  /// Doküman Havuzu'ndaki mevcut PDF'den modül içeriği oluştur (tekrar yüklemeden)
   Future<Map<String, dynamic>?> generateModuleFromDocument({
     required String contentId,
     required String moduleId,
@@ -684,7 +684,7 @@ class AdminNotifier extends Notifier<AdminState> {
         options: Options(receiveTimeout: const Duration(seconds: 300)),
       );
       final data = response.data as Map<String, dynamic>;
-      state = state.copyWith(isSaving: false, successMessage: '${data['generated_count']} bolum oluşturuldu (taslak)');
+      state = state.copyWith(isSaving: false, successMessage: '${data['generated_count']} bölüm oluşturuldu (taslak)');
       return data;
     } on DioException catch (e) {
       state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));
@@ -718,7 +718,7 @@ class AdminNotifier extends Notifier<AdminState> {
     }
   }
 
-  /// PDF yükleyerek modulun içerik bolumlerini AI ile otomatik oluşturur
+  /// PDF yükleyerek modülün içerik bolumlerini AI ile otomatik oluşturur
   Future<Map<String, dynamic>?> generateModuleFromPdf({
     required String fileName,
     required List<int> fileBytes,
@@ -754,7 +754,7 @@ class AdminNotifier extends Notifier<AdminState> {
         isSaving: false,
         uploadProgress: null,
         lastClassification: data['classification'],
-        successMessage: '${data['generated_count']} içerik bolumu otomatik oluşturuldu',
+        successMessage: '${data['generated_count']} içerik bölümu otomatik oluşturuldu',
       );
       return data;
     } on DioException catch (e) {

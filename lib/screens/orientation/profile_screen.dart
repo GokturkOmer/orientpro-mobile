@@ -345,14 +345,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text('Iptal', style: TextStyle(color: context.scada.textSecondary)),
+            child: Text('İptal', style: TextStyle(color: context.scada.textSecondary)),
           ),
           ElevatedButton(
             onPressed: () async {
               // Telefon validation
               if (_validatePhone(phoneCtrl.text) != null || _validatePhone(emergencyPhoneCtrl.text) != null) {
                 ScaffoldMessenger.of(ctx).showSnackBar(
-                  const SnackBar(content: Text('Lütfen gecerli telefon numaralari girin'), backgroundColor: ScadaColors.red),
+                  const SnackBar(content: Text('Lütfen gecerli telefon numaraları girin'), backgroundColor: ScadaColors.red),
                 );
                 return;
               }

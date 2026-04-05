@@ -93,7 +93,7 @@ class CertificateScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'asagidaki eğitim rotasini başarıyla tamamlamistir',
+                    'aşağıdaki eğitim rotasini başarıyla tamamlamistir',
                     style: TextStyle(fontSize: 11, color: context.scada.textSecondary),
                     textAlign: TextAlign.center,
                   ),
@@ -137,7 +137,7 @@ class CertificateScreen extends ConsumerWidget {
               child: ElevatedButton.icon(
                 onPressed: () => _downloadPdf(context, ref, routeId),
                 icon: const Icon(Icons.download, size: 18),
-                label: const Text('PDF Indir', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+                label: const Text('PDF İndir', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ScadaColors.green.withValues(alpha: 0.15),
                   foregroundColor: ScadaColors.green,

@@ -21,7 +21,7 @@ class _RoleManagementScreenState extends ConsumerState<RoleManagementScreen> {
   static const _resourceLabels = {
     'training': 'Eğitim',
     'content': 'İçerik',
-    'users': 'Kullanicilar',
+    'users': 'Kullanıcılar',
     'reports': 'Raporlar',
     'settings': 'Ayarlar',
     'work_orders': 'Is Emirleri',
@@ -65,7 +65,7 @@ class _RoleManagementScreenState extends ConsumerState<RoleManagementScreen> {
           TextField(controller: descCtrl, decoration: const InputDecoration(labelText: 'Açıklama')),
         ]),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text('Iptal', style: TextStyle(color: context.scada.textDim))),
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text('İptal', style: TextStyle(color: context.scada.textDim))),
           ElevatedButton(
             onPressed: () => Navigator.pop(ctx, true),
             style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.cyan),
@@ -116,7 +116,7 @@ class _RoleManagementScreenState extends ConsumerState<RoleManagementScreen> {
         title: Text('Rolu Sil', style: TextStyle(color: context.scada.textPrimary)),
         content: Text('"$roleName" rolu silinecek. Emin misiniz?', style: TextStyle(color: context.scada.textSecondary)),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text('Iptal', style: TextStyle(color: context.scada.textDim))),
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text('İptal', style: TextStyle(color: context.scada.textDim))),
           ElevatedButton(
             onPressed: () => Navigator.pop(ctx, true),
             style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.red),
@@ -256,7 +256,7 @@ class _RoleManagementScreenState extends ConsumerState<RoleManagementScreen> {
 
   String _actionLabel(String action) {
     switch (action) {
-      case 'view': return 'Goruntule';
+      case 'view': return 'Görüntüle';
       case 'create': return 'Oluştur';
       case 'edit': return 'Düzenle';
       case 'delete': return 'Sil';

@@ -49,7 +49,7 @@ class STr extends S {
 
   @override
   String get orgSelectSubtitle =>
-      'Birden fazla tesise uyesiniz.\nDevam etmek icin bir tesis secin.';
+      'Birden fazla tesise uyesiniz.\nDevam etmek icin bir tesis seçin.';
 
   @override
   String get orgSelectDefault => 'Varsayilan';
@@ -61,7 +61,7 @@ class STr extends S {
   String get orgSelectMember => 'Uye';
 
   @override
-  String get moduleSelectionTitle => 'Modul Secimi';
+  String get moduleSelectionTitle => 'Modül Secimi';
 
   @override
   String get moduleOrientation => 'Oryantasyon';
@@ -104,7 +104,7 @@ class STr extends S {
 
   @override
   String get orientationSubtitle =>
-      'Oryantasyon ve eğitim modulune hosgeldiniz';
+      'Oryantasyon ve eğitim modülüne hosgeldiniz';
 
   @override
   String get orientationOverallProgress => 'Genel Ilerleme';
@@ -123,7 +123,7 @@ class STr extends S {
 
   @override
   String orientationPendingApproval(int count) {
-    return '$count modul onay bekliyor';
+    return '$count modül onay bekliyor';
   }
 
   @override
@@ -398,7 +398,7 @@ class STr extends S {
   String get profileEditAbout => 'Hakkinda';
 
   @override
-  String get profilePhoneInvalid => 'Lütfen gecerli telefon numaralari girin';
+  String get profilePhoneInvalid => 'Lütfen gecerli telefon numaraları girin';
 
   @override
   String get profileUpdated => 'Profil güncellendi';
@@ -602,7 +602,7 @@ class STr extends S {
   String get quizSubmit => 'Quizi Tamamla';
 
   @override
-  String get quizIncomplete => 'Tum sorulari yanitlayin';
+  String get quizIncomplete => 'Tum soruları yanitlayin';
 
   @override
   String get quizEditTitle => 'Soru Düzenle';
@@ -652,7 +652,7 @@ class STr extends S {
   String get routeEditorNew => 'Yeni Eğitim Rotasi';
 
   @override
-  String get routeEditorSelectDept => 'Lütfen departman secin';
+  String get routeEditorSelectDept => 'Lütfen departman seçin';
 
   @override
   String get routeEditorUpdated => 'Rota başarıyla güncellendi';
@@ -661,11 +661,11 @@ class STr extends S {
   String get routeEditorCreated => 'Rota başarıyla oluşturuldu';
 
   @override
-  String get routeEditorDeleteModule => 'Modulu Sil';
+  String get routeEditorDeleteModule => 'Modülu Sil';
 
   @override
   String routeEditorDeleteConfirm(String title) {
-    return '\"$title\" modulunu silmek istediginize emin misiniz?';
+    return '\"$title\" modülünu silmek istediginize emin misiniz?';
   }
 
   @override
@@ -685,7 +685,7 @@ class STr extends S {
   String get ackConfirm => 'Onayla';
 
   @override
-  String get ackFailed => 'Onay gonderilemedi';
+  String get ackFailed => 'Onay gönderilemedi';
 
   @override
   String get scadaThresholds => 'Esik Degerleri';
@@ -810,7 +810,7 @@ class STr extends S {
   String get badgeFirstStep => 'Ilk Adim';
 
   @override
-  String get badgeFirstStepDesc => 'Ilk eğitim modulunu tamamla';
+  String get badgeFirstStepDesc => 'Ilk eğitim modülünu tamamla';
 
   @override
   String get badgeQuizMaster => 'Quiz Ustasi';
@@ -823,7 +823,7 @@ class STr extends S {
 
   @override
   String get badgeFastLearnerDesc =>
-      'Bir modulu 10 dakikadan kisa surede tamamla';
+      'Bir modülü 10 dakikadan kisa surede tamamla';
 
   @override
   String get badgePerfectScore => 'Tam Puan';

@@ -64,7 +64,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
             child: const Icon(Icons.admin_panel_settings, color: ScadaColors.amber, size: 20),
           ),
           SizedBox(width: 8),
-          Text('Yonetim Paneli', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+          Text('Yönetim Paneli', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
         actions: [
           if (admin.error != null)
@@ -130,7 +130,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                     SizedBox(width: 12),
                     Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                       Text('Hosgeldin, ${auth.user?.fullName ?? ""}', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
-                      Text('İçerik yonetimi ve eğitim modulu düzenleme', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
+                      Text('İçerik yonetimi ve eğitim modülü düzenleme', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
                     ])),
                   ]),
                 ),
@@ -139,11 +139,11 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
 
                 // Stats Row
                 Row(children: [
-                  _buildStatCard('Departman sayisi', '$departmentCount', Icons.business, ScadaColors.cyan),
+                  _buildStatCard('Departman sayısı', '$departmentCount', Icons.business, ScadaColors.cyan),
                   const SizedBox(width: 8),
-                  _buildStatCard('Rota sayisi', '$routeCount', Icons.route, ScadaColors.green),
+                  _buildStatCard('Rota sayısı', '$routeCount', Icons.route, ScadaColors.green),
                   const SizedBox(width: 8),
-                  _buildStatCard('Modul sayisi', '$moduleCount', Icons.school, ScadaColors.amber),
+                  _buildStatCard('Modül sayısı', '$moduleCount', Icons.school, ScadaColors.amber),
                 ]),
 
                 const SizedBox(height: 20),
@@ -170,7 +170,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 _buildActionCard(
                   icon: Icons.auto_stories,
                   title: 'Mikro-Öğrenme',
-                  subtitle: 'Atama yap ve sonuçlari goruntule',
+                  subtitle: 'Atama yap ve sonuçlari görüntüle',
                   color: ScadaColors.purple,
                   onTap: () => Navigator.pushNamed(context, '/admin/micro-learning'),
                 ),
@@ -178,7 +178,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 _buildActionCard(
                   icon: Icons.library_books,
                   title: 'Doküman Havuzu',
-                  subtitle: 'Eğitim içerikleri, chatbot verisi, prosedurler',
+                  subtitle: 'Eğitim içerikleri, chatbot verisi, prosedürler',
                   color: ScadaColors.purple,
                   onTap: () => Navigator.pushNamed(context, '/admin/documents'),
                 ),
@@ -193,7 +193,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 _buildActionCard(
                   icon: Icons.people,
                   title: 'Uyelik Yonetimi',
-                  subtitle: 'Kullanici hesaplari ve durumlar',
+                  subtitle: 'Kullanıcı hesaplari ve durumlar',
                   color: ScadaColors.cyan,
                   onTap: () => Navigator.pushNamed(context, '/admin/users'),
                 ),
@@ -224,7 +224,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 _buildActionCard(
                   icon: Icons.analytics,
                   title: 'Kullanim Analitigi',
-                  subtitle: 'Kullanici aktiviteleri ve trendler',
+                  subtitle: 'Kullanıcı aktiviteleri ve trendler',
                   color: ScadaColors.green,
                   onTap: () => Navigator.pushNamed(context, '/admin/analytics'),
                 ),
@@ -254,8 +254,8 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 const SizedBox(height: 10),
                 _buildActionCard(
                   icon: Icons.menu_book,
-                  title: 'İçerik Kutuphanesi',
-                  subtitle: 'Paylasimli online kutuphane',
+                  title: 'İçerik Kütüphanesi',
+                  subtitle: 'Paylaşımlı online kütüphane',
                   color: ScadaColors.amber,
                   onTap: () => Navigator.pushNamed(context, '/library'),
                 ),
@@ -348,7 +348,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
 
       const SizedBox(height: 12),
 
-      // Modul dagilimi — Pie Chart
+      // Modül dagilimi — Pie Chart
       Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
@@ -374,7 +374,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
   }
 
   Widget _buildDepartmentBarChart(AdminState admin) {
-    // Departman bazli rota sayisi
+    // Departman bazli rota sayısı
     final deptMap = <String, int>{};
     for (final route in admin.routes) {
       final dept = route.departmentName ?? 'Genel';
@@ -498,7 +498,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
       children: [
         _legendItem(ScadaColors.cyan, 'Rotalar', admin.routes.length),
         const SizedBox(height: 8),
-        _legendItem(ScadaColors.green, 'Moduller', admin.routes.fold<int>(0, (sum, r) => sum + (r.modules?.length ?? 0))),
+        _legendItem(ScadaColors.green, 'Modüller', admin.routes.fold<int>(0, (sum, r) => sum + (r.modules?.length ?? 0))),
         const SizedBox(height: 8),
         _legendItem(ScadaColors.amber, 'Quizler', admin.routes.fold<int>(0, (sum, r) => sum + (r.modules?.fold<int>(0, (s, m) => s + (m.quizzes?.length ?? 0)) ?? 0))),
       ],

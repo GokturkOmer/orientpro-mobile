@@ -83,7 +83,7 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
                 Text('Veri Koruma & Gizlilik',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: context.scada.textPrimary)),
                 const SizedBox(height: 8),
-                Text('Devam etmek icin asagidaki izinleri onaylayin',
+                Text('Devam etmek için aşağıdaki izinleri onaylayin',
                   style: TextStyle(fontSize: 14, color: context.scada.textSecondary)),
                 const SizedBox(height: 32),
 
@@ -105,8 +105,8 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
                   icon: Icons.storage,
                   title: 'Veri İşleme Izni',
                   description: 'Eğitim ilerlemeniz, quiz sonuçlariniz ve etkinlik kayıtlariniz '
-                      'organizasyonunuzun yonetim panelinde goruntulenebilir. '
-                      'Bu veriler eğitim süreçinin takibi icin kullanilir.',
+                      'organizasyonunuzun yönetim panelinde görüntülenebilir. '
+                      'Bu veriler eğitim süreçinin takibi için kullanilir.',
                   value: _dataProcessingAccepted,
                   onChanged: (v) => setState(() => _dataProcessingAccepted = v ?? false),
                 ),
@@ -125,7 +125,7 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
                     Icon(Icons.info_outline, size: 18, color: ScadaColors.cyan.withValues(alpha: 0.7)),
                     const SizedBox(width: 8),
                     Expanded(child: Text(
-                      'Verilerinizi istediginiz zaman disa aktarabilir veya silme talebinde '
+                      'Verilerinizi istediğiniz zaman disa aktarabilir veya silme talebinde '
                       'bulunabilirsiniz. Bu işlemler Profil > Gizlilik boluumunden yapilabilir.',
                       style: TextStyle(fontSize: 12, color: context.scada.textDim),
                     )),

@@ -193,7 +193,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   _buildPasswordField(_confirmController, 'Şifre Tekrar', _obscureConfirm, () => setState(() => _obscureConfirm = !_obscureConfirm)),
                   const SizedBox(height: 8),
 
-                  // Şifre kurallari
+                  // Şifre kuralları
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
@@ -201,7 +201,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text('Şifre kurallari:', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textDim)),
+                      Text('Şifre kuralları:', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textDim)),
                       const SizedBox(height: 4),
                       _buildRule('En az 8 karakter'),
                       _buildRule('En az 1 buyuk harf'),

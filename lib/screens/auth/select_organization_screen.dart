@@ -4,7 +4,7 @@ import '../../providers/auth_provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/turkish_string.dart';
 
-/// Birden fazla organizasyona uye olan kullanicilar icin
+/// Birden fazla organizasyona uye olan kullanıcılar icin
 /// org secim ekrani. Login sonrasi otomatik acilir.
 class SelectOrganizationScreen extends ConsumerStatefulWidget {
   const SelectOrganizationScreen({super.key});
@@ -58,10 +58,10 @@ class _SelectOrganizationScreenState extends ConsumerState<SelectOrganizationScr
                 Text('OrientPro',
                   style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: ScadaColors.cyan)),
                 const SizedBox(height: 8),
-                Text('Organizasyon Secin',
+                Text('Organizasyon Seçin',
                   style: TextStyle(fontSize: 16, color: context.scada.textSecondary)),
                 const SizedBox(height: 8),
-                Text('Birden fazla organizasyona uyesiniz.\nDevam etmek icin birini secin.',
+                Text('Birden fazla organizasyona uyesiniz.\nDevam etmek için birini seçin.',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 13, color: context.scada.textDim)),
                 const SizedBox(height: 32),

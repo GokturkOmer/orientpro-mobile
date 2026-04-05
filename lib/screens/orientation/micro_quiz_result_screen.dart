@@ -132,7 +132,7 @@ class MicroQuizResultScreen extends ConsumerWidget {
               child: ElevatedButton(
                 onPressed: () {
                   ref.read(microLearningProvider.notifier).clearQuizResult();
-                  // Yeni atama varsa hemen gosterilsin
+                  // Yeni atama varsa hemen gösterilsin
                   final auth = ref.read(authProvider);
                   if (auth.user != null) {
                     ref.read(microLearningProvider.notifier).loadToday(auth.user!.id);

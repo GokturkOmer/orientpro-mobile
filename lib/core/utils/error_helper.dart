@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 
 class ErrorHelper {
   /// DioException, SocketException, TimeoutException gibi hatalari
-  /// kullanici dostu Turkce mesaja cevirir.
+  /// kullanıcı dostu Turkce mesaja cevirir.
   /// Backend'den gelen 'detail' alanini oncelikli kullanir.
   static String getMessage(Object error) {
     if (error is DioException) {

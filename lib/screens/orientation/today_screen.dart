@@ -72,7 +72,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: context.scada.textPrimary),
             textAlign: TextAlign.center),
           const SizedBox(height: 8),
-          Text('Yöneticiniz size bir eğitim modulu atadiginda burada gorunecek.',
+          Text('Yöneticiniz size bir eğitim modülü atadığında burada görünecek.',
             style: TextStyle(fontSize: 14, color: context.scada.textDim),
             textAlign: TextAlign.center),
         ]),
@@ -86,7 +86,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        // Header — Modul bilgisi
+        // Header — Modül bilgisi
         _buildHeader(context, assignment, today),
         const SizedBox(height: 16),
 
@@ -348,7 +348,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
   }
 
   Widget _buildProgressBar(BuildContext context, TodayData today) {
-    // Simdilik modul bazli progress — rota bazli V2'de planli
+    // Simdilik modül bazli progress — rota bazli V2'de planli
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -379,7 +379,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
         Text('Eğitim Tamamlandi',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.green)),
         const SizedBox(height: 4),
-        Text('Bu modulu başarıyla tamamladin. İçerik kartlarini istedigin zaman tekrar okuyabilirsin.',
+        Text('Bu modülü başarıyla tamamladin. İçerik kartlarini istedigin zaman tekrar okuyabilirsin.',
           style: TextStyle(fontSize: 13, color: context.scada.textDim),
           textAlign: TextAlign.center),
       ]),

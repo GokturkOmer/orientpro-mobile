@@ -13,7 +13,7 @@ class LocalNotificationService {
       return;
     }
 
-    // Mobil platform icin flutter_local_notifications
+    // Mobil platform için flutter_local_notifications
     // APK build'de aktif edilecek
     try {
       // Dynamic import ile platform-specific kodu yükle

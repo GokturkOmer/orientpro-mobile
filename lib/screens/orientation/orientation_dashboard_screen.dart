@@ -90,7 +90,7 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                     const SizedBox(width: 12),
                     Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                       Text('Hosgeldiniz, ${auth.user?.fullName ?? ""}', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
-                      Text('Oryantasyon ve eğitim modulune hosgeldiniz', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
+                      Text('Oryantasyon ve eğitim modülüne hosgeldiniz', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
                     ])),
                   ]),
                 ),
@@ -122,7 +122,7 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                       const SizedBox(width: 12),
                       Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                         Text('Bugunku Eğitimim', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
-                        Text('Mikro-öğrenme kartlarini goruntule', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
+                        Text('Mikro-öğrenme kartlarını görüntüle', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
                       ])),
                       Icon(Icons.chevron_right, color: ScadaColors.cyan, size: 22),
                     ]),
@@ -194,7 +194,7 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                           child: Row(children: [
                             Icon(Icons.verified_user_outlined, size: 14, color: context.scada.textSecondary),
                             const SizedBox(width: 6),
-                            Text('${training.dashboardSummary!.pendingAcknowledgments} modul onay bekliyor', style: TextStyle(fontSize: 12, color: context.scada.textPrimary)),
+                            Text('${training.dashboardSummary!.pendingAcknowledgments} modül onay bekliyor', style: TextStyle(fontSize: 12, color: context.scada.textPrimary)),
                           ]),
                         ),
                       if (training.reviewCount > 0)
@@ -239,11 +239,11 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                       border: Border.all(color: context.scada.border),
                     ),
                     child: Row(children: [
-                      _buildMiniStat('Bu Hafta', '${training.dashboardSummary!.weeklyCompleted}', 'modul', ScadaColors.cyan),
+                      _buildMiniStat('Bu Hafta', '${training.dashboardSummary!.weeklyCompleted}', 'modül', ScadaColors.cyan),
                       Container(width: 1, height: 24, color: context.scada.border),
                       _buildMiniStat('Sure', '${training.dashboardSummary!.weeklyTimeMinutes}', 'dk', ScadaColors.amber),
                       Container(width: 1, height: 24, color: context.scada.border),
-                      _buildMiniStat('Onay', '${training.dashboardSummary!.totalAcknowledgments}', 'modul', ScadaColors.green),
+                      _buildMiniStat('Onay', '${training.dashboardSummary!.totalAcknowledgments}', 'modül', ScadaColors.green),
                     ]),
                   ),
                 ],
@@ -339,9 +339,9 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                     _ModuleCardConfig(icon: Icons.route, title: 'Eğitim Rotalari', description: 'Departman bazli eğitim rotalari ve içerikler', color: ScadaColors.cyan, route: '/training-routes', badge: '${filteredRoutes.length}'),
                     _ModuleCardConfig(icon: Icons.quiz, title: 'Quiz & Sinavlar', description: 'Bilgi testleri ve degerlendirmeler', color: ScadaColors.green, route: '/quizzes'),
                     _ModuleCardConfig(icon: Icons.trending_up, title: 'Ilerleme Takibi', description: 'Eğitim tamamlama durumu ve raporlar', color: ScadaColors.amber, route: '/progress'),
-                    _ModuleCardConfig(icon: Icons.smart_toy, title: 'AI Asistan', description: 'Oryantasyon süreçi icin yapay zeka destegi', color: ScadaColors.purple, route: '/ai-assistant'),
+                    _ModuleCardConfig(icon: Icons.smart_toy, title: 'AI Asistan', description: 'Oryantasyon süreçi için yapay zeka destegi', color: ScadaColors.purple, route: '/ai-assistant'),
                     _ModuleCardConfig(icon: Icons.campaign, title: 'Duyuru Panosu', description: 'Sirket ve departman duyurulari', color: ScadaColors.amber, route: '/announcements', badge: annState.unreadCount > 0 ? '${annState.unreadCount}' : null),
-                    _ModuleCardConfig(icon: Icons.folder_open, title: 'İçerik Kutuphanesi', description: 'Kişisel ve paylaşılan belgeler', color: ScadaColors.purple, route: '/library'),
+                    _ModuleCardConfig(icon: Icons.folder_open, title: 'İçerik Kütüphanesi', description: 'Kişisel ve paylaşılan belgeler', color: ScadaColors.purple, route: '/library'),
                     _ModuleCardConfig(icon: Icons.person, title: 'Profil Karti', description: 'Kişisel bilgiler, acil durum, sertifikalar', color: ScadaColors.orange, route: '/profile'),
                     _ModuleCardConfig(icon: Icons.calendar_month, title: 'Vardiya & Görevler', description: 'Haftalik vardiya plani ve görev takibi', color: ScadaColors.amber, route: '/shifts'),
                   ];

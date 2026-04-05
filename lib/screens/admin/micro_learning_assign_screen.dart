@@ -88,7 +88,7 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
 
   String get _stepTitle {
     switch (_step) {
-      case 0: return 'Modul Sec';
+      case 0: return 'Modül Sec';
       case 1: return 'Çalışan Sec';
       case 2: return 'Vardiya Sec';
       case 3: return 'Onayla';
@@ -102,7 +102,7 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
     final doc = await DocumentPickerDialog.show(context);
     if (doc == null || !mounted) return;
 
-    // Gun sayisi sec
+    // Gun sayısı sec
     int dayCount = 5;
     final confirmed = await showDialog<bool>(
       context: context,
@@ -114,7 +114,7 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
             Text('"${doc['title']}" dokümanindan mikro-öğrenme kartlari oluşturulacak.',
                 style: TextStyle(color: context.scada.textSecondary, fontSize: 12)),
             const SizedBox(height: 16),
-            Text('Gun Sayisi', style: TextStyle(color: context.scada.textDim, fontSize: 11)),
+            Text('Gun Sayısı', style: TextStyle(color: context.scada.textDim, fontSize: 11)),
             Slider(
               value: dayCount.toDouble(), min: 3, max: 7, divisions: 4,
               label: '$dayCount gun',
@@ -125,7 +125,7 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
                 style: TextStyle(color: context.scada.textSecondary, fontSize: 11)),
           ]),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text('Iptal', style: TextStyle(color: context.scada.textSecondary))),
+            TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text('İptal', style: TextStyle(color: context.scada.textSecondary))),
             ElevatedButton(
               onPressed: () => Navigator.pop(ctx, true),
               style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.green),
@@ -138,14 +138,14 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
 
     if (confirmed != true || !mounted) return;
 
-    // Modul secimi gerekli — once rota/modul sec
+    // Modül secimi gerekli — once rota/modul sec
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Oncelikle bir rota ve modul secin, ardindan kartlar bu module oluşturulacak.'),
+        content: Text('Oncelikle bir rota ve modül seçin, ardından kartlar bu module oluşturulacak.'),
         backgroundColor: ScadaColors.cyan,
       ),
     );
-    // Not: Otomatik modul oluşturma akisi V2'de planli
+    // Not: Otomatik modül oluşturma akisi V2'de planli
   }
 
   Widget _buildModuleSelection() {
@@ -195,7 +195,7 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               value: _selectedRouteId,
-              hint: Text('Rota secin...', style: TextStyle(color: context.scada.textDim, fontSize: 14)),
+              hint: Text('Rota seçin...', style: TextStyle(color: context.scada.textDim, fontSize: 14)),
               isExpanded: true,
               dropdownColor: context.scada.surface,
               items: training.routes.map((r) => DropdownMenuItem(
@@ -219,7 +219,7 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
 
         // Moduller
         if (_selectedRouteId != null && training.selectedRoute != null) ...[
-          Text('Moduller', style: TextStyle(fontSize: 12, color: context.scada.textDim)),
+          Text('Modüller', style: TextStyle(fontSize: 12, color: context.scada.textDim)),
           const SizedBox(height: 6),
           ...(training.selectedRoute!.modules ?? []).map((m) => Container(
             margin: const EdgeInsets.only(bottom: 6),
@@ -362,7 +362,7 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
       children: [
         Text('Bildirim Saatleri', style: TextStyle(fontSize: 12, color: context.scada.textDim)),
         const SizedBox(height: 4),
-        Text('Sectiginiz vardiyaya gore gun icinde 3 bildirim gonderilecek.',
+        Text('Sectiginiz vardiyaya gore gun icinde 3 bildirim gönderilecek.',
           style: TextStyle(fontSize: 13, color: context.scada.textSecondary)),
         const SizedBox(height: 16),
         ...shifts.map((s) => Container(
@@ -421,7 +421,7 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
             child: Text(micro.error!, style: const TextStyle(color: ScadaColors.red, fontSize: 13)),
           ),
 
-        _buildSummaryCard('Moduller', '${selectedModules.length} modul',
+        _buildSummaryCard('Modüller', '${selectedModules.length} modul',
           selectedModules.map((m) => m.title).join(', '), Icons.school),
         const SizedBox(height: 8),
         _buildSummaryCard('Çalışanlar', '${selectedUsers.length} kisi',

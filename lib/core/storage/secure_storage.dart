@@ -1,6 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-/// Şifrelenmis kalici depolama (JWT token, kullanici bilgileri)
+/// Şifrelenmis kalici depolama (JWT token, kullanıcı bilgileri)
 /// Android: EncryptedSharedPreferences
 /// iOS: Keychain
 class SecureStorage {

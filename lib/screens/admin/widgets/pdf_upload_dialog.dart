@@ -48,7 +48,7 @@ void showPdfUploadDialog({
                     enabled: !isUploading,
                     style: TextStyle(fontSize: 13, color: context.scada.textPrimary),
                     decoration: InputDecoration(
-                      labelText: 'Baslik',
+                      labelText: 'Başlık',
                       labelStyle: TextStyle(fontSize: 12, color: context.scada.textSecondary),
                       filled: true,
                       fillColor: context.scada.bg,
@@ -138,7 +138,7 @@ void showPdfUploadDialog({
                           ),
                           SizedBox(height: 8),
                           Text(
-                            pdfFileName ?? 'PDF dosya secmek icin tikla',
+                            pdfFileName ?? 'PDF dosya secmek için tikla',
                             style: TextStyle(
                               fontSize: 12,
                               color: pdfFileName != null ? context.scada.textPrimary : context.scada.textSecondary,
@@ -182,7 +182,7 @@ void showPdfUploadDialog({
                           style: TextStyle(color: context.scada.textPrimary, fontSize: 12, fontWeight: FontWeight.w500),
                         ),
                         subtitle: Text(
-                          'AI, modulun ders içeriklerini PDF bilgileriyle güncelleyecek',
+                          'AI, modülün ders içeriklerini PDF bilgileriyle güncelleyecek',
                           style: TextStyle(color: context.scada.textDim, fontSize: 10),
                         ),
                         secondary: const Icon(Icons.auto_fix_high, color: ScadaColors.purple, size: 20),
@@ -232,7 +232,7 @@ void showPdfUploadDialog({
             actions: [
               TextButton(
                 onPressed: isUploading ? null : () => Navigator.pop(ctx),
-                child: Text('Iptal',
+                child: Text('İptal',
                     style: TextStyle(
                         color: isUploading ? context.scada.textDim : context.scada.textSecondary)),
               ),
@@ -243,7 +243,7 @@ void showPdfUploadDialog({
                         if (pdfFileBytes == null || pdfFileName == null) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                                content: Text('Lütfen bir PDF dosya secin'),
+                                content: Text('Lütfen bir PDF dosya seçin'),
                                 backgroundColor: ScadaColors.red),
                           );
                           return;

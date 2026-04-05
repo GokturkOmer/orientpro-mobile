@@ -71,7 +71,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
             child: const Icon(Icons.folder_open, color: ScadaColors.purple, size: 18),
           ),
           const SizedBox(width: 8),
-          const Text('İçerik Kutuphanesi', style: TextStyle(color: ScadaColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w600)),
+          const Text('İçerik Kütüphanesi', style: TextStyle(color: ScadaColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w600)),
         ]),
         bottom: TabBar(
           controller: _tabController,
@@ -286,7 +286,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
         title: const Text('Belge Sil', style: TextStyle(color: ScadaColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w600)),
         content: Text('${doc.title} silinsin mi?', style: const TextStyle(color: ScadaColors.textSecondary, fontSize: 13)),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Iptal', style: TextStyle(color: ScadaColors.textSecondary))),
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text('İptal', style: TextStyle(color: ScadaColors.textSecondary))),
           TextButton(
             onPressed: () async {
               Navigator.pop(context);
@@ -342,7 +342,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               TextField(
                 controller: titleController,
-                decoration: const InputDecoration(labelText: 'Baslik', hintText: 'Belge adi'),
+                decoration: const InputDecoration(labelText: 'Başlık', hintText: 'Belge adi'),
               ),
               const SizedBox(height: 12),
               DropdownButtonFormField<String>(
@@ -403,12 +403,12 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
             ]),
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Iptal')),
+            TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('İptal')),
             ElevatedButton(
               onPressed: () async {
                 if (titleController.text.isEmpty || selectedFileBytes == null) {
                   ScaffoldMessenger.of(ctx).showSnackBar(
-                    const SnackBar(content: Text('Baslik ve dosya secimi zorunlu'), backgroundColor: ScadaColors.red),
+                    const SnackBar(content: Text('Başlık ve dosya seçimi zorunlu'), backgroundColor: ScadaColors.red),
                   );
                   return;
                 }

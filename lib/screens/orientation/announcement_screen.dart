@@ -301,7 +301,7 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
         title: Text('Duyuru Sil', style: TextStyle(color: context.scada.textPrimary, fontSize: 16, fontWeight: FontWeight.w600)),
         content: Text('"${ann.title}" silinsin mi?', style: TextStyle(color: context.scada.textSecondary, fontSize: 13)),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: Text('Iptal', style: TextStyle(color: context.scada.textSecondary))),
+          TextButton(onPressed: () => Navigator.pop(context), child: Text('İptal', style: TextStyle(color: context.scada.textSecondary))),
           TextButton(
             onPressed: () async {
               Navigator.pop(context);
@@ -351,7 +351,7 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               TextField(
                 controller: titleController,
-                decoration: const InputDecoration(labelText: 'Baslik'),
+                decoration: const InputDecoration(labelText: 'Başlık'),
               ),
               const SizedBox(height: 12),
               TextField(
@@ -392,12 +392,12 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
             ]),
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(ctx), child: Text('Iptal', style: TextStyle(color: context.scada.textSecondary))),
+            TextButton(onPressed: () => Navigator.pop(ctx), child: Text('İptal', style: TextStyle(color: context.scada.textSecondary))),
             ElevatedButton(
               onPressed: () async {
                 if (titleController.text.isEmpty || bodyController.text.isEmpty) {
                   ScaffoldMessenger.of(ctx).showSnackBar(
-                    const SnackBar(content: Text('Baslik ve içerik zorunlu'), backgroundColor: ScadaColors.red),
+                    const SnackBar(content: Text('Başlık ve içerik zorunlu'), backgroundColor: ScadaColors.red),
                   );
                   return;
                 }

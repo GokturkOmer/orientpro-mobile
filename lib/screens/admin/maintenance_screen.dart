@@ -440,10 +440,10 @@ class _MaintenanceScreenState extends ConsumerState<MaintenanceScreen> {
 
   String _tableLabel(String key) {
     const labels = {
-      'users': 'Kullanicilar',
+      'users': 'Kullanıcılar',
       'departments': 'Departmanlar',
       'routes': 'Rotalar',
-      'modules': 'Moduller',
+      'modüles': 'Modüller',
       'contents': 'İçerikler',
       'quizzes': 'Quizler',
       'progress_records': 'Ilerleme Kayıtlari',

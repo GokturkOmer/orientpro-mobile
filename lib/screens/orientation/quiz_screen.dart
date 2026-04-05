@@ -73,7 +73,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
         final isCorrect = (selected + 1).toString() == q.correctAnswer ||
             selectedText.trim().toTurkishLowerCase() == q.correctAnswer.trim().toTurkishLowerCase();
         if (isCorrect) totalScore += q.points;
-        // Backend'e gonderirken secilen metni gonder (her iki formati da kapsar)
+        // Backend'e gönderirken secilen metni gönder (her iki formati da kapsar)
         answers[q.id] = selectedText;
       } else {
         answers[q.id] = '';

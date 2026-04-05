@@ -28,7 +28,7 @@ class CertificatePinning {
       // ignore: deprecated_member_use
       adapter.onHttpClientCreate = (client) {
         client.badCertificateCallback = (cert, host, port) {
-          // Dev/localhost icin her zaman kabul et
+          // Dev/localhost için her zaman kabul et
           if (host == 'localhost' ||
               host == '127.0.0.1' ||
               host == '10.0.2.2') {

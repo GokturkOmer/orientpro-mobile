@@ -135,7 +135,7 @@ class Task {
       case 'pending': return 'Bekliyor';
       case 'in_progress': return 'Devam Ediyor';
       case 'completed': return 'Tamamlandi';
-      case 'cancelled': return 'Iptal';
+      case 'cancelled': return 'İptal';
       default: return status;
     }
   }

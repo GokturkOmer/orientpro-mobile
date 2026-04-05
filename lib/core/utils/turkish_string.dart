@@ -2,8 +2,8 @@
 ///
 /// Dart'in standart toLowerCase/toUpperCase metodlari Turkce i/I
 /// donusumunu dogru yapamaz (I->i yerine I->ı olmali).
-/// Bu extension SADECE kullaniciya gorunen metin ve arama/filtreleme
-/// işlemleri icin kullanilir. Guvenlik fonksiyonlari (token, hash,
+/// Bu extension SADECE kullanıcıya gorunen metin ve arama/filtreleme
+/// işlemleri için kullanilir. Guvenlik fonksiyonlari (token, hash,
 /// email karsilastirma) KULLANMAMALIDIR.
 extension TurkishString on String {
   /// Turkce kurallara uygun kucuk harfe cevir.

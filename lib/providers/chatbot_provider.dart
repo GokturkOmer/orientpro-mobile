@@ -52,14 +52,14 @@ class ChatNotifier extends Notifier<ChatBotState> {
   void addWelcomeMessage(String userName) {
     if (state.messages.isNotEmpty) return; // Zaten mesaj varsa ekleme
     final welcome = ChatMessage(
-      text: 'Merhaba${userName.isNotEmpty ? ' $userName' : ''}! Ben OrientPro AI Asistaniyim. Oryantasyon süreçiyle ilgili sorularınızi yanitlayabilirim.\n\n'
+      text: 'Merhaba${userName.isNotEmpty ? ' $userName' : ''}! Ben OrientPro AI Asistanıyım. Oryantasyon süreçiyle ilgili sorularınızi yanıtlayabilirim.\n\n'
           '**Soru sorabilecaginiz konular:**\n'
           '- **ISG & Guvenlik** - Is sagligi, yangin, tahliye\n'
           '- **KVKK & Hukuk** - Veri koruma, etik kurallar\n'
           '- **Departman Eğitim** - Oda temizligi, servis, resepsiyon\n'
           '- **Teknik Sistemler** - SCADA, dijital ikiz, QR tur\n'
           '- **Acil Durumlar** - Ilk yardim, deprem, yangin\n\n'
-          'Asagidaki hizli erişim butonlarini da kullanabilirsiniz.',
+          'Aşağıdaki hızlı erişim butonlarıni da kullanabilirsiniz.',
       isUser: false,
     );
     state = state.copyWith(messages: [welcome]);
@@ -103,13 +103,13 @@ class ChatNotifier extends Notifier<ChatBotState> {
     }
   }
 
-  /// Son hata mesajini kaldirip tekrar gonder
+  /// Son hata mesajini kaldirip tekrar gönder
   void retryLast({String? userId}) {
     if (state.lastError == null || state.messages.length < 2) return;
     // Son bot hata mesajini kaldir
     final msgs = [...state.messages];
     msgs.removeLast();
-    // Son kullanici mesajini bul
+    // Son kullanıcı mesajini bul
     final lastUserMsg = msgs.lastWhere((m) => m.isUser, orElse: () => msgs.last);
     state = state.copyWith(messages: msgs, lastError: null);
     sendMessage(lastUserMsg.text, userId: userId);

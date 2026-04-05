@@ -80,14 +80,14 @@ class _SuperAdminCreateOrgScreenState extends ConsumerState<SuperAdminCreateOrgS
           const SizedBox(height: 12),
           // Kullanici limiti
           Row(children: [
-            Expanded(child: Text('Kullanici Limiti', style: TextStyle(fontSize: 13, color: context.scada.textSecondary))),
+            Expanded(child: Text('Kullanıcı Limiti', style: TextStyle(fontSize: 13, color: context.scada.textSecondary))),
             IconButton(icon: const Icon(Icons.remove_circle_outline), onPressed: () { if (_maxUsers > 1) setState(() => _maxUsers--); }),
             Text('$_maxUsers', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
             IconButton(icon: const Icon(Icons.add_circle_outline), onPressed: () => setState(() => _maxUsers++)),
           ]),
           const SizedBox(height: 12),
-          // Modul secimi
-          Text('Moduller', style: TextStyle(fontSize: 13, color: context.scada.textSecondary)),
+          // Modül secimi
+          Text('Modüller', style: TextStyle(fontSize: 13, color: context.scada.textSecondary)),
           const SizedBox(height: 6),
           Wrap(
             spacing: 6,
@@ -133,7 +133,7 @@ class _SuperAdminCreateOrgScreenState extends ConsumerState<SuperAdminCreateOrgS
               icon: _isLoading
                 ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
                 : const Icon(Icons.add_business),
-              label: Text(_isLoading ? 'Oluşturuluyor...' : 'Musteri Oluştur'),
+              label: Text(_isLoading ? 'Oluşturuluyor...' : 'Müşteri Oluştur'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: ScadaColors.red,
                 foregroundColor: Colors.white,
@@ -228,7 +228,7 @@ class _SuccessView extends StatelessWidget {
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           const Icon(Icons.check_circle, color: ScadaColors.green, size: 64),
           const SizedBox(height: 16),
-          const Text('Musteri Oluşturuldu!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: ScadaColors.green)),
+          const Text('Müşteri Oluşturuldu!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: ScadaColors.green)),
           const SizedBox(height: 24),
           Container(
             width: double.infinity,
@@ -274,7 +274,7 @@ class _SuccessView extends StatelessWidget {
             child: ElevatedButton.icon(
               onPressed: onReset,
               icon: const Icon(Icons.add_business),
-              label: const Text('Yeni Musteri Ekle'),
+              label: const Text('Yeni Müşteri Ekle'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: ScadaColors.red,
                 foregroundColor: Colors.white,

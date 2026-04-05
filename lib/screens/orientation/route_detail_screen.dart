@@ -92,13 +92,13 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
                     ]),
                     const SizedBox(height: 12),
 
-                    // Module timeline (siralama: ilk modul acik, sonrakiler icin oncekini tamamla)
+                    // Module timeline (siralama: ilk modül acik, sonrakiler icin oncekini tamamla)
                     if (route.modules != null && route.modules!.isNotEmpty)
                       ...route.modules!.asMap().entries.map((entry) {
                         final idx = entry.key;
                         final module = entry.value;
                         final isLast = idx == route.modules!.length - 1;
-                        // Ilk modul her zaman acik, sonrakiler onceki modullere bagli
+                        // Ilk modül her zaman acik, sonrakiler onceki modullere bagli
                         final isLocked = idx > 0; // Gercek tamamlanma durumu backend'den gelmeli
                         return _buildTimelineItem(idx + 1, module, isLast, isLocked: isLocked);
                       })
@@ -109,7 +109,7 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
                           child: Column(mainAxisSize: MainAxisSize.min, children: [
                             Icon(Icons.menu_book, size: 40, color: context.scada.textDim),
                             const SizedBox(height: 8),
-                            Text('Henuz modul eklenmemis', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
+                            Text('Henuz modül eklenmemis', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
                           ]),
                         ),
                       ),
@@ -134,13 +134,13 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
   }
 
   Widget _buildTimelineItem(int index, dynamic module, bool isLast, {bool isLocked = false}) {
-    // Modul durumunu belirle: tamamlanan içerikleri kontrol et
+    // Modül durumunu belirle: tamamlanan içerikleri kontrol et
     final contents = module.contents as List? ?? [];
     final quizzes = module.quizzes as List? ?? [];
     final totalItems = contents.length + quizzes.length;
 
     // Basit durum tahmini: içerik ve quiz varsa
-    // Gercek tamamlanma durumu backend'den gelmeli, simdilik index bazli gosterim
+    // Gercek tamamlanma durumu backend'den gelmeli, simdilik index bazli gösterim
     _ModuleStatus status = _ModuleStatus.notStarted;
     if (totalItems == 0) {
       status = _ModuleStatus.notStarted;
@@ -202,7 +202,7 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
           ]),
         ),
         const SizedBox(width: 8),
-        // Modul karti
+        // Modül karti
         Expanded(
           child: Container(
             margin: const EdgeInsets.only(bottom: 12),
@@ -214,7 +214,7 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
             child: InkWell(
               onTap: isLocked
                   ? () => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text('Onceki modulu tamamlayin: Modul ${index - 1}'),
+                      content: Text('Onceki modülü tamamlayin: Modül ${index - 1}'),
                       backgroundColor: ScadaColors.orange,
                       duration: const Duration(seconds: 2),
                     ))

@@ -136,7 +136,7 @@ class RouteDetailWidget extends ConsumerWidget {
                     ElevatedButton.icon(
                       onPressed: onAddModule,
                       icon: const Icon(Icons.add, size: 14),
-                      label: const Text('Modul Ekle', style: TextStyle(fontSize: 12)),
+                      label: const Text('Modül Ekle', style: TextStyle(fontSize: 12)),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: ScadaColors.green.withValues(alpha: 0.12),
                         foregroundColor: ScadaColors.green,
@@ -158,7 +158,7 @@ class RouteDetailWidget extends ConsumerWidget {
               const Icon(Icons.view_module, size: 16, color: ScadaColors.cyan),
               SizedBox(width: 8),
               Text(
-                'Moduller (${route.modules?.length ?? 0})',
+                'Modüller (${route.modules?.length ?? 0})',
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: context.scada.textPrimary),
               ),
             ],
@@ -178,7 +178,7 @@ class RouteDetailWidget extends ConsumerWidget {
                   children: [
                     Icon(Icons.inbox_outlined, size: 32, color: context.scada.textDim),
                     SizedBox(height: 8),
-                    Text('Henuz modul eklenmemis', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
+                    Text('Henuz modül eklenmemis', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
                   ],
                 ),
               ),

@@ -72,7 +72,7 @@ class AuthNotifier extends Notifier<AuthState> {
     }
   }
 
-  /// Kurum kaydı — organizasyon + admin kullanici oluşturur
+  /// Kurum kaydı — organizasyon + admin kullanıcı oluşturur
   Future<Map<String, dynamic>> registerOrganization(String email, String fullName, String password, String orgName, {String sector = 'hotel'}) async {
     state = AuthState(isLoading: true, autoLoginChecked: state.autoLoginChecked);
     try {
@@ -92,8 +92,8 @@ class AuthNotifier extends Notifier<AuthState> {
     }
   }
 
-  /// Login işlemi — başarılı olursa token ve kullanici bilgisi kalici olarak saklanir
-  /// Birden fazla organizasyona uyeyse org secim ekrani gosterilir
+  /// Login işlemi — başarılı olursa token ve kullanıcı bilgisi kalici olarak saklanir
+  /// Birden fazla organizasyona uyeyse org secim ekrani gösterilir
   Future<bool> login(String email, String password, {bool rememberMe = false}) async {
     state = AuthState(isLoading: true, autoLoginChecked: true);
     try {
@@ -143,7 +143,7 @@ class AuthNotifier extends Notifier<AuthState> {
     }
   }
 
-  /// Token ve kullanici bilgisini kaydet
+  /// Token ve kullanıcı bilgisini kaydet
   Future<bool> _handleLoginSuccess(Map<String, dynamic> data) async {
     final user = User.fromJson(data['user']);
     final token = data['access_token'];
@@ -201,7 +201,7 @@ class AuthNotifier extends Notifier<AuthState> {
         return false;
       }
 
-      // Oncelikle kaydedilmis kullanici bilgisiyle hemen oturumu ac
+      // Oncelikle kaydedilmis kullanıcı bilgisiyle hemen oturumu ac
       final userJson = await SecureStorage.getUserJson();
       if (userJson != null) {
         final user = User.fromJson(jsonDecode(userJson));
@@ -220,7 +220,7 @@ class AuthNotifier extends Notifier<AuthState> {
         // Access token gecersiz — refresh token ile yenilemeyi dene
         final refreshed = await refreshAccessToken();
         if (refreshed) {
-          // Yeni token ile kullanici bilgisini al
+          // Yeni token ile kullanıcı bilgisini al
           try {
             final response = await _dio.get('/auth/me',
                 options: Options(headers: {'Authorization': 'Bearer ${state.token}'}));
@@ -243,7 +243,7 @@ class AuthNotifier extends Notifier<AuthState> {
     }
   }
 
-  /// Çıkış yap — token ve kullanici bilgisini sil
+  /// Çıkış yap — token ve kullanıcı bilgisini sil
   Future<void> logout() async {
     final currentToken = state.token;
     // Sunucuya logout bildirimi (başarısız olursa sorun degil)

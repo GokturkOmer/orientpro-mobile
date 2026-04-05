@@ -178,7 +178,7 @@ abstract class S {
   /// No description provided for @orgSelectSubtitle.
   ///
   /// In tr, this message translates to:
-  /// **'Birden fazla tesise uyesiniz.\nDevam etmek icin bir tesis secin.'**
+  /// **'Birden fazla tesise uyesiniz.\nDevam etmek icin bir tesis seçin.'**
   String get orgSelectSubtitle;
 
   /// No description provided for @orgSelectDefault.
@@ -202,7 +202,7 @@ abstract class S {
   /// No description provided for @moduleSelectionTitle.
   ///
   /// In tr, this message translates to:
-  /// **'Modul Secimi'**
+  /// **'Modül Secimi'**
   String get moduleSelectionTitle;
 
   /// No description provided for @moduleOrientation.
@@ -280,7 +280,7 @@ abstract class S {
   /// No description provided for @orientationSubtitle.
   ///
   /// In tr, this message translates to:
-  /// **'Oryantasyon ve eğitim modulune hosgeldiniz'**
+  /// **'Oryantasyon ve eğitim modülüne hosgeldiniz'**
   String get orientationSubtitle;
 
   /// No description provided for @orientationOverallProgress.
@@ -316,7 +316,7 @@ abstract class S {
   /// No description provided for @orientationPendingApproval.
   ///
   /// In tr, this message translates to:
-  /// **'{count} modul onay bekliyor'**
+  /// **'{count} modül onay bekliyor'**
   String orientationPendingApproval(int count);
 
   /// No description provided for @orientationReviewRequired.
@@ -838,7 +838,7 @@ abstract class S {
   /// No description provided for @profilePhoneInvalid.
   ///
   /// In tr, this message translates to:
-  /// **'Lütfen gecerli telefon numaralari girin'**
+  /// **'Lütfen gecerli telefon numaraları girin'**
   String get profilePhoneInvalid;
 
   /// No description provided for @profileUpdated.
@@ -1209,7 +1209,7 @@ abstract class S {
   /// No description provided for @quizIncomplete.
   ///
   /// In tr, this message translates to:
-  /// **'Tum sorulari yanitlayin'**
+  /// **'Tum soruları yanitlayin'**
   String get quizIncomplete;
 
   /// No description provided for @quizEditTitle.
@@ -1305,7 +1305,7 @@ abstract class S {
   /// No description provided for @routeEditorSelectDept.
   ///
   /// In tr, this message translates to:
-  /// **'Lütfen departman secin'**
+  /// **'Lütfen departman seçin'**
   String get routeEditorSelectDept;
 
   /// No description provided for @routeEditorUpdated.
@@ -1323,13 +1323,13 @@ abstract class S {
   /// No description provided for @routeEditorDeleteModule.
   ///
   /// In tr, this message translates to:
-  /// **'Modulu Sil'**
+  /// **'Modülu Sil'**
   String get routeEditorDeleteModule;
 
   /// No description provided for @routeEditorDeleteConfirm.
   ///
   /// In tr, this message translates to:
-  /// **'\"{title}\" modulunu silmek istediginize emin misiniz?'**
+  /// **'\"{title}\" modülünu silmek istediginize emin misiniz?'**
   String routeEditorDeleteConfirm(String title);
 
   /// No description provided for @ackTitle.
@@ -1365,7 +1365,7 @@ abstract class S {
   /// No description provided for @ackFailed.
   ///
   /// In tr, this message translates to:
-  /// **'Onay gonderilemedi'**
+  /// **'Onay gönderilemedi'**
   String get ackFailed;
 
   /// No description provided for @scadaThresholds.
@@ -1587,7 +1587,7 @@ abstract class S {
   /// No description provided for @badgeFirstStepDesc.
   ///
   /// In tr, this message translates to:
-  /// **'Ilk eğitim modulunu tamamla'**
+  /// **'Ilk eğitim modülünu tamamla'**
   String get badgeFirstStepDesc;
 
   /// No description provided for @badgeQuizMaster.
@@ -1611,7 +1611,7 @@ abstract class S {
   /// No description provided for @badgeFastLearnerDesc.
   ///
   /// In tr, this message translates to:
-  /// **'Bir modulu 10 dakikadan kisa surede tamamla'**
+  /// **'Bir modülü 10 dakikadan kisa surede tamamla'**
   String get badgeFastLearnerDesc;
 
   /// No description provided for @badgePerfectScore.

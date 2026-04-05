@@ -45,11 +45,11 @@ class _SectorTemplateScreenState extends ConsumerState<SectorTemplateScreen> {
         backgroundColor: context.scada.surface,
         title: Text('Sablonu Uygula', style: TextStyle(color: context.scada.textPrimary)),
         content: Text(
-          '$name sablonunu uygulamak istediginize emin misiniz?\n\nDepartmanlar ve ornek eğitim rotalari oluşturulacak.',
+          '$name sablonunu uygulamak istediğinize emin misiniz?\n\nDepartmanlar ve ornek eğitim rotalari oluşturulacak.',
           style: TextStyle(color: context.scada.textSecondary, fontSize: 13),
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text('Iptal', style: TextStyle(color: context.scada.textDim))),
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text('İptal', style: TextStyle(color: context.scada.textDim))),
           ElevatedButton(
             onPressed: () => Navigator.pop(ctx, true),
             style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.green),
@@ -139,7 +139,7 @@ class _SectorTemplateScreenState extends ConsumerState<SectorTemplateScreen> {
                         Icon(Icons.info_outline, size: 18, color: context.scada.textDim),
                         const SizedBox(width: 10),
                         Expanded(child: Text(
-                          'Sektorunuze uygun sablonu secin. Departmanlar ve ornek eğitim rotalari otomatik oluşturulacak.',
+                          'Sektorunuze uygun sablonu seçin. Departmanlar ve ornek eğitim rotalari otomatik oluşturulacak.',
                           style: TextStyle(fontSize: 12, color: context.scada.textSecondary),
                         )),
                       ]),

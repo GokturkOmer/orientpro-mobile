@@ -1,9 +1,9 @@
-// Modul Editor — eğitim modulu oluşturma/düzenleme ekrani
+// Modül Editor — eğitim modülü oluşturma/düzenleme ekrani
 //
 // Yapi:
 //   1. State & Form Logic       (satir ~20-1165)   — form controllers, API işlemleri
 //   2. build() & Layout         (satir ~1166-1235)  — ana scaffold, tab yapisi
-//   3. _buildModuleForm()       (satir ~1236-1303)  — modul bilgi formu
+//   3. _buildModuleForm()       (satir ~1236-1303)  — modül bilgi formu
 //   4. _buildContentSection()   (satir ~1304-1789)  — içerik yonetimi
 //   5. _buildContentCard()      (satir ~1790-2236)  — tekil içerik karti + PDF detay dialog
 //   6. RAG Tab Widget'lari      (satir ~2237-2413)  — classification, fulltext, chunks
@@ -96,8 +96,8 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
         SnackBar(
           content: Text(
             _isEditMode
-                ? 'Modul başarıyla güncellendi'
-                : 'Modul başarıyla oluşturuldu',
+                ? 'Modül başarıyla güncellendi'
+                : 'Modül başarıyla oluşturuldu',
           ),
           backgroundColor: ScadaColors.green,
         ),
@@ -174,7 +174,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                       TextField(
                         controller: contentTitleCtrl,
                         style: TextStyle(color: context.scada.textPrimary),
-                        decoration: _inputDecoration('Baslik'),
+                        decoration: _inputDecoration('Başlık'),
                         enabled: !isUploading,
                       ),
                       const SizedBox(height: 12),
@@ -209,7 +209,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                             ),
                             child: SingleChildScrollView(
                               child: MarkdownBody(
-                                data: contentBodyCtrl.text.isEmpty ? '*Onizleme burada gorunecek...*' : contentBodyCtrl.text,
+                                data: contentBodyCtrl.text.isEmpty ? '*Önizleme burada görünecek...*' : contentBodyCtrl.text,
                                 styleSheet: MarkdownStyleSheet(
                                   p: TextStyle(color: context.scada.textSecondary, fontSize: 13, height: 1.4),
                                   h1: TextStyle(color: context.scada.textPrimary, fontSize: 16, fontWeight: FontWeight.bold),
@@ -301,7 +301,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                                 ),
                                 SizedBox(height: 8),
                                 Text(
-                                  pdfFileName ?? 'PDF dosya secmek icin tikla',
+                                  pdfFileName ?? 'PDF dosya secmek için tikla',
                                   style: TextStyle(
                                     color: pdfFileName != null
                                         ? context.scada.textPrimary
@@ -349,7 +349,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                                 style: TextStyle(color: context.scada.textPrimary, fontSize: 12, fontWeight: FontWeight.w500),
                               ),
                               subtitle: Text(
-                                'AI, modulun mevcut ders içeriklerini PDF\'deki bilgilerle analiz edip güncelleyecek',
+                                'AI, modülün mevcut ders içeriklerini PDF\'deki bilgilerle analiz edip güncelleyecek',
                                 style: TextStyle(color: context.scada.textDim, fontSize: 10),
                               ),
                               secondary: const Icon(Icons.auto_awesome, color: ScadaColors.purple, size: 20),
@@ -444,7 +444,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                             if (pdfFileBytes == null || pdfFileName == null) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text('Lütfen bir PDF dosya secin'),
+                                  content: Text('Lütfen bir PDF dosya seçin'),
                                   backgroundColor: ScadaColors.red,
                                 ),
                               );
@@ -1165,7 +1165,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
       appBar: AppBar(
         backgroundColor: context.scada.surface,
         title: Text(
-          _isEditMode ? 'Modulu Düzenle' : 'Yeni Modul',
+          _isEditMode ? 'Modülu Düzenle' : 'Yeni Modul',
           style: TextStyle(color: context.scada.textPrimary),
         ),
         iconTheme: IconThemeData(color: context.scada.textPrimary),
@@ -1263,7 +1263,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Modul Bilgileri',
+              'Modül Bilgileri',
               style: TextStyle(
                 color: context.scada.textPrimary,
                 fontSize: 18,
@@ -1290,7 +1290,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
               initialValue: _moduleType,
               dropdownColor: context.scada.card,
               style: TextStyle(color: context.scada.textPrimary),
-              decoration: _inputDecoration('Modul Tipi'),
+              decoration: _inputDecoration('Modül Tipi'),
               items: const [
                 DropdownMenuItem(value: 'lesson', child: Text('Ders')),
                 DropdownMenuItem(value: 'video', child: Text('Video')),
@@ -1429,7 +1429,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
           style: TextStyle(color: context.scada.textSecondary, fontSize: 12),
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text('Iptal', style: TextStyle(color: context.scada.textSecondary))),
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text('İptal', style: TextStyle(color: context.scada.textSecondary))),
           ElevatedButton(
             onPressed: () => Navigator.pop(ctx, true),
             style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.green),
@@ -1450,7 +1450,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
     if (mounted) {
       if (result != null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${result['generated_count']} bolum oluşturuldu (taslak)'), backgroundColor: ScadaColors.green),
+          SnackBar(content: Text('${result['generated_count']} bölüm oluşturuldu (taslak)'), backgroundColor: ScadaColors.green),
         );
         ref.read(adminProvider.notifier).loadModuleDetail(widget.moduleId!);
       } else {
@@ -1498,7 +1498,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                         children: [
                           Text('İçerik Oluşturuldu!',
                               style: TextStyle(color: context.scada.textPrimary, fontSize: 16, fontWeight: FontWeight.bold)),
-                          Text('${contents.length} bolum başarıyla oluşturuldu',
+                          Text('${contents.length} bölüm başarıyla oluşturuldu',
                               style: TextStyle(color: context.scada.textDim, fontSize: 12)),
                         ],
                       ),
@@ -1646,7 +1646,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                             ),
                             SizedBox(height: 6),
                             Text(
-                              'PDF dosyasini yükleyin, AI dokümani analiz edecek ve modulunuz icin yapilandirilmis ders içerikleri oluşturacak.\n\n'
+                              'PDF dosyasini yükleyin, AI dokümani analiz edecek ve modülünuz icin yapilandirilmis ders içerikleri oluşturacak.\n\n'
                               '• PDF metin içeriği cikarilir\n'
                               '• AI içeriği analiz eder ve bolumlendirir\n'
                               '• Her bolum icin baslik ve Markdown içerik uretilir\n'
@@ -1739,7 +1739,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                             style: TextStyle(color: context.scada.textPrimary, fontSize: 12, fontWeight: FontWeight.w500),
                           ),
                           subtitle: Text(
-                            'Modulun mevcut metin içeriklerini silerek yenileriyle değiştirir',
+                            'Modülun mevcut metin içeriklerini silerek yenileriyle değiştirir',
                             style: TextStyle(color: context.scada.textDim, fontSize: 10),
                           ),
                           secondary: const Icon(Icons.cleaning_services, color: ScadaColors.amber, size: 20),

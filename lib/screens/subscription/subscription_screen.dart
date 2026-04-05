@@ -8,7 +8,7 @@ import '../../core/network/auth_dio.dart';
 import '../../core/utils/error_helper.dart';
 
 /// Abonelik durumu ve plan yonetimi ekrani.
-/// Mevcut plan, kalan sure, plan yukseltme ve fatura gecmisi gosterir.
+/// Mevcut plan, kalan sure, plan yukseltme ve fatura gecmisi gösterir.
 class SubscriptionScreen extends ConsumerStatefulWidget {
   const SubscriptionScreen({super.key});
   @override
@@ -114,7 +114,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
         statusIcon = Icons.check_circle;
       case 'cancelled':
         statusColor = ScadaColors.red;
-        statusText = 'Iptal Edildi';
+        statusText = 'İptal Edildi';
         statusIcon = Icons.cancel;
       case 'expired':
         statusColor = ScadaColors.red;
@@ -244,7 +244,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
         if (features.isNotEmpty) ...[
           const SizedBox(height: 12),
           Wrap(spacing: 8, runSpacing: 4, children: [
-            Text('${plan['max_users'] ?? '?'} kullanici', style: TextStyle(fontSize: 12, color: context.scada.textDim)),
+            Text('${plan['max_users'] ?? '?'} kullanıcı', style: TextStyle(fontSize: 12, color: context.scada.textDim)),
             Text('•', style: TextStyle(color: context.scada.textDim)),
             Text('${plan['max_storage_gb'] ?? '?'} GB depolama', style: TextStyle(fontSize: 12, color: context.scada.textDim)),
           ]),
@@ -327,19 +327,19 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
               borderRadius: BorderRadius.circular(8),
             ),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              _buildFeatureRow(Icons.people, '${plan['max_users'] ?? '?'} kullanici'),
+              _buildFeatureRow(Icons.people, '${plan['max_users'] ?? '?'} kullanıcı'),
               _buildFeatureRow(Icons.cloud, '${plan['max_storage_gb'] ?? '?'} GB depolama'),
               if (plan['features'] != null && (plan['features'] as Map).containsKey('ai_chatbot'))
                 _buildFeatureRow(Icons.smart_toy, 'AI Asistan'),
               if (plan['features'] != null && (plan['features'] as Map).containsKey('analytics'))
-                _buildFeatureRow(Icons.analytics, 'Detayli Analitik'),
+                _buildFeatureRow(Icons.analytics, 'Detaylı Analitik'),
             ]),
           ),
         ]),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text('Iptal', style: TextStyle(color: context.scada.textDim)),
+            child: Text('İptal', style: TextStyle(color: context.scada.textDim)),
           ),
           ElevatedButton(
             onPressed: () {

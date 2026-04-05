@@ -58,7 +58,7 @@ class _SuperAdminDashboardScreenState extends ConsumerState<SuperAdminDashboardS
           _SectionTitle('Platform Özeti'),
           const SizedBox(height: 12),
           Row(children: [
-            Expanded(child: _MetricCard('Toplam Musteri', '${summary['total_organizations'] ?? 0}', Icons.business, ScadaColors.red)),
+            Expanded(child: _MetricCard('Toplam Müşteri', '${summary['total_organizations'] ?? 0}', Icons.business, ScadaColors.red)),
             const SizedBox(width: 10),
             Expanded(child: _MetricCard('Aktif', '${summary['active_organizations'] ?? 0}', Icons.check_circle_outline, ScadaColors.green)),
           ]),
@@ -66,10 +66,10 @@ class _SuperAdminDashboardScreenState extends ConsumerState<SuperAdminDashboardS
           Row(children: [
             Expanded(child: _MetricCard('Trial', '${summary['trial_organizations'] ?? 0}', Icons.access_time, ScadaColors.amber)),
             const SizedBox(width: 10),
-            Expanded(child: _MetricCard('Toplam Kullanici', '${summary['total_users'] ?? 0}', Icons.people_outline, ScadaColors.cyan)),
+            Expanded(child: _MetricCard('Toplam Kullanıcı', '${summary['total_users'] ?? 0}', Icons.people_outline, ScadaColors.cyan)),
           ]),
           const SizedBox(height: 10),
-          _MetricCard('Bu Ay Yeni Musteri', '${summary['new_organizations_30d'] ?? 0}', Icons.trending_up, ScadaColors.purple),
+          _MetricCard('Bu Ay Yeni Müşteri', '${summary['new_organizations_30d'] ?? 0}', Icons.trending_up, ScadaColors.purple),
 
           // Churn riski
           if (churnRisk.isNotEmpty) ...[

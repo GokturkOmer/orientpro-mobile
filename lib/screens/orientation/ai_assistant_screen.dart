@@ -19,13 +19,13 @@ class _AiAssistantScreenState extends ConsumerState<AiAssistantScreen> {
 
   static const _quickActions = [
     _QuickAction(icon: Icons.school, label: 'ISG nedir?', query: 'ISG temel eğitimi hakkında kisaca bilgi ver'),
-    _QuickAction(icon: Icons.security, label: 'KVKK kurallari', query: 'Otel personeli icin KVKK kurallari nelerdir?'),
-    _QuickAction(icon: Icons.local_fire_department, label: 'Yangin prosedürü', query: 'Yanginda yapilmasi gerekenleri adim adim anlat'),
+    _QuickAction(icon: Icons.security, label: 'KVKK kuralları', query: 'Otel personeli için KVKK kuralları nelerdir?'),
+    _QuickAction(icon: Icons.local_fire_department, label: 'Yangin prosedürü', query: 'Yanginda yapılması gerekenleri adim adim anlat'),
     _QuickAction(icon: Icons.healing, label: 'Ilk yardim', query: 'Otel ortaminda ilk yardim temel prensipleri ve CPR prosedürünu anlat'),
     _QuickAction(icon: Icons.cleaning_services, label: 'Oda temizligi', query: 'Check-out oda temizlik prosedürünu anlat'),
-    _QuickAction(icon: Icons.restaurant, label: 'HACCP kurallari', query: 'HACCP ve gida güvenliği temel kurallari nelerdir?'),
+    _QuickAction(icon: Icons.restaurant, label: 'HACCP kuralları', query: 'HACCP ve gida güvenliği temel kuralları nelerdir?'),
     _QuickAction(icon: Icons.engineering, label: 'SCADA alarmlar', query: 'SCADA alarm seviyeleri ve mudahale prosedürü nedir?'),
-    _QuickAction(icon: Icons.qr_code, label: 'QR Tur nedir?', query: 'QR kod tabanli tur sistemi nasil calisir? Guzergahlar ve kontrol noktalari nelerdir?'),
+    _QuickAction(icon: Icons.qr_code, label: 'QR Tur nedir?', query: 'QR kod tabanlı tur sistemi nasıl çalışır? Guzergahlar ve kontrol noktaları nelerdir?'),
   ];
 
   @override
@@ -109,7 +109,7 @@ class _AiAssistantScreenState extends ConsumerState<AiAssistantScreen> {
       ),
       body: Column(
         children: [
-          // Quick actions — sadece bos sohbette goster
+          // Quick actions — sadece bos sohbette göster
           if (chat.messages.length <= 1)
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),

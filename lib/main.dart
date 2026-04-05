@@ -212,7 +212,7 @@ class OrientProApp extends ConsumerWidget {
   }
 }
 
-/// Pro modulu icin route guard (SCADA, ekipman, is emri vb.)
+/// Pro modülü icin route guard (SCADA, ekipman, is emri vb.)
 class _ProGuard extends ConsumerWidget {
   final Widget child;
   const _ProGuard({required this.child});
@@ -292,7 +292,7 @@ class _AccessDeniedScreen extends StatelessWidget {
           const SizedBox(height: 20),
           Text('Erişim Yetkiniz Yok', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
           const SizedBox(height: 8),
-          Text('Bu sayfaya erişim icin yetkiniz bulunmamaktadir.', style: TextStyle(fontSize: 13, color: context.scada.textSecondary)),
+          Text('Bu sayfaya erişim için yetkiniz bulunmamaktadir.', style: TextStyle(fontSize: 13, color: context.scada.textSecondary)),
           const SizedBox(height: 24),
           TextButton.icon(
             onPressed: () => Navigator.pushReplacementNamed(context, '/module-selection'),

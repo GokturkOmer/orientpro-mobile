@@ -176,7 +176,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
         actions: [
           IconButton(
             icon: const Icon(Icons.download, color: ScadaColors.cyan, size: 20),
-            tooltip: 'Rapor Indir',
+            tooltip: 'Rapor İndir',
             onPressed: _downloadReport,
           ),
         ],
@@ -456,7 +456,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
           const SizedBox(height: 4),
           Row(children: [
             Text(
-              startedCount > 0 ? '$startedCount/$totalModulesInDept modul baslandi' : 'Henuz baslanmadi',
+              startedCount > 0 ? '$startedCount/$totalModulesInDept modül baslandi' : 'Henuz baslanmadi',
               style: TextStyle(fontSize: 9, color: startedCount > 0 ? deptColor : context.scada.textDim),
             ),
             const Spacer(),
@@ -494,7 +494,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
     final statusIcon = StatusHelper.trainingStatusIcon(p.status);
 
     final info = training.moduleMap[p.moduleId];
-    final moduleName = info?.title ?? 'Modul #${p.moduleId.length > 8 ? p.moduleId.substring(0, 8) : p.moduleId}';
+    final moduleName = info?.title ?? 'Modül #${p.moduleId.length > 8 ? p.moduleId.substring(0, 8) : p.moduleId}';
     final moduleType = info?.moduleType ?? 'lesson';
     final typeIcon = StatusHelper.moduleTypeIcon(moduleType);
 
@@ -555,7 +555,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
 
   Widget _buildReviewCard(SpacedReview review, TrainingState training) {
     final info = training.moduleMap[review.moduleId];
-    final moduleName = info?.title ?? 'Modul';
+    final moduleName = info?.title ?? 'Modül';
     final weakCount = review.weakQuestionIds?.length ?? 0;
     final reasonText = review.reason == 'quiz_fail' ? 'Quiz başarısız' : 'Dusuk puan';
     final intervalText = '${review.intervalDays} gun araliklarla tekrar';
@@ -638,9 +638,9 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
       child: Column(children: [
         Icon(Icons.school_outlined, size: 48, color: context.scada.textDim.withValues(alpha: 0.5)),
         const SizedBox(height: 12),
-        Text('Henuz bir eğitim modulu baslatmadiniz', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
+        Text('Henuz bir eğitim modülü baslatmadiniz', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
         const SizedBox(height: 4),
-        Text('Eğitim Rotalari\'ndan bir modul secin', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
+        Text('Eğitim Rotalari\'ndan bir modül seçin', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
       ]),
     );
   }

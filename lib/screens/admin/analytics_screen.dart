@@ -196,7 +196,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
           border: Border.all(color: ScadaColors.cyan.withValues(alpha: 0.3)),
         ),
         child: Column(children: [
-          Text('Kullanici Kullanim Orani', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
+          Text('Kullanıcı Kullanim Orani', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
           const SizedBox(height: 12),
           SizedBox(
             width: 120, height: 120,
@@ -229,7 +229,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
         const SizedBox(width: 8),
         StatCard(label: 'Rota', value: '$_trainingRoutes', color: ScadaColors.green, icon: Icons.route, padding: 14, borderRadius: 12),
         const SizedBox(width: 8),
-        StatCard(label: 'Modul', value: '$_trainingModules', color: ScadaColors.amber, icon: Icons.school, padding: 14, borderRadius: 12),
+        StatCard(label: 'Modül', value: '$_trainingModules', color: ScadaColors.amber, icon: Icons.school, padding: 14, borderRadius: 12),
       ]),
     ]);
   }
@@ -436,7 +436,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
         icon: _exporting
             ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: ScadaColors.green))
             : const Icon(Icons.file_download, size: 18),
-        label: Text(_exporting ? 'Hazirlaniyor...' : 'Excel Raporu Indir', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+        label: Text(_exporting ? 'Hazirlaniyor...' : 'Excel Raporu İndir', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
         style: ElevatedButton.styleFrom(
           backgroundColor: ScadaColors.green.withValues(alpha: 0.12),
           foregroundColor: ScadaColors.green,

@@ -78,7 +78,7 @@ class ModuleSelectionScreen extends ConsumerWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'Modul Secimi',
+                          'Modül Seçimi',
                           style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1),
                         ),
                         const SizedBox(height: 20),

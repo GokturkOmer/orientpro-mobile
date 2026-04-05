@@ -130,7 +130,7 @@ class _DocumentPickerDialogState extends ConsumerState<DocumentPickerDialog> {
             const Icon(Icons.folder_open, color: ScadaColors.purple, size: 20),
             const SizedBox(width: 8),
             Expanded(child: Text(
-              widget.multiSelect ? 'Dokümanlar Secin' : 'Doküman Secin',
+              widget.multiSelect ? 'Dokümanlar Seçin' : 'Doküman Seçin',
               style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: context.scada.textPrimary),
             )),
             if (widget.multiSelect && _selectedIds.isNotEmpty)

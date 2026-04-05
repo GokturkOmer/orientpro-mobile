@@ -80,13 +80,13 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
         backgroundColor: context.scada.surface,
         title: Text('Dokümani Sil', style: TextStyle(color: context.scada.textPrimary, fontSize: 16)),
         content: Text(
-          '"$docTitle" dokümanini silmek istediginize emin misiniz?\n\nBu işlem geri alinamaz.',
+          '"$docTitle" dokümanini silmek istediğinize emin misiniz?\n\nBu işlem geri alinamaz.',
           style: TextStyle(color: context.scada.textSecondary, fontSize: 13),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text('Iptal', style: TextStyle(color: context.scada.textSecondary)),
+            child: Text('İptal', style: TextStyle(color: context.scada.textSecondary)),
           ),
           TextButton(
             onPressed: () async {
@@ -146,7 +146,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                         controller: titleCtrl,
                         style: TextStyle(color: context.scada.textPrimary),
                         decoration: InputDecoration(
-                          labelText: 'Baslik (opsiyonel)',
+                          labelText: 'Başlık (opsiyonel)',
                           labelStyle: TextStyle(color: context.scada.textSecondary, fontSize: 12),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: context.scada.border),
@@ -235,7 +235,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                             ),
                             SizedBox(height: 8),
                             Text(
-                              pdfFileName ?? 'PDF dosyasi secmek icin tiklayin',
+                              pdfFileName ?? 'PDF dosyasi secmek için tiklayin',
                               style: TextStyle(
                                 color: pdfFileName != null ? context.scada.textPrimary : context.scada.textSecondary,
                                 fontSize: 12,
@@ -268,7 +268,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                               'PDF yüklendiginde AI otomatik olarak:\n'
                               '- Departman ve zorluk siniflandirmasi yapar\n'
                               '- Anahtar etiketler oluşturur\n'
-                              '- Semantik arama icin indeksler',
+                              '- Semantik arama için indeksler',
                               style: TextStyle(color: context.scada.textSecondary, fontSize: 10, height: 1.4),
                             ),
                           ),
@@ -305,7 +305,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
               actions: [
                 TextButton(
                   onPressed: isUploading ? null : () => Navigator.pop(ctx),
-                  child: Text(uploadResult != null ? 'Kapat' : 'Iptal', style: TextStyle(color: context.scada.textSecondary)),
+                  child: Text(uploadResult != null ? 'Kapat' : 'İptal', style: TextStyle(color: context.scada.textSecondary)),
                 ),
                 if (uploadResult == null)
                   ElevatedButton.icon(
@@ -592,7 +592,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
         SizedBox(height: 16),
         Text('Henuz doküman yüklenmemis', style: TextStyle(color: context.scada.textSecondary, fontSize: 14)),
         SizedBox(height: 8),
-        Text('PDF yüklemek icin asagidaki butonu kullanin', style: TextStyle(color: context.scada.textDim, fontSize: 12)),
+        Text('PDF yüklemek için aşağıdaki butonu kullanin', style: TextStyle(color: context.scada.textDim, fontSize: 12)),
       ]),
     );
   }

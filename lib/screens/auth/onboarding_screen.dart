@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/storage/secure_storage.dart';
 
-/// Yeni kullanicilar icin hosgeldin ekrani.
-/// 4 slaytlik tanitim — bir kez gosterilir, sonra tekrar gelmez.
+/// Yeni kullanıcılar icin hosgeldin ekrani.
+/// 4 slaytlik tanitim — bir kez gösterilir, sonra tekrar gelmez.
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
   @override
@@ -39,8 +39,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     _OnboardingPage(
       icon: Icons.emoji_events,
       title: 'Rozetler & Başarılar',
-      description: 'Eğitimlerinizi tamamladikca rozet kazanin.\n'
-          'Liderlik tablosunda yerinizi goruntuleyin.',
+      description: 'Eğitimlerinizi tamamladıkça rozet kazanın.\n'
+          'Liderlik tablosunda yerinizi görüntüleyin.',
       color: ScadaColors.purple,
     ),
   ];

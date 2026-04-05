@@ -386,7 +386,7 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
                     const PopupMenuItem(value: 'in_progress', child: Text('Baslat', style: TextStyle(fontSize: 12))),
                   if (task.status == 'in_progress')
                     const PopupMenuItem(value: 'completed', child: Text('Tamamla', style: TextStyle(fontSize: 12))),
-                  const PopupMenuItem(value: 'cancelled', child: Text('Iptal Et', style: TextStyle(fontSize: 12))),
+                  const PopupMenuItem(value: 'cancelled', child: Text('İptal Et', style: TextStyle(fontSize: 12))),
                 ],
               )
             : null,

@@ -66,7 +66,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           const NotifBell(),
           IconButton(
             icon: Icon(Icons.home, size: 20, color: context.scada.textDim),
-            tooltip: 'Modul Secimi',
+            tooltip: 'Modül Seçimi',
             onPressed: () => Navigator.pushReplacementNamed(context, '/module-selection'),
           ),
           IconButton(

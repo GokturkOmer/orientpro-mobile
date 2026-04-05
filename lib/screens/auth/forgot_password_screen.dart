@@ -41,7 +41,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
     setState(() { _isLoading = true; _error = null; });
     try {
       await _dio.post('/auth/forgot-password', data: {'email': email});
-      setState(() { _codeSent = true; _isLoading = false; _success = 'Sifirlama kodu e-posta adresinize gonderildi'; });
+      setState(() { _codeSent = true; _isLoading = false; _success = 'Sifirlama kodu e-posta adresinize gönderildi'; });
     } on DioException catch (e) {
       setState(() { _isLoading = false; _error = ErrorHelper.getMessage(e); });
     } catch (e) {

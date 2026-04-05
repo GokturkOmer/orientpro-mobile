@@ -26,43 +26,43 @@ class HelpScreen extends ConsumerWidget {
 
   static const _faqs = [
     _FaqItem(
-      question: 'Nasil yeni bir eğitim rotasi oluşturabilirim?',
+      question: 'Nasıl yeni bir eğitim rotasi oluşturabilirim?',
       answer: 'Admin paneli > İçerik Yonetimi > Yeni Rota butonuna tiklayin. Departman, zorluk seviyesi ve modülleri ekleyerek rotanizi oluşturabilirsiniz.',
       icon: Icons.route,
     ),
     _FaqItem(
-      question: 'Kullanici nasil eklenir?',
-      answer: 'Admin paneli > Kullanici Yonetimi > Yeni Kullanici butonuyla ekleyebilirsiniz. Kullanici e-postasina doğrulama kodu gonderilir.',
+      question: 'Kullanıcı nasıl eklenir?',
+      answer: 'Admin paneli > Kullanıcı Yonetimi > Yeni Kullanıcı butonuyla ekleyebilirsiniz. Kullanıcı e-postasina doğrulama kodu gönderilir.',
       icon: Icons.person_add,
     ),
     _FaqItem(
       question: 'AI Chatbot hangi dokümanlari kullanir?',
-      answer: 'Chatbot, İçerik Yonetimi uzerinden yüklenen PDF dokümanlarindan ogrenilen bilgileri kullanir. Yeni doküman yükledikce chatbot bilgi tabanini günceller.',
+      answer: 'Chatbot, İçerik Yonetimi üzerinden yüklenen PDF dokümanlarindan öğrenilen bilgileri kullanir. Yeni doküman yükledikçe chatbot bilgi tabanini günceller.',
       icon: Icons.smart_toy,
     ),
     _FaqItem(
-      question: 'Quiz nasil oluşturulur?',
-      answer: 'İçerik Yonetimi > Quiz Oluştur ile manuel quiz oluşturabilir veya AI ile Dokümandan Soru Uret butonuyla otomatik quiz uretebilirsiniz.',
+      question: 'Quiz nasıl oluşturulur?',
+      answer: 'İçerik Yonetimi > Quiz Oluştur ile manuel quiz oluşturabilir veya AI ile Dokümandan Soru Uret butonuyla otomatik quiz üretebilirsiniz.',
       icon: Icons.quiz,
     ),
     _FaqItem(
-      question: 'Departman bazli raporlari nasil gorebilirim?',
-      answer: 'Admin paneli > Analitik ekraninda departman kirilimli tamamlanma oranlari görünür. Excel Raporu Indir butonu ile detayli rapor alabilirsiniz.',
+      question: 'Departman bazli raporlari nasıl gorebilirim?',
+      answer: 'Admin paneli > Analitik ekraninda departman kırılımli tamamlanma oranlari görünür. Excel Raporu İndir butonu ile detaylı rapor alabilirsiniz.',
       icon: Icons.analytics,
     ),
     _FaqItem(
-      question: 'İçerik onay akisi nasil calisir?',
+      question: 'İçerik onay akisi nasıl çalışır?',
       answer: 'İçerik editörleri taslak oluşturur, admin İçerik Onaylari ekranından onaylar veya reddeder. Onaylanan içerikler çalışanlara görünür hale gelir.',
       icon: Icons.fact_check,
     ),
     _FaqItem(
-      question: 'Sertifika nasil verilir?',
+      question: 'Sertifika nasıl verilir?',
       answer: 'Eğitim rotasında sertifika seçeneği açıksa, çalışan tum modülleri ve quizleri başarıyla tamamladığında otomatik olarak sertifika kazanır ve PDF olarak indirebilir.',
       icon: Icons.workspace_premium,
     ),
     _FaqItem(
-      question: 'Aboneligimi nasil yukseltebilirim?',
-      answer: 'Abonelik & Plan ekranından istediginiz plani secip Odemeye Gec butonuyla yukseltme yapabilirsiniz.',
+      question: 'Aboneligimi nasıl yukseltebilirim?',
+      answer: 'Abonelik & Plan ekranından istediğiniz plani secip Odemeye Gec butonuyla yukseltme yapabilirsiniz.',
       icon: Icons.upgrade,
     ),
   ];
@@ -82,13 +82,13 @@ class HelpScreen extends ConsumerWidget {
     ),
     _GuideStep(
       title: '3. Quizler Ekleyin',
-      description: 'Her modul icin quiz oluşturun. AI ile dokümanlardan otomatik soru uretebilirsiniz.',
+      description: 'Her modül için quiz oluşturun. AI ile dokümanlardan otomatik soru üretebilirsiniz.',
       icon: Icons.quiz,
       color: ScadaColors.amber,
     ),
     _GuideStep(
       title: '4. Çalışanlari Davet Edin',
-      description: 'Kullanici yönetiminden çalışanlarinizi ekleyin, departman ve rol atayın.',
+      description: 'Kullanıcı yönetiminden çalışanlarinizi ekleyin, departman ve rol atayın.',
       icon: Icons.group_add,
       color: ScadaColors.orange,
     ),

@@ -28,7 +28,7 @@ class _CreateWorkOrderScreenState extends ConsumerState<CreateWorkOrderScreen> {
   bool _isLoading = false;
   final List<Map<String, String>> _faultTypes = [{'value': 'calismiyor', 'label': 'Calismiyor'}, {'value': 'sogutmuyor', 'label': 'Sogutmuyor'}, {'value': 'ses_gurultu', 'label': 'Ses/Gurultu'}, {'value': 'tikaniklik', 'label': 'Tikaniklik'}, {'value': 'su_kacagi', 'label': 'Su Kacagi'}, {'value': 'kirik_hasarli', 'label': 'Kirik/Hasarli'}, {'value': 'kapanmiyor', 'label': 'Kapanmiyor'}, {'value': 'koku', 'label': 'Koku'}, {'value': 'yanmiyor', 'label': 'Yanmiyor'}, {'value': 'dusuk_basinc', 'label': 'Dusuk Basinc'}, {'value': 'diger', 'label': 'Diger'}];
   Future<void> _submit() async {
-    if (_titleController.text.isEmpty) { ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Baslik zorunludur'), backgroundColor: ScadaColors.red)); return; }
+    if (_titleController.text.isEmpty) { ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Başlık zorunludur'), backgroundColor: ScadaColors.red)); return; }
     setState(() => _isLoading = true);
     try {
       final auth = ref.read(authProvider);
@@ -51,7 +51,7 @@ class _CreateWorkOrderScreenState extends ConsumerState<CreateWorkOrderScreen> {
       body: ListView(padding: const EdgeInsets.fromLTRB(16, 16, 16, 80), children: [
         Card(color: ScadaColors.green.withValues(alpha: 0.08), child: ListTile(leading: const Icon(Icons.build, color: ScadaColors.green), title: Text(widget.equipment.name, style: const TextStyle(fontWeight: FontWeight.bold)), subtitle: Text(widget.equipment.categoryText))),
         const SizedBox(height: 16),
-        TextField(controller: _titleController, decoration: const InputDecoration(labelText: 'Baslik *', hintText: 'Orn: Klima sogutmuyor', prefixIcon: Icon(Icons.title), border: OutlineInputBorder())),
+        TextField(controller: _titleController, decoration: const InputDecoration(labelText: 'Başlık *', hintText: 'Orn: Klima sogutmuyor', prefixIcon: Icon(Icons.title), border: OutlineInputBorder())),
         const SizedBox(height: 12),
         TextField(controller: _descController, decoration: const InputDecoration(labelText: 'Açıklama', prefixIcon: Icon(Icons.description), border: OutlineInputBorder()), maxLines: 3),
         const SizedBox(height: 12),

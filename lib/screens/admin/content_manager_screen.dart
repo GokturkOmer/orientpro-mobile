@@ -18,7 +18,7 @@ class ContentManagerScreen extends ConsumerStatefulWidget {
 }
 
 class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
-  String? _selectedType; // 'route' | 'module'
+  String? _selectedType; // 'route' | 'modüle'
   String? _selectedId;
   final Set<String> _expandedDepartments = {};
   bool _showLeftPanel = true;
@@ -228,7 +228,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
             child: admin.isLoading && admin.departments.isEmpty
                 ? const Center(child: CircularProgressIndicator(color: ScadaColors.cyan, strokeWidth: 2))
                 : Builder(builder: (context) {
-                    // Departman filtreleme: sadece düzenlenebilir departmanlari goster
+                    // Departman filtreleme: sadece düzenlenebilir departmanlari göster
                     final auth = ref.watch(authProvider);
                     final userRole = auth.user?.role;
                     final editDepts = RoleHelper.editableDepartments(userRole);
@@ -443,7 +443,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                 color: context.scada.textSecondary,
                 padding: EdgeInsets.zero,
                 onPressed: () => _showAddModuleDialog(route.id),
-                tooltip: 'Modul ekle',
+                tooltip: 'Modül ekle',
               ),
             ),
             const SizedBox(width: 2),
@@ -496,7 +496,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
       return _buildRouteDetail(admin);
     }
 
-    if (_selectedType == 'module') {
+    if (_selectedType == 'modüle') {
       return _buildModuleDetail(admin);
     }
 
@@ -519,7 +519,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
               controller: _searchController,
               style: TextStyle(fontSize: 13, color: context.scada.textPrimary),
               decoration: InputDecoration(
-                hintText: 'Eğitim dokümanlari icinde AI arama...',
+                hintText: 'Eğitim dokümanlari içinde AI arama...',
                 hintStyle: TextStyle(fontSize: 12, color: context.scada.textDim),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 filled: true,
@@ -585,7 +585,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
             Icon(Icons.search_off, size: 40, color: context.scada.textDim),
             SizedBox(height: 12),
             Text(
-              '"${_searchController.text}" icin sonuç bulunamadi',
+              '"${_searchController.text}" için sonuç bulunamadi',
               style: TextStyle(fontSize: 13, color: context.scada.textSecondary),
             ),
           ],
@@ -704,12 +704,12 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
           Icon(Icons.touch_app, size: 56, color: context.scada.textDim.withValues(alpha: 0.5)),
           SizedBox(height: 16),
           Text(
-            'Sol panelden bir oge secin',
+            'Sol panelden bir oge seçin',
             style: TextStyle(fontSize: 14, color: context.scada.textSecondary),
           ),
           SizedBox(height: 6),
           Text(
-            'Departman, rota veya modul detaylarini goruntulemek icin\nagactan bir oge secin.',
+            'Departman, rota veya modül detaylarini görüntülemek icin\nagactan bir oge seçin.',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 11, color: context.scada.textDim),
           ),
@@ -1162,13 +1162,13 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text('Rotayi Sil', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         content: Text(
-          '"${route.title}" rotasi ve icindeki tum moduller silinecek. Bu işlem geri alinamaz. Devam etmek istiyor musunuz?',
+          '"${route.title}" rotasi ve içindeki tum moduller silinecek. Bu işlem geri alinamaz. Devam etmek istiyor musunuz?',
           style: TextStyle(fontSize: 13, color: context.scada.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text('Iptal', style: TextStyle(color: context.scada.textDim)),
+            child: Text('İptal', style: TextStyle(color: context.scada.textDim)),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -1210,13 +1210,13 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text('Departmani Sil', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         content: Text(
-          '"${dept.name}" departmani ve icindeki tum rotalar/moduller silinecek. Bu işlem geri alinamaz. Devam etmek istiyor musunuz?',
+          '"${dept.name}" departmani ve içindeki tum rotalar/moduller silinecek. Bu işlem geri alinamaz. Devam etmek istiyor musunuz?',
           style: TextStyle(fontSize: 13, color: context.scada.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text('Iptal', style: TextStyle(color: context.scada.textDim)),
+            child: Text('İptal', style: TextStyle(color: context.scada.textDim)),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -1302,7 +1302,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text('Iptal', style: TextStyle(color: context.scada.textDim)),
+            child: Text('İptal', style: TextStyle(color: context.scada.textDim)),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -1383,7 +1383,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text('Iptal', style: TextStyle(color: context.scada.textSecondary)),
+            child: Text('İptal', style: TextStyle(color: context.scada.textSecondary)),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -1426,7 +1426,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
             borderRadius: BorderRadius.circular(16),
             side: BorderSide(color: context.scada.borderBright),
           ),
-          title: Text('Yeni Modul Ekle', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+          title: Text('Yeni Modül Ekle', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
           content: Form(
             key: formKey,
             child: Column(
@@ -1436,7 +1436,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                   controller: titleController,
                   style: TextStyle(fontSize: 13, color: context.scada.textPrimary),
                   decoration: InputDecoration(
-                    labelText: 'Modul Adi',
+                    labelText: 'Modül Adi',
                     labelStyle: TextStyle(fontSize: 12, color: context.scada.textSecondary),
                     filled: true,
                     fillColor: context.scada.bg,
@@ -1453,7 +1453,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                       borderSide: BorderSide(color: ScadaColors.cyan.withValues(alpha: 0.5)),
                     ),
                   ),
-                  validator: (v) => v == null || v.trim().isEmpty ? 'Modul adi zorunlu' : null,
+                  validator: (v) => v == null || v.trim().isEmpty ? 'Modül adi zorunlu' : null,
                 ),
                 SizedBox(height: 14),
                 DropdownButtonFormField<String>(
@@ -1461,7 +1461,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                   dropdownColor: context.scada.surface,
                   style: TextStyle(fontSize: 13, color: context.scada.textPrimary),
                   decoration: InputDecoration(
-                    labelText: 'Modul Tipi',
+                    labelText: 'Modül Tipi',
                     labelStyle: TextStyle(fontSize: 12, color: context.scada.textSecondary),
                     filled: true,
                     fillColor: context.scada.bg,
@@ -1490,7 +1490,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: Text('Iptal', style: TextStyle(color: context.scada.textSecondary)),
+              child: Text('İptal', style: TextStyle(color: context.scada.textSecondary)),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -1504,7 +1504,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                   if (success && mounted) {
                     ref.read(adminProvider.notifier).loadRouteDetail(routeId);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Modul oluşturuldu'), backgroundColor: context.scada.surface),
+                      SnackBar(content: Text('Modül oluşturuldu'), backgroundColor: context.scada.surface),
                     );
                   }
                 }
@@ -1532,13 +1532,13 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
         ),
         title: const Text('Rota Sil', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.red)),
         content: Text(
-          '"${route.title}" rotasini silmek istediginize emin misiniz?\n\nBu işlem geri alinamaz ve rotaya bagli tum moduller de silinir.',
+          '"${route.title}" rotasini silmek istediğinize emin misiniz?\n\nBu işlem geri alinamaz ve rotaya bagli tum moduller de silinir.',
           style: TextStyle(fontSize: 13, color: context.scada.textSecondary, height: 1.5),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text('Iptal', style: TextStyle(color: context.scada.textSecondary)),
+            child: Text('İptal', style: TextStyle(color: context.scada.textSecondary)),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -1575,15 +1575,15 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
           borderRadius: BorderRadius.circular(16),
           side: BorderSide(color: context.scada.borderBright),
         ),
-        title: const Text('Modul Sil', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.red)),
+        title: const Text('Modül Sil', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.red)),
         content: Text(
-          '"${module.title}" modulunu silmek istediginize emin misiniz?\n\nBu işlem geri alinamaz.',
+          '"${module.title}" modülünu silmek istediğinize emin misiniz?\n\nBu işlem geri alinamaz.',
           style: TextStyle(fontSize: 13, color: context.scada.textSecondary, height: 1.5),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text('Iptal', style: TextStyle(color: context.scada.textSecondary)),
+            child: Text('İptal', style: TextStyle(color: context.scada.textSecondary)),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -1595,7 +1595,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                   _selectedId = null;
                 });
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Modul silindi'), backgroundColor: context.scada.surface),
+                  SnackBar(content: Text('Modül silindi'), backgroundColor: context.scada.surface),
                 );
               }
             },

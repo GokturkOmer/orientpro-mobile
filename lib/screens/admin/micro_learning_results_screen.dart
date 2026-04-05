@@ -271,7 +271,7 @@ class _MicroLearningResultsScreenState extends ConsumerState<MicroLearningResult
                     Row(children: [
                       const Icon(Icons.verified_user, color: ScadaColors.green, size: 16),
                       const SizedBox(width: 6),
-                      Expanded(child: Text(a['module_title'] ?? ack['module_id']?.toString().substring(0, 8) ?? 'Modul',
+                      Expanded(child: Text(a['module_title'] ?? ack['module_id']?.toString().substring(0, 8) ?? 'Modül',
                         style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary))),
                     ]),
                     const SizedBox(height: 6),
@@ -321,7 +321,7 @@ class _MicroLearningResultsScreenState extends ConsumerState<MicroLearningResult
     final quizPassed = a['quiz_passed'] == true;
     final userName = a['user_name'] ?? 'Bilinmiyor';
     final userDept = a['user_department'] ?? '-';
-    final moduleTitle = a['module_title'] ?? 'Modul';
+    final moduleTitle = a['module_title'] ?? 'Modül';
     final routeTitle = a['route_title'] ?? '';
     final learningDay = a['learning_day'] ?? 1;
     final startedDate = a['started_date'] ?? '';
@@ -385,7 +385,7 @@ class _MicroLearningResultsScreenState extends ConsumerState<MicroLearningResult
           ),
         ]),
         const SizedBox(height: 10),
-        // Modul bilgisi
+        // Modül bilgisi
         Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(

@@ -152,7 +152,7 @@ class _OrgCard extends StatelessWidget {
         ]),
         const SizedBox(height: 10),
         Row(children: [
-          Expanded(child: _Stat('Kullanici', '$activeUsers / $maxUsers')),
+          Expanded(child: _Stat('Kullanıcı', '$activeUsers / $maxUsers')),
           Expanded(child: _Stat('Son Aktivite', _formatDate(org['last_activity']))),
           Expanded(child: _Stat('Kayıt', _formatDate(org['created_at']))),
         ]),

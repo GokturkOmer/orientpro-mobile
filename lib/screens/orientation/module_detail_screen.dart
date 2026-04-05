@@ -63,7 +63,7 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          module?.title ?? 'Modul Detayi',
+          module?.title ?? 'Modül Detayi',
           style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: context.scada.textPrimary),
         ),
       ),
@@ -86,7 +86,7 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
                   ]),
                 ))
               : module == null
-                  ? Center(child: Text('Modul bulunamadi', style: TextStyle(color: context.scada.textSecondary)))
+                  ? Center(child: Text('Modül bulunamadi', style: TextStyle(color: context.scada.textSecondary)))
               : ListView(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
                   children: [
@@ -184,7 +184,7 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
       _ => context.scada.textDim,
     };
 
-    // PDF ve resim icin ExpansionTile yerine direkt gosterim
+    // PDF ve resim icin ExpansionTile yerine direkt gösterim
     final isMediaContent = content.contentType == 'pdf' || content.contentType == 'image';
 
     return Container(

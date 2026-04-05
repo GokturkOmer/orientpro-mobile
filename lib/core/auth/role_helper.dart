@@ -107,7 +107,7 @@ class RoleHelper {
     return const {};
   }
 
-  /// Bir teknik route'un tag'lerinin kullanici tarafindan gorunup gorunmedigini kontrol eder.
+  /// Bir teknik route'un tag'lerinin kullanıcı tarafindan gorunup gorunmedigini kontrol eder.
   /// routeTags: route'un tags JSONB'den gelen listesi.
   static bool canSeeTeknikRoute(String? role, List<dynamic>? routeTags) {
     final allowed = visibleTeknikTags(role);

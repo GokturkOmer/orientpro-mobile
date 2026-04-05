@@ -77,12 +77,12 @@ class _SuperAdminScreenState extends ConsumerState<SuperAdminScreen> {
           NavigationDestination(
             icon: Icon(Icons.business_outlined),
             selectedIcon: Icon(Icons.business, color: Color(0xFFE53935)),
-            label: 'Musteriler',
+            label: 'Müşteriler',
           ),
           NavigationDestination(
             icon: Icon(Icons.add_business_outlined),
             selectedIcon: Icon(Icons.add_business, color: Color(0xFFE53935)),
-            label: 'Yeni Musteri',
+            label: 'Yeni Müşteri',
           ),
         ],
       ),

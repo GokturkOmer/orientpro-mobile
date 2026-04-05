@@ -119,7 +119,7 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text('Iptal', style: TextStyle(color: context.scada.textSecondary)),
+            child: Text('İptal', style: TextStyle(color: context.scada.textSecondary)),
           ),
           TextButton(
             onPressed: () async {
@@ -415,7 +415,7 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
               Navigator.pushNamed(context, '/admin/module-editor', arguments: {'routeId': widget.routeId});
             },
             icon: const Icon(Icons.add, size: 16),
-            label: const Text('Modul Ekle', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+            label: const Text('Modül Ekle', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
             style: OutlinedButton.styleFrom(
               foregroundColor: ScadaColors.cyan,
               side: const BorderSide(color: ScadaColors.cyan, width: 1),

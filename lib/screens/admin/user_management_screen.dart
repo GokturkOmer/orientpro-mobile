@@ -61,7 +61,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                       child: Column(mainAxisSize: MainAxisSize.min, children: [
                         Icon(Icons.people_outline, size: 48, color: context.scada.textDim),
                         SizedBox(height: 12),
-                        Text('Henuz kullanici yok', style: TextStyle(color: context.scada.textSecondary, fontSize: 13)),
+                        Text('Henuz kullanıcı yok', style: TextStyle(color: context.scada.textSecondary, fontSize: 13)),
                       ]),
                     )
                   : ListView.builder(
@@ -156,19 +156,19 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
         backgroundColor: context.scada.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(
-          willDeactivate ? 'Kullaniciyi Pasife Al' : 'Kullaniciyi Aktif Et',
+          willDeactivate ? 'Kullanıcıyi Pasife Al' : 'Kullanıcıyi Aktif Et',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary),
         ),
         content: Text(
           willDeactivate
-              ? '"${user.fullName}" hesabi pasife alinacak. Kullanici giriş yapamayacak. Devam etmek istiyor musunuz?'
+              ? '"${user.fullName}" hesabi pasife alinacak. Kullanıcı giriş yapamayacak. Devam etmek istiyor musunuz?'
               : '"${user.fullName}" hesabi tekrar aktif edilecek. Devam etmek istiyor musunuz?',
           style: TextStyle(fontSize: 13, color: context.scada.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text('Iptal', style: TextStyle(color: context.scada.textDim)),
+            child: Text('İptal', style: TextStyle(color: context.scada.textDim)),
           ),
           ElevatedButton(
             onPressed: () {
@@ -212,7 +212,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
 
             Text('Paylaşılan İçerik Limiti', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
             SizedBox(height: 4),
-            Text('Bu kullanicinin paylaşılan kutuphanede yükleyebilecegi maksimum içerik sayisi.', style: TextStyle(fontSize: 11, color: context.scada.textDim)),
+            Text('Bu kullanıcınin paylaşılan kütüphanede yükleyebilecegi maksimum içerik sayısı.', style: TextStyle(fontSize: 11, color: context.scada.textDim)),
             SizedBox(height: 10),
             Row(children: [
               SizedBox(
@@ -449,7 +449,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                                   Navigator.pop(ctx);
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                      content: Text('Kullanici başarıyla oluşturuldu'),
+                                      content: Text('Kullanıcı başarıyla oluşturuldu'),
                                       backgroundColor: ScadaColors.green,
                                     ),
                                   );

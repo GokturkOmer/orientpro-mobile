@@ -126,11 +126,11 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
             const SizedBox(height: 32),
             Wrap(spacing: 8, runSpacing: 8, alignment: WrapAlignment.center, children: [
               _buildQuickAction(Icons.health_and_safety, 'ISG nedir?'),
-              _buildQuickAction(Icons.shield, 'KVKK kurallari'),
+              _buildQuickAction(Icons.shield, 'KVKK kuralları'),
               _buildQuickAction(Icons.local_fire_department, 'Yangin prosedürü'),
               _buildQuickAction(Icons.medical_services, 'Ilk yardim'),
               _buildQuickAction(Icons.cleaning_services, 'Oda temizligi'),
-              _buildQuickAction(Icons.restaurant, 'HACCP kurallari'),
+              _buildQuickAction(Icons.restaurant, 'HACCP kuralları'),
               _buildQuickAction(Icons.security, 'SCADA alarmlar'),
               _buildQuickAction(Icons.qr_code_2, 'QR Tur nedir?'),
             ]),
@@ -203,7 +203,7 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
             const SizedBox(height: 10),
             Divider(color: context.scada.border, height: 1),
             const SizedBox(height: 8),
-            // Doğrulama gostergesi
+            // Doğrulama göstergesi
             if (message.verified != null)
               Padding(
                 padding: const EdgeInsets.only(bottom: 6),

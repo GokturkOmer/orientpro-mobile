@@ -3,7 +3,7 @@ class ChatMessage {
   final bool isUser;
   final DateTime timestamp;
   final List<String> sources;
-  final bool? verified; // null = kullanici mesaji, true = doğrulandı, false = bilgi yok
+  final bool? verified; // null = kullanıcı mesaji, true = doğrulandı, false = bilgi yok
 
   ChatMessage({required this.text, required this.isUser, DateTime? timestamp, this.sources = const [], this.verified})
       : timestamp = timestamp ?? DateTime.now();

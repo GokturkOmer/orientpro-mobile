@@ -56,7 +56,7 @@ class _DigitalFormScreenState extends ConsumerState<DigitalFormScreen> {
       launchUrl(Uri.parse(downloadUrl.toString()), mode: LaunchMode.externalApplication);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Indirme baglantisi bulunamadi'), backgroundColor: ScadaColors.red),
+        const SnackBar(content: Text('İndirme baglantisi bulunamadi'), backgroundColor: ScadaColors.red),
       );
     }
   }
