@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import '../../core/network/auth_dio.dart';
 import '../../core/theme/app_theme.dart';
+// ignore: unused_import
+import '../../core/utils/turkish_string.dart';
 import '../../core/utils/error_helper.dart';
 
 class MicroLearningResultsScreen extends ConsumerStatefulWidget {
@@ -242,7 +244,7 @@ class _MicroLearningResultsScreenState extends ConsumerState<MicroLearningResult
               // Header
               Row(children: [
                 CircleAvatar(radius: 20, backgroundColor: ScadaColors.cyan.withValues(alpha: 0.15),
-                  child: Text(userName[0].toUpperCase(), style: const TextStyle(color: ScadaColors.cyan, fontWeight: FontWeight.w700))),
+                  child: Text(userName[0].toTurkishUpperCase(), style: const TextStyle(color: ScadaColors.cyan, fontWeight: FontWeight.w700))),
                 const SizedBox(width: 12),
                 Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text(userName, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
@@ -359,7 +361,7 @@ class _MicroLearningResultsScreenState extends ConsumerState<MicroLearningResult
           CircleAvatar(
             radius: 16,
             backgroundColor: statusColor.withValues(alpha: 0.15),
-            child: Text(userName.isNotEmpty ? userName[0].toUpperCase() : '?',
+            child: Text(userName.isNotEmpty ? userName[0].toTurkishUpperCase() : '?',
               style: TextStyle(color: statusColor, fontWeight: FontWeight.w700, fontSize: 14)),
           ),
           const SizedBox(width: 10),

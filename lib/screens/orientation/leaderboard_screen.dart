@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/utils/turkish_string.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/leaderboard_provider.dart';
 import '../../widgets/scada_app_bar.dart';
@@ -124,7 +125,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
             border: Border.all(color: color.withValues(alpha: 0.4)),
           ),
           child: Center(child: Text(
-            entry.userName.isNotEmpty ? entry.userName[0].toUpperCase() : '?',
+            entry.userName.isNotEmpty ? entry.userName[0].toTurkishUpperCase() : '?',
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: color),
           )),
         ),
@@ -188,7 +189,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
             borderRadius: BorderRadius.circular(16),
           ),
           child: Center(child: Text(
-            entry.userName.isNotEmpty ? entry.userName[0].toUpperCase() : '?',
+            entry.userName.isNotEmpty ? entry.userName[0].toTurkishUpperCase() : '?',
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: progressColor),
           )),
         ),

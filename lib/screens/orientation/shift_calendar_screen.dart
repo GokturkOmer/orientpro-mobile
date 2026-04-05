@@ -5,6 +5,7 @@ import '../../providers/shift_provider.dart';
 import '../../models/shift.dart' as sm;
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/status_helper.dart';
+import '../../core/utils/turkish_string.dart';
 
 class ShiftCalendarScreen extends ConsumerStatefulWidget {
   const ShiftCalendarScreen({super.key});
@@ -246,7 +247,7 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
             contentPadding: const EdgeInsets.symmetric(vertical: 8),
           ),
           style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
-          onChanged: (v) => setState(() => _searchQuery = v.toLowerCase()),
+          onChanged: (v) => setState(() => _searchQuery = v.toTurkishLowerCase()),
         ),
       ),
       // Filter chips
@@ -270,7 +271,7 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
               ? shiftState.tasks
               : shiftState.tasks.where((t) => t.status == _taskFilter).toList();
           if (_searchQuery.isNotEmpty) {
-            tasks = tasks.where((t) => t.title.toLowerCase().contains(_searchQuery)).toList();
+            tasks = tasks.where((t) => t.title.toTurkishLowerCase().contains(_searchQuery)).toList();
           }
 
           if (tasks.isEmpty) {

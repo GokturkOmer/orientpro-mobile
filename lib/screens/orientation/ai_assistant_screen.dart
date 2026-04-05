@@ -291,7 +291,7 @@ class _AiAssistantScreenState extends ConsumerState<AiAssistantScreen> {
           children: [
             const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: ScadaColors.purple)),
             const SizedBox(width: 8),
-            Text('Dusunuyor...', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
+            Text('Dokumanlar taraniyor...', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
           ],
         ),
       ),

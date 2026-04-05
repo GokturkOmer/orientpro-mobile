@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/training_provider.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/utils/turkish_string.dart';
 import '../../core/auth/role_helper.dart';
 import '../../models/training.dart';
 
@@ -108,7 +109,7 @@ class _TeamProgressScreenState extends ConsumerState<TeamProgressScreen> {
               borderRadius: BorderRadius.circular(18),
             ),
             child: Center(child: Text(
-              member.userName.isNotEmpty ? member.userName[0].toUpperCase() : '?',
+              member.userName.isNotEmpty ? member.userName[0].toTurkishUpperCase() : '?',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: progressColor),
             )),
           ),

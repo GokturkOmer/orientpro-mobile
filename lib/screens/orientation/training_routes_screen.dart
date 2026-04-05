@@ -4,6 +4,7 @@ import '../../providers/auth_provider.dart';
 import '../../providers/training_provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/auth/role_helper.dart';
+import '../../core/utils/turkish_string.dart';
 
 class TrainingRoutesScreen extends ConsumerStatefulWidget {
   const TrainingRoutesScreen({super.key});
@@ -98,8 +99,8 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
     // Arama filtreleme
     if (_searchQuery.isNotEmpty) {
       filteredRoutes = filteredRoutes.where((r) =>
-        r.title.toLowerCase().contains(_searchQuery) ||
-        (r.description?.toLowerCase().contains(_searchQuery) ?? false)
+        r.title.toTurkishLowerCase().contains(_searchQuery) ||
+        (r.description?.toTurkishLowerCase().contains(_searchQuery) ?? false)
       ).toList();
     }
 
@@ -144,7 +145,7 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
               contentPadding: const EdgeInsets.symmetric(vertical: 8),
             ),
             style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
-            onChanged: (v) => setState(() => _searchQuery = v.toLowerCase()),
+            onChanged: (v) => setState(() => _searchQuery = v.toTurkishLowerCase()),
           ),
         ),
         // Department filter chips

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/auth_provider.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/utils/turkish_string.dart';
 
 /// Birden fazla organizasyona uye olan kullanicilar icin
 /// org secim ekrani. Login sonrasi otomatik acilir.
@@ -116,7 +117,7 @@ class _SelectOrganizationScreenState extends ConsumerState<SelectOrganizationScr
                             ),
                             child: Center(
                               child: Text(
-                                org.name.isNotEmpty ? org.name[0].toUpperCase() : '?',
+                                org.name.isNotEmpty ? org.name[0].toTurkishUpperCase() : '?',
                                 style: const TextStyle(
                                   fontSize: 22, fontWeight: FontWeight.bold, color: ScadaColors.cyan,
                                 ),

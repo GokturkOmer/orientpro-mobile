@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/utils/turkish_string.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/profile_provider.dart';
 import '../../models/user_profile.dart';
@@ -82,7 +83,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           radius: 30,
                           backgroundColor: ScadaColors.orange.withValues(alpha: 0.15),
                           child: Text(
-                            (profile.fullName ?? '?')[0].toUpperCase(),
+                            (profile.fullName ?? '?')[0].toTurkishUpperCase(),
                             style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: ScadaColors.orange),
                           ),
                         ),

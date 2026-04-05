@@ -97,7 +97,7 @@ class ChatNotifier extends Notifier<ChatBotState> {
       final errMsg = ChatMessage(text: errText, isUser: false);
       state = state.copyWith(messages: [...state.messages, errMsg], isLoading: false, lastError: errText);
     } catch (e) {
-      final errText = 'Baglanti hatasi olustu. Lutfen tekrar deneyin.';
+      final errText = 'Baglanti hatasi olustu. Bilgiler getirilemedi, lutfen tekrar deneyin.';
       final errMsg = ChatMessage(text: errText, isUser: false);
       state = state.copyWith(messages: [...state.messages, errMsg], isLoading: false, lastError: errText);
     }

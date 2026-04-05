@@ -5,6 +5,7 @@ import '../../providers/training_provider.dart';
 import '../../providers/micro_learning_provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../widgets/acknowledgment_dialog.dart';
+import '../../core/utils/turkish_string.dart';
 
 class QuizScreen extends ConsumerStatefulWidget {
   const QuizScreen({super.key});
@@ -70,7 +71,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
         // 1) Index: "1", "2", "3" (seed data)
         // 2) Tam metin: "Dogru cevap metni" (AI quiz)
         final isCorrect = (selected + 1).toString() == q.correctAnswer ||
-            selectedText.trim().toLowerCase() == q.correctAnswer.trim().toLowerCase();
+            selectedText.trim().toTurkishLowerCase() == q.correctAnswer.trim().toTurkishLowerCase();
         if (isCorrect) totalScore += q.points;
         // Backend'e gonderirken secilen metni gonder (her iki formati da kapsar)
         answers[q.id] = selectedText;
@@ -279,13 +280,13 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
             // Her iki format destegi: index ("1","2") veya tam metin
             final isCorrect = userAnswer != null && (
                 (userAnswer + 1).toString() == q.correctAnswer ||
-                selectedText.trim().toLowerCase() == q.correctAnswer.trim().toLowerCase()
+                selectedText.trim().toTurkishLowerCase() == q.correctAnswer.trim().toTurkishLowerCase()
             );
             // Dogru cevap indexi: once index formatini dene, yoksa metin eslemesi yap
             final parsedIdx = int.tryParse(q.correctAnswer);
             final correctIdx = parsedIdx != null
                 ? parsedIdx - 1 // 1-tabanli -> 0-tabanli
-                : options.indexWhere((o) => o.toString().trim().toLowerCase() == q.correctAnswer.trim().toLowerCase());
+                : options.indexWhere((o) => o.toString().trim().toTurkishLowerCase() == q.correctAnswer.trim().toTurkishLowerCase());
 
             return Container(
               margin: const EdgeInsets.only(bottom: 8),

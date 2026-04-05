@@ -7,6 +7,7 @@ import '../../core/theme/app_theme.dart';
 import '../../core/auth/role_helper.dart';
 import '../../models/training.dart';
 import '../../core/utils/status_helper.dart';
+import '../../core/utils/turkish_string.dart';
 
 class QuizListScreen extends ConsumerStatefulWidget {
   const QuizListScreen({super.key});
@@ -76,8 +77,8 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
     // Arama filtreleme
     if (_searchQuery.isNotEmpty) {
       quizzes = quizzes.where((q) =>
-        q.title.toLowerCase().contains(_searchQuery) ||
-        (q.departmentName?.toLowerCase().contains(_searchQuery) ?? false)
+        q.title.toTurkishLowerCase().contains(_searchQuery) ||
+        (q.departmentName?.toTurkishLowerCase().contains(_searchQuery) ?? false)
       ).toList();
     }
 
@@ -119,7 +120,7 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
                     contentPadding: const EdgeInsets.symmetric(vertical: 8),
                   ),
                   style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
-                  onChanged: (v) => setState(() => _searchQuery = v.toLowerCase()),
+                  onChanged: (v) => setState(() => _searchQuery = v.toTurkishLowerCase()),
                 ),
               ),
               // Admin departman filtre chip'leri

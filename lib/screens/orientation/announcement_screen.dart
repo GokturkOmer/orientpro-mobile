@@ -7,6 +7,7 @@ import '../../core/theme/app_theme.dart';
 import '../../models/announcement.dart';
 import '../../core/auth/role_helper.dart';
 import '../../core/utils/status_helper.dart';
+import '../../core/utils/turkish_string.dart';
 
 class AnnouncementScreen extends ConsumerStatefulWidget {
   const AnnouncementScreen({super.key});
@@ -106,7 +107,7 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
                         contentPadding: const EdgeInsets.symmetric(vertical: 8),
                       ),
                       style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
-                      onChanged: (v) => setState(() => _searchQuery = v.toLowerCase()),
+                      onChanged: (v) => setState(() => _searchQuery = v.toTurkishLowerCase()),
                     ),
                   ),
                   Expanded(
@@ -114,9 +115,9 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
                       final filtered = _searchQuery.isEmpty
                           ? annState.announcements
                           : annState.announcements.where((a) =>
-                              a.title.toLowerCase().contains(_searchQuery) ||
-                              a.body.toLowerCase().contains(_searchQuery) ||
-                              (a.targetDepartment?.toLowerCase().contains(_searchQuery) ?? false)
+                              a.title.toTurkishLowerCase().contains(_searchQuery) ||
+                              a.body.toTurkishLowerCase().contains(_searchQuery) ||
+                              (a.targetDepartment?.toTurkishLowerCase().contains(_searchQuery) ?? false)
                             ).toList();
                       if (filtered.isEmpty) {
                         return Center(child: Text('Sonuc bulunamadi', style: TextStyle(color: context.scada.textDim, fontSize: 13)));

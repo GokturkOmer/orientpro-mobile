@@ -8,6 +8,7 @@ import '../../providers/training_provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/auth/role_helper.dart';
 import '../../models/library_document.dart';
+import '../../core/utils/turkish_string.dart';
 
 class LibraryScreen extends ConsumerStatefulWidget {
   const LibraryScreen({super.key});
@@ -90,7 +91,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
                 child: TextField(
-                  onChanged: (v) => setState(() => _searchQuery = v.toLowerCase()),
+                  onChanged: (v) => setState(() => _searchQuery = v.toTurkishLowerCase()),
                   style: const TextStyle(fontSize: 13, color: ScadaColors.textPrimary),
                   decoration: InputDecoration(
                     hintText: 'Belge ara...',
@@ -127,10 +128,10 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
   List<LibraryDocument> _filterDocs(List<LibraryDocument> docs) {
     if (_searchQuery.isEmpty) return docs;
     return docs.where((d) =>
-      d.title.toLowerCase().contains(_searchQuery) ||
-      d.docTypeText.toLowerCase().contains(_searchQuery) ||
-      (d.department?.toLowerCase().contains(_searchQuery) ?? false) ||
-      d.fileName.toLowerCase().contains(_searchQuery)
+      d.title.toTurkishLowerCase().contains(_searchQuery) ||
+      d.docTypeText.toTurkishLowerCase().contains(_searchQuery) ||
+      (d.department?.toTurkishLowerCase().contains(_searchQuery) ?? false) ||
+      d.fileName.toTurkishLowerCase().contains(_searchQuery)
     ).toList();
   }
 

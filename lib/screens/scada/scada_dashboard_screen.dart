@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/sensor.dart';
 import '../../providers/sensor_provider.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/utils/turkish_string.dart';
 
 class ScadaDashboardScreen extends ConsumerWidget {
   const ScadaDashboardScreen({super.key});
@@ -188,7 +189,7 @@ class ScadaDashboardScreen extends ConsumerWidget {
   }
 
   bool _isDurumSensor(String name) {
-    final lower = name.toLowerCase();
+    final lower = name.toTurkishLowerCase();
     return lower.contains('durum') || lower.contains('status');
   }
 

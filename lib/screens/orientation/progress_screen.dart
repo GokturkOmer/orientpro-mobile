@@ -11,6 +11,7 @@ import '../../core/theme/app_theme.dart';
 import '../../core/auth/role_helper.dart';
 import '../../core/network/auth_dio.dart';
 import '../../core/utils/error_helper.dart';
+import '../../core/utils/turkish_string.dart';
 import '../../core/utils/file_saver.dart' as file_saver;
 import '../../core/utils/status_helper.dart';
 import '../../core/utils/department_filter.dart';
@@ -293,7 +294,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
               borderRadius: BorderRadius.circular(18),
             ),
             child: Center(child: Text(
-              member.userName.isNotEmpty ? member.userName[0].toUpperCase() : '?',
+              member.userName.isNotEmpty ? member.userName[0].toTurkishUpperCase() : '?',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: progressColor),
             )),
           ),

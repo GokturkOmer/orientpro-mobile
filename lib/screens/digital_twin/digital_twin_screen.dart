@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/sensor.dart';
 import '../../providers/sensor_provider.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/utils/turkish_string.dart';
 
 class DigitalTwinScreen extends ConsumerWidget {
   const DigitalTwinScreen({super.key});
@@ -224,7 +225,7 @@ class DigitalTwinScreen extends ConsumerWidget {
         .replaceAll(RegExp(r'^(Kazan|Chiller|AHU|Pompa|Enerji)\s*'), '')
         .replaceAll('Sirkuelasyon ', '');
 
-    final isDurum = shortName.toLowerCase().contains('durum');
+    final isDurum = shortName.toTurkishLowerCase().contains('durum');
     String valueText;
     if (isDurum) {
       valueText = sensor.value >= 1 ? 'ON' : 'OFF';
