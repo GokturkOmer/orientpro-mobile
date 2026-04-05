@@ -94,7 +94,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'İçerik Yonetimi',
+          'İçerik Yönetimi',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary),
         ),
         actions: [
@@ -686,7 +686,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
     const labels = {
       'teknik': 'Teknik Servis',
       'hk': 'Kat Hizmetleri',
-      'yonetim': 'Yonetim',
+      'yönetim': 'Yönetim',
       'on_buro': 'On Buro',
       'spa': 'Spa & Wellness',
       'fb': 'Yiyecek Icecek',

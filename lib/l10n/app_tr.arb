@@ -8,7 +8,7 @@
   "loginButton": "Giriş Yap",
   "loginEmail": "E-posta",
   "loginPassword": "Şifre",
-  "loginSubtitle": "SCADA & Tesis Yonetim Sistemi",
+  "loginSubtitle": "SCADA & Tesis Yönetim Sistemi",
 
   "validationEmailRequired": "E-posta adresi gerekli",
   "validationEmailInvalid": "Gecerli bir e-posta adresi girin",
@@ -27,22 +27,22 @@
   "moduleOrientation": "Oryantasyon",
   "moduleOrientationSub": "Eğitim & Rehber",
   "moduleOrientationDesc": "Personel oryantasyon süreçleri,\neğitim rotalari ve takip",
-  "moduleAdmin": "Yonetim",
+  "moduleAdmin": "Yönetim",
   "moduleAdminSub": "Admin Paneli",
   "moduleContent": "İçerik",
-  "moduleContentSub": "İçerik Yonetimi",
+  "moduleContentSub": "İçerik Yönetimi",
   "modulePro": "Pro",
-  "moduleProSub": "Teknik Yonetim",
+  "moduleProSub": "Teknik Yönetim",
   "moduleProLocked": "Plan Yukseltme Gerekli",
 
   "orientationTitle": "Oryantasyon",
-  "orientationWelcome": "Hosgeldiniz, {name}",
+  "orientationWelcome": "Hoşgeldiniz, {name}",
   "@orientationWelcome": {
     "placeholders": {
       "name": { "type": "String" }
     }
   },
-  "orientationSubtitle": "Oryantasyon ve eğitim modulune hosgeldiniz",
+  "orientationSubtitle": "Oryantasyon ve eğitim modulune hoşgeldiniz",
   "orientationOverallProgress": "Genel Ilerleme",
   "orientationCompleted": "Tamamlanan",
   "orientationOngoing": "Devam Eden",
@@ -295,7 +295,7 @@
   "progressMyTab": "Benim Ilerlemem",
   "progressTeamTab": "Ekip Takibi",
 
-  "contentManagerTitle": "İçerik Yonetimi",
+  "contentManagerTitle": "İçerik Yönetimi",
   "contentManagerSearch": "Semantik Arama",
   "contentManagerTreeBack": "Agaca don",
   "contentManagerTree": "İçerik Agaci",
@@ -420,7 +420,7 @@
   "progressReportError": "Rapor indirilemedi",
 
   "dashboardTitle": "Kontrol Paneli",
-  "dashboardWelcome": "Hosgeldin, {name}",
+  "dashboardWelcome": "Hoşgeldin, {name}",
   "@dashboardWelcome": {
     "placeholders": {
       "name": { "type": "String" }

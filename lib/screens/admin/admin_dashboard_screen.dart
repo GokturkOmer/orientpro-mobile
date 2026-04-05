@@ -129,8 +129,8 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                     ),
                     SizedBox(width: 12),
                     Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text('Hosgeldin, ${auth.user?.fullName ?? ""}', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
-                      Text('İçerik yonetimi ve eğitim modülü düzenleme', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
+                      Text('Hoşgeldin, ${auth.user?.fullName ?? ""}', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
+                      Text('İçerik yönetimi ve eğitim modülü düzenleme', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
                     ])),
                   ]),
                 ),
@@ -161,7 +161,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 const SizedBox(height: 10),
                 _buildActionCard(
                   icon: Icons.folder_open,
-                  title: 'İçerik Yonetimi',
+                  title: 'İçerik Yönetimi',
                   subtitle: 'Rotalar, moduller ve quizler',
                   color: ScadaColors.purple,
                   onTap: () => Navigator.pushNamed(context, '/admin/content'),
@@ -192,7 +192,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 const SizedBox(height: 10),
                 _buildActionCard(
                   icon: Icons.people,
-                  title: 'Uyelik Yonetimi',
+                  title: 'Üyelik Yönetimi',
                   subtitle: 'Kullanıcı hesaplari ve durumlar',
                   color: ScadaColors.cyan,
                   onTap: () => Navigator.pushNamed(context, '/admin/users'),
@@ -200,7 +200,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 const SizedBox(height: 8),
                 _buildActionCard(
                   icon: Icons.shield,
-                  title: 'Rol Yonetimi',
+                  title: 'Rol Yönetimi',
                   subtitle: 'Roller ve erişim izinleri',
                   color: ScadaColors.cyan,
                   onTap: () => Navigator.pushNamed(context, '/admin/roles'),
@@ -208,7 +208,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 const SizedBox(height: 8),
                 _buildActionCard(
                   icon: Icons.campaign,
-                  title: 'Duyuru Yonetimi',
+                  title: 'Duyuru Yönetimi',
                   subtitle: 'Sirket ici duyurular',
                   color: ScadaColors.cyan,
                   onTap: () => Navigator.pushNamed(context, '/announcements'),

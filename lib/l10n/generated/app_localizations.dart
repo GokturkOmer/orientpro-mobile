@@ -136,7 +136,7 @@ abstract class S {
   /// No description provided for @loginSubtitle.
   ///
   /// In tr, this message translates to:
-  /// **'SCADA & Tesis Yonetim Sistemi'**
+  /// **'SCADA & Tesis Yönetim Sistemi'**
   String get loginSubtitle;
 
   /// No description provided for @validationEmailRequired.
@@ -226,7 +226,7 @@ abstract class S {
   /// No description provided for @moduleAdmin.
   ///
   /// In tr, this message translates to:
-  /// **'Yonetim'**
+  /// **'Yönetim'**
   String get moduleAdmin;
 
   /// No description provided for @moduleAdminSub.
@@ -244,7 +244,7 @@ abstract class S {
   /// No description provided for @moduleContentSub.
   ///
   /// In tr, this message translates to:
-  /// **'İçerik Yonetimi'**
+  /// **'İçerik Yönetimi'**
   String get moduleContentSub;
 
   /// No description provided for @modulePro.
@@ -256,7 +256,7 @@ abstract class S {
   /// No description provided for @moduleProSub.
   ///
   /// In tr, this message translates to:
-  /// **'Teknik Yonetim'**
+  /// **'Teknik Yönetim'**
   String get moduleProSub;
 
   /// No description provided for @moduleProLocked.
@@ -274,13 +274,13 @@ abstract class S {
   /// No description provided for @orientationWelcome.
   ///
   /// In tr, this message translates to:
-  /// **'Hosgeldiniz, {name}'**
+  /// **'Hoşgeldiniz, {name}'**
   String orientationWelcome(String name);
 
   /// No description provided for @orientationSubtitle.
   ///
   /// In tr, this message translates to:
-  /// **'Oryantasyon ve eğitim modülüne hosgeldiniz'**
+  /// **'Oryantasyon ve eğitim modülüne hoşgeldiniz'**
   String get orientationSubtitle;
 
   /// No description provided for @orientationOverallProgress.
@@ -1269,7 +1269,7 @@ abstract class S {
   /// No description provided for @contentManagerTitle.
   ///
   /// In tr, this message translates to:
-  /// **'İçerik Yonetimi'**
+  /// **'İçerik Yönetimi'**
   String get contentManagerTitle;
 
   /// No description provided for @contentManagerSearch.
@@ -1761,7 +1761,7 @@ abstract class S {
   /// No description provided for @dashboardWelcome.
   ///
   /// In tr, this message translates to:
-  /// **'Hosgeldin, {name}'**
+  /// **'Hoşgeldin, {name}'**
   String dashboardWelcome(String name);
 
   /// No description provided for @commonLoading.

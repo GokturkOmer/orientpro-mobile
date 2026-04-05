@@ -309,7 +309,7 @@ class _RoleManagementScreenState extends ConsumerState<RoleManagementScreen> {
             child: const Icon(Icons.shield, color: ScadaColors.cyan, size: 20),
           ),
           const SizedBox(width: 8),
-          Text('Rol Yonetimi', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+          Text('Rol Yönetimi', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
         actions: [
           IconButton(

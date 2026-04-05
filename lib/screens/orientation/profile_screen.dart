@@ -216,7 +216,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         child: OutlinedButton.icon(
                           onPressed: () => Navigator.pushNamed(context, '/subscription'),
                           icon: const Icon(Icons.card_membership, size: 18),
-                          label: const Text('Abonelik Yonetimi'),
+                          label: const Text('Abonelik Yönetimi'),
                           style: OutlinedButton.styleFrom(
                             foregroundColor: ScadaColors.cyan,
                             side: BorderSide(color: ScadaColors.cyan.withValues(alpha: 0.3)),

@@ -1425,7 +1425,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
         backgroundColor: context.scada.card,
         title: Text('Dokümandan İçerik Oluştur', style: TextStyle(color: context.scada.textPrimary, fontSize: 15)),
         content: Text(
-          '"${doc['title']}" dokümanindan bu module içerik oluturulsun mu?\n\nMevcut metin içerikleri silinecek, yerine AI uretimi gelecek (taslak olarak).',
+          '"${doc['title']}" dokümanindan bu module içerik oluturulsun mu?\n\nMevcut metin içerikleri silinecek, yerine AI üretimi gelecek (taslak olarak).',
           style: TextStyle(color: context.scada.textSecondary, fontSize: 12),
         ),
         actions: [

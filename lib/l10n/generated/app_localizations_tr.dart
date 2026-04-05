@@ -27,7 +27,7 @@ class STr extends S {
   String get loginPassword => 'Şifre';
 
   @override
-  String get loginSubtitle => 'SCADA & Tesis Yonetim Sistemi';
+  String get loginSubtitle => 'SCADA & Tesis Yönetim Sistemi';
 
   @override
   String get validationEmailRequired => 'E-posta adresi gerekli';
@@ -74,7 +74,7 @@ class STr extends S {
       'Personel oryantasyon süreçleri,\neğitim rotalari ve takip';
 
   @override
-  String get moduleAdmin => 'Yonetim';
+  String get moduleAdmin => 'Yönetim';
 
   @override
   String get moduleAdminSub => 'Admin Paneli';
@@ -83,13 +83,13 @@ class STr extends S {
   String get moduleContent => 'İçerik';
 
   @override
-  String get moduleContentSub => 'İçerik Yonetimi';
+  String get moduleContentSub => 'İçerik Yönetimi';
 
   @override
   String get modulePro => 'Pro';
 
   @override
-  String get moduleProSub => 'Teknik Yonetim';
+  String get moduleProSub => 'Teknik Yönetim';
 
   @override
   String get moduleProLocked => 'Plan Yukseltme Gerekli';
@@ -99,12 +99,12 @@ class STr extends S {
 
   @override
   String orientationWelcome(String name) {
-    return 'Hosgeldiniz, $name';
+    return 'Hoşgeldiniz, $name';
   }
 
   @override
   String get orientationSubtitle =>
-      'Oryantasyon ve eğitim modülüne hosgeldiniz';
+      'Oryantasyon ve eğitim modülüne hoşgeldiniz';
 
   @override
   String get orientationOverallProgress => 'Genel Ilerleme';
@@ -634,7 +634,7 @@ class STr extends S {
   String get progressTeamTab => 'Ekip Takibi';
 
   @override
-  String get contentManagerTitle => 'İçerik Yonetimi';
+  String get contentManagerTitle => 'İçerik Yönetimi';
 
   @override
   String get contentManagerSearch => 'Semantik Arama';
@@ -899,7 +899,7 @@ class STr extends S {
 
   @override
   String dashboardWelcome(String name) {
-    return 'Hosgeldin, $name';
+    return 'Hoşgeldin, $name';
   }
 
   @override

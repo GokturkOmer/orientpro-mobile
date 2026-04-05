@@ -32,7 +32,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Uyelik Yonetimi',
+          'Üyelik Yönetimi',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary),
         ),
       ),
@@ -307,7 +307,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
     };
 
     const departments = {
-      'yonetim': 'Yonetim',
+      'yönetim': 'Yönetim',
       'teknik': 'Teknik Servis',
       'hk': 'Kat Hizmetleri',
       'on_buro': 'Resepsiyon',
@@ -348,7 +348,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                       child: const Icon(Icons.person_add, color: ScadaColors.cyan, size: 20),
                     ),
                     SizedBox(width: 12),
-                    Text('Yeni Uyelik Oluştur', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+                    Text('Yeni Üyelik Oluştur', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
                   ]),
                   const SizedBox(height: 20),
 

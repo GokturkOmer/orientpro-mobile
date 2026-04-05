@@ -27,22 +27,22 @@ class HelpScreen extends ConsumerWidget {
   static const _faqs = [
     _FaqItem(
       question: 'Nasıl yeni bir eğitim rotasi oluşturabilirim?',
-      answer: 'Admin paneli > İçerik Yonetimi > Yeni Rota butonuna tiklayin. Departman, zorluk seviyesi ve modülleri ekleyerek rotanizi oluşturabilirsiniz.',
+      answer: 'Admin paneli > İçerik Yönetimi > Yeni Rota butonuna tıklayın. Departman, zorluk seviyesi ve modülleri ekleyerek rotanızı oluşturabilirsiniz.',
       icon: Icons.route,
     ),
     _FaqItem(
       question: 'Kullanıcı nasıl eklenir?',
-      answer: 'Admin paneli > Kullanıcı Yonetimi > Yeni Kullanıcı butonuyla ekleyebilirsiniz. Kullanıcı e-postasina doğrulama kodu gönderilir.',
+      answer: 'Admin paneli > Kullanıcı Yönetimi > Yeni Kullanıcı butonuyla ekleyebilirsiniz. Kullanıcı e-postasina doğrulama kodu gönderilir.',
       icon: Icons.person_add,
     ),
     _FaqItem(
-      question: 'AI Chatbot hangi dokümanlari kullanir?',
-      answer: 'Chatbot, İçerik Yonetimi üzerinden yüklenen PDF dokümanlarindan öğrenilen bilgileri kullanir. Yeni doküman yükledikçe chatbot bilgi tabanini günceller.',
+      question: 'AI Chatbot hangi dokümanlari kullanır?',
+      answer: 'Chatbot, İçerik Yönetimi üzerinden yüklenen PDF dokümanlarından öğrenilen bilgileri kullanır. Yeni doküman yükledikçe chatbot bilgi tabanını günceller.',
       icon: Icons.smart_toy,
     ),
     _FaqItem(
       question: 'Quiz nasıl oluşturulur?',
-      answer: 'İçerik Yonetimi > Quiz Oluştur ile manuel quiz oluşturabilir veya AI ile Dokümandan Soru Uret butonuyla otomatik quiz üretebilirsiniz.',
+      answer: 'İçerik Yönetimi > Quiz Oluştur ile manuel quiz oluşturabilir veya AI ile Dokümandan Soru Üret butonuyla otomatik quiz üretebilirsiniz.',
       icon: Icons.quiz,
     ),
     _FaqItem(

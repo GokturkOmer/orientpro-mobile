@@ -32,7 +32,7 @@ class EquipmentDetailScreen extends StatelessWidget {
         const SizedBox(height: 16),
         Card(child: Padding(padding: const EdgeInsets.all(16), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           const Text('Ekipman Bilgileri', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)), const Divider(),
-          _row(context, 'Kategori', equipment.categoryText), _row(context, 'Alt Tip', equipment.subcategory), _row(context, 'Uretici', equipment.manufacturer ?? '-'), _row(context, 'Model', equipment.model ?? '-'), _row(context, 'Seri No', equipment.serialNumber ?? '-'), _row(context, 'QR Kod', equipment.qrCode ?? '-'),
+          _row(context, 'Kategori', equipment.categoryText), _row(context, 'Alt Tip', equipment.subcategory), _row(context, 'Üretici', equipment.manufacturer ?? '-'), _row(context, 'Model', equipment.model ?? '-'), _row(context, 'Seri No', equipment.serialNumber ?? '-'), _row(context, 'QR Kod', equipment.qrCode ?? '-'),
         ]))),
         const SizedBox(height: 12),
         Card(child: Padding(padding: const EdgeInsets.all(16), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

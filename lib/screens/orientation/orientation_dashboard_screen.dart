@@ -89,8 +89,8 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                     ),
                     const SizedBox(width: 12),
                     Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text('Hosgeldiniz, ${auth.user?.fullName ?? ""}', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
-                      Text('Oryantasyon ve eğitim modülüne hosgeldiniz', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
+                      Text('Hoşgeldiniz, ${auth.user?.fullName ?? ""}', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
+                      Text('Oryantasyon ve eğitim modülüne hoşgeldiniz', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
                     ])),
                   ]),
                 ),

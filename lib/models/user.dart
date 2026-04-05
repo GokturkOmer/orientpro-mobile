@@ -57,7 +57,7 @@ class User {
     const map = {
       'teknik': 'Teknik Servis',
       'hk': 'Kat Hizmetleri',
-      'yonetim': 'Yonetim',
+      'yönetim': 'Yönetim',
       'on_buro': 'Resepsiyon',
       'guvenlik': 'Guvenlik',
       'mutfak': 'Mutfak',

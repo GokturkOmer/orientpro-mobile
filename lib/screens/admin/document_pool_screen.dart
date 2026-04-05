@@ -235,7 +235,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                             ),
                             SizedBox(height: 8),
                             Text(
-                              pdfFileName ?? 'PDF dosyasi secmek için tiklayin',
+                              pdfFileName ?? 'PDF dosyasi secmek için tıklayın',
                               style: TextStyle(
                                 color: pdfFileName != null ? context.scada.textPrimary : context.scada.textSecondary,
                                 fontSize: 12,
@@ -433,7 +433,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
     const map = {
       'teknik': 'Teknik Servis',
       'hk': 'Kat Hizmetleri',
-      'yonetim': 'Yonetim',
+      'yönetim': 'Yönetim',
       'on_buro': 'On Buro',
       'spa': 'SPA & Wellness',
       'fb': 'Yiyecek Icecek',
