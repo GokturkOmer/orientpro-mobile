@@ -359,7 +359,7 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
             Icon(Icons.menu_book, size: 14, color: context.scada.textDim),
             SizedBox(width: 6),
             Text(
-              'MODULLER',
+              'MODÜLLER',
               style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1),
             ),
             const SizedBox(width: 6),

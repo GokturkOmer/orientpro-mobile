@@ -400,7 +400,7 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(ok
-              ? (status == 'completed' ? 'Görev tamamlandi' : status == 'in_progress' ? 'Görev basladi' : 'Görev iptal edildi')
+              ? (status == 'completed' ? 'Görev tamamlandı' : status == 'in_progress' ? 'Görev basladi' : 'Görev iptal edildi')
               : 'İşlem başarısız'),
           backgroundColor: ok ? ScadaColors.green : ScadaColors.red,
         ),

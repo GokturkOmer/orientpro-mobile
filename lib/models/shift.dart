@@ -134,7 +134,7 @@ class Task {
     switch (status) {
       case 'pending': return 'Bekliyor';
       case 'in_progress': return 'Devam Ediyor';
-      case 'completed': return 'Tamamlandi';
+      case 'completed': return 'Tamamlandı';
       case 'cancelled': return 'İptal';
       default: return status;
     }

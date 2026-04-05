@@ -244,7 +244,7 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
         const Icon(Icons.check_circle, color: ScadaColors.green, size: 24),
         const SizedBox(width: 12),
         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Text('Eğitim Onaylandi', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.green)),
+          const Text('Eğitim Onaylandı', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.green)),
           Text('Onay tarihi: $formatted', style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
         ])),
       ]),

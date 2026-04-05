@@ -50,7 +50,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     return Scaffold(
       backgroundColor: context.scada.bg,
       appBar: ScadaAppBar(
-        title: 'Profil Karti',
+        title: 'Profil Kartı',
         titleIcon: Icons.person,
         titleIconColor: ScadaColors.orange,
         actions: [
@@ -114,7 +114,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
                     // Contact info
                     const SizedBox(height: 16),
-                    const SectionHeader(title: 'ILETISIM BILGILERI', icon: Icons.contact_phone),
+                    const SectionHeader(title: 'İLETİŞİM BILGILERI', icon: Icons.contact_phone),
                     const SizedBox(height: 8),
                     _buildInfoCard([
                       _buildInfoRow(Icons.email, 'E-posta', profile.email ?? '-'),

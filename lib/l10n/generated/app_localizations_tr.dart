@@ -45,11 +45,11 @@ class STr extends S {
   String get rememberMe => 'Beni hatırla';
 
   @override
-  String get orgSelectTitle => 'Tesis Secimi';
+  String get orgSelectTitle => 'Tesis Seçimi';
 
   @override
   String get orgSelectSubtitle =>
-      'Birden fazla tesise uyesiniz.\nDevam etmek icin bir tesis seçin.';
+      'Birden fazla tesise üyesiniz.\nDevam etmek için bir tesis seçin.';
 
   @override
   String get orgSelectDefault => 'Varsayilan';
@@ -61,7 +61,7 @@ class STr extends S {
   String get orgSelectMember => 'Uye';
 
   @override
-  String get moduleSelectionTitle => 'Modül Secimi';
+  String get moduleSelectionTitle => 'Modül Seçimi';
 
   @override
   String get moduleOrientation => 'Oryantasyon';
@@ -71,7 +71,7 @@ class STr extends S {
 
   @override
   String get moduleOrientationDesc =>
-      'Personel oryantasyon süreçleri,\neğitim rotalari ve takip';
+      'Personel oryantasyon süreçleri,\neğitim rotaları ve takip';
 
   @override
   String get moduleAdmin => 'Yönetim';
@@ -156,14 +156,14 @@ class STr extends S {
   }
 
   @override
-  String get orientationModules => 'MODULLER';
+  String get orientationModules => 'MODÜLLER';
 
   @override
   String get navTrainingRoutes => 'Eğitim Rotalari';
 
   @override
   String get navTrainingRoutesSub =>
-      'Departman bazli eğitim rotalari ve içerikler';
+      'Departman bazlı eğitim rotaları ve içerikler';
 
   @override
   String get navQuizzes => 'Quiz & Sinavlar';
@@ -181,7 +181,7 @@ class STr extends S {
   String get navAiAssistant => 'AI Asistan';
 
   @override
-  String get navAiAssistantSub => 'Oryantasyon süreçi icin yapay zeka destegi';
+  String get navAiAssistantSub => 'Oryantasyon süreçi için yapay zeka destegi';
 
   @override
   String get navAnnouncements => 'Duyuru Panosu';
@@ -190,13 +190,13 @@ class STr extends S {
   String get navAnnouncementsSub => 'Sirket ve departman duyurulari';
 
   @override
-  String get navLibrary => 'İçerik Kutuphanesi';
+  String get navLibrary => 'İçerik Kütüphanesi';
 
   @override
   String get navLibrarySub => 'Kişisel ve paylaşılan belgeler';
 
   @override
-  String get navProfile => 'Profil Karti';
+  String get navProfile => 'Profil Kartı';
 
   @override
   String get navProfileSub => 'Kişisel bilgiler, acil durum, sertifikalar';
@@ -211,7 +211,7 @@ class STr extends S {
   String get viewAll => 'Tümünu Gor';
 
   @override
-  String get libraryTitle => 'İçerik Kutuphanesi';
+  String get libraryTitle => 'İçerik Kütüphanesi';
 
   @override
   String libraryPersonalTab(int count) {
@@ -262,7 +262,7 @@ class STr extends S {
   String get libraryUploadTitle => 'Dosya Yükle';
 
   @override
-  String get libraryDocTitle => 'Baslik';
+  String get libraryDocTitle => 'Başlık';
 
   @override
   String get libraryDocTitleHint => 'Belge adi';
@@ -292,7 +292,7 @@ class STr extends S {
   String get librarySelectFile => 'Dosya Sec';
 
   @override
-  String get libraryUploadValidation => 'Baslik ve dosya secimi zorunlu';
+  String get libraryUploadValidation => 'Başlık ve dosya seçimi zorunlu';
 
   @override
   String get libraryUploaded => 'Dosya yüklendi';
@@ -304,14 +304,14 @@ class STr extends S {
   String get libraryUploadButton => 'Yükle';
 
   @override
-  String get profileTitle => 'Profil Karti';
+  String get profileTitle => 'Profil Kartı';
 
   @override
   String get profilePhoneValidation =>
       'Gecerli bir telefon numarasi girin (05xx xxx xxxx)';
 
   @override
-  String get profileSectionContact => 'ILETISIM BILGILERI';
+  String get profileSectionContact => 'İLETİŞİM BILGILERI';
 
   @override
   String get profileEmail => 'E-posta';
@@ -453,7 +453,7 @@ class STr extends S {
   String get announcementEditTitle => 'Duyuru Düzenle';
 
   @override
-  String get announcementFieldTitle => 'Baslik';
+  String get announcementFieldTitle => 'Başlık';
 
   @override
   String get announcementFieldContent => 'İçerik';
@@ -480,7 +480,7 @@ class STr extends S {
   String get announcementPin => 'Sabitle';
 
   @override
-  String get announcementValidation => 'Baslik ve içerik zorunlu';
+  String get announcementValidation => 'Başlık ve içerik zorunlu';
 
   @override
   String get announcementUpdated => 'Duyuru güncellendi';
@@ -547,10 +547,10 @@ class STr extends S {
   String get tourSkipReason => 'Atlama sebebi (zorunlu)';
 
   @override
-  String get tourCompleted => 'Tur Tamamlandi!';
+  String get tourCompleted => 'Tur Tamamlandı!';
 
   @override
-  String get tourCompletedAll => 'Tum kontrol noktalari tarandi.';
+  String get tourCompletedAll => 'Tum kontrol noktaları tarandi.';
 
   @override
   String tourCompleteSummary(
@@ -569,7 +569,7 @@ class STr extends S {
   String get tourCancelTitle => 'Turu iptal et?';
 
   @override
-  String get tourCancelWarning => 'Bu işlem geri alinamaz.';
+  String get tourCancelWarning => 'Bu işlem geri alınamaz.';
 
   @override
   String get notificationTitle => 'Bildirimler';
@@ -665,7 +665,7 @@ class STr extends S {
 
   @override
   String routeEditorDeleteConfirm(String title) {
-    return '\"$title\" modülünu silmek istediginize emin misiniz?';
+    return '\"$title\" modülünu silmek istediğinize emin misiniz?';
   }
 
   @override
@@ -697,7 +697,7 @@ class STr extends S {
   String get scadaAllNormal => 'Tum sistemler normal calisiyor';
 
   @override
-  String get scadaAlarmAcked => 'Alarm onaylandi';
+  String get scadaAlarmAcked => 'Alarm onaylandı';
 
   @override
   String scadaSensor(int id) {
@@ -743,11 +743,11 @@ class STr extends S {
 
   @override
   String get featureGateUpgradeMessage =>
-      'Bu ozellige erismek icin planin yukseltilmesi gerekiyor.';
+      'Bu ozellige erismek için planin yukseltilmesi gerekiyor.';
 
   @override
   String get featureGateContactAdmin =>
-      'Yukseltme icin tesis yöneticinize basvurun';
+      'Yukseltme için tesis yöneticinize basvurun';
 
   @override
   String featureGateCurrentPlan(String plan) {
@@ -759,7 +759,7 @@ class STr extends S {
 
   @override
   String get accessDeniedMessage =>
-      'Bu sayfaya erişim icin yetkiniz bulunmamaktadir.';
+      'Bu sayfaya erişim için yetkiniz bulunmamaktadir.';
 
   @override
   String get accessDeniedHome => 'Ana Sayfaya Don';
@@ -776,11 +776,11 @@ class STr extends S {
   String get certificateHeader => 'TAMAMLAMA SERTIFIKASI';
 
   @override
-  String get certificateConfirms => 'Bu belge ile onaylanir ki';
+  String get certificateConfirms => 'Bu belge ile onaylanır ki';
 
   @override
   String get certificateCompleted =>
-      'asagidaki eğitim rotasini başarıyla tamamlamistir';
+      'aşağıdaki eğitim rotasını başarıyla tamamlamistir';
 
   @override
   String get certificateDate => 'Tarih';
@@ -789,7 +789,7 @@ class STr extends S {
   String get certificateId => 'Sertifika No';
 
   @override
-  String get certificateDownload => 'PDF Indir';
+  String get certificateDownload => 'PDF İndir';
 
   @override
   String get certificateDownloadError => 'PDF indirilemedi';
@@ -819,7 +819,7 @@ class STr extends S {
   String get badgeQuizMasterDesc => '5 quizi başarıyla gec';
 
   @override
-  String get badgeFastLearner => 'Hizli Öğrenci';
+  String get badgeFastLearner => 'Hızlı Öğrenci';
 
   @override
   String get badgeFastLearnerDesc =>
@@ -841,7 +841,7 @@ class STr extends S {
   String get badgeBookworm => 'Bilgi Kurdu';
 
   @override
-  String get badgeBookwormDesc => '10 kutuphane dokümanini oku';
+  String get badgeBookwormDesc => '10 kütüphane dokümanini oku';
 
   @override
   String get leaderboardTitle => 'Siralama';
@@ -856,7 +856,7 @@ class STr extends S {
   String get leaderboardYou => 'Sen';
 
   @override
-  String get approvalTitle => 'İçerik Onaylari';
+  String get approvalTitle => 'İçerik Onayları';
 
   @override
   String get approvalEmpty => 'Onay bekleyen içerik yok';
@@ -874,7 +874,7 @@ class STr extends S {
   String get approvalRejectReason => 'Red sebebi (opsiyonel)';
 
   @override
-  String get approvalApproved => 'İçerik onaylandi';
+  String get approvalApproved => 'İçerik onaylandı';
 
   @override
   String get approvalRejected => 'İçerik reddedildi';
@@ -889,7 +889,7 @@ class STr extends S {
   String get themeLight => 'Aydinlik Tema';
 
   @override
-  String get progressReportDownload => 'Rapor Indir';
+  String get progressReportDownload => 'Rapor İndir';
 
   @override
   String get progressReportError => 'Rapor indirilemedi';

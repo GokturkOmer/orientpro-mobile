@@ -89,7 +89,7 @@ class ModuleSelectionScreen extends ConsumerWidget {
                           child: _ModuleCard(
                             title: 'Oryantasyon',
                             subtitle: 'Eğitim & Rehber',
-                            description: 'Personel oryantasyon süreçleri,\neğitim rotalari ve takip',
+                            description: 'Personel oryantasyon süreçleri,\neğitim rotaları ve takip',
                             icon: Icons.school,
                             color: ScadaColors.purple,
                             onTap: () => Navigator.pushNamed(context, '/orientation-dashboard'),

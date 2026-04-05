@@ -252,7 +252,7 @@ class UserProgress {
     switch (status) {
       case 'not_started': return 'Baslanmadi';
       case 'in_progress': return 'Devam Ediyor';
-      case 'completed': return 'Tamamlandi';
+      case 'completed': return 'Tamamlandı';
       default: return status;
     }
   }

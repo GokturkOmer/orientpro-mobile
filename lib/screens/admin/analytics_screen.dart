@@ -196,7 +196,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
           border: Border.all(color: ScadaColors.cyan.withValues(alpha: 0.3)),
         ),
         child: Column(children: [
-          Text('Kullanıcı Kullanim Orani', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
+          Text('Kullanıcı Kullanim Oranı', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
           const SizedBox(height: 12),
           SizedBox(
             width: 120, height: 120,
@@ -513,7 +513,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
           border: Border.all(color: context.scada.border),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('Departman Bazli Tamamlanma Orani', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
+          Text('Departman Bazlı Tamamlanma Oranı', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
           const SizedBox(height: 16),
           ..._departmentStats.asMap().entries.map((entry) {
             final i = entry.key;

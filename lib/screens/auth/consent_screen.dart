@@ -126,7 +126,7 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
                     const SizedBox(width: 8),
                     Expanded(child: Text(
                       'Verilerinizi istediğiniz zaman disa aktarabilir veya silme talebinde '
-                      'bulunabilirsiniz. Bu işlemler Profil > Gizlilik boluumunden yapilabilir.',
+                      'bulunabilirsiniz. Bu işlemler Profil > Gizlilik boluumunden yapılabilir.',
                       style: TextStyle(fontSize: 12, color: context.scada.textDim),
                     )),
                   ]),

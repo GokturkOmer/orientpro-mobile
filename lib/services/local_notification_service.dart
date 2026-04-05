@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 /// Lokal bildirim servisi — mikro-öğrenme kartlari icin.
-/// Web'de calismaz, sadece mobil (Android/iOS) icin.
+/// Web'de çalışmaz, sadece mobil (Android/iOS) icin.
 /// FCM entegrasyonu sonraki fazda eklenecek.
 class LocalNotificationService {
   static bool _initialized = false;

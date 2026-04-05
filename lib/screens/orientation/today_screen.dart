@@ -163,7 +163,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
           Text(assignment.routeTitle!,
             style: TextStyle(fontSize: 12, color: context.scada.textDim)),
         const SizedBox(height: 4),
-        Text(assignment.moduleTitle ?? 'Eğitim Modulu',
+        Text(assignment.moduleTitle ?? 'Eğitim Modülü',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         const SizedBox(height: 8),
         Row(children: [

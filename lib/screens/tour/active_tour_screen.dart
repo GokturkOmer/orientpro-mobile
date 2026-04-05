@@ -279,7 +279,7 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
     showDialog(context: context, builder: (ctx) => AlertDialog(
       backgroundColor: context.scada.surface,
       icon: const Icon(Icons.celebration, size: 48, color: ScadaColors.green),
-      title: const Text('Tur Tamamlandi!', style: TextStyle(color: ScadaColors.green)),
+      title: const Text('Tur Tamamlandı!', style: TextStyle(color: ScadaColors.green)),
       content: Text('Tum kontrol noktaları tarandi.', style: TextStyle(color: context.scada.textSecondary)),
       actions: [ElevatedButton(onPressed: () { Navigator.pop(ctx); Navigator.pop(context); }, child: const Text('Tamam'))],
     ));
@@ -296,7 +296,7 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
         showDialog(context: context, builder: (ctx) => AlertDialog(
         backgroundColor: context.scada.surface,
         icon: const Icon(Icons.check_circle, size: 48, color: ScadaColors.green),
-        title: const Text('Tur Tamamlandi', style: TextStyle(color: ScadaColors.green)),
+        title: const Text('Tur Tamamlandı', style: TextStyle(color: ScadaColors.green)),
         content: Text('Taranan: ${result['scanned']}/${result['total']}\nAtlanan: ${result['skipped']}\nTamamlanma: %${result['completion_rate']}',
           style: TextStyle(color: context.scada.textSecondary)),
         actions: [ElevatedButton(onPressed: () { Navigator.pop(ctx); Navigator.pop(context); }, child: const Text('Tamam'))],
@@ -309,7 +309,7 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
     final confirmed = await showDialog<bool>(context: context, builder: (ctx) => AlertDialog(
       backgroundColor: context.scada.surface,
       title: Text('Turu iptal et?', style: TextStyle(color: context.scada.textPrimary)),
-      content: Text('Bu işlem geri alinamaz.', style: TextStyle(color: context.scada.textSecondary)),
+      content: Text('Bu işlem geri alınamaz.', style: TextStyle(color: context.scada.textSecondary)),
       actions: [
         TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text('Vazgec', style: TextStyle(color: context.scada.textDim))),
         ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.red.withValues(alpha: 0.15), foregroundColor: ScadaColors.red),

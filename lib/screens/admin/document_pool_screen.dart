@@ -80,7 +80,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
         backgroundColor: context.scada.surface,
         title: Text('Dokümani Sil', style: TextStyle(color: context.scada.textPrimary, fontSize: 16)),
         content: Text(
-          '"$docTitle" dokümanini silmek istediğinize emin misiniz?\n\nBu işlem geri alinamaz.',
+          '"$docTitle" dokümanini silmek istediğinize emin misiniz?\n\nBu işlem geri alınamaz.',
           style: TextStyle(color: context.scada.textSecondary, fontSize: 13),
         ),
         actions: [
@@ -500,7 +500,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                 controller: _searchController,
                 style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
                 decoration: InputDecoration(
-                  hintText: 'Semantik arama... (içerik bazli)',
+                  hintText: 'Semantik arama... (içerik bazlı)',
                   hintStyle: TextStyle(color: context.scada.textDim, fontSize: 12),
                   prefixIcon: const Icon(Icons.auto_awesome, color: ScadaColors.purple, size: 18),
                   suffixIcon: _isSearching

@@ -61,7 +61,7 @@ class _SelectOrganizationScreenState extends ConsumerState<SelectOrganizationScr
                 Text('Organizasyon Seçin',
                   style: TextStyle(fontSize: 16, color: context.scada.textSecondary)),
                 const SizedBox(height: 8),
-                Text('Birden fazla organizasyona uyesiniz.\nDevam etmek için birini seçin.',
+                Text('Birden fazla organizasyona üyesiniz.\nDevam etmek için birini seçin.',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 13, color: context.scada.textDim)),
                 const SizedBox(height: 32),

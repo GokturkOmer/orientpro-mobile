@@ -1162,7 +1162,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text('Rotayi Sil', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         content: Text(
-          '"${route.title}" rotasi ve içindeki tum moduller silinecek. Bu işlem geri alinamaz. Devam etmek istiyor musunuz?',
+          '"${route.title}" rotası ve içindeki tum modüller silinecek. Bu işlem geri alınamaz. Devam etmek istiyor musunuz?',
           style: TextStyle(fontSize: 13, color: context.scada.textSecondary),
         ),
         actions: [
@@ -1210,7 +1210,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text('Departmani Sil', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         content: Text(
-          '"${dept.name}" departmani ve içindeki tum rotalar/moduller silinecek. Bu işlem geri alinamaz. Devam etmek istiyor musunuz?',
+          '"${dept.name}" departmanı ve içindeki tum rotalar/modüller silinecek. Bu işlem geri alınamaz. Devam etmek istiyor musunuz?',
           style: TextStyle(fontSize: 13, color: context.scada.textSecondary),
         ),
         actions: [
@@ -1532,7 +1532,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
         ),
         title: const Text('Rota Sil', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.red)),
         content: Text(
-          '"${route.title}" rotasini silmek istediğinize emin misiniz?\n\nBu işlem geri alinamaz ve rotaya bagli tum moduller de silinir.',
+          '"${route.title}" rotasını silmek istediğinize emin misiniz?\n\nBu işlem geri alınamaz ve rotaya bagli tum modüller de silinir.',
           style: TextStyle(fontSize: 13, color: context.scada.textSecondary, height: 1.5),
         ),
         actions: [
@@ -1577,7 +1577,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
         ),
         title: const Text('Modül Sil', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.red)),
         content: Text(
-          '"${module.title}" modülünu silmek istediğinize emin misiniz?\n\nBu işlem geri alinamaz.',
+          '"${module.title}" modülünu silmek istediğinize emin misiniz?\n\nBu işlem geri alınamaz.',
           style: TextStyle(fontSize: 13, color: context.scada.textSecondary, height: 1.5),
         ),
         actions: [

@@ -236,7 +236,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
           ],
 
           const SizedBox(height: 20),
-          const SectionHeader(icon: Icons.business, title: 'DEPARTMAN BAZLI ILERLEME'),
+          const SectionHeader(icon: Icons.business, title: 'DEPARTMAN BAZLI İLERLEME'),
           const SizedBox(height: 12),
           ...departments.map((dept) {
             final deptRoutes = routes.where((r) => r.departmentId == dept.id).toList();
@@ -244,7 +244,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
             return _buildDepartmentProgressCard(dept, deptRoutes, training);
           }),
           const SizedBox(height: 20),
-          const SectionHeader(icon: Icons.list_alt, title: 'MODUL DETAY'),
+          const SectionHeader(icon: Icons.list_alt, title: 'MODÜL DETAY'),
           const SizedBox(height: 12),
           if (training.progress.isEmpty)
             _buildEmptyState()
@@ -381,7 +381,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
                   ),
                   Column(mainAxisSize: MainAxisSize.min, children: [
                     Text('%${percent.toStringAsFixed(0)}', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
-                    Text('Tamamlandi', style: TextStyle(fontSize: 9, color: context.scada.textSecondary)),
+                    Text('Tamamlandı', style: TextStyle(fontSize: 9, color: context.scada.textSecondary)),
                   ]),
                 ],
               ),

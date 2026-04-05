@@ -160,7 +160,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               const SizedBox(height: 20),
 
               // Navigation menu
-              _sectionHeader('MODULLER', Icons.apps),
+              _sectionHeader('MODÜLLER', Icons.apps),
               const SizedBox(height: 8),
               _menuItem('SCADA Monitor', Icons.monitor_heart, ScadaColors.cyan, '/scada'),
               _menuItem('AI Ariza Tahmini', Icons.psychology, ScadaColors.purple, '/ai-predictions'),

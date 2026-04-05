@@ -26,7 +26,7 @@ class HelpScreen extends ConsumerWidget {
 
   static const _faqs = [
     _FaqItem(
-      question: 'Nasıl yeni bir eğitim rotasi oluşturabilirim?',
+      question: 'Nasıl yeni bir eğitim rotası oluşturabilirim?',
       answer: 'Admin paneli > İçerik Yönetimi > Yeni Rota butonuna tıklayın. Departman, zorluk seviyesi ve modülleri ekleyerek rotanızı oluşturabilirsiniz.',
       icon: Icons.route,
     ),
@@ -46,13 +46,13 @@ class HelpScreen extends ConsumerWidget {
       icon: Icons.quiz,
     ),
     _FaqItem(
-      question: 'Departman bazli raporlari nasıl gorebilirim?',
+      question: 'Departman bazlı raporlari nasıl görebilirim?',
       answer: 'Admin paneli > Analitik ekraninda departman kırılımli tamamlanma oranlari görünür. Excel Raporu İndir butonu ile detaylı rapor alabilirsiniz.',
       icon: Icons.analytics,
     ),
     _FaqItem(
       question: 'İçerik onay akisi nasıl çalışır?',
-      answer: 'İçerik editörleri taslak oluşturur, admin İçerik Onaylari ekranından onaylar veya reddeder. Onaylanan içerikler çalışanlara görünür hale gelir.',
+      answer: 'İçerik editörleri taslak oluşturur, admin İçerik Onayları ekranından onaylar veya reddeder. Onaylanan içerikler çalışanlara görünür hale gelir.',
       icon: Icons.fact_check,
     ),
     _FaqItem(
@@ -62,7 +62,7 @@ class HelpScreen extends ConsumerWidget {
     ),
     _FaqItem(
       question: 'Aboneligimi nasıl yukseltebilirim?',
-      answer: 'Abonelik & Plan ekranından istediğiniz plani secip Odemeye Gec butonuyla yukseltme yapabilirsiniz.',
+      answer: 'Abonelik & Plan ekranından istediğiniz plani secip Ödemeye Gec butonuyla yukseltme yapabilirsiniz.',
       icon: Icons.upgrade,
     ),
   ];
@@ -76,7 +76,7 @@ class HelpScreen extends ConsumerWidget {
     ),
     _GuideStep(
       title: '2. Eğitim Icerigi Yükleyin',
-      description: 'PDF dokümanlari yükleyin, moduller oluşturun ve eğitim rotalarini tanimlayin.',
+      description: 'PDF dokümanlari yükleyin, modüller oluşturun ve eğitim rotalarını tanımlayın.',
       icon: Icons.upload_file,
       color: ScadaColors.green,
     ),

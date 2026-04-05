@@ -263,7 +263,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            _passed == true ? 'Quiz başarıyla tamamlandi!' : 'Gecme puanina ulasilamadi. Tekrar deneyin.',
+            _passed == true ? 'Quiz başarıyla tamamlandı!' : 'Gecme puanina ulasilamadi. Tekrar deneyin.',
             style: TextStyle(fontSize: 12, color: context.scada.textSecondary),
             textAlign: TextAlign.center,
           ),

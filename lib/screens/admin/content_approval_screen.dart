@@ -75,7 +75,7 @@ class _ContentApprovalScreenState extends ConsumerState<ContentApprovalScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(status == 'approved' ? 'İçerik onaylandi' : 'İçerik reddedildi'),
+            content: Text(status == 'approved' ? 'İçerik onaylandı' : 'İçerik reddedildi'),
             backgroundColor: status == 'approved' ? ScadaColors.green : ScadaColors.red,
           ),
         );
@@ -166,7 +166,7 @@ class _ContentApprovalScreenState extends ConsumerState<ContentApprovalScreen> {
             child: const Icon(Icons.fact_check, color: ScadaColors.amber, size: 20),
           ),
           SizedBox(width: 8),
-          Text('İçerik Onaylari', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+          Text('İçerik Onayları', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
         actions: [
           if (_items.isNotEmpty)

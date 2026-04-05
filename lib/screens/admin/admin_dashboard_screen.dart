@@ -162,7 +162,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 _buildActionCard(
                   icon: Icons.folder_open,
                   title: 'İçerik Yönetimi',
-                  subtitle: 'Rotalar, moduller ve quizler',
+                  subtitle: 'Rotalar, modüller ve quizler',
                   color: ScadaColors.purple,
                   onTap: () => Navigator.pushNamed(context, '/admin/content'),
                 ),
@@ -188,7 +188,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 // ═══════════════════════════════════════
                 // GRUP 2: KULLANICILAR & ILETISIM
                 // ═══════════════════════════════════════
-                _buildSectionHeader('KULLANICILAR & ILETISIM', Icons.people),
+                _buildSectionHeader('KULLANICILAR & İLETİŞİM', Icons.people),
                 const SizedBox(height: 10),
                 _buildActionCard(
                   icon: Icons.people,
@@ -323,7 +323,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
       Row(children: [
         Icon(Icons.bar_chart, size: 14, color: context.scada.textDim),
         SizedBox(width: 6),
-        Text('ISTATISTIKLER', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
+        Text('İSTATİSTİKLER', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
       ]),
       const SizedBox(height: 12),
 
@@ -336,7 +336,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
           border: Border.all(color: context.scada.border),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('Departman Bazli Rota Dagilimi',
+          Text('Departman Bazlı Rota Dağılımi',
             style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
           const SizedBox(height: 16),
           SizedBox(
@@ -357,7 +357,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
           border: Border.all(color: context.scada.border),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('İçerik Dagilimi',
+          Text('İçerik Dağılımi',
             style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
           const SizedBox(height: 16),
           SizedBox(

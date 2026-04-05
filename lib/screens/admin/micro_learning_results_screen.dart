@@ -333,7 +333,7 @@ class _MicroLearningResultsScreenState extends ConsumerState<MicroLearningResult
     switch (status) {
       case 'completed':
         statusColor = ScadaColors.green;
-        statusText = 'Tamamlandi';
+        statusText = 'Tamamlandı';
         statusIcon = Icons.check_circle;
         break;
       case 'failed_retry':

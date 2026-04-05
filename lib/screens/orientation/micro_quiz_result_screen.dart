@@ -82,7 +82,7 @@ class MicroQuizResultScreen extends ConsumerWidget {
                   const Text('🎓', style: TextStyle(fontSize: 24)),
                   const SizedBox(width: 10),
                   Expanded(
-                    child: Text('Tum rota tamamlandi! Sertifikan hazir.',
+                    child: Text('Tum rota tamamlandı! Sertifikan hazir.',
                       style: TextStyle(fontSize: 14, color: ScadaColors.green, fontWeight: FontWeight.w600)),
                   ),
                 ]),

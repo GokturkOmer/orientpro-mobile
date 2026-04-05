@@ -134,7 +134,7 @@ class FormSubmission {
     switch (status) {
       case 'draft': return 'Taslak';
       case 'submitted': return 'Gonderildi';
-      case 'approved': return 'Onaylandi';
+      case 'approved': return 'Onaylandı';
       case 'rejected': return 'Reddedildi';
       default: return status;
     }

@@ -84,7 +84,7 @@ class CertificateScreen extends ConsumerWidget {
                   const SizedBox(height: 16),
                   Container(width: 40, height: 1, color: context.scada.border),
                   const SizedBox(height: 16),
-                  Text('Bu belge ile onaylanir ki', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
+                  Text('Bu belge ile onaylanır ki', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
                   const SizedBox(height: 12),
                   Text(
                     userName,
@@ -93,7 +93,7 @@ class CertificateScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'aşağıdaki eğitim rotasini başarıyla tamamlamistir',
+                    'aşağıdaki eğitim rotasını başarıyla tamamlamistir',
                     style: TextStyle(fontSize: 11, color: context.scada.textSecondary),
                     textAlign: TextAlign.center,
                   ),

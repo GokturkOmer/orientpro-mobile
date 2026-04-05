@@ -351,7 +351,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),
-            child: const Text('Odemeye Gec'),
+            child: const Text('Ödemeye Gec'),
           ),
         ],
       ),
@@ -416,12 +416,12 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
           await launchUrl(uri, mode: LaunchMode.externalApplication);
         }
       } else {
-        setState(() { _isLoading = false; _error = 'Odeme formu oluşturulamadı'; });
+        setState(() { _isLoading = false; _error = 'Ödeme formu oluşturulamadı'; });
       }
     } on DioException catch (e) {
       setState(() { _isLoading = false; _error = ErrorHelper.getMessage(e); });
     } catch (e) {
-      setState(() { _isLoading = false; _error = 'Odeme baslatilamadi'; });
+      setState(() { _isLoading = false; _error = 'Ödeme baslatilamadi'; });
     }
   }
 
@@ -435,7 +435,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
         title: Row(children: [
           const Icon(Icons.payment, color: ScadaColors.green, size: 20),
           const SizedBox(width: 8),
-          Text('Odeme', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+          Text('Ödeme', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
           const Spacer(),
           IconButton(icon: const Icon(Icons.close, size: 20), onPressed: () {
             Navigator.pop(ctx);
@@ -446,19 +446,19 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
           width: double.maxFinite,
           height: 400,
           child: kIsWeb
-            ? const Center(child: Text('Odeme sayfasi tarayicinizda acilacak'))
+            ? const Center(child: Text('Ödeme sayfasi tarayicinizda acilacak'))
             : SingleChildScrollView(
                 child: Column(children: [
                   const Icon(Icons.open_in_browser, size: 48, color: ScadaColors.cyan),
                   const SizedBox(height: 16),
                   Text(
-                    'Odeme formu hazir. Tarayicinizda aciliyor...',
+                    'Ödeme formu hazir. Tarayicinizda aciliyor...',
                     style: TextStyle(fontSize: 14, color: context.scada.textSecondary),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Odeme tamamlandiktan sonra bu sayfaya donun ve yenileyin.',
+                    'Ödeme tamamlandıktan sonra bu sayfaya dönün ve yenileyin.',
                     style: TextStyle(fontSize: 12, color: context.scada.textDim),
                     textAlign: TextAlign.center,
                   ),
@@ -472,7 +472,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
               _loadData();
             },
             style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.cyan),
-            child: const Text('Odeme Tamamlandi — Yenile'),
+            child: const Text('Ödeme Tamamlandı — Yenile'),
           ),
         ],
       ),

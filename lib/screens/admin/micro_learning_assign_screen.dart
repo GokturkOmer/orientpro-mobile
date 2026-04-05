@@ -217,7 +217,7 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
 
         const SizedBox(height: 16),
 
-        // Moduller
+        // Modüller
         if (_selectedRouteId != null && training.selectedRoute != null) ...[
           Text('Modüller', style: TextStyle(fontSize: 12, color: context.scada.textDim)),
           const SizedBox(height: 6),

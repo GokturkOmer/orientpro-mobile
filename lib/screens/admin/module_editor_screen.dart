@@ -7,7 +7,7 @@
 //   4. _buildContentSection()   (satir ~1304-1789)  — içerik yonetimi
 //   5. _buildContentCard()      (satir ~1790-2236)  — tekil içerik karti + PDF detay dialog
 //   6. RAG Tab Widget'lari      (satir ~2237-2413)  — classification, fulltext, chunks
-//   7. Quiz Section             (satir ~2414-2537)  — quiz listesi ve quiz karti
+//   7. Quiz Section             (satir ~2414-2537)  — quiz listesi ve quiz kartı
 //
 // NOT: Bu dosya buyuk (~2500 satir). RAG tab widget'lari ve quiz section
 // gelecekte ayri dosyalara cikarilabilir. State bagimliliklari nedeniyle

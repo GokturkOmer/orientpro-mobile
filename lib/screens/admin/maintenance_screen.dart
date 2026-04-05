@@ -318,7 +318,7 @@ class _MaintenanceScreenState extends ConsumerState<MaintenanceScreen> {
       final result = response.data is Map ? Map<String, dynamic>.from(response.data as Map) : <String, dynamic>{};
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(result['message'] ?? 'Tamamlandi'),
+          content: Text(result['message'] ?? 'Tamamlandı'),
           backgroundColor: result['success'] == true ? ScadaColors.green : ScadaColors.red,
         ));
       }
@@ -336,7 +336,7 @@ class _MaintenanceScreenState extends ConsumerState<MaintenanceScreen> {
       final result = response.data is Map ? Map<String, dynamic>.from(response.data as Map) : <String, dynamic>{};
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(result['message'] ?? 'Tamamlandi'),
+          content: Text(result['message'] ?? 'Tamamlandı'),
           backgroundColor: result['success'] == true ? ScadaColors.green : ScadaColors.red,
         ));
       }
@@ -354,7 +354,7 @@ class _MaintenanceScreenState extends ConsumerState<MaintenanceScreen> {
       final result = response.data is Map ? Map<String, dynamic>.from(response.data as Map) : <String, dynamic>{};
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Görevler tamamlandi: ${result.keys.join(", ")}'),
+          content: Text('Görevler tamamlandı: ${result.keys.join(", ")}'),
           backgroundColor: ScadaColors.green,
         ));
       }

@@ -88,7 +88,7 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
                     Row(children: [
                       Icon(Icons.menu_book, size: 14, color: context.scada.textDim),
                       const SizedBox(width: 6),
-                      Text('MODULLER (${route.modules?.length ?? 0})', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
+                      Text('MODÜLLER (${route.modules?.length ?? 0})', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
                     ]),
                     const SizedBox(height: 12),
 
@@ -154,7 +154,7 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
       case _ModuleStatus.completed:
         statusColor = ScadaColors.green;
         statusIcon = Icons.check_circle;
-        statusText = 'Tamamlandi';
+        statusText = 'Tamamlandı';
       case _ModuleStatus.inProgress:
         statusColor = ScadaColors.orange;
         statusIcon = Icons.play_circle;
