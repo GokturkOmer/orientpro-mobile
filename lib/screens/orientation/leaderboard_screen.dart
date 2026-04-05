@@ -125,7 +125,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
             border: Border.all(color: color.withValues(alpha: 0.4)),
           ),
           child: Center(child: Text(
-            entry.userName.isNotEmpty ? entry.userName[0].toTurkishUpperCase() : '?',
+            entry.userName.isNotEmpty ? turkishUpperCase(entry.userName[0]) : '?',
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: color),
           )),
         ),
@@ -189,7 +189,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
             borderRadius: BorderRadius.circular(16),
           ),
           child: Center(child: Text(
-            entry.userName.isNotEmpty ? entry.userName[0].toTurkishUpperCase() : '?',
+            entry.userName.isNotEmpty ? turkishUpperCase(entry.userName[0]) : '?',
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: progressColor),
           )),
         ),

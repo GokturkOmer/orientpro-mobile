@@ -83,7 +83,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           radius: 30,
                           backgroundColor: ScadaColors.orange.withValues(alpha: 0.15),
                           child: Text(
-                            (profile.fullName ?? '?')[0].toTurkishUpperCase(),
+                            turkishUpperCase((profile.fullName ?? '?')[0]),
                             style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: ScadaColors.orange),
                           ),
                         ),

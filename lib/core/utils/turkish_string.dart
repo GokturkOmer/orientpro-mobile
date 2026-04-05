@@ -5,6 +5,14 @@
 /// Bu extension SADECE kullanıcıya gorunen metin ve arama/filtreleme
 /// işlemleri için kullanilir. Güvenlik fonksiyonlari (token, hash,
 /// email karsilastirma) KULLANMAMALIDIR.
+/// Top-level fonksiyon — extension resolve sorunlarinda kullanilir.
+String turkishUpperCase(String s) =>
+    s.replaceAll('\u0131', 'I').replaceAll('i', '\u0130').toUpperCase();
+
+/// Top-level fonksiyon — extension resolve sorunlarinda kullanilir.
+String turkishLowerCase(String s) =>
+    s.replaceAll('\u0130', 'i').replaceAll('I', '\u0131').toLowerCase();
+
 extension TurkishString on String {
   /// Turkce kurallara uygun kucuk harfe cevir.
   /// I -> ı, İ -> i (standart toLowerCase geri kalani halleder).

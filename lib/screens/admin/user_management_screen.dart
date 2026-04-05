@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/admin_provider.dart';
 import '../../core/theme/app_theme.dart';
-// ignore: unused_import
 import '../../core/utils/turkish_string.dart';
 
 class UserManagementScreen extends ConsumerStatefulWidget {
@@ -101,7 +100,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
               ),
               child: Center(
                 child: Text(
-                  user.fullName.isNotEmpty ? user.fullName[0].toTurkishUpperCase() : '?',
+                  user.fullName.isNotEmpty ? turkishUpperCase(user.fullName[0]) : '?',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: roleColor),
                 ),
               ),

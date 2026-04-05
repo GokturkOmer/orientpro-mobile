@@ -294,7 +294,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
               borderRadius: BorderRadius.circular(18),
             ),
             child: Center(child: Text(
-              member.userName.isNotEmpty ? member.userName[0].toTurkishUpperCase() : '?',
+              member.userName.isNotEmpty ? turkishUpperCase(member.userName[0]) : '?',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: progressColor),
             )),
           ),

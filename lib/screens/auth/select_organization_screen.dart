@@ -117,7 +117,7 @@ class _SelectOrganizationScreenState extends ConsumerState<SelectOrganizationScr
                             ),
                             child: Center(
                               child: Text(
-                                org.name.isNotEmpty ? org.name[0].toTurkishUpperCase() : '?',
+                                org.name.isNotEmpty ? turkishUpperCase(org.name[0]) : '?',
                                 style: const TextStyle(
                                   fontSize: 22, fontWeight: FontWeight.bold, color: ScadaColors.cyan,
                                 ),
