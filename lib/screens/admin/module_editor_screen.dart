@@ -729,18 +729,18 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
     final departmentLabels = {
       'teknik': 'Teknik Servis',
       'hk': 'Kat Hizmetleri',
-      'yonetim': 'Yonetim',
-      'on_buro': 'On Buro',
+      'yonetim': 'Yönetim',
+      'on_buro': 'Ön Büro',
       'spa': 'Spa & Wellness',
-      'fb': 'Yiyecek Icecek',
-      'guvenlik': 'Guvenlik',
+      'fb': 'Yiyecek İçecek',
+      'guvenlik': 'Güvenlik',
       'genel': 'Genel',
     };
 
     final difficultyLabels = {
-      'beginner': 'Baslangic',
+      'beginner': 'Başlangıç',
       'intermediate': 'Orta',
-      'advanced': 'Ileri',
+      'advanced': 'İleri',
     };
 
     showDialog(
@@ -2136,12 +2136,12 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
     final chunkCount = content.metadataJson?['chunk_count'] ?? 0;
 
     final departmentLabels = {
-      'teknik': 'Teknik Servis', 'hk': 'Kat Hizmetleri', 'yonetim': 'Yonetim',
-      'on_buro': 'On Buro', 'spa': 'Spa & Wellness', 'fb': 'Yiyecek Icecek',
-      'guvenlik': 'Guvenlik', 'genel': 'Genel',
+      'teknik': 'Teknik Servis', 'hk': 'Kat Hizmetleri', 'yonetim': 'Yönetim',
+      'on_buro': 'Ön Büro', 'spa': 'Spa & Wellness', 'fb': 'Yiyecek İçecek',
+      'guvenlik': 'Güvenlik', 'genel': 'Genel',
     };
     final difficultyLabels = {
-      'beginner': 'Baslangic', 'intermediate': 'Orta', 'advanced': 'Ileri',
+      'beginner': 'Başlangıç', 'intermediate': 'Orta', 'advanced': 'İleri',
     };
 
     // RAG içerik state

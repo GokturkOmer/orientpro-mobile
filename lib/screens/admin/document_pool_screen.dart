@@ -189,7 +189,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                           DropdownMenuItem(value: 'teknik', child: Text('Teknik Servis')),
                           DropdownMenuItem(value: 'hk', child: Text('Kat Hizmetleri')),
                           DropdownMenuItem(value: 'fb', child: Text('F&B')),
-                          DropdownMenuItem(value: 'on_buro', child: Text('On Buro')),
+                          DropdownMenuItem(value: 'on_buro', child: Text('Ön Büro')),
                           DropdownMenuItem(value: 'güvenlik', child: Text('Güvenlik')),
                           DropdownMenuItem(value: 'kurumsal', child: Text('Kurumsal (Tum çalışanlar)')),
                         ],
@@ -434,7 +434,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
       'teknik': 'Teknik Servis',
       'hk': 'Kat Hizmetleri',
       'yönetim': 'Yönetim',
-      'on_buro': 'On Buro',
+      'on_buro': 'Ön Büro',
       'spa': 'SPA & Wellness',
       'fb': 'Yiyecek İçecek',
       'güvenlik': 'Güvenlik',
@@ -446,7 +446,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
 
   String _difficultyLabel(String key) {
     const map = {
-      'beginner': 'Baslangic',
+      'beginner': 'Başlangıç',
       'intermediate': 'Orta',
       'advanced': 'İleri',
     };
@@ -540,7 +540,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                   _buildFilterChip('teknik', 'Teknik'),
                   _buildFilterChip('hk', 'Kat Hizm.'),
                   _buildFilterChip('fb', 'F&B'),
-                  _buildFilterChip('on_buro', 'On Buro'),
+                  _buildFilterChip('on_buro', 'Ön Büro'),
                   _buildFilterChip('güvenlik', 'Güvenlik'),
                   _buildFilterChip('genel', 'Genel'),
                   _buildFilterChip('kurumsal', 'Kurumsal'),

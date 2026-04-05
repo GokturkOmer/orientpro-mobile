@@ -196,7 +196,7 @@ class _ShiftCardState extends ConsumerState<_ShiftCard> {
           child: Column(children: [
             // Mesai
             Row(children: [
-              Expanded(child: _timeRow('Baslangic', _startTime, (t) => _startTime = t, color)),
+              Expanded(child: _timeRow('Başlangıç', _startTime, (t) => _startTime = t, color)),
               const SizedBox(width: 12),
               Expanded(child: _timeRow('Bitis', _endTime, (t) => _endTime = t, color)),
             ]),

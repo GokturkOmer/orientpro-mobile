@@ -50,8 +50,8 @@ class _DocumentPickerDialogState extends ConsumerState<DocumentPickerDialog> {
     ('teknik', 'Teknik'),
     ('hk', 'Kat Hizm.'),
     ('fb', 'F&B'),
-    ('on_buro', 'On Buro'),
-    ('guvenlik', 'Guvenlik'),
+    ('on_buro', 'Ön Büro'),
+    ('guvenlik', 'Güvenlik'),
     ('genel', 'Genel'),
     ('kurumsal', 'Kurumsal'),
   ];

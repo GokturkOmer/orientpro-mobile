@@ -17,23 +17,23 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   static const _pages = [
     _OnboardingPage(
       icon: Icons.school,
-      title: 'OrientPro\'ya Hosgeldiniz',
+      title: 'OrientPro\'ya Hoşgeldiniz',
       description: 'Organizasyonunuzun eğitim ve oryantasyon süreçlerini\n'
-          'tek bir platformdan yonetin.',
+          'tek bir platformdan yönetin.',
       color: ScadaColors.cyan,
     ),
     _OnboardingPage(
       icon: Icons.route,
-      title: 'Eğitim Rotalari',
-      description: 'Departmaniniza ozel eğitim rotalari ile\n'
-          'adim adim öğrenme sürecini takip edin.',
+      title: 'Eğitim Rotaları',
+      description: 'Departmanınıza özel eğitim rotaları ile\n'
+          'adım adım öğrenme sürecini takip edin.',
       color: ScadaColors.green,
     ),
     _OnboardingPage(
       icon: Icons.quiz,
       title: 'Quiz & Değerlendirme',
       description: 'Öğrendiklerinizi quiz\'ler ile test edin.\n'
-          'AI destekli sorularla bilginizi olcun.',
+          'AI destekli sorularla bilginizi ölçün.',
       color: ScadaColors.amber,
     ),
     _OnboardingPage(

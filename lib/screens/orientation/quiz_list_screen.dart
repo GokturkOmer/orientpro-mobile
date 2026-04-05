@@ -401,10 +401,10 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
   final List<Map<String, String>> _departments = [
     {'code': 'teknik', 'name': 'Teknik Servis'},
     {'code': 'hk', 'name': 'Kat Hizmetleri'},
-    {'code': 'on_buro', 'name': 'On Buro'},
+    {'code': 'on_buro', 'name': 'Ön Büro'},
     {'code': 'fb', 'name': 'Yiyecek & Icecek'},
     {'code': 'spa', 'name': 'SPA & Wellness'},
-    {'code': 'guvenlik', 'name': 'Guvenlik'},
+    {'code': 'guvenlik', 'name': 'Güvenlik'},
     {'code': 'genel', 'name': 'Genel'},
   ];
 
@@ -653,7 +653,7 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
           Row(children: [
             Expanded(
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text('Soru Sayisi', style: TextStyle(fontSize: 12, color: context.scada.textSecondary, fontWeight: FontWeight.w600)),
+                Text('Soru Sayısı', style: TextStyle(fontSize: 12, color: context.scada.textSecondary, fontWeight: FontWeight.w600)),
                 const SizedBox(height: 6),
                 DropdownButtonFormField<int>(
                   initialValue: _questionCount,

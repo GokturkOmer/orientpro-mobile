@@ -49,7 +49,7 @@ class TrainingRoute {
 
   String get difficultyText {
     switch (difficulty) {
-      case 'beginner': return 'Baslangic';
+      case 'beginner': return 'Başlangıç';
       case 'intermediate': return 'Orta';
       case 'advanced': return 'İleri';
       default: return difficulty;

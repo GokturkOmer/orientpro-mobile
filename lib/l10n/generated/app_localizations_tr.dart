@@ -52,7 +52,7 @@ class STr extends S {
       'Birden fazla tesise uyesiniz.\nDevam etmek icin bir tesis secin.';
 
   @override
-  String get orgSelectDefault => 'Varsayılan';
+  String get orgSelectDefault => 'Varsayilan';
 
   @override
   String get orgSelectOtherAccount => 'Farkli Hesapla Giriş Yap';
@@ -61,7 +61,7 @@ class STr extends S {
   String get orgSelectMember => 'Uye';
 
   @override
-  String get moduleSelectionTitle => 'Modül Secimi';
+  String get moduleSelectionTitle => 'Modul Secimi';
 
   @override
   String get moduleOrientation => 'Oryantasyon';
@@ -71,7 +71,7 @@ class STr extends S {
 
   @override
   String get moduleOrientationDesc =>
-      'Personel oryantasyon süreçleri,\neğitim rotaları ve takip';
+      'Personel oryantasyon süreçleri,\neğitim rotalari ve takip';
 
   @override
   String get moduleAdmin => 'Yönetim';
@@ -119,11 +119,11 @@ class STr extends S {
   String get orientationQuizSuccess => 'Quiz Başarı';
 
   @override
-  String get orientationPendingTasks => 'BEKLEYEN İŞLEMLER';
+  String get orientationPendingTasks => 'BEKLEYEN ISLEMLER';
 
   @override
   String orientationPendingApproval(int count) {
-    return '$count modül onay bekliyor';
+    return '$count modul onay bekliyor';
   }
 
   @override
@@ -156,14 +156,14 @@ class STr extends S {
   }
 
   @override
-  String get orientationModules => 'MODÜLLER';
+  String get orientationModules => 'MODULLER';
 
   @override
-  String get navTrainingRoutes => 'Eğitim Rotaları';
+  String get navTrainingRoutes => 'Eğitim Rotalari';
 
   @override
   String get navTrainingRoutesSub =>
-      'Departman bazli eğitim rotaları ve içerikler';
+      'Departman bazli eğitim rotalari ve içerikler';
 
   @override
   String get navQuizzes => 'Quiz & Sinavlar';
@@ -205,7 +205,7 @@ class STr extends S {
   String get navShifts => 'Vardiya & Görevler';
 
   @override
-  String get navShiftsSub => 'Haftalık vardiya plani ve görev takibi';
+  String get navShiftsSub => 'Haftalik vardiya plani ve görev takibi';
 
   @override
   String get viewAll => 'Tümünu Gor';
@@ -311,7 +311,7 @@ class STr extends S {
       'Gecerli bir telefon numarasi girin (05xx xxx xxxx)';
 
   @override
-  String get profileSectionContact => 'İLETİŞİM BİLGİLERİ';
+  String get profileSectionContact => 'ILETISIM BILGILERI';
 
   @override
   String get profileEmail => 'E-posta';
@@ -323,7 +323,7 @@ class STr extends S {
   String get profileAddress => 'Adres';
 
   @override
-  String get profileSectionEmergency => 'ACIL DURUM KİŞİ';
+  String get profileSectionEmergency => 'ACIL DURUM KISI';
 
   @override
   String get profileFullName => 'Ad Soyad';
@@ -332,7 +332,7 @@ class STr extends S {
   String get profileRelation => 'Yakinlik';
 
   @override
-  String get profileSectionPersonal => 'KİŞİSEL BİLGİLER';
+  String get profileSectionPersonal => 'KISISEL BILGILER';
 
   @override
   String get profileBirthDate => 'Dogum Tarihi';
@@ -371,7 +371,7 @@ class STr extends S {
   String get profileEditBloodType => 'Kan Grubu';
 
   @override
-  String get profileEditEmergencyName => 'Acil Durum Kişi Adi';
+  String get profileEditEmergencyName => 'Acil Durum Kisi Adi';
 
   @override
   String get profileEditEmergencyPhone => 'Acil Durum Telefon (05xx xxx xxxx)';
@@ -395,7 +395,7 @@ class STr extends S {
   String get profileRelationOther => 'Diger';
 
   @override
-  String get profileEditAbout => 'Hakkında';
+  String get profileEditAbout => 'Hakkinda';
 
   @override
   String get profilePhoneInvalid => 'Lütfen gecerli telefon numaralari girin';
@@ -428,7 +428,7 @@ class STr extends S {
 
   @override
   String announcementReadCount(int count) {
-    return '$count kişi okudu';
+    return '$count kisi okudu';
   }
 
   @override
@@ -459,7 +459,7 @@ class STr extends S {
   String get announcementFieldContent => 'İçerik';
 
   @override
-  String get announcementFieldPriority => 'Öncelik';
+  String get announcementFieldPriority => 'Oncelik';
 
   @override
   String get announcementPriorityNormal => 'Normal';
@@ -590,7 +590,7 @@ class STr extends S {
   String get notificationCategory => 'Kategori';
 
   @override
-  String get notificationPriority => 'Öncelik';
+  String get notificationPriority => 'Oncelik';
 
   @override
   String get quizTitle => 'Quiz';
@@ -643,7 +643,7 @@ class STr extends S {
   String get contentManagerTreeBack => 'Agaca don';
 
   @override
-  String get contentManagerTree => 'İçerik Ağacı';
+  String get contentManagerTree => 'İçerik Agaci';
 
   @override
   String get routeEditorEdit => 'Rotayi Düzenle';
@@ -676,7 +676,7 @@ class STr extends S {
 
   @override
   String get ackStatement =>
-      'Bu eğitimi okudum, anladım ve uygulamayi taahhut ediyorum.';
+      'Bu eğitimi okudum, anladim ve uygulamayi taahhut ediyorum.';
 
   @override
   String get ackCheckbox => 'Yukaridaki metni okudum ve kabul ediyorum';
@@ -691,7 +691,7 @@ class STr extends S {
   String get scadaThresholds => 'Esik Degerleri';
 
   @override
-  String get scadaNoThreshold => 'Esik tanımlanmamış';
+  String get scadaNoThreshold => 'Esik tanimlanmamis';
 
   @override
   String get scadaAllNormal => 'Tum sistemler normal calisiyor';
@@ -743,7 +743,7 @@ class STr extends S {
 
   @override
   String get featureGateUpgradeMessage =>
-      'Bu özellige erismek icin planin yukseltilmesi gerekiyor.';
+      'Bu ozellige erismek icin planin yukseltilmesi gerekiyor.';
 
   @override
   String get featureGateContactAdmin =>
@@ -789,7 +789,7 @@ class STr extends S {
   String get certificateId => 'Sertifika No';
 
   @override
-  String get certificateDownload => 'PDF İndir';
+  String get certificateDownload => 'PDF Indir';
 
   @override
   String get certificateDownloadError => 'PDF indirilemedi';
@@ -807,7 +807,7 @@ class STr extends S {
   String get badgeEarned => 'Kazanildi';
 
   @override
-  String get badgeFirstStep => 'Ilk Adım';
+  String get badgeFirstStep => 'Ilk Adim';
 
   @override
   String get badgeFirstStepDesc => 'Ilk eğitim modulunu tamamla';
@@ -835,7 +835,7 @@ class STr extends S {
   String get badgeTeamPlayer => 'Takim Oyuncusu';
 
   @override
-  String get badgeTeamPlayerDesc => 'Bir rotadaki tum modülleri tamamla';
+  String get badgeTeamPlayerDesc => 'Bir rotadaki tum modulleri tamamla';
 
   @override
   String get badgeBookworm => 'Bilgi Kurdu';
@@ -868,7 +868,7 @@ class STr extends S {
   String get approvalReject => 'Reddet';
 
   @override
-  String get approvalRejectTitle => 'İçeriği Reddet';
+  String get approvalRejectTitle => 'Icerigi Reddet';
 
   @override
   String get approvalRejectReason => 'Red sebebi (opsiyonel)';
@@ -889,7 +889,7 @@ class STr extends S {
   String get themeLight => 'Aydinlik Tema';
 
   @override
-  String get progressReportDownload => 'Rapor İndir';
+  String get progressReportDownload => 'Rapor Indir';
 
   @override
   String get progressReportError => 'Rapor indirilemedi';

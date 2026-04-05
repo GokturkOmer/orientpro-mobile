@@ -687,7 +687,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
       'teknik': 'Teknik Servis',
       'hk': 'Kat Hizmetleri',
       'yönetim': 'Yönetim',
-      'on_buro': 'On Buro',
+      'on_buro': 'Ön Büro',
       'spa': 'Spa & Wellness',
       'fb': 'Yiyecek İçecek',
       'güvenlik': 'Güvenlik',

@@ -125,7 +125,7 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          _selectedDeptName ?? 'Eğitim Rotalari',
+          _selectedDeptName ?? 'Eğitim Rotaları',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary),
         ),
       ),
