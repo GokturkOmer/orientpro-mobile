@@ -20,12 +20,12 @@ class _AiAssistantScreenState extends ConsumerState<AiAssistantScreen> {
   static const _quickActions = [
     _QuickAction(icon: Icons.school, label: 'ISG nedir?', query: 'ISG temel eğitimi hakkında kisaca bilgi ver'),
     _QuickAction(icon: Icons.security, label: 'KVKK kuralları', query: 'Otel personeli için KVKK kuralları nelerdir?'),
-    _QuickAction(icon: Icons.local_fire_department, label: 'Yangin prosedürü', query: 'Yanginda yapılması gerekenleri adim adim anlat'),
+    _QuickAction(icon: Icons.local_fire_department, label: 'Yangin prosedürü', query: 'Yanginda yapılması gerekenleri adım adım anlat'),
     _QuickAction(icon: Icons.healing, label: 'Ilk yardim', query: 'Otel ortaminda ilk yardim temel prensipleri ve CPR prosedürünu anlat'),
-    _QuickAction(icon: Icons.cleaning_services, label: 'Oda temizligi', query: 'Check-out oda temizlik prosedürünu anlat'),
+    _QuickAction(icon: Icons.cleaning_services, label: 'Oda temizliği', query: 'Check-out oda temizlik prosedürünu anlat'),
     _QuickAction(icon: Icons.restaurant, label: 'HACCP kuralları', query: 'HACCP ve gida güvenliği temel kuralları nelerdir?'),
     _QuickAction(icon: Icons.engineering, label: 'SCADA alarmlar', query: 'SCADA alarm seviyeleri ve mudahale prosedürü nedir?'),
-    _QuickAction(icon: Icons.qr_code, label: 'QR Tur nedir?', query: 'QR kod tabanlı tur sistemi nasıl çalışır? Guzergahlar ve kontrol noktaları nelerdir?'),
+    _QuickAction(icon: Icons.qr_code, label: 'QR Tur nedir?', query: 'QR kod tabanlı tur sistemi nasıl çalışır? Güzergahlar ve kontrol noktaları nelerdir?'),
   ];
 
   @override

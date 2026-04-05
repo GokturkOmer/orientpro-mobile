@@ -46,12 +46,12 @@ class HelpScreen extends ConsumerWidget {
       icon: Icons.quiz,
     ),
     _FaqItem(
-      question: 'Departman bazlı raporlari nasıl görebilirim?',
+      question: 'Departman bazlı raporları nasıl görebilirim?',
       answer: 'Admin paneli > Analitik ekraninda departman kırılımli tamamlanma oranlari görünür. Excel Raporu İndir butonu ile detaylı rapor alabilirsiniz.',
       icon: Icons.analytics,
     ),
     _FaqItem(
-      question: 'İçerik onay akisi nasıl çalışır?',
+      question: 'İçerik onay akişi nasıl çalışır?',
       answer: 'İçerik editörleri taslak oluşturur, admin İçerik Onayları ekranından onaylar veya reddeder. Onaylanan içerikler çalışanlara görünür hale gelir.',
       icon: Icons.fact_check,
     ),
@@ -70,12 +70,12 @@ class HelpScreen extends ConsumerWidget {
   static const _quickGuide = [
     _GuideStep(
       title: '1. Departmanlari Oluşturun',
-      description: 'Sektor sablonlari ile otomatik departman oluşturabilir veya manuel ekleyebilirsiniz.',
+      description: 'Sektor şablonları ile otomatik departman oluşturabilir veya manuel ekleyebilirsiniz.',
       icon: Icons.business,
       color: ScadaColors.cyan,
     ),
     _GuideStep(
-      title: '2. Eğitim Icerigi Yükleyin',
+      title: '2. Eğitim İçeriği Yükleyin',
       description: 'PDF dokümanlari yükleyin, modüller oluşturun ve eğitim rotalarını tanımlayın.',
       icon: Icons.upload_file,
       color: ScadaColors.green,
@@ -150,7 +150,7 @@ class HelpScreen extends ConsumerWidget {
                 Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text('Teknik Destek', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
                   const SizedBox(height: 4),
-                  Text('Sorun yasadiginizda bize ulasin', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
+                  Text('Sorun yasadiginizda bize ulaşın', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
                 ])),
               ]),
               const SizedBox(height: 12),

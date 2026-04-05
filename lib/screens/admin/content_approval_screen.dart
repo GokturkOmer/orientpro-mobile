@@ -16,7 +16,7 @@ class _ApprovalItem {
   factory _ApprovalItem.fromJson(Map<String, dynamic> json) {
     return _ApprovalItem(
       id: json['id'] ?? '',
-      title: json['title'] ?? 'Isimsiz İçerik',
+      title: json['title'] ?? 'İsimsiz İçerik',
       author: json['author_name'] ?? json['author'] ?? 'Bilinmeyen',
       createdAt: json['created_at'] ?? '',
       type: json['content_type'] ?? json['type'],
@@ -102,7 +102,7 @@ class _ContentApprovalScreenState extends ConsumerState<ContentApprovalScreen> {
           borderRadius: BorderRadius.circular(16),
           side: BorderSide(color: context.scada.borderBright),
         ),
-        title: Text('Icerigi Reddet', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
+        title: Text('İçeriği Reddet', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -96,7 +96,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
     final sub = _subscription;
     final isTrial = sub?['is_trial'] == true;
     final status = sub?['status'] ?? 'free';
-    final planName = sub?['plan_display_name'] ?? 'Ucretsiz';
+    final planName = sub?['plan_display_name'] ?? 'Ücretsiz';
     final periodEnd = sub?['current_period_end'];
 
     Color statusColor;
@@ -106,7 +106,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
     switch (status) {
       case 'trial':
         statusColor = ScadaColors.orange;
-        statusText = 'Deneme Suresi';
+        statusText = 'Deneme Süresi';
         statusIcon = Icons.hourglass_top;
       case 'active':
         statusColor = ScadaColors.green;
@@ -118,11 +118,11 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
         statusIcon = Icons.cancel;
       case 'expired':
         statusColor = ScadaColors.red;
-        statusText = 'Suresi Doldu';
+        statusText = 'Süresi Doldu';
         statusIcon = Icons.timer_off;
       default:
         statusColor = context.scada.textDim;
-        statusText = 'Ucretsiz';
+        statusText = 'Ücretsiz';
         statusIcon = Icons.card_giftcard;
     }
 
@@ -179,7 +179,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
           color: isExpiring ? ScadaColors.red : ScadaColors.orange),
         const SizedBox(width: 8),
         Text(
-          remaining > 0 ? '$remaining gun kaldi' : 'Deneme suresi doldu',
+          remaining > 0 ? '$remaining gun kaldi' : 'Deneme süresi doldu',
           style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600,
             color: isExpiring ? ScadaColors.red : ScadaColors.orange),
         ),
@@ -238,7 +238,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
               Text('${priceMonthly.toStringAsFixed(0)} TL/ay  •  ${priceYearly.toStringAsFixed(0)} TL/yil',
                 style: TextStyle(fontSize: 14, color: context.scada.textSecondary))
             else
-              const Text('Ucretsiz', style: TextStyle(fontSize: 14, color: ScadaColors.green)),
+              const Text('Ücretsiz', style: TextStyle(fontSize: 14, color: ScadaColors.green)),
           ])),
         ]),
         if (features.isNotEmpty) ...[
@@ -269,7 +269,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
 
   Widget _buildInvoicesSection() {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text('FATURA GECMISI',
+      Text('FATURA GEÇMİŞİ',
         style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600,
           color: context.scada.textDim, letterSpacing: 1)),
       const SizedBox(height: 12),
@@ -305,7 +305,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
           // Fiyat secimi
           Row(children: [
             Expanded(child: _buildPeriodOption(
-              'Aylik',
+              'Aylık',
               '${(plan['price_monthly'] ?? 0).toStringAsFixed(0)} TL/ay',
               selectedPeriod == 'monthly',
               () => setDialogState(() => selectedPeriod = 'monthly'),

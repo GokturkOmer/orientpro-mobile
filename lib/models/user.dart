@@ -33,9 +33,9 @@ class User {
       'teknik_mudur': 'Teknik Mudur',
       'resepsiyon_mudur': 'Resepsiyon Muduru',
       'hk_mudur': 'HK Muduru',
-      'guvenlik_mudur': 'Guvenlik Muduru',
+      'güvenlik_mudur': 'Güvenlik Muduru',
       'mutfak_mudur': 'Mutfak Muduru',
-      'fb_mudur': 'Yiyecek Icecek Muduru',
+      'fb_mudur': 'Yiyecek İçecek Muduru',
       'spa_mudur': 'SPA Muduru',
       'elektrik_sefi': 'Elektrik Sefi',
       'mekanik_sefi': 'Mekanik Sefi',
@@ -46,9 +46,9 @@ class User {
       'teknik_staff': 'Teknik Personel',
       'hk_staff': 'HK Personeli',
       'resepsiyon_staff': 'Resepsiyon Personeli',
-      'guvenlik_staff': 'Guvenlik Personeli',
+      'güvenlik_staff': 'Güvenlik Personeli',
       'mutfak_staff': 'Mutfak Personeli',
-      'fb_staff': 'Yiyecek Icecek Personeli',
+      'fb_staff': 'Yiyecek İçecek Personeli',
       'spa_staff': 'SPA Personeli',
     };
     return map[role] ?? role;
@@ -59,9 +59,9 @@ class User {
       'hk': 'Kat Hizmetleri',
       'yönetim': 'Yönetim',
       'on_buro': 'Resepsiyon',
-      'guvenlik': 'Guvenlik',
+      'güvenlik': 'Güvenlik',
       'mutfak': 'Mutfak',
-      'fb': 'Yiyecek & Icecek',
+      'fb': 'Yiyecek & İçecek',
       'spa': 'SPA & Wellness',
     };
     return map[department] ?? department ?? '';

@@ -193,7 +193,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 _buildActionCard(
                   icon: Icons.people,
                   title: 'Üyelik Yönetimi',
-                  subtitle: 'Kullanıcı hesaplari ve durumlar',
+                  subtitle: 'Kullanıcı hesapları ve durumlar',
                   color: ScadaColors.cyan,
                   onTap: () => Navigator.pushNamed(context, '/admin/users'),
                 ),
@@ -223,7 +223,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 const SizedBox(height: 10),
                 _buildActionCard(
                   icon: Icons.analytics,
-                  title: 'Kullanim Analitigi',
+                  title: 'Kullanim Analitiği',
                   subtitle: 'Kullanıcı aktiviteleri ve trendler',
                   color: ScadaColors.green,
                   onTap: () => Navigator.pushNamed(context, '/admin/analytics'),
@@ -232,7 +232,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 _buildActionCard(
                   icon: Icons.assessment,
                   title: 'Eğitim Sonuçlari',
-                  subtitle: 'Quiz sonuçlari ve ilerleme raporlari',
+                  subtitle: 'Quiz sonuçlari ve ilerleme raporları',
                   color: ScadaColors.green,
                   onTap: () => Navigator.pushNamed(context, '/admin/micro-learning-results'),
                 ),
@@ -270,15 +270,15 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 const SizedBox(height: 8),
                 _buildActionCard(
                   icon: Icons.category,
-                  title: 'Sektor Sablonlari',
-                  subtitle: 'Hazir eğitim sablonlari',
+                  title: 'Sektor Şablonları',
+                  subtitle: 'Hazir eğitim şablonları',
                   color: ScadaColors.amber,
                   onTap: () => Navigator.pushNamed(context, '/admin/templates'),
                 ),
                 const SizedBox(height: 8),
                 _buildActionCard(
                   icon: Icons.schedule,
-                  title: 'Vardiya Ayarlari',
+                  title: 'Vardiya Ayarları',
                   subtitle: 'Vardiya ve mola saatleri',
                   color: ScadaColors.amber,
                   onTap: () => Navigator.pushNamed(context, '/admin/shift-schedules'),
@@ -287,7 +287,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 _buildActionCard(
                   icon: Icons.help_outline,
                   title: 'Yardim & SSS',
-                  subtitle: 'Kullanim kilavuzu',
+                  subtitle: 'Kullanim kılavuzu',
                   color: ScadaColors.amber,
                   onTap: () => Navigator.pushNamed(context, '/admin/help'),
                 ),

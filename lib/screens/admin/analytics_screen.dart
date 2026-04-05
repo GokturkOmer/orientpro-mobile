@@ -123,7 +123,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
     return Scaffold(
       backgroundColor: context.scada.bg,
       appBar: const ScadaAppBar(
-        title: 'Kullanim Analitigi',
+        title: 'Kullanim Analitiği',
         titleIcon: Icons.analytics,
         titleIconColor: ScadaColors.purple,
       ),
@@ -294,7 +294,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
 
   Widget _buildChartsSection() {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const SectionHeader(icon: Icons.bar_chart, title: 'GRAFIKLER'),
+      const SectionHeader(icon: Icons.bar_chart, title: 'GRAFİKLER'),
       const SizedBox(height: 12),
 
       // Eğitim ozet bar chart
@@ -525,7 +525,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Row(children: [
                   Expanded(child: Text(dept['name'] as String, style: TextStyle(fontSize: 12, color: context.scada.textPrimary))),
-                  Text('${dept['member_count']} kisi', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
+                  Text('${dept['member_count']} kişi', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
                   const SizedBox(width: 8),
                   Text('%${avg.toStringAsFixed(0)}', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: color)),
                 ]),

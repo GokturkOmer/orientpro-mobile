@@ -111,7 +111,7 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
           backgroundColor: context.scada.card,
           title: Text('Drip Kartlari Oluştur', style: TextStyle(color: context.scada.textPrimary, fontSize: 15)),
           content: Column(mainAxisSize: MainAxisSize.min, children: [
-            Text('"${doc['title']}" dokümanindan mikro-öğrenme kartlari oluşturulacak.',
+            Text('"${doc['title']}" dokümanindan mikro-öğrenme kartları oluşturulacak.',
                 style: TextStyle(color: context.scada.textSecondary, fontSize: 12)),
             const SizedBox(height: 16),
             Text('Gun Sayısı', style: TextStyle(color: context.scada.textDim, fontSize: 11)),
@@ -141,7 +141,7 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
     // Modül secimi gerekli — once rota/modul sec
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Oncelikle bir rota ve modül seçin, ardından kartlar bu module oluşturulacak.'),
+        content: Text('Öncelikle bir rota ve modül seçin, ardından kartlar bu module oluşturulacak.'),
         backgroundColor: ScadaColors.cyan,
       ),
     );
@@ -421,7 +421,7 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
             child: Text(micro.error!, style: const TextStyle(color: ScadaColors.red, fontSize: 13)),
           ),
 
-        _buildSummaryCard('Modüller', '${selectedModules.length} modul',
+        _buildSummaryCard('Modüller', '${selectedModules.length} modül',
           selectedModules.map((m) => m.title).join(', '), Icons.school),
         const SizedBox(height: 8),
         _buildSummaryCard('Çalışanlar', '${selectedUsers.length} kisi',

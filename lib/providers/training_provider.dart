@@ -261,7 +261,7 @@ class TrainingNotifier extends Notifier<TrainingState> {
         final route = state.routes.where((r) => r.id == routeId).toList();
         map[m['id']] = ModuleInfo(
           id: m['id'],
-          title: m['title'] ?? 'Bilinmeyen Modul',
+          title: m['title'] ?? 'Bilinmeyen Modül',
           routeId: routeId,
           departmentId: route.isNotEmpty ? route.first.departmentId : '',
           moduleType: m['module_type'] ?? 'lesson',

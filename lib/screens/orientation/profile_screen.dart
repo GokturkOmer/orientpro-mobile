@@ -114,7 +114,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
                     // Contact info
                     const SizedBox(height: 16),
-                    const SectionHeader(title: 'İLETİŞİM BILGILERI', icon: Icons.contact_phone),
+                    const SectionHeader(title: 'İLETİŞİM BİLGİLERİ', icon: Icons.contact_phone),
                     const SizedBox(height: 8),
                     _buildInfoCard([
                       _buildInfoRow(Icons.email, 'E-posta', profile.email ?? '-'),
@@ -124,7 +124,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
                     // Emergency contact
                     const SizedBox(height: 16),
-                    const SectionHeader(title: 'ACIL DURUM KISI', icon: Icons.emergency),
+                    const SectionHeader(title: 'ACIL DURUM KİŞİ', icon: Icons.emergency),
                     const SizedBox(height: 8),
                     _buildInfoCard([
                       _buildInfoRow(Icons.person, 'Ad Soyad', profile.emergencyName ?? '-'),
@@ -134,7 +134,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
                     // Personal info
                     const SizedBox(height: 16),
-                    const SectionHeader(title: 'KISISEL BILGILER', icon: Icons.badge),
+                    const SectionHeader(title: 'KİŞİSEL BİLGİLER', icon: Icons.badge),
                     const SizedBox(height: 8),
                     _buildInfoCard([
                       _buildInfoRow(Icons.cake, 'Dogum Tarihi', profile.birthDate ?? '-'),
@@ -312,7 +312,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               const SizedBox(height: 8),
               TextFormField(
                 controller: emergencyNameCtrl,
-                decoration: const InputDecoration(labelText: 'Acil Durum Kisi Adi', isDense: true, contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
+                decoration: const InputDecoration(labelText: 'Acil Durum Kişi Adi', isDense: true, contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
                 style: TextStyle(fontSize: 12, color: context.scada.textPrimary),
               ),
               const SizedBox(height: 8),
@@ -335,7 +335,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               const SizedBox(height: 8),
               TextFormField(
                 controller: bioCtrl,
-                decoration: const InputDecoration(labelText: 'Hakkinda', isDense: true, contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
+                decoration: const InputDecoration(labelText: 'Hakkında', isDense: true, contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
                 maxLines: 3,
                 style: TextStyle(fontSize: 12, color: context.scada.textPrimary),
               ),

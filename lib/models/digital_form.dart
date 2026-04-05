@@ -80,7 +80,7 @@ class FormTemplate {
       case 'onboarding': return 'Ise Giriş';
       case 'health': return 'Saglik';
       case 'asset': return 'Zimmet';
-      case 'evaluation': return 'Degerlendirme';
+      case 'evaluation': return 'Değerlendirme';
       case 'checklist': return 'Checklist';
       default: return 'Diger';
     }

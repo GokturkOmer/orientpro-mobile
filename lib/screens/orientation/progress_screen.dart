@@ -359,7 +359,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
           Row(children: [
             Text('Genel Ilerleme', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
             const Spacer(),
-            Text('${stats.totalModules} modul', style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
+            Text('${stats.totalModules} modül', style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
           ]),
           const SizedBox(height: 16),
           Center(
@@ -548,7 +548,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
     switch (type) {
       case 'video': return 'Video';
       case 'practice': return 'Uygulama';
-      case 'assessment': return 'Degerlendirme';
+      case 'assessment': return 'Değerlendirme';
       default: return 'Ders';
     }
   }
@@ -640,7 +640,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
         const SizedBox(height: 12),
         Text('Henuz bir eğitim modülü baslatmadiniz', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
         const SizedBox(height: 4),
-        Text('Eğitim Rotalari\'ndan bir modül seçin', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
+        Text('Eğitim Rotaları\'ndan bir modül seçin', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
       ]),
     );
   }

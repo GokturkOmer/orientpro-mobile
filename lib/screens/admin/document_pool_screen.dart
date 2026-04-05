@@ -190,7 +190,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                           DropdownMenuItem(value: 'hk', child: Text('Kat Hizmetleri')),
                           DropdownMenuItem(value: 'fb', child: Text('F&B')),
                           DropdownMenuItem(value: 'on_buro', child: Text('On Buro')),
-                          DropdownMenuItem(value: 'guvenlik', child: Text('Guvenlik')),
+                          DropdownMenuItem(value: 'güvenlik', child: Text('Güvenlik')),
                           DropdownMenuItem(value: 'kurumsal', child: Text('Kurumsal (Tum çalışanlar)')),
                         ],
                         onChanged: isUploading ? null : (v) => setDialogState(() => selectedDepartment = v ?? 'genel'),
@@ -235,7 +235,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                             ),
                             SizedBox(height: 8),
                             Text(
-                              pdfFileName ?? 'PDF dosyasi secmek için tıklayın',
+                              pdfFileName ?? 'PDF dosyasi seçmek için tıklayın',
                               style: TextStyle(
                                 color: pdfFileName != null ? context.scada.textPrimary : context.scada.textSecondary,
                                 fontSize: 12,
@@ -266,7 +266,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                           Expanded(
                             child: Text(
                               'PDF yüklendiginde AI otomatik olarak:\n'
-                              '- Departman ve zorluk siniflandirmasi yapar\n'
+                              '- Departman ve zorluk sınıflandırmasi yapar\n'
                               '- Anahtar etiketler oluşturur\n'
                               '- Semantik arama için indeksler',
                               style: TextStyle(color: context.scada.textSecondary, fontSize: 10, height: 1.4),
@@ -285,7 +285,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          uploadProgress >= 1.0 ? 'AI siniflandirma yapiliyor...' : 'Yükleniyor... %${(uploadProgress * 100).toInt()}',
+                          uploadProgress >= 1.0 ? 'AI sınıflandırma yapiliyor...' : 'Yükleniyor... %${(uploadProgress * 100).toInt()}',
                           style: TextStyle(
                             color: uploadProgress >= 1.0 ? ScadaColors.purple : ScadaColors.cyan,
                             fontSize: 11,
@@ -355,7 +355,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                             }
                           },
                     icon: const Icon(Icons.upload, size: 16),
-                    label: const Text('Yükle & Siniflandir'),
+                    label: const Text('Yükle & Sınıflandır'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: ScadaColors.red,
                       foregroundColor: Colors.white,
@@ -436,8 +436,8 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
       'yönetim': 'Yönetim',
       'on_buro': 'On Buro',
       'spa': 'SPA & Wellness',
-      'fb': 'Yiyecek Icecek',
-      'guvenlik': 'Guvenlik',
+      'fb': 'Yiyecek İçecek',
+      'güvenlik': 'Güvenlik',
       'genel': 'Genel',
       'kurumsal': 'Kurumsal',
     };
@@ -448,7 +448,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
     const map = {
       'beginner': 'Baslangic',
       'intermediate': 'Orta',
-      'advanced': 'Ileri',
+      'advanced': 'İleri',
     };
     return map[key] ?? key;
   }
@@ -541,7 +541,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                   _buildFilterChip('hk', 'Kat Hizm.'),
                   _buildFilterChip('fb', 'F&B'),
                   _buildFilterChip('on_buro', 'On Buro'),
-                  _buildFilterChip('guvenlik', 'Guvenlik'),
+                  _buildFilterChip('güvenlik', 'Güvenlik'),
                   _buildFilterChip('genel', 'Genel'),
                   _buildFilterChip('kurumsal', 'Kurumsal'),
                 ]),

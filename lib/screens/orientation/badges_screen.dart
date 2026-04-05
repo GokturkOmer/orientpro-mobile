@@ -282,7 +282,7 @@ class _BadgesScreenState extends ConsumerState<BadgesScreen> {
       case 'gold':
         return 'Altin';
       case 'silver':
-        return 'Gumus';
+        return 'Gümüş';
       case 'bronze':
         return 'Bronz';
       default:

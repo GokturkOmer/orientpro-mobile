@@ -31,7 +31,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     ),
     _OnboardingPage(
       icon: Icons.quiz,
-      title: 'Quiz & Degerlendirme',
+      title: 'Quiz & Değerlendirme',
       description: 'Öğrendiklerinizi quiz\'ler ile test edin.\n'
           'AI destekli sorularla bilginizi olcun.',
       color: ScadaColors.amber,

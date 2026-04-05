@@ -253,7 +253,7 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
             if (isAdmin && ann.readCount != null) ...[
               Icon(Icons.visibility, color: context.scada.textDim, size: 14),
               const SizedBox(width: 4),
-              Text('${ann.readCount} kisi okudu', style: TextStyle(color: context.scada.textDim, fontSize: 11)),
+              Text('${ann.readCount} kişi okudu', style: TextStyle(color: context.scada.textDim, fontSize: 11)),
             ],
             const Spacer(),
             if (!isRead)
@@ -362,7 +362,7 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
               const SizedBox(height: 12),
               DropdownButtonFormField<String>(
                 initialValue: priority,
-                decoration: const InputDecoration(labelText: 'Oncelik'),
+                decoration: const InputDecoration(labelText: 'Öncelik'),
                 dropdownColor: context.scada.surface,
                 items: const [
                   DropdownMenuItem(value: 'normal', child: Text('Normal')),

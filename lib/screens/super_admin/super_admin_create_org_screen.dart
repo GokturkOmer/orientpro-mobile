@@ -70,7 +70,7 @@ class _SuperAdminCreateOrgScreenState extends ConsumerState<SuperAdminCreateOrgS
       child: Form(
         key: _formKey,
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          _SectionLabel('ISLETME BILGILERI'),
+          _SectionLabel('ISLETME BİLGİLERİ'),
           const SizedBox(height: 12),
           _Field(controller: _orgNameCtrl, label: 'İşletme Adi', hint: 'Otel ABC', validator: (v) => (v?.trim().length ?? 0) < 2 ? 'En az 2 karakter' : null),
           const SizedBox(height: 12),
@@ -257,7 +257,7 @@ class _SuccessView extends StatelessWidget {
                   const Row(children: [
                     Icon(Icons.warning_amber_rounded, color: ScadaColors.amber, size: 16),
                     SizedBox(width: 6),
-                    Text('Gecici Şifre — Sadece Bir Kez Gosterilir', style: TextStyle(fontSize: 11, color: ScadaColors.amber, fontWeight: FontWeight.w600)),
+                    Text('Geçici Şifre — Sadece Bir Kez Gosterilir', style: TextStyle(fontSize: 11, color: ScadaColors.amber, fontWeight: FontWeight.w600)),
                   ]),
                   const SizedBox(height: 8),
                   SelectableText(

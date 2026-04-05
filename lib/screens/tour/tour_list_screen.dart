@@ -41,7 +41,7 @@ class TourListScreen extends ConsumerWidget {
         ])),
         data: (routes) {
           if (routes.isEmpty) {
-            return Center(child: Text('Henuz tur rotası tanimlanmamis', style: TextStyle(color: context.scada.textDim)));
+            return Center(child: Text('Henuz tur rotası tanımlanmamış', style: TextStyle(color: context.scada.textDim)));
           }
           return ListView(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),

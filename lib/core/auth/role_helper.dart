@@ -22,7 +22,7 @@ class RoleHelper {
   /// Supervisor: mudur + sef roller (ekip takibi gorebilir)
   static const _supervisorRoles = {
     'admin', 'teknik_mudur',
-    'resepsiyon_mudur', 'hk_mudur', 'guvenlik_mudur', 'mutfak_mudur',
+    'resepsiyon_mudur', 'hk_mudur', 'güvenlik_mudur', 'mutfak_mudur',
     'fb_mudur', 'spa_mudur',
     'elektrik_sefi', 'mekanik_sefi', 'tesisat_sefi',
   };
@@ -37,7 +37,7 @@ class RoleHelper {
   /// İçerik düzenleme: DB permissions varsa content:edit kontrol eder
   static const _contentEditorRoles = {
     'admin', 'teknik_mudur',
-    'resepsiyon_mudur', 'hk_mudur', 'guvenlik_mudur', 'mutfak_mudur',
+    'resepsiyon_mudur', 'hk_mudur', 'güvenlik_mudur', 'mutfak_mudur',
     'fb_mudur', 'spa_mudur',
     'elektrik_sefi', 'mekanik_sefi', 'tesisat_sefi',
   };

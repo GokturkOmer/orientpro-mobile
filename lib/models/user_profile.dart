@@ -111,7 +111,7 @@ class UserProfile {
       case 'sabah': return 'Sabah (07:00-15:00)';
       case 'aksam': return 'Aksam (15:00-23:00)';
       case 'gece': return 'Gece (23:00-07:00)';
-      default: return shiftType ?? 'Belirtilmemis';
+      default: return shiftType ?? 'Belirtilmemiş';
     }
   }
 }

@@ -148,7 +148,7 @@ class _MaintenanceScreenState extends ConsumerState<MaintenanceScreen> {
     final isHealthy = overall == 'saglikli';
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      _sectionHeader(Icons.monitor_heart, 'SERVIS SAGLIGI'),
+      _sectionHeader(Icons.monitor_heart, 'SERVIS SAĞLIĞI'),
       const SizedBox(height: 12),
       Container(
         width: double.infinity,
@@ -188,7 +188,7 @@ class _MaintenanceScreenState extends ConsumerState<MaintenanceScreen> {
     final disk = _system['disk'] != null ? Map<String, dynamic>.from(_system['disk'] as Map) : <String, dynamic>{};
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      _sectionHeader(Icons.computer, 'SUNUCU BILGILERI'),
+      _sectionHeader(Icons.computer, 'SUNUCU BİLGİLERİ'),
       const SizedBox(height: 12),
       Row(children: [
         _metricCard('CPU', '${_system['cpu_percent'] ?? 0}%', Icons.memory, ScadaColors.cyan),
@@ -264,7 +264,7 @@ class _MaintenanceScreenState extends ConsumerState<MaintenanceScreen> {
   // ===== HIZLI AKSIYONLAR =====
   Widget _buildActionsSection() {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      _sectionHeader(Icons.flash_on, 'HIZLI AKSIYONLAR'),
+      _sectionHeader(Icons.flash_on, 'HIZLI AKSİYONLAR'),
       const SizedBox(height: 12),
       Row(children: [
         Expanded(child: _actionButton(
@@ -368,7 +368,7 @@ class _MaintenanceScreenState extends ConsumerState<MaintenanceScreen> {
   // ===== SON AKTIVITELER =====
   Widget _buildActivitySection() {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      _sectionHeader(Icons.history, 'SON AKTIVITELER'),
+      _sectionHeader(Icons.history, 'SON AKTİVİTELER'),
       const SizedBox(height: 12),
       if (_recentActivity.isEmpty)
         Center(child: Text('Henuz aktivite yok', style: TextStyle(fontSize: 12, color: context.scada.textDim)))

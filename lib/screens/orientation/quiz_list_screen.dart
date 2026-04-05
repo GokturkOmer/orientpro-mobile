@@ -557,7 +557,7 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
                 border: Border.all(color: context.scada.border),
               ),
               child: Text(
-                'Indexlenmis doküman bulunamadi. Once Doküman Havuzu\'na PDF yükleyin.',
+                'İndekslenmemiş doküman bulunamadi. Once Doküman Havuzu\'na PDF yükleyin.',
                 style: TextStyle(fontSize: 11, color: context.scada.textDim),
               ),
             )
@@ -697,7 +697,7 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
           ]),
           const SizedBox(height: 16),
 
-          // 4. Quiz basligi
+          // 4. Quiz başlığı
           Text('Quiz Basligi', style: TextStyle(fontSize: 12, color: context.scada.textSecondary, fontWeight: FontWeight.w600)),
           const SizedBox(height: 6),
           TextField(

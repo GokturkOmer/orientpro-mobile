@@ -52,7 +52,7 @@ class _ShiftScheduleScreenState extends ConsumerState<ShiftScheduleScreen> {
         title: Row(mainAxisSize: MainAxisSize.min, children: [
           const Icon(Icons.schedule, color: ScadaColors.amber, size: 18),
           const SizedBox(width: 8),
-          Text('Vardiya Ayarlari', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
+          Text('Vardiya Ayarları', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
         ]),
       ),
       body: st.isLoading

@@ -51,7 +51,7 @@ class TrainingRoute {
     switch (difficulty) {
       case 'beginner': return 'Baslangic';
       case 'intermediate': return 'Orta';
-      case 'advanced': return 'Ileri';
+      case 'advanced': return 'İleri';
       default: return difficulty;
     }
   }
@@ -89,7 +89,7 @@ class TrainingModule {
       case 'lesson': return 'Ders';
       case 'video': return 'Video';
       case 'practice': return 'Uygulama';
-      case 'assessment': return 'Degerlendirme';
+      case 'assessment': return 'Değerlendirme';
       default: return moduleType;
     }
   }

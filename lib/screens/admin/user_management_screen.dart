@@ -287,9 +287,9 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
       'teknik_mudur': 'Teknik Mudur',
       'resepsiyon_mudur': 'Resepsiyon Muduru',
       'hk_mudur': 'HK Muduru',
-      'guvenlik_mudur': 'Guvenlik Muduru',
+      'güvenlik_mudur': 'Güvenlik Muduru',
       'mutfak_mudur': 'Mutfak Muduru',
-      'fb_mudur': 'Yiyecek Icecek Muduru',
+      'fb_mudur': 'Yiyecek İçecek Muduru',
       'spa_mudur': 'SPA Muduru',
       'elektrik_sefi': 'Elektrik Sefi',
       'mekanik_sefi': 'Mekanik Sefi',
@@ -300,9 +300,9 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
       'teknik_staff': 'Teknik Personel',
       'hk_staff': 'HK Personeli',
       'resepsiyon_staff': 'Resepsiyon Personeli',
-      'guvenlik_staff': 'Guvenlik Personeli',
+      'güvenlik_staff': 'Güvenlik Personeli',
       'mutfak_staff': 'Mutfak Personeli',
-      'fb_staff': 'Yiyecek Icecek Personeli',
+      'fb_staff': 'Yiyecek İçecek Personeli',
       'spa_staff': 'SPA Personeli',
     };
 
@@ -311,8 +311,8 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
       'teknik': 'Teknik Servis',
       'hk': 'Kat Hizmetleri',
       'on_buro': 'Resepsiyon',
-      'fb': 'Yiyecek & Icecek',
-      'guvenlik': 'Guvenlik',
+      'fb': 'Yiyecek & İçecek',
+      'güvenlik': 'Güvenlik',
       'mutfak': 'Mutfak',
       'spa': 'SPA & Wellness',
     };
@@ -370,7 +370,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                     validator: (v) {
                       if (v == null || v.isEmpty) return 'Zorunlu alan';
                       final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
-                      if (!emailRegex.hasMatch(v)) return 'Gecerli bir e-posta girin (ornek@domain.com)';
+                      if (!emailRegex.hasMatch(v)) return 'Gecerli bir e-posta girin (örnek@domain.com)';
                       return null;
                     },
                   ),

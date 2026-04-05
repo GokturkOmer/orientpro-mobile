@@ -15,7 +15,7 @@ class _WorkOrderListScreenState extends ConsumerState<WorkOrderListScreen> {
   List<WorkOrder> items = [];
   bool isLoading = true;
   String? statusFilter;
-  final Map<String, String> statuses = {'open': 'Acik', 'assigned': 'Atandi', 'in_progress': 'Devam', 'completed': 'Bitti'};
+  final Map<String, String> statuses = {'open': 'Açık', 'assigned': 'Atandi', 'in_progress': 'Devam', 'completed': 'Bitti'};
 
   @override
   void initState() { super.initState(); _load(); }

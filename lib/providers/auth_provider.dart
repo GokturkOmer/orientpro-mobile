@@ -217,7 +217,7 @@ class AuthNotifier extends Notifier<AuthState> {
         state = AuthState(user: freshUser, token: savedToken, autoLoginChecked: true);
         return true;
       } on DioException catch (_) {
-        // Access token gecersiz — refresh token ile yenilemeyi dene
+        // Access token geçersiz — refresh token ile yenilemeyi dene
         final refreshed = await refreshAccessToken();
         if (refreshed) {
           // Yeni token ile kullanıcı bilgisini al

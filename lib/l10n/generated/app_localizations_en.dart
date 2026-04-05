@@ -62,7 +62,7 @@ class SEn extends S {
   String get orgSelectMember => 'Member';
 
   @override
-  String get moduleSelectionTitle => 'Modüle Selection';
+  String get moduleSelectionTitle => 'Module Selection';
 
   @override
   String get moduleOrientation => 'Orientation';

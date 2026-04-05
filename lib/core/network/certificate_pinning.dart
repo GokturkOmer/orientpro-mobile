@@ -14,13 +14,13 @@ class CertificatePinning {
   // Production sertifika SHA-256 fingerprint'leri
   // Domain alindiktan sonra buraya eklenmeli
   static const List<String> _trustedFingerprints = [
-    // 'XX:XX:XX:...' seklinde Let's Encrypt sertifika fingerprint'i
+    // 'XX:XX:XX:...' şeklinde Let's Encrypt sertifika fingerprint'i
   ];
 
   /// Dio instance'a certificate pinning uygular.
   /// Sadece production (HTTPS) URL'lerde aktif olur.
   static void apply(Dio dio) {
-    // Fingerprint tanimlanmamissa atla
+    // Fingerprint tanımlanmamışsa atla
     if (_trustedFingerprints.isEmpty) return;
 
     final adapter = dio.httpClientAdapter;

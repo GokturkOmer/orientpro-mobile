@@ -53,10 +53,10 @@ class ChatNotifier extends Notifier<ChatBotState> {
     if (state.messages.isNotEmpty) return; // Zaten mesaj varsa ekleme
     final welcome = ChatMessage(
       text: 'Merhaba${userName.isNotEmpty ? ' $userName' : ''}! Ben OrientPro AI Asistanıyım. Oryantasyon süreçiyle ilgili sorularınızi yanıtlayabilirim.\n\n'
-          '**Soru sorabilecaginiz konular:**\n'
-          '- **ISG & Guvenlik** - Is sagligi, yangin, tahliye\n'
+          '**Soru sorabilecğiniz konular:**\n'
+          '- **ISG & Güvenlik** - Is sağlığı, yangin, tahliye\n'
           '- **KVKK & Hukuk** - Veri koruma, etik kurallar\n'
-          '- **Departman Eğitim** - Oda temizligi, servis, resepsiyon\n'
+          '- **Departman Eğitim** - Oda temizliği, servis, resepsiyon\n'
           '- **Teknik Sistemler** - SCADA, dijital ikiz, QR tur\n'
           '- **Acil Durumlar** - Ilk yardim, deprem, yangin\n\n'
           'Aşağıdaki hızlı erişim butonlarıni da kullanabilirsiniz.',

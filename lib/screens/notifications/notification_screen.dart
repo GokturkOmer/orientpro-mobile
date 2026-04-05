@@ -182,7 +182,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
               _infoRow(Icons.access_time, 'Zaman', _timeAgo(notif.createdAt)),
               if (notif.source != null) _infoRow(Icons.source, 'Kaynak', notif.source!),
               _infoRow(Icons.category, 'Kategori', _catLabel(notif.category)),
-              _infoRow(Icons.flag, 'Oncelik', _sevLabel(notif.severity)),
+              _infoRow(Icons.flag, 'Öncelik', _sevLabel(notif.severity)),
 
               const SizedBox(height: 20),
 

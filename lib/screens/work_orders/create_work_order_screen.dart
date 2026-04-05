@@ -23,10 +23,10 @@ class _CreateWorkOrderScreenState extends ConsumerState<CreateWorkOrderScreen> {
   }
 
   String _priority = 'normal';
-  String _faultType = 'calismiyor';
+  String _faultType = 'çalışmıyor';
   String _source = 'teknik';
   bool _isLoading = false;
-  final List<Map<String, String>> _faultTypes = [{'value': 'calismiyor', 'label': 'Calismiyor'}, {'value': 'sogutmuyor', 'label': 'Sogutmuyor'}, {'value': 'ses_gurultu', 'label': 'Ses/Gurultu'}, {'value': 'tikaniklik', 'label': 'Tikaniklik'}, {'value': 'su_kacagi', 'label': 'Su Kacagi'}, {'value': 'kirik_hasarli', 'label': 'Kirik/Hasarli'}, {'value': 'kapanmiyor', 'label': 'Kapanmiyor'}, {'value': 'koku', 'label': 'Koku'}, {'value': 'yanmiyor', 'label': 'Yanmiyor'}, {'value': 'dusuk_basinc', 'label': 'Dusuk Basinc'}, {'value': 'diger', 'label': 'Diger'}];
+  final List<Map<String, String>> _faultTypes = [{'value': 'çalışmıyor', 'label': 'Çalışmıyor'}, {'value': 'soğutmuyor', 'label': 'Soğutmuyor'}, {'value': 'ses_gurultu', 'label': 'Ses/Gurultu'}, {'value': 'tıkanıklık', 'label': 'Tıkanıklık'}, {'value': 'su_kacagi', 'label': 'Su Kacagi'}, {'value': 'kirik_hasarli', 'label': 'Kirik/Hasarli'}, {'value': 'kapanmıyor', 'label': 'Kapanmıyor'}, {'value': 'koku', 'label': 'Koku'}, {'value': 'yanmıyor', 'label': 'Yanmıyor'}, {'value': 'dusuk_basinc', 'label': 'Dusuk Basinc'}, {'value': 'diger', 'label': 'Diger'}];
   Future<void> _submit() async {
     if (_titleController.text.isEmpty) { ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Başlık zorunludur'), backgroundColor: ScadaColors.red)); return; }
     setState(() => _isLoading = true);
@@ -51,13 +51,13 @@ class _CreateWorkOrderScreenState extends ConsumerState<CreateWorkOrderScreen> {
       body: ListView(padding: const EdgeInsets.fromLTRB(16, 16, 16, 80), children: [
         Card(color: ScadaColors.green.withValues(alpha: 0.08), child: ListTile(leading: const Icon(Icons.build, color: ScadaColors.green), title: Text(widget.equipment.name, style: const TextStyle(fontWeight: FontWeight.bold)), subtitle: Text(widget.equipment.categoryText))),
         const SizedBox(height: 16),
-        TextField(controller: _titleController, decoration: const InputDecoration(labelText: 'Başlık *', hintText: 'Orn: Klima sogutmuyor', prefixIcon: Icon(Icons.title), border: OutlineInputBorder())),
+        TextField(controller: _titleController, decoration: const InputDecoration(labelText: 'Başlık *', hintText: 'Orn: Klima soğutmuyor', prefixIcon: Icon(Icons.title), border: OutlineInputBorder())),
         const SizedBox(height: 12),
         TextField(controller: _descController, decoration: const InputDecoration(labelText: 'Açıklama', prefixIcon: Icon(Icons.description), border: OutlineInputBorder()), maxLines: 3),
         const SizedBox(height: 12),
         DropdownButtonFormField<String>(initialValue: _faultType, decoration: const InputDecoration(labelText: 'Ariza Tipi', prefixIcon: Icon(Icons.report_problem), border: OutlineInputBorder()), items: _faultTypes.map((f) => DropdownMenuItem(value: f['value'], child: Text(f['label']!))).toList(), onChanged: (v) => setState(() => _faultType = v!)),
         const SizedBox(height: 12),
-        const Text('Oncelik', style: TextStyle(fontWeight: FontWeight.w500)),
+        const Text('Öncelik', style: TextStyle(fontWeight: FontWeight.w500)),
         const SizedBox(height: 6),
         Wrap(spacing: 8, children: [_prioChip('critical', 'Kritik', ScadaColors.red), _prioChip('high', 'Yuksek', ScadaColors.amber), _prioChip('normal', 'Normal', ScadaColors.cyan), _prioChip('low', 'Dusuk', context.scada.textDim)]),
         const SizedBox(height: 12),

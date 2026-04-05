@@ -131,7 +131,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               _sectionHeader('IS EMIRLERI', Icons.assignment),
               const SizedBox(height: 8),
               Row(children: [
-                _statCard('Acik', '${woStats["open"] ?? 0}', ScadaColors.amber, '/work-orders'),
+                _statCard('Açık', '${woStats["open"] ?? 0}', ScadaColors.amber, '/work-orders'),
                 const SizedBox(width: 8),
                 _statCard('Devam', '${woStats["in_progress"] ?? 0}', ScadaColors.cyan, '/work-orders'),
                 const SizedBox(width: 8),

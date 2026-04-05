@@ -151,7 +151,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                         items: const [
                           DropdownMenuItem(value: 'text', child: Text('Metin')),
                           DropdownMenuItem(
-                              value: 'image', child: Text('Gorsel')),
+                              value: 'image', child: Text('Görsel')),
                           DropdownMenuItem(
                               value: 'video', child: Text('Video')),
                           DropdownMenuItem(
@@ -242,7 +242,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                               TextStyle(color: context.scada.textPrimary),
                           decoration: _inputDecoration(
                             contentType == 'image'
-                                ? 'Gorsel URL'
+                                ? 'Görsel URL'
                                 : 'Video URL',
                           ),
                         ),
@@ -301,7 +301,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                                 ),
                                 SizedBox(height: 8),
                                 Text(
-                                  pdfFileName ?? 'PDF dosya secmek için tikla',
+                                  pdfFileName ?? 'PDF dosya seçmek için tikla',
                                   style: TextStyle(
                                     color: pdfFileName != null
                                         ? context.scada.textPrimary
@@ -1297,7 +1297,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                 DropdownMenuItem(value: 'practice', child: Text('Uygulama')),
                 DropdownMenuItem(
                   value: 'assessment',
-                  child: Text('Degerlendirme'),
+                  child: Text('Değerlendirme'),
                 ),
               ],
               onChanged: (v) {
@@ -2145,7 +2145,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
     };
 
     // RAG içerik state
-    int selectedTab = 0; // 0=siniflandirma, 1=tam metin, 2=chunk'lar
+    int selectedTab = 0; // 0=sınıflandırma, 1=tam metin, 2=chunk'lar
     String? fullText;
     List<dynamic>? chunks;
     bool isLoadingContent = false;
@@ -2231,7 +2231,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(children: [
-                      _tabButton('Siniflandirma', Icons.auto_awesome, 0, selectedTab, (i) {
+                      _tabButton('Sınıflandırma', Icons.auto_awesome, 0, selectedTab, (i) {
                         setDialogState(() => selectedTab = i);
                       }),
                       _tabButton('Tam Metin', Icons.article, 1, selectedTab, (i) {

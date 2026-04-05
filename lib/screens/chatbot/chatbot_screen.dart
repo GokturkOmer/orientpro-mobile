@@ -129,7 +129,7 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
               _buildQuickAction(Icons.shield, 'KVKK kuralları'),
               _buildQuickAction(Icons.local_fire_department, 'Yangin prosedürü'),
               _buildQuickAction(Icons.medical_services, 'Ilk yardim'),
-              _buildQuickAction(Icons.cleaning_services, 'Oda temizligi'),
+              _buildQuickAction(Icons.cleaning_services, 'Oda temizliği'),
               _buildQuickAction(Icons.restaurant, 'HACCP kuralları'),
               _buildQuickAction(Icons.security, 'SCADA alarmlar'),
               _buildQuickAction(Icons.qr_code_2, 'QR Tur nedir?'),

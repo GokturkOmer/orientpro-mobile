@@ -42,9 +42,9 @@ class _InspectionListScreenState extends ConsumerState<InspectionListScreen> wit
   String _freqText(String freq) {
     switch (freq) {
       case 'daily': return 'Gunluk';
-      case 'weekly': return 'Haftalik';
-      case 'monthly': return 'Aylik';
-      case 'quarterly': return '3 Aylik';
+      case 'weekly': return 'Haftalık';
+      case 'monthly': return 'Aylık';
+      case 'quarterly': return '3 Aylık';
       default: return freq;
     }
   }
@@ -65,7 +65,7 @@ class _InspectionListScreenState extends ConsumerState<InspectionListScreen> wit
         title: const Text('Kontrol Turlari'),
         bottom: TabBar(controller: _tabController, tabs: const [
           Tab(icon: Icon(Icons.list_alt), text: 'Sablonlar'),
-          Tab(icon: Icon(Icons.history), text: 'Gecmis'),
+          Tab(icon: Icon(Icons.history), text: 'Geçmiş'),
         ]),
       ),
       floatingActionButton: FloatingActionButton(

@@ -166,7 +166,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
             tooltip: 'Agaca don',
           ),
           Text(
-            'İçerik Agaci',
+            'İçerik Ağacı',
             style: TextStyle(fontSize: 12, color: context.scada.textSecondary),
           ),
         ],
@@ -193,7 +193,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                 SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    'İçerik Agaci',
+                    'İçerik Ağacı',
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: context.scada.textPrimary),
                   ),
                 ),
@@ -427,7 +427,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                       ),
                       SizedBox(width: 6),
                       Text(
-                        '${route.modules?.length ?? 0} modul',
+                        '${route.modules?.length ?? 0} modül',
                         style: TextStyle(fontSize: 9, color: context.scada.textDim),
                       ),
                     ],
@@ -689,8 +689,8 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
       'yönetim': 'Yönetim',
       'on_buro': 'On Buro',
       'spa': 'Spa & Wellness',
-      'fb': 'Yiyecek Icecek',
-      'guvenlik': 'Guvenlik',
+      'fb': 'Yiyecek İçecek',
+      'güvenlik': 'Güvenlik',
       'genel': 'Genel',
     };
     return labels[key] ?? key;
@@ -912,13 +912,13 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
             Row(children: [
               const Icon(Icons.history, size: 18, color: ScadaColors.purple),
               const SizedBox(width: 8),
-              Text('Versiyon Gecmisi', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+              Text('Versiyon Geçmişi', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
             ]),
             const SizedBox(height: 12),
             if (versions.isEmpty)
               Padding(
                 padding: const EdgeInsets.all(24),
-                child: Text('Henuz versiyon gecmisi yok', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
+                child: Text('Henuz versiyon geçmişi yok', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
               )
             else
               ConstrainedBox(
@@ -975,7 +975,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
       );
     } catch (_) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Versiyon gecmisi yüklenemedi'), backgroundColor: ScadaColors.red));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Versiyon geçmişi yüklenemedi'), backgroundColor: ScadaColors.red));
       }
     }
   }
@@ -1044,7 +1044,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                     child: const Row(mainAxisSize: MainAxisSize.min, children: [
                       Icon(Icons.history, size: 12, color: ScadaColors.purple),
                       SizedBox(width: 2),
-                      Text('Gecmis', style: TextStyle(fontSize: 9, color: ScadaColors.purple, fontWeight: FontWeight.w600)),
+                      Text('Geçmiş', style: TextStyle(fontSize: 9, color: ScadaColors.purple, fontWeight: FontWeight.w600)),
                     ]),
                   ),
                 ),
@@ -1478,7 +1478,7 @@ class _ContentManagerScreenState extends ConsumerState<ContentManagerScreen> {
                     DropdownMenuItem(value: 'lesson', child: Text('Ders')),
                     DropdownMenuItem(value: 'video', child: Text('Video')),
                     DropdownMenuItem(value: 'practice', child: Text('Uygulama')),
-                    DropdownMenuItem(value: 'assessment', child: Text('Degerlendirme')),
+                    DropdownMenuItem(value: 'assessment', child: Text('Değerlendirme')),
                   ],
                   onChanged: (v) {
                     if (v != null) setDialogState(() => selectedType = v);

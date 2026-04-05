@@ -45,7 +45,7 @@ class _SectorTemplateScreenState extends ConsumerState<SectorTemplateScreen> {
         backgroundColor: context.scada.surface,
         title: Text('Sablonu Uygula', style: TextStyle(color: context.scada.textPrimary)),
         content: Text(
-          '$name sablonunu uygulamak istediğinize emin misiniz?\n\nDepartmanlar ve ornek eğitim rotaları oluşturulacak.',
+          '$name sablonunu uygulamak istediğinize emin misiniz?\n\nDepartmanlar ve örnek eğitim rotaları oluşturulacak.',
           style: TextStyle(color: context.scada.textSecondary, fontSize: 13),
         ),
         actions: [
@@ -111,7 +111,7 @@ class _SectorTemplateScreenState extends ConsumerState<SectorTemplateScreen> {
             child: const Icon(Icons.category, color: ScadaColors.green, size: 20),
           ),
           const SizedBox(width: 8),
-          Text('Sektor Sablonlari', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+          Text('Sektor Şablonları', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
       ),
       body: _loading
@@ -139,7 +139,7 @@ class _SectorTemplateScreenState extends ConsumerState<SectorTemplateScreen> {
                         Icon(Icons.info_outline, size: 18, color: context.scada.textDim),
                         const SizedBox(width: 10),
                         Expanded(child: Text(
-                          'Sektorunuze uygun sablonu seçin. Departmanlar ve ornek eğitim rotaları otomatik oluşturulacak.',
+                          'Sektorunuze uygun sablonu seçin. Departmanlar ve örnek eğitim rotaları otomatik oluşturulacak.',
                           style: TextStyle(fontSize: 12, color: context.scada.textSecondary),
                         )),
                       ]),

@@ -5,7 +5,7 @@ import '../providers/auth_provider.dart';
 import '../providers/training_provider.dart';
 
 /// Eğitim onay dialog'u - çalışan modülü tamamladiktan sonra
-/// "Bu eğitimi okudum, anladim ve uygulamayi taahhut ediyorum" diye onaylar.
+/// "Bu eğitimi okudum, anladım ve uygulamayi taahhut ediyorum" diye onaylar.
 class AcknowledgmentDialog extends ConsumerStatefulWidget {
   final String moduleId;
   final String routeId;

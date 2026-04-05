@@ -138,7 +138,7 @@ void showPdfUploadDialog({
                           ),
                           SizedBox(height: 8),
                           Text(
-                            pdfFileName ?? 'PDF dosya secmek için tikla',
+                            pdfFileName ?? 'PDF dosya seçmek için tikla',
                             style: TextStyle(
                               fontSize: 12,
                               color: pdfFileName != null ? context.scada.textPrimary : context.scada.textSecondary,
@@ -204,7 +204,7 @@ void showPdfUploadDialog({
                         SizedBox(width: 6),
                         Expanded(
                           child: Text(
-                            'AI otomatik olarak departman, zorluk ve etiket siniflandirmasi yapacak.',
+                            'AI otomatik olarak departman, zorluk ve etiket sınıflandırmasi yapacak.',
                             style: TextStyle(fontSize: 10, color: ScadaColors.cyan),
                           ),
                         ),
@@ -222,8 +222,8 @@ void showPdfUploadDialog({
                     SizedBox(height: 8),
                     Text(
                         enrichExistingContents && selectedModuleId != null
-                            ? 'AI siniflandirma + içerik zenginlestirme yapiliyor...'
-                            : 'AI siniflandirma yapiliyor...',
+                            ? 'AI sınıflandırma + içerik zenginlestirme yapiliyor...'
+                            : 'AI sınıflandırma yapiliyor...',
                         style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
                   ],
                 ],
@@ -269,7 +269,7 @@ void showPdfUploadDialog({
                               : '';
                           messenger.showSnackBar(
                             SnackBar(
-                              content: Text('PDF yüklendi ve AI tarafindan siniflandirildi$enrichMsg'),
+                              content: Text('PDF yüklendi ve AI tarafından sınıflandırildi$enrichMsg'),
                               backgroundColor: ScadaColors.green,
                               duration: const Duration(seconds: 4),
                             ),
@@ -293,7 +293,7 @@ void showPdfUploadDialog({
                   backgroundColor: ScadaColors.cyan.withValues(alpha: 0.15),
                   foregroundColor: ScadaColors.cyan,
                 ),
-                child: const Text('Yükle & Siniflandir', style: TextStyle(fontSize: 12)),
+                child: const Text('Yükle & Sınıflandır', style: TextStyle(fontSize: 12)),
               ),
             ],
           );

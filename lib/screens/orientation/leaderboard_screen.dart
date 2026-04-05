@@ -219,7 +219,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
               ],
             ]),
             const SizedBox(height: 2),
-            Text('${entry.completedModules}/${entry.totalModules} modul', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
+            Text('${entry.completedModules}/${entry.totalModules} modül', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
           ]),
         ),
         Text('%${entry.completionPercent.toStringAsFixed(0)}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: progressColor)),

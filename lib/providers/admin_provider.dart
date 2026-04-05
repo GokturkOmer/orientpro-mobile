@@ -658,7 +658,7 @@ class AdminNotifier extends Notifier<AdminState> {
         isSaving: false,
         uploadProgress: null,
         lastClassification: data['classification'],
-        successMessage: 'PDF başarıyla yüklendi ve AI tarafindan siniflandirildi',
+        successMessage: 'PDF başarıyla yüklendi ve AI tarafından sınıflandırildi',
       );
       return data;
     } on DioException catch (e) {
@@ -774,7 +774,7 @@ class AdminNotifier extends Notifier<AdminState> {
         data: classification,
 
       );
-      state = state.copyWith(isSaving: false, successMessage: 'Siniflandirma güncellendi');
+      state = state.copyWith(isSaving: false, successMessage: 'Sınıflandırma güncellendi');
       return true;
     } on DioException catch (e) {
       state = state.copyWith(isSaving: false, error: ErrorHelper.getMessage(e));

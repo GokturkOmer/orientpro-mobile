@@ -92,7 +92,7 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
                   icon: Icons.policy,
                   title: 'Gizlilik Politikasi',
                   description: 'Kişisel verileriniz (ad, e-posta, departman, eğitim ilerlemesi) '
-                      'yalnizca hizmet sunumu amaciyla işlenir. Verileriniz 3. kisilerle '
+                      'yalnizca hizmet sunumu amaciyla işlenir. Verileriniz 3. kişilerle '
                       'pazarlama amaciyla paylasilmaz. KVKK (6698 sayili kanun) kapsaminda '
                       'haklariniz saklitir.',
                   value: _privacyAccepted,

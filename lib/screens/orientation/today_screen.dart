@@ -294,7 +294,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
         Text(
           allRead
               ? 'Konuyu ne kadar ogrendin?'
-              : 'Once kartlari oku, sonra quize gec',
+              : 'Once kartları oku, sonra quize gec',
           style: TextStyle(
             fontSize: 14, fontWeight: FontWeight.w600,
             color: allRead ? context.scada.textPrimary : context.scada.textDim),

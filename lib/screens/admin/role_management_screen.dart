@@ -163,7 +163,7 @@ class _RoleManagementScreenState extends ConsumerState<RoleManagementScreen> {
               Row(children: [
                 const Icon(Icons.shield, size: 18, color: ScadaColors.cyan),
                 const SizedBox(width: 8),
-                Expanded(child: Text('${role['name']} — Izinler', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: context.scada.textPrimary))),
+                Expanded(child: Text('${role['name']} — İzinler', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: context.scada.textPrimary))),
                 if (role['is_system'] == true) ...[
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
@@ -277,7 +277,7 @@ class _RoleManagementScreenState extends ConsumerState<RoleManagementScreen> {
       await _loadRoles();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Izinler kaydedildi'), backgroundColor: ScadaColors.green),
+          const SnackBar(content: Text('İzinler kaydedildi'), backgroundColor: ScadaColors.green),
         );
       }
     } catch (e) {
@@ -345,12 +345,12 @@ class _RoleManagementScreenState extends ConsumerState<RoleManagementScreen> {
                             border: Border.all(color: ScadaColors.amber.withValues(alpha: 0.3)),
                           ),
                           child: Column(children: [
-                            Text('Henuz rol tanimlanmamis', style: TextStyle(fontSize: 13, color: context.scada.textSecondary)),
+                            Text('Henuz rol tanımlanmamış', style: TextStyle(fontSize: 13, color: context.scada.textSecondary)),
                             const SizedBox(height: 12),
                             ElevatedButton.icon(
                               onPressed: _seedDefaults,
                               icon: const Icon(Icons.auto_fix_high, size: 16),
-                              label: const Text('Varsayilan Rolleri Oluştur'),
+                              label: const Text('Varsayılan Rolleri Oluştur'),
                               style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.amber),
                             ),
                           ]),
@@ -370,7 +370,7 @@ class _RoleManagementScreenState extends ConsumerState<RoleManagementScreen> {
       await dio.post('/roles/seed-defaults');
       await _loadRoles();
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Varsayilan roller oluşturuldu'), backgroundColor: ScadaColors.green));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Varsayılan roller oluşturuldu'), backgroundColor: ScadaColors.green));
       }
     } catch (e) {
       if (mounted) {
