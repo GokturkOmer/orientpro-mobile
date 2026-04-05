@@ -107,7 +107,7 @@ class _ContentApprovalScreenState extends ConsumerState<ContentApprovalScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('"$title" icerigi reddedilecek.', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
+            Text('"$title" içeriği reddedilecek.', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
             SizedBox(height: 12),
             TextField(
               controller: notesController,

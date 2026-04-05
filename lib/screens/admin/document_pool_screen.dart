@@ -191,7 +191,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                           DropdownMenuItem(value: 'fb', child: Text('F&B')),
                           DropdownMenuItem(value: 'on_buro', child: Text('On Buro')),
                           DropdownMenuItem(value: 'guvenlik', child: Text('Guvenlik')),
-                          DropdownMenuItem(value: 'kurumsal', child: Text('Kurumsal (Tum calisanlar)')),
+                          DropdownMenuItem(value: 'kurumsal', child: Text('Kurumsal (Tum çalışanlar)')),
                         ],
                         onChanged: isUploading ? null : (v) => setDialogState(() => selectedDepartment = v ?? 'genel'),
                       ),

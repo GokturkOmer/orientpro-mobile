@@ -5,7 +5,7 @@ import '../models/training.dart';
 import '../core/config/api_config.dart';
 import '../core/theme/app_theme.dart';
 
-/// Eğitim icerigi goruntuleyici.
+/// Eğitim içeriği goruntuleyici.
 /// Metin içerikleri dogrudan gosterir, dosya içerikleri icin
 /// dosya adi + boyut + indirme butonu gosterir.
 class ContentViewer extends StatelessWidget {
@@ -14,7 +14,7 @@ class ContentViewer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Metin icerigi
+    // Metin içeriği
     if (content.body != null && content.body!.isNotEmpty) {
       // HTML/script etiketlerini temizle (XSS korumasi)
       final sanitized = content.body!
@@ -45,7 +45,7 @@ class ContentViewer extends StatelessWidget {
       );
     }
 
-    // Dosya icerigi (PDF, resim vb.)
+    // Dosya içeriği (PDF, resim vb.)
     if (content.mediaUrl != null && content.mediaUrl!.isNotEmpty) {
       return _buildFileCard(context);
     }

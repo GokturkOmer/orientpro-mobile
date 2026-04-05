@@ -15,7 +15,7 @@ class STr extends S {
   String get systemActive => 'Sistem aktif';
 
   @override
-  String get loginTitle => 'SISTEM GİRİŞİ';
+  String get loginTitle => 'SİSTEM GİRİŞİ';
 
   @override
   String get loginButton => 'Giriş Yap';
@@ -42,7 +42,7 @@ class STr extends S {
   String get validationPasswordTooShort => 'Şifre en az 4 karakter olmali';
 
   @override
-  String get rememberMe => 'Beni hatirla';
+  String get rememberMe => 'Beni hatırla';
 
   @override
   String get orgSelectTitle => 'Tesis Secimi';
@@ -133,7 +133,7 @@ class STr extends S {
 
   @override
   String get orientationMandatoryIncomplete =>
-      'TAMAMLANMAMIS ZORUNLU EĞİTİMLER';
+      'TAMAMLANMAMIŞ ZORUNLU EĞİTİMLER';
 
   @override
   String get orientationGeneralBadge => 'Genel Oryantasyon';
@@ -713,7 +713,7 @@ class STr extends S {
   }
 
   @override
-  String get commonCancel => 'Iptal';
+  String get commonCancel => 'İptal';
 
   @override
   String get commonDelete => 'Sil';
@@ -835,7 +835,7 @@ class STr extends S {
   String get badgeTeamPlayer => 'Takim Oyuncusu';
 
   @override
-  String get badgeTeamPlayerDesc => 'Bir rotadaki tum modulleri tamamla';
+  String get badgeTeamPlayerDesc => 'Bir rotadaki tum modülleri tamamla';
 
   @override
   String get badgeBookworm => 'Bilgi Kurdu';

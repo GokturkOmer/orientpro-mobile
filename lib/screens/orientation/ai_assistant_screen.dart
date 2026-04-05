@@ -18,13 +18,13 @@ class _AiAssistantScreenState extends ConsumerState<AiAssistantScreen> {
   final ScrollController _scrollController = ScrollController();
 
   static const _quickActions = [
-    _QuickAction(icon: Icons.school, label: 'ISG nedir?', query: 'ISG temel eğitimi hakkinda kisaca bilgi ver'),
+    _QuickAction(icon: Icons.school, label: 'ISG nedir?', query: 'ISG temel eğitimi hakkında kisaca bilgi ver'),
     _QuickAction(icon: Icons.security, label: 'KVKK kurallari', query: 'Otel personeli icin KVKK kurallari nelerdir?'),
-    _QuickAction(icon: Icons.local_fire_department, label: 'Yangin proseduru', query: 'Yanginda yapilmasi gerekenleri adim adim anlat'),
-    _QuickAction(icon: Icons.healing, label: 'Ilk yardim', query: 'Otel ortaminda ilk yardim temel prensipleri ve CPR prosedurunu anlat'),
-    _QuickAction(icon: Icons.cleaning_services, label: 'Oda temizligi', query: 'Check-out oda temizlik prosedurunu anlat'),
-    _QuickAction(icon: Icons.restaurant, label: 'HACCP kurallari', query: 'HACCP ve gida guvenligi temel kurallari nelerdir?'),
-    _QuickAction(icon: Icons.engineering, label: 'SCADA alarmlar', query: 'SCADA alarm seviyeleri ve mudahale proseduru nedir?'),
+    _QuickAction(icon: Icons.local_fire_department, label: 'Yangin prosedürü', query: 'Yanginda yapilmasi gerekenleri adim adim anlat'),
+    _QuickAction(icon: Icons.healing, label: 'Ilk yardim', query: 'Otel ortaminda ilk yardim temel prensipleri ve CPR prosedürünu anlat'),
+    _QuickAction(icon: Icons.cleaning_services, label: 'Oda temizligi', query: 'Check-out oda temizlik prosedürünu anlat'),
+    _QuickAction(icon: Icons.restaurant, label: 'HACCP kurallari', query: 'HACCP ve gida güvenliği temel kurallari nelerdir?'),
+    _QuickAction(icon: Icons.engineering, label: 'SCADA alarmlar', query: 'SCADA alarm seviyeleri ve mudahale prosedürü nedir?'),
     _QuickAction(icon: Icons.qr_code, label: 'QR Tur nedir?', query: 'QR kod tabanli tur sistemi nasil calisir? Guzergahlar ve kontrol noktalari nelerdir?'),
   ];
 
@@ -161,7 +161,7 @@ class _AiAssistantScreenState extends ConsumerState<AiAssistantScreen> {
                     maxLength: ChatNotifier.maxMessageLength,
                     style: TextStyle(fontSize: 13, color: context.scada.textPrimary),
                     decoration: InputDecoration(
-                      hintText: 'Oryantasyon hakkinda sorun...',
+                      hintText: 'Oryantasyon hakkında sorun...',
                       hintStyle: TextStyle(fontSize: 12, color: context.scada.textDim),
                       counterText: '',
                       filled: true,

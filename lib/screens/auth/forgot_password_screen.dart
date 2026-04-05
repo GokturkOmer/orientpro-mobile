@@ -101,7 +101,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
               ),
               const SizedBox(height: 24),
 
-              // E-posta alani (her zaman gorunur)
+              // E-posta alani (her zaman görünür)
               TextField(
                 controller: _emailController,
                 enabled: !_codeSent,

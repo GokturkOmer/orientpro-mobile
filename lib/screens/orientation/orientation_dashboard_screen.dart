@@ -213,7 +213,7 @@ class _OrientationDashboardScreenState extends ConsumerState<OrientationDashboar
                   Row(children: [
                     Icon(Icons.schedule, size: 14, color: context.scada.textDim),
                     const SizedBox(width: 6),
-                    Text('TAMAMLANMAMIS ZORUNLU EGITIMLER', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
+                    Text('TAMAMLANMAMIŞ ZORUNLU EĞİTİMLER', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
                   ]),
                   const SizedBox(height: 8),
                   Builder(builder: (context) {

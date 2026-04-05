@@ -289,13 +289,13 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
         backgroundColor: context.scada.card,
         title: Text('Quiz Sil', style: TextStyle(color: context.scada.textPrimary, fontSize: 16)),
         content: Text(
-          "'${item.title}' quizini ve tum sorularini silmek istediginize emin misiniz?",
+          "'${item.title}' quizini ve tum sorularını silmek istediginize emin misiniz?",
           style: TextStyle(color: context.scada.textSecondary, fontSize: 13),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text('Iptal', style: TextStyle(color: context.scada.textDim)),
+            child: Text('İptal', style: TextStyle(color: context.scada.textDim)),
           ),
           TextButton(
             onPressed: () async {

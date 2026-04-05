@@ -52,7 +52,7 @@ class ChatNotifier extends Notifier<ChatBotState> {
   void addWelcomeMessage(String userName) {
     if (state.messages.isNotEmpty) return; // Zaten mesaj varsa ekleme
     final welcome = ChatMessage(
-      text: 'Merhaba${userName.isNotEmpty ? ' $userName' : ''}! Ben OrientPro AI Asistaniyim. Oryantasyon süreçiyle ilgili sorularinizi yanitlayabilirim.\n\n'
+      text: 'Merhaba${userName.isNotEmpty ? ' $userName' : ''}! Ben OrientPro AI Asistaniyim. Oryantasyon süreçiyle ilgili sorularınızi yanitlayabilirim.\n\n'
           '**Soru sorabilecaginiz konular:**\n'
           '- **ISG & Guvenlik** - Is sagligi, yangin, tahliye\n'
           '- **KVKK & Hukuk** - Veri koruma, etik kurallar\n'

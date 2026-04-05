@@ -252,7 +252,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
               // Login linki
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Text('Zaten hesabiniz var mi?', style: TextStyle(fontSize: 12, color: context.scada.textDim)),
+                Text('Zaten hesabınız var mi?', style: TextStyle(fontSize: 12, color: context.scada.textDim)),
                 TextButton(
                   onPressed: () => Navigator.pushReplacementNamed(context, '/login'),
                   child: const Text('Giriş Yap', style: TextStyle(fontSize: 12, color: ScadaColors.cyan, fontWeight: FontWeight.w600)),

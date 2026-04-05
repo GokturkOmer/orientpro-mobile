@@ -129,7 +129,7 @@ class MicroLearningNotifier extends Notifier<MicroLearningState> {
 
   // ── Yönetici Metodlari ──
 
-  /// Calisanlara modul ata
+  /// Çalışanlara modul ata
   Future<bool> assignModules({
     required List<String> moduleIds,
     List<String>? userIds,

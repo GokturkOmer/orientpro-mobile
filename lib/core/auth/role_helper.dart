@@ -117,7 +117,7 @@ class RoleHelper {
     return routeTags.any((t) => allowed.contains(t.toString()));
   }
 
-  // ===== ICERIK DUZENLEME DEPARTMAN/TAG =====
+  // ===== İÇERİK DUZENLEME DEPARTMAN/TAG =====
 
   /// Düzenlenebilir departmanlar. null = hepsi + GEN (admin).
   /// Bos set = düzenleme yok (staff).

@@ -217,7 +217,7 @@ class _MaintenanceScreenState extends ConsumerState<MaintenanceScreen> {
     ]);
   }
 
-  // ===== VERITABANI ISTATISTIKLERI =====
+  // ===== VERITABANI İSTATİSTİKLERİ =====
   Widget _buildDbStatsSection() {
     final tables = _dbStats['tables'] != null ? Map<String, dynamic>.from(_dbStats['tables'] as Map) : <String, dynamic>{};
     final dbSize = _dbStats['database_size'] ?? 'bilinmiyor';

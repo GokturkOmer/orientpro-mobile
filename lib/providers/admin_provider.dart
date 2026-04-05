@@ -670,7 +670,7 @@ class AdminNotifier extends Notifier<AdminState> {
     }
   }
 
-  /// Doküman Havuzu'ndaki mevcut PDF'den modul icerigi oluştur (tekrar yüklemeden)
+  /// Doküman Havuzu'ndaki mevcut PDF'den modul içeriği oluştur (tekrar yüklemeden)
   Future<Map<String, dynamic>?> generateModuleFromDocument({
     required String contentId,
     required String moduleId,

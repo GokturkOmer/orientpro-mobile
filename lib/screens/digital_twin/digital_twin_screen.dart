@@ -105,7 +105,7 @@ class DigitalTwinScreen extends ConsumerWidget {
     final zones = [
       _ZoneConfig(1, 'KAZAN DAIRESI', Icons.local_fire_department, ScadaColors.red, 'B Blok - Zemin Kat'),
       _ZoneConfig(2, 'CHILLER', Icons.ac_unit, ScadaColors.cyan, 'A Blok - Bodrum'),
-      _ZoneConfig(3, 'AHU SISTEMI', Icons.air, ScadaColors.green, 'A Blok - Cati'),
+      _ZoneConfig(3, 'AHU SİSTEMİ', Icons.air, ScadaColors.green, 'A Blok - Cati'),
       _ZoneConfig(4, 'POMPA GRUBU', Icons.water_drop, const Color(0xFF9b59b6), 'B Blok - Bodrum'),
       _ZoneConfig(5, 'ENERJI ANALIZORU', Icons.bolt, ScadaColors.amber, 'Ana Pano'),
     ];

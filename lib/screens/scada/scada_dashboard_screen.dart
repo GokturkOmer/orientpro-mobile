@@ -11,7 +11,7 @@ class ScadaDashboardScreen extends ConsumerWidget {
   static const Map<int, UnitInfo> unitInfo = {
     1: UnitInfo('KAZAN DAIRESI', Icons.local_fire_department, ScadaColors.red),
     2: UnitInfo('CHILLER', Icons.ac_unit, ScadaColors.cyan),
-    3: UnitInfo('AHU SISTEMI', Icons.air, ScadaColors.green),
+    3: UnitInfo('AHU SİSTEMİ', Icons.air, ScadaColors.green),
     4: UnitInfo('POMPA GRUBU', Icons.water_drop, ScadaColors.purple),
     5: UnitInfo('ENERJI ANALIZORU', Icons.bolt, ScadaColors.amber),
   };

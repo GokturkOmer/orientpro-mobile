@@ -4,7 +4,7 @@ import '../core/theme/app_theme.dart';
 import '../providers/auth_provider.dart';
 import '../providers/training_provider.dart';
 
-/// Eğitim onay dialog'u - calisan modulu tamamladiktan sonra
+/// Eğitim onay dialog'u - çalışan modulu tamamladiktan sonra
 /// "Bu eğitimi okudum, anladim ve uygulamayi taahhut ediyorum" diye onaylar.
 class AcknowledgmentDialog extends ConsumerStatefulWidget {
   final String moduleId;

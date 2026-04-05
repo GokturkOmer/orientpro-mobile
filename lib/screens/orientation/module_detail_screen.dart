@@ -137,7 +137,7 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
                       Row(children: [
                         Icon(Icons.article, size: 14, color: context.scada.textDim),
                         const SizedBox(width: 6),
-                        Text('ICERIKLER (${module.contents!.length})', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
+                        Text('İÇERİKLER (${module.contents!.length})', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
                       ]),
                       const SizedBox(height: 12),
                       ...module.contents!.map((content) => _buildContentCard(content)),

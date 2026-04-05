@@ -112,7 +112,7 @@ abstract class S {
   /// No description provided for @loginTitle.
   ///
   /// In tr, this message translates to:
-  /// **'SISTEM GIRISI'**
+  /// **'SİSTEM GİRİŞİ'**
   String get loginTitle;
 
   /// No description provided for @loginButton.
@@ -166,7 +166,7 @@ abstract class S {
   /// No description provided for @rememberMe.
   ///
   /// In tr, this message translates to:
-  /// **'Beni hatirla'**
+  /// **'Beni hatırla'**
   String get rememberMe;
 
   /// No description provided for @orgSelectTitle.
@@ -328,7 +328,7 @@ abstract class S {
   /// No description provided for @orientationMandatoryIncomplete.
   ///
   /// In tr, this message translates to:
-  /// **'TAMAMLANMAMIS ZORUNLU EGITIMLER'**
+  /// **'TAMAMLANMAMIŞ ZORUNLU EĞİTİMLER'**
   String get orientationMandatoryIncomplete;
 
   /// No description provided for @orientationGeneralBadge.
@@ -1413,7 +1413,7 @@ abstract class S {
   /// No description provided for @commonCancel.
   ///
   /// In tr, this message translates to:
-  /// **'Iptal'**
+  /// **'İptal'**
   String get commonCancel;
 
   /// No description provided for @commonDelete.
@@ -1635,7 +1635,7 @@ abstract class S {
   /// No description provided for @badgeTeamPlayerDesc.
   ///
   /// In tr, this message translates to:
-  /// **'Bir rotadaki tum modulleri tamamla'**
+  /// **'Bir rotadaki tum modülleri tamamla'**
   String get badgeTeamPlayerDesc;
 
   /// No description provided for @badgeBookworm.

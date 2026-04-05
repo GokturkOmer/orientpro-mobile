@@ -274,6 +274,6 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
   }
 
   String _sevLabel(String s) { switch (s) { case 'critical': return 'KRITIK'; case 'warning': return 'UYARI'; default: return 'BILGI'; } }
-  String _catLabel(String c) { switch (c) { case 'alarm': return 'ALARM'; case 'maintenance': return 'BAKIM'; case 'tour': return 'TUR'; case 'report': return 'RAPOR'; case 'system': return 'SISTEM'; case 'training': return 'EGITIM'; default: return 'DIGER'; } }
+  String _catLabel(String c) { switch (c) { case 'alarm': return 'ALARM'; case 'maintenance': return 'BAKIM'; case 'tour': return 'TUR'; case 'report': return 'RAPOR'; case 'system': return 'SİSTEM'; case 'training': return 'EĞİTİM'; default: return 'DİĞER'; } }
   String _timeAgo(DateTime dt) { final d = DateTime.now().difference(dt); if (d.inMinutes < 1) return 'simdi'; if (d.inMinutes < 60) return '${d.inMinutes} dk once'; if (d.inHours < 24) return '${d.inHours} saat once'; return '${d.inDays} gun once'; }
 }

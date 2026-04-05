@@ -1067,7 +1067,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
           style: TextStyle(color: context.scada.textPrimary),
         ),
         content: Text(
-          '"${content.title}" icerigini silmek istediginize emin misiniz?',
+          '"${content.title}" içeriğini silmek istediginize emin misiniz?',
           style: TextStyle(color: context.scada.textSecondary),
         ),
         actions: [
@@ -1647,8 +1647,8 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                             SizedBox(height: 6),
                             Text(
                               'PDF dosyasini yükleyin, AI dokümani analiz edecek ve modulunuz icin yapilandirilmis ders içerikleri oluşturacak.\n\n'
-                              '• PDF metin icerigi cikarilir\n'
-                              '• AI icerigi analiz eder ve bolumlendirir\n'
+                              '• PDF metin içeriği cikarilir\n'
+                              '• AI içeriği analiz eder ve bolumlendirir\n'
                               '• Her bolum icin baslik ve Markdown içerik uretilir\n'
                               '• RAG indeksleme yapilir (arama icin)',
                               style: TextStyle(color: context.scada.textSecondary, fontSize: 11, height: 1.5),
@@ -2402,7 +2402,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
       return Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
         CircularProgressIndicator(color: ScadaColors.cyan),
         SizedBox(height: 12),
-        Text('RAG icerigi yükleniyor...', style: TextStyle(color: context.scada.textDim, fontSize: 12)),
+        Text('RAG içeriği yükleniyor...', style: TextStyle(color: context.scada.textDim, fontSize: 12)),
       ]));
     }
     if (fullText == null || fullText.isEmpty) {

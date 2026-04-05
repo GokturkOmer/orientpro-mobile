@@ -356,7 +356,7 @@ class _MicroLearningResultsScreenState extends ConsumerState<MicroLearningResult
         border: Border.all(color: context.scada.border),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        // Calisan adi + durum
+        // Çalışan adi + durum
         Row(children: [
           CircleAvatar(
             radius: 16,

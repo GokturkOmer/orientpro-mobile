@@ -15,7 +15,7 @@ class MicroLearningAssignScreen extends ConsumerStatefulWidget {
 
 class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignScreen> {
   // Adim takibi
-  int _step = 0; // 0=modul sec, 1=calisan sec, 2=vardiya sec, 3=onayla
+  int _step = 0; // 0=modul sec, 1=çalışan sec, 2=vardiya sec, 3=onayla
 
   // Secimler
   String? _selectedRouteId;
@@ -89,7 +89,7 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
   String get _stepTitle {
     switch (_step) {
       case 0: return 'Modul Sec';
-      case 1: return 'Calisan Sec';
+      case 1: return 'Çalışan Sec';
       case 2: return 'Vardiya Sec';
       case 3: return 'Onayla';
       default: return '';
@@ -307,14 +307,14 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
               }
             });
           },
-          title: Text('Tümünu Sec (${filtered.length} calisan)', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
+          title: Text('Tümünu Sec (${filtered.length} çalışan)', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
           activeColor: ScadaColors.cyan,
           controlAffinity: ListTileControlAffinity.leading,
           dense: true,
         ),
         const Divider(height: 1),
 
-        // Calisan listesi
+        // Çalışan listesi
         ...filtered.map((u) => Container(
           margin: const EdgeInsets.only(bottom: 4),
           decoration: BoxDecoration(
@@ -424,7 +424,7 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
         _buildSummaryCard('Moduller', '${selectedModules.length} modul',
           selectedModules.map((m) => m.title).join(', '), Icons.school),
         const SizedBox(height: 8),
-        _buildSummaryCard('Calisanlar', '${selectedUsers.length} kisi',
+        _buildSummaryCard('Çalışanlar', '${selectedUsers.length} kisi',
           selectedUsers.map((u) => u.fullName).join(', '), Icons.people),
         const SizedBox(height: 8),
         _buildSummaryCard('Vardiya', '$_selectedShift Vardiyasi',

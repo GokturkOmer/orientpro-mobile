@@ -27,7 +27,7 @@ class HelpScreen extends ConsumerWidget {
   static const _faqs = [
     _FaqItem(
       question: 'Nasil yeni bir eğitim rotasi oluşturabilirim?',
-      answer: 'Admin paneli > İçerik Yonetimi > Yeni Rota butonuna tiklayin. Departman, zorluk seviyesi ve modulleri ekleyerek rotanizi oluşturabilirsiniz.',
+      answer: 'Admin paneli > İçerik Yonetimi > Yeni Rota butonuna tiklayin. Departman, zorluk seviyesi ve modülleri ekleyerek rotanizi oluşturabilirsiniz.',
       icon: Icons.route,
     ),
     _FaqItem(
@@ -47,22 +47,22 @@ class HelpScreen extends ConsumerWidget {
     ),
     _FaqItem(
       question: 'Departman bazli raporlari nasil gorebilirim?',
-      answer: 'Admin paneli > Analitik ekraninda departman kirilimli tamamlanma oranlari gorunur. Excel Raporu Indir butonu ile detayli rapor alabilirsiniz.',
+      answer: 'Admin paneli > Analitik ekraninda departman kirilimli tamamlanma oranlari görünür. Excel Raporu Indir butonu ile detayli rapor alabilirsiniz.',
       icon: Icons.analytics,
     ),
     _FaqItem(
       question: 'İçerik onay akisi nasil calisir?',
-      answer: 'İçerik editorleri taslak oluşturur, admin İçerik Onaylari ekranindan onaylar veya reddeder. Onaylanan içerikler calisanlara gorunur hale gelir.',
+      answer: 'İçerik editörleri taslak oluşturur, admin İçerik Onaylari ekranından onaylar veya reddeder. Onaylanan içerikler çalışanlara görünür hale gelir.',
       icon: Icons.fact_check,
     ),
     _FaqItem(
       question: 'Sertifika nasil verilir?',
-      answer: 'Eğitim rotasinda sertifika secenegi aciksa, calisan tum modulleri ve quizleri başarıyla tamamladiginda otomatik olarak sertifika kazanir ve PDF olarak indirebilir.',
+      answer: 'Eğitim rotasında sertifika seçeneği açıksa, çalışan tum modülleri ve quizleri başarıyla tamamladığında otomatik olarak sertifika kazanır ve PDF olarak indirebilir.',
       icon: Icons.workspace_premium,
     ),
     _FaqItem(
       question: 'Aboneligimi nasil yukseltebilirim?',
-      answer: 'Abonelik & Plan ekranindan istediginiz plani secip Odemeye Gec butonuyla yukseltme yapabilirsiniz.',
+      answer: 'Abonelik & Plan ekranından istediginiz plani secip Odemeye Gec butonuyla yukseltme yapabilirsiniz.',
       icon: Icons.upgrade,
     ),
   ];
@@ -87,8 +87,8 @@ class HelpScreen extends ConsumerWidget {
       color: ScadaColors.amber,
     ),
     _GuideStep(
-      title: '4. Calisanlari Davet Edin',
-      description: 'Kullanici yonetiminden calisanlarinizi ekleyin, departman ve rol atayin.',
+      title: '4. Çalışanlari Davet Edin',
+      description: 'Kullanici yönetiminden çalışanlarinizi ekleyin, departman ve rol atayın.',
       icon: Icons.group_add,
       color: ScadaColors.orange,
     ),

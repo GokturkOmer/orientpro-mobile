@@ -96,7 +96,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
               const SizedBox(height: 20),
               const Text('OrientPro', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: ScadaColors.cyan, letterSpacing: 2)),
               const SizedBox(height: 4),
-              Text('Calisan Eğitim & Oryantasyon Platformu', style: TextStyle(fontSize: 12, color: context.scada.textSecondary, letterSpacing: 1)),
+              Text('Çalışan Eğitim & Oryantasyon Platformu', style: TextStyle(fontSize: 12, color: context.scada.textSecondary, letterSpacing: 1)),
               const SizedBox(height: 8),
               // Version badge
               Container(
@@ -122,7 +122,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                   Row(children: [
                     Icon(Icons.login, size: 14, color: context.scada.textDim),
                     const SizedBox(width: 6),
-                    Text('SISTEM GİRİŞİ', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
+                    Text('SİSTEM GİRİŞİ', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textSecondary, letterSpacing: 1)),
                   ]),
                   const SizedBox(height: 16),
 
@@ -168,7 +168,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
 
                   const SizedBox(height: 4),
 
-                  // Beni Hatirla + Şifremi Unuttum
+                  // Beni Hatırla + Şifremi Unuttum
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -187,7 +187,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                             ),
                           ),
                           const SizedBox(width: 6),
-                          Text('Beni Hatirla', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
+                          Text('Beni Hatırla', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
                         ]),
                       ),
                       TextButton(
@@ -239,7 +239,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
               const SizedBox(height: 16),
               // Kayıt Ol linki
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Text('Hesabiniz yok mu?', style: TextStyle(fontSize: 12, color: context.scada.textDim)),
+                Text('Hesabınız yok mu?', style: TextStyle(fontSize: 12, color: context.scada.textDim)),
                 TextButton(
                   onPressed: () => Navigator.pushNamed(context, '/register'),
                   child: const Text('Kayıt Ol', style: TextStyle(fontSize: 12, color: ScadaColors.green, fontWeight: FontWeight.w600)),

@@ -234,11 +234,11 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
     ]);
   }
 
-  // ===== EGITIM BOLUMU =====
+  // ===== EĞİTİM BOLUMU =====
 
   Widget _buildTrainingSection() {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const SectionHeader(icon: Icons.school, title: 'EGITIM ISTATISTIKLERI'),
+      const SectionHeader(icon: Icons.school, title: 'EĞİTİM İSTATİSTİKLERİ'),
       const SizedBox(height: 12),
 
       // Tamamlanma ve başarı kartlari

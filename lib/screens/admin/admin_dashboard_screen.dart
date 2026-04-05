@@ -155,9 +155,9 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 ],
 
                 // ═══════════════════════════════════════
-                // GRUP 1: EGITIM & ICERIK
+                // GRUP 1: EĞİTİM & İÇERİK
                 // ═══════════════════════════════════════
-                _buildSectionHeader('EGITIM & ICERIK', Icons.school),
+                _buildSectionHeader('EĞİTİM & İÇERİK', Icons.school),
                 const SizedBox(height: 10),
                 _buildActionCard(
                   icon: Icons.folder_open,
@@ -248,9 +248,9 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 const SizedBox(height: 20),
 
                 // ═══════════════════════════════════════
-                // GRUP 4: SISTEM
+                // GRUP 4: SİSTEM
                 // ═══════════════════════════════════════
-                _buildSectionHeader('SISTEM', Icons.settings),
+                _buildSectionHeader('SİSTEM', Icons.settings),
                 const SizedBox(height: 10),
                 _buildActionCard(
                   icon: Icons.menu_book,
