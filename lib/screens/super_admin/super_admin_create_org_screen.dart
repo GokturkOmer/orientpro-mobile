@@ -72,7 +72,7 @@ class _SuperAdminCreateOrgScreenState extends ConsumerState<SuperAdminCreateOrgS
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           _SectionLabel('ISLETME BILGILERI'),
           const SizedBox(height: 12),
-          _Field(controller: _orgNameCtrl, label: 'Isletme Adi', hint: 'Otel ABC', validator: (v) => (v?.trim().length ?? 0) < 2 ? 'En az 2 karakter' : null),
+          _Field(controller: _orgNameCtrl, label: 'İşletme Adi', hint: 'Otel ABC', validator: (v) => (v?.trim().length ?? 0) < 2 ? 'En az 2 karakter' : null),
           const SizedBox(height: 12),
           _DropdownField('Sektor', _sector, _sectors, (v) => setState(() => _sector = v!)),
           const SizedBox(height: 12),
@@ -133,7 +133,7 @@ class _SuperAdminCreateOrgScreenState extends ConsumerState<SuperAdminCreateOrgS
               icon: _isLoading
                 ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
                 : const Icon(Icons.add_business),
-              label: Text(_isLoading ? 'Olusturuluyor...' : 'Musteri Olustur'),
+              label: Text(_isLoading ? 'Oluşturuluyor...' : 'Musteri Oluştur'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: ScadaColors.red,
                 foregroundColor: Colors.white,
@@ -228,7 +228,7 @@ class _SuccessView extends StatelessWidget {
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           const Icon(Icons.check_circle, color: ScadaColors.green, size: 64),
           const SizedBox(height: 16),
-          const Text('Musteri Olusturuldu!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: ScadaColors.green)),
+          const Text('Musteri Oluşturuldu!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: ScadaColors.green)),
           const SizedBox(height: 24),
           Container(
             width: double.infinity,
@@ -239,7 +239,7 @@ class _SuccessView extends StatelessWidget {
               border: Border.all(color: context.scada.border),
             ),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              _InfoRow('Isletme', org['name'] ?? ''),
+              _InfoRow('İşletme', org['name'] ?? ''),
               _InfoRow('Slug', org['slug'] ?? ''),
               _InfoRow('Plan', org['plan_type'] ?? ''),
               const Divider(height: 20),
@@ -257,7 +257,7 @@ class _SuccessView extends StatelessWidget {
                   const Row(children: [
                     Icon(Icons.warning_amber_rounded, color: ScadaColors.amber, size: 16),
                     SizedBox(width: 6),
-                    Text('Gecici Sifre — Sadece Bir Kez Gosterilir', style: TextStyle(fontSize: 11, color: ScadaColors.amber, fontWeight: FontWeight.w600)),
+                    Text('Gecici Şifre — Sadece Bir Kez Gosterilir', style: TextStyle(fontSize: 11, color: ScadaColors.amber, fontWeight: FontWeight.w600)),
                   ]),
                   const SizedBox(height: 8),
                   SelectableText(

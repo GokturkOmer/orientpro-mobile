@@ -16,7 +16,7 @@ class TrainingRoutesScreen extends ConsumerStatefulWidget {
 class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
   String? _selectedDeptId;
   String? _selectedDeptName;
-  String? _selectedTeknikTag; // elektrik, mekanik, tesisat, genel, null=tumu
+  String? _selectedTeknikTag; // elektrik, mekanik, tesisat, genel, null=tümü
   bool _loaded = false;
   String _searchQuery = '';
 
@@ -125,7 +125,7 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          _selectedDeptName ?? 'Egitim Rotalari',
+          _selectedDeptName ?? 'Eğitim Rotalari',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary),
         ),
       ),
@@ -154,7 +154,7 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: Row(children: [
-              if (visibleDepts == null) _buildDeptChip('Tumu', null, null),
+              if (visibleDepts == null) _buildDeptChip('Tümü', null, null),
               ...filteredDepts.map((dept) {
                 Color chipColor;
                 try {
@@ -175,7 +175,7 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
             child: Row(children: [
-              _buildTagChip('Tumu', null, ScadaColors.cyan),
+              _buildTagChip('Tümü', null, ScadaColors.cyan),
               ...visibleTagChips.map((tag) => _buildTagChip(
                 _teknikTagLabel(tag),
                 tag,
@@ -193,7 +193,7 @@ class _TrainingRoutesScreenState extends ConsumerState<TrainingRoutesScreen> {
                       child: Column(mainAxisSize: MainAxisSize.min, children: [
                         Icon(Icons.route, size: 48, color: context.scada.textDim),
                         const SizedBox(height: 12),
-                        Text('Henuz egitim rotasi bulunmuyor', style: TextStyle(color: context.scada.textSecondary, fontSize: 13)),
+                        Text('Henuz eğitim rotasi bulunmuyor', style: TextStyle(color: context.scada.textSecondary, fontSize: 13)),
                       ]),
                     )
                   : ListView.builder(

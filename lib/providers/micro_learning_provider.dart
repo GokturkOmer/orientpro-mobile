@@ -41,7 +41,7 @@ class MicroLearningNotifier extends Notifier<MicroLearningState> {
   @override
   MicroLearningState build() => MicroLearningState();
 
-  /// Bugunku mikro-ogrenme kartlarini yukle
+  /// Bugunku mikro-öğrenme kartlarini yükle
   Future<void> loadToday(String userId, {String? mode}) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
@@ -61,7 +61,7 @@ class MicroLearningNotifier extends Notifier<MicroLearningState> {
   Future<void> markCardRead(String cardId) async {
     try {
       await _dio.post('/micro-learning/card/$cardId/read');
-      // Kartlari guncelle
+      // Kartlari güncelle
       if (state.todayData != null) {
         final updatedCards = state.todayData!.cards.map((c) {
           if (c.id == cardId) {
@@ -92,7 +92,7 @@ class MicroLearningNotifier extends Notifier<MicroLearningState> {
     }
   }
 
-  /// Mikro-ogrenme quizi coz
+  /// Mikro-öğrenme quizi coz
   Future<MicroQuizResult?> submitQuiz(String assignmentId, Map<String, String> answers) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
@@ -112,7 +112,7 @@ class MicroLearningNotifier extends Notifier<MicroLearningState> {
     }
   }
 
-  /// Ilerleme yukle
+  /// Ilerleme yükle
   Future<void> loadProgress(String userId) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
@@ -127,7 +127,7 @@ class MicroLearningNotifier extends Notifier<MicroLearningState> {
     }
   }
 
-  // ── Yonetici Metodlari ──
+  // ── Yönetici Metodlari ──
 
   /// Calisanlara modul ata
   Future<bool> assignModules({
@@ -168,7 +168,7 @@ class MicroLearningNotifier extends Notifier<MicroLearningState> {
     }
   }
 
-  /// Quiz sonucunu temizle (ekran gecislerinde)
+  /// Quiz sonuçunu temizle (ekran gecislerinde)
   void clearQuizResult() {
     state = state.copyWith(lastQuizResult: null);
   }

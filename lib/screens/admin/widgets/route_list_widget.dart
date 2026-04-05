@@ -100,7 +100,7 @@ class RouteDetailWidget extends ConsumerWidget {
                     ElevatedButton.icon(
                       onPressed: onEdit,
                       icon: const Icon(Icons.edit, size: 14),
-                      label: const Text('Duzenle', style: TextStyle(fontSize: 12)),
+                      label: const Text('Düzenle', style: TextStyle(fontSize: 12)),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: ScadaColors.cyan.withValues(alpha: 0.12),
                         foregroundColor: ScadaColors.cyan,
@@ -124,7 +124,7 @@ class RouteDetailWidget extends ConsumerWidget {
                     ElevatedButton.icon(
                       onPressed: onPdfUpload,
                       icon: const Icon(Icons.upload_file, size: 14),
-                      label: const Text('PDF Yukle', style: TextStyle(fontSize: 12)),
+                      label: const Text('PDF Yükle', style: TextStyle(fontSize: 12)),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: ScadaColors.red.withValues(alpha: 0.12),
                         foregroundColor: ScadaColors.red,

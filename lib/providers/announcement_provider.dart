@@ -104,7 +104,7 @@ class AnnouncementNotifier extends Notifier<AnnouncementState> {
   Future<bool> markAsRead(String announcementId) async {
     try {
       await _dio.post('/announcements/$announcementId/read');
-      // Listeyi guncelle
+      // Listeyi güncelle
       final updated = state.announcements.map((a) {
         if (a.id == announcementId) {
           return Announcement.fromJson({

@@ -27,7 +27,7 @@ class StatusHelper {
 
   // ===== GENEL DURUM RENKLERI =====
 
-  /// Egitim ilerleme durumu rengi: not_started, in_progress, completed
+  /// Eğitim ilerleme durumu rengi: not_started, in_progress, completed
   static Color trainingStatusColor(String status) {
     switch (status) {
       case 'completed':
@@ -39,7 +39,7 @@ class StatusHelper {
     }
   }
 
-  /// Egitim ilerleme durumu ikonu
+  /// Eğitim ilerleme durumu ikonu
   static IconData trainingStatusIcon(String status) {
     switch (status) {
       case 'completed':
@@ -51,7 +51,7 @@ class StatusHelper {
     }
   }
 
-  /// Vardiya/gorev durumu rengi: pending, in_progress, completed, cancelled
+  /// Vardiya/görev durumu rengi: pending, in_progress, completed, cancelled
   static Color taskStatusColor(String status) {
     switch (status) {
       case 'pending':
@@ -101,7 +101,7 @@ class StatusHelper {
 
   // ===== QUIZ DURUM =====
 
-  /// Quiz sonucu durumunu hesaplar.
+  /// Quiz sonuçu durumunu hesaplar.
   /// [passed] ve [percent] quiz result'tan gelir; null ise cozulmemis.
   static ({String text, Color color, IconData icon}) quizStatus({
     required bool? passed,

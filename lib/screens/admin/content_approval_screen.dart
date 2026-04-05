@@ -16,7 +16,7 @@ class _ApprovalItem {
   factory _ApprovalItem.fromJson(Map<String, dynamic> json) {
     return _ApprovalItem(
       id: json['id'] ?? '',
-      title: json['title'] ?? 'Isimsiz Icerik',
+      title: json['title'] ?? 'Isimsiz İçerik',
       author: json['author_name'] ?? json['author'] ?? 'Bilinmeyen',
       createdAt: json['created_at'] ?? '',
       type: json['content_type'] ?? json['type'],
@@ -55,7 +55,7 @@ class _ContentApprovalScreenState extends ConsumerState<ContentApprovalScreen> {
     } on DioException catch (e) {
       setState(() {
         _isLoading = false;
-        _error = e.response?.data?['detail'] ?? 'Veriler yuklenemedi';
+        _error = e.response?.data?['detail'] ?? 'Veriler yüklenemedi';
       });
     } catch (e) {
       setState(() { _isLoading = false; _error = 'Beklenmeyen hata'; });
@@ -75,7 +75,7 @@ class _ContentApprovalScreenState extends ConsumerState<ContentApprovalScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(status == 'approved' ? 'Icerik onaylandi' : 'Icerik reddedildi'),
+            content: Text(status == 'approved' ? 'İçerik onaylandi' : 'İçerik reddedildi'),
             backgroundColor: status == 'approved' ? ScadaColors.green : ScadaColors.red,
           ),
         );
@@ -84,7 +84,7 @@ class _ContentApprovalScreenState extends ConsumerState<ContentApprovalScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(e.response?.data?['detail'] ?? 'Islem basarisiz'),
+            content: Text(e.response?.data?['detail'] ?? 'İşlem başarısız'),
             backgroundColor: ScadaColors.red,
           ),
         );
@@ -166,7 +166,7 @@ class _ContentApprovalScreenState extends ConsumerState<ContentApprovalScreen> {
             child: const Icon(Icons.fact_check, color: ScadaColors.amber, size: 20),
           ),
           SizedBox(width: 8),
-          Text('Icerik Onaylari', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+          Text('İçerik Onaylari', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
         actions: [
           if (_items.isNotEmpty)
@@ -200,7 +200,7 @@ class _ContentApprovalScreenState extends ConsumerState<ContentApprovalScreen> {
                       child: Column(mainAxisSize: MainAxisSize.min, children: [
                         Icon(Icons.check_circle_outline, size: 48, color: ScadaColors.green.withValues(alpha: 0.5)),
                         SizedBox(height: 12),
-                        Text('Onay bekleyen icerik yok', style: TextStyle(fontSize: 13, color: context.scada.textSecondary)),
+                        Text('Onay bekleyen içerik yok', style: TextStyle(fontSize: 13, color: context.scada.textSecondary)),
                       ]),
                     )
                   : RefreshIndicator(

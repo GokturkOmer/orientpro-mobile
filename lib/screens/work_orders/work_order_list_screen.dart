@@ -48,7 +48,7 @@ class _WorkOrderListScreenState extends ConsumerState<WorkOrderListScreen> {
       body: Column(children: [
         SizedBox(height: 50, child: ListView(scrollDirection: Axis.horizontal, padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8), children: [
           Padding(padding: const EdgeInsets.only(right: 6), child: FilterChip(
-            label: Text('Tumu', style: TextStyle(fontSize: 11, color: context.scada.textPrimary)),
+            label: Text('Tümü', style: TextStyle(fontSize: 11, color: context.scada.textPrimary)),
             selected: statusFilter == null,
             onSelected: (_) { statusFilter = null; _load(); },
             selectedColor: ScadaColors.cyan.withValues(alpha: 0.15),

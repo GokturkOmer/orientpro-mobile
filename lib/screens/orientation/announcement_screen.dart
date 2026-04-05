@@ -120,7 +120,7 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
                               (a.targetDepartment?.toTurkishLowerCase().contains(_searchQuery) ?? false)
                             ).toList();
                       if (filtered.isEmpty) {
-                        return Center(child: Text('Sonuc bulunamadi', style: TextStyle(color: context.scada.textDim, fontSize: 13)));
+                        return Center(child: Text('Sonuç bulunamadi', style: TextStyle(color: context.scada.textDim, fontSize: 13)));
                       }
                       return ListView.builder(
                         controller: _scrollController,
@@ -209,7 +209,7 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
                   const PopupMenuItem(value: 'edit', child: Row(children: [
                     Icon(Icons.edit, size: 16, color: ScadaColors.cyan),
                     SizedBox(width: 8),
-                    Text('Duzenle', style: TextStyle(fontSize: 12)),
+                    Text('Düzenle', style: TextStyle(fontSize: 12)),
                   ])),
                   const PopupMenuItem(value: 'delete', child: Row(children: [
                     Icon(Icons.delete, size: 16, color: ScadaColors.red),
@@ -309,7 +309,7 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
               if (mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(ok ? 'Duyuru silindi' : 'Silme basarisiz'),
+                    content: Text(ok ? 'Duyuru silindi' : 'Silme başarısız'),
                     backgroundColor: ok ? ScadaColors.green : ScadaColors.red,
                   ),
                 );
@@ -345,7 +345,7 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
           title: Row(children: [
             Icon(isEdit ? Icons.edit : Icons.campaign, color: isEdit ? ScadaColors.cyan : ScadaColors.amber, size: 18),
             const SizedBox(width: 8),
-            Text(isEdit ? 'Duyuru Duzenle' : 'Yeni Duyuru', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
+            Text(isEdit ? 'Duyuru Düzenle' : 'Yeni Duyuru', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
           ]),
           content: SingleChildScrollView(
             child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -356,7 +356,7 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
               const SizedBox(height: 12),
               TextField(
                 controller: bodyController,
-                decoration: const InputDecoration(labelText: 'Icerik'),
+                decoration: const InputDecoration(labelText: 'İçerik'),
                 maxLines: 4,
               ),
               const SizedBox(height: 12),
@@ -397,7 +397,7 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
               onPressed: () async {
                 if (titleController.text.isEmpty || bodyController.text.isEmpty) {
                   ScaffoldMessenger.of(ctx).showSnackBar(
-                    const SnackBar(content: Text('Baslik ve icerik zorunlu'), backgroundColor: ScadaColors.red),
+                    const SnackBar(content: Text('Baslik ve içerik zorunlu'), backgroundColor: ScadaColors.red),
                   );
                   return;
                 }
@@ -426,8 +426,8 @@ class _AnnouncementScreenState extends ConsumerState<AnnouncementScreen> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(ok
-                          ? (isEdit ? 'Duyuru guncellendi' : 'Duyuru olusturuldu')
-                          : (isEdit ? 'Guncelleme basarisiz' : 'Duyuru olusturulamadi')),
+                          ? (isEdit ? 'Duyuru güncellendi' : 'Duyuru oluşturuldu')
+                          : (isEdit ? 'Güncelleme başarısız' : 'Duyuru oluşturulamadı')),
                       backgroundColor: ok ? ScadaColors.green : ScadaColors.red,
                     ),
                   );

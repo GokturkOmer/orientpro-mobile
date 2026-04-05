@@ -52,14 +52,14 @@ class ChatNotifier extends Notifier<ChatBotState> {
   void addWelcomeMessage(String userName) {
     if (state.messages.isNotEmpty) return; // Zaten mesaj varsa ekleme
     final welcome = ChatMessage(
-      text: 'Merhaba${userName.isNotEmpty ? ' $userName' : ''}! Ben OrientPro AI Asistaniyim. Oryantasyon sureciyle ilgili sorularinizi yanitlayabilirim.\n\n'
+      text: 'Merhaba${userName.isNotEmpty ? ' $userName' : ''}! Ben OrientPro AI Asistaniyim. Oryantasyon süreçiyle ilgili sorularinizi yanitlayabilirim.\n\n'
           '**Soru sorabilecaginiz konular:**\n'
           '- **ISG & Guvenlik** - Is sagligi, yangin, tahliye\n'
           '- **KVKK & Hukuk** - Veri koruma, etik kurallar\n'
-          '- **Departman Egitim** - Oda temizligi, servis, resepsiyon\n'
+          '- **Departman Eğitim** - Oda temizligi, servis, resepsiyon\n'
           '- **Teknik Sistemler** - SCADA, dijital ikiz, QR tur\n'
           '- **Acil Durumlar** - Ilk yardim, deprem, yangin\n\n'
-          'Asagidaki hizli erisim butonlarini da kullanabilirsiniz.',
+          'Asagidaki hizli erişim butonlarini da kullanabilirsiniz.',
       isUser: false,
     );
     state = state.copyWith(messages: [welcome]);
@@ -97,7 +97,7 @@ class ChatNotifier extends Notifier<ChatBotState> {
       final errMsg = ChatMessage(text: errText, isUser: false);
       state = state.copyWith(messages: [...state.messages, errMsg], isLoading: false, lastError: errText);
     } catch (e) {
-      final errText = 'Baglanti hatasi olustu. Bilgiler getirilemedi, lutfen tekrar deneyin.';
+      final errText = 'Baglanti hatasi olustu. Bilgiler getirilemedi, lütfen tekrar deneyin.';
       final errMsg = ChatMessage(text: errText, isUser: false);
       state = state.copyWith(messages: [...state.messages, errMsg], isLoading: false, lastError: errText);
     }

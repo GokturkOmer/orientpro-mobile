@@ -52,7 +52,7 @@ class AuthNotifier extends Notifier<AuthState> {
   @override
   AuthState build() => AuthState();
 
-  /// Public kayit islemi — basarili olursa e-posta dogrulama ekranina yonlendirilir
+  /// Public kayıt işlemi — başarılı olursa e-posta doğrulama ekranina yonlendirilir
   Future<Map<String, dynamic>> register(String email, String fullName, String password) async {
     state = AuthState(isLoading: true, autoLoginChecked: state.autoLoginChecked);
     try {
@@ -72,7 +72,7 @@ class AuthNotifier extends Notifier<AuthState> {
     }
   }
 
-  /// Kurum kaydi — organizasyon + admin kullanici olusturur
+  /// Kurum kaydı — organizasyon + admin kullanici oluşturur
   Future<Map<String, dynamic>> registerOrganization(String email, String fullName, String password, String orgName, {String sector = 'hotel'}) async {
     state = AuthState(isLoading: true, autoLoginChecked: state.autoLoginChecked);
     try {
@@ -92,7 +92,7 @@ class AuthNotifier extends Notifier<AuthState> {
     }
   }
 
-  /// Login islemi — basarili olursa token ve kullanici bilgisi kalici olarak saklanir
+  /// Login işlemi — başarılı olursa token ve kullanici bilgisi kalici olarak saklanir
   /// Birden fazla organizasyona uyeyse org secim ekrani gosterilir
   Future<bool> login(String email, String password, {bool rememberMe = false}) async {
     state = AuthState(isLoading: true, autoLoginChecked: true);
@@ -114,10 +114,10 @@ class AuthNotifier extends Notifier<AuthState> {
           tempToken: response.data['temp_token'],
           organizations: orgs,
         );
-        return true; // login basarili ama org secimi bekliyor
+        return true; // login başarılı ama org secimi bekliyor
       }
 
-      // Tek org veya org yok — direkt giris
+      // Tek org veya org yok — direkt giriş
       return _handleLoginSuccess(response.data);
     } on DioException catch (e) {
       state = AuthState(error: ErrorHelper.getMessage(e), autoLoginChecked: true);
@@ -192,7 +192,7 @@ class AuthNotifier extends Notifier<AuthState> {
     }
   }
 
-  /// Uygulama basladiginda veya arka plandan donuldugunde oturumu geri yukle
+  /// Uygulama basladiginda veya arka plandan donuldugunde oturumu geri yükle
   Future<bool> tryAutoLogin() async {
     try {
       final savedToken = await SecureStorage.getToken();
@@ -208,7 +208,7 @@ class AuthNotifier extends Notifier<AuthState> {
         state = AuthState(user: user, token: savedToken, autoLoginChecked: true);
       }
 
-      // Arka planda token'i sunucudan dogrula
+      // Arka planda token'i sunucudan doğrula
       try {
         final response = await _dio.get('/auth/me',
             options: Options(headers: {'Authorization': 'Bearer $savedToken'}));
@@ -232,7 +232,7 @@ class AuthNotifier extends Notifier<AuthState> {
             debugPrint('tryAutoLogin hata: $e');
           }
         }
-        // Refresh de basarisiz — temizle ve login ekranina yonlendir
+        // Refresh de başarısız — temizle ve login ekranina yonlendir
         await SecureStorage.clearAll();
         state = AuthState(autoLoginChecked: true);
         return false;
@@ -243,10 +243,10 @@ class AuthNotifier extends Notifier<AuthState> {
     }
   }
 
-  /// Cikis yap — token ve kullanici bilgisini sil
+  /// Çıkış yap — token ve kullanici bilgisini sil
   Future<void> logout() async {
     final currentToken = state.token;
-    // Sunucuya logout bildirimi (basarisiz olursa sorun degil)
+    // Sunucuya logout bildirimi (başarısız olursa sorun degil)
     if (currentToken != null) {
       try {
         await _dio.post('/auth/logout',

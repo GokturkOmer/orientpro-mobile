@@ -78,7 +78,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
           ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
               const CircularProgressIndicator(color: ScadaColors.amber),
               SizedBox(height: 16),
-              Text('Yukleniyor...', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
+              Text('Yükleniyor...', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
             ]))
           : SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
@@ -130,7 +130,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                     SizedBox(width: 12),
                     Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                       Text('Hosgeldin, ${auth.user?.fullName ?? ""}', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
-                      Text('Icerik yonetimi ve egitim modulu duzenleme', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
+                      Text('İçerik yonetimi ve eğitim modulu düzenleme', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
                     ])),
                   ]),
                 ),
@@ -161,7 +161,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 const SizedBox(height: 10),
                 _buildActionCard(
                   icon: Icons.folder_open,
-                  title: 'Icerik Yonetimi',
+                  title: 'İçerik Yonetimi',
                   subtitle: 'Rotalar, moduller ve quizler',
                   color: ScadaColors.purple,
                   onTap: () => Navigator.pushNamed(context, '/admin/content'),
@@ -169,16 +169,16 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 const SizedBox(height: 8),
                 _buildActionCard(
                   icon: Icons.auto_stories,
-                  title: 'Mikro-Ogrenme',
-                  subtitle: 'Atama yap ve sonuclari goruntule',
+                  title: 'Mikro-Öğrenme',
+                  subtitle: 'Atama yap ve sonuçlari goruntule',
                   color: ScadaColors.purple,
                   onTap: () => Navigator.pushNamed(context, '/admin/micro-learning'),
                 ),
                 const SizedBox(height: 8),
                 _buildActionCard(
                   icon: Icons.library_books,
-                  title: 'Dokuman Havuzu',
-                  subtitle: 'Egitim icerikleri, chatbot verisi, prosedurler',
+                  title: 'Doküman Havuzu',
+                  subtitle: 'Eğitim içerikleri, chatbot verisi, prosedurler',
                   color: ScadaColors.purple,
                   onTap: () => Navigator.pushNamed(context, '/admin/documents'),
                 ),
@@ -201,7 +201,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 _buildActionCard(
                   icon: Icons.shield,
                   title: 'Rol Yonetimi',
-                  subtitle: 'Roller ve erisim izinleri',
+                  subtitle: 'Roller ve erişim izinleri',
                   color: ScadaColors.cyan,
                   onTap: () => Navigator.pushNamed(context, '/admin/roles'),
                 ),
@@ -231,8 +231,8 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 const SizedBox(height: 8),
                 _buildActionCard(
                   icon: Icons.assessment,
-                  title: 'Egitim Sonuclari',
-                  subtitle: 'Quiz sonuclari ve ilerleme raporlari',
+                  title: 'Eğitim Sonuçlari',
+                  subtitle: 'Quiz sonuçlari ve ilerleme raporlari',
                   color: ScadaColors.green,
                   onTap: () => Navigator.pushNamed(context, '/admin/micro-learning-results'),
                 ),
@@ -240,7 +240,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 _buildActionCard(
                   icon: Icons.table_chart,
                   title: 'Excel Export',
-                  subtitle: 'Egitim verilerini indir',
+                  subtitle: 'Eğitim verilerini indir',
                   color: ScadaColors.green,
                   onTap: _exportExcel,
                 ),
@@ -254,7 +254,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 const SizedBox(height: 10),
                 _buildActionCard(
                   icon: Icons.menu_book,
-                  title: 'Icerik Kutuphanesi',
+                  title: 'İçerik Kutuphanesi',
                   subtitle: 'Paylasimli online kutuphane',
                   color: ScadaColors.amber,
                   onTap: () => Navigator.pushNamed(context, '/library'),
@@ -271,7 +271,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 _buildActionCard(
                   icon: Icons.category,
                   title: 'Sektor Sablonlari',
-                  subtitle: 'Hazir egitim sablonlari',
+                  subtitle: 'Hazir eğitim sablonlari',
                   color: ScadaColors.amber,
                   onTap: () => Navigator.pushNamed(context, '/admin/templates'),
                 ),
@@ -357,7 +357,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
           border: Border.all(color: context.scada.border),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('Icerik Dagilimi',
+          Text('İçerik Dagilimi',
             style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
           const SizedBox(height: 16),
           SizedBox(
@@ -521,7 +521,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
         options: Options(responseType: ResponseType.bytes),
       );
       final bytes = response.data as List<int>;
-      final fileName = 'orientpro_egitim_raporu_${DateTime.now().toIso8601String().split('T').first}.xlsx';
+      final fileName = 'orientpro_eğitim_raporu_${DateTime.now().toIso8601String().split('T').first}.xlsx';
 
       if (kIsWeb) {
         await file_saver.saveFileWeb(bytes, fileName);

@@ -69,7 +69,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
       setState(() => _isLoading = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Quiz yuklenemedi: $e'), backgroundColor: ScadaColors.red),
+          SnackBar(content: Text('Quiz yüklenemedi: $e'), backgroundColor: ScadaColors.red),
         );
       }
     }
@@ -94,7 +94,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
         final success = await notifier.updateQuiz(_quizId!, data);
         if (success && mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Quiz guncellendi'), backgroundColor: ScadaColors.green),
+            const SnackBar(content: Text('Quiz güncellendi'), backgroundColor: ScadaColors.green),
           );
         }
       } else {
@@ -103,7 +103,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
           setState(() => _quizId = newId);
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Quiz olusturuldu'), backgroundColor: ScadaColors.green),
+              const SnackBar(content: Text('Quiz oluşturuldu'), backgroundColor: ScadaColors.green),
             );
           }
         }
@@ -152,7 +152,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
               backgroundColor: context.scada.surface,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               title: Text(
-                existing != null ? 'Soru Duzenle' : 'Yeni Soru Ekle',
+                existing != null ? 'Soru Düzenle' : 'Yeni Soru Ekle',
                 style: const TextStyle(color: ScadaColors.cyan, fontSize: 16, fontWeight: FontWeight.w700),
               ),
               content: SizedBox(
@@ -200,7 +200,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
                               Expanded(
                                 child: _buildDialogField(
                                   controller: optionControllers[i],
-                                  label: '$letter secenegi',
+                                  label: '$letter seçeneği',
                                 ),
                               ),
                             ],
@@ -212,7 +212,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
                         initialValue: selectedAnswer,
                         dropdownColor: context.scada.card,
                         decoration: InputDecoration(
-                          labelText: 'Dogru Cevap',
+                          labelText: 'Doğru Cevap',
                           labelStyle: const TextStyle(color: ScadaColors.amber, fontSize: 12),
                           filled: true,
                           fillColor: context.scada.card,
@@ -255,7 +255,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
                       const SizedBox(height: 12),
                       _buildDialogField(
                         controller: explanationController,
-                        label: 'Aciklama (opsiyonel)',
+                        label: 'Açıklama (opsiyonel)',
                         maxLines: 2,
                       ),
                     ],
@@ -301,7 +301,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
                       _loadQuestions();
                     }
                   },
-                  child: Text(existing != null ? 'Guncelle' : 'Kaydet'),
+                  child: Text(existing != null ? 'Güncelle' : 'Kaydet'),
                 ),
               ],
             );
@@ -318,7 +318,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
         backgroundColor: context.scada.surface,
         title: const Text('Soru Sil', style: TextStyle(color: ScadaColors.red, fontSize: 16)),
         content: const Text(
-          'Bu soruyu silmek istediginizden emin misiniz?',
+          'Bu soruyu silmek istediğinizden emin misiniz?',
           style: TextStyle(color: Colors.white70, fontSize: 13),
         ),
         actions: [
@@ -387,7 +387,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          _isEditMode ? 'Quiz Duzenle' : 'Quiz Olustur',
+          _isEditMode ? 'Quiz Düzenle' : 'Quiz Oluştur',
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white),
         ),
       ),
@@ -423,19 +423,19 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Quiz Ayarlari',
+              'Quiz Ayarları',
               style: TextStyle(color: ScadaColors.cyan, fontSize: 14, fontWeight: FontWeight.w700),
             ),
             const SizedBox(height: 16),
             _buildFormField(
               controller: _titleController,
-              label: 'Quiz Basligi',
+              label: 'Quiz Başlığı',
               required: true,
             ),
             const SizedBox(height: 12),
             _buildFormField(
               controller: _descriptionController,
-              label: 'Aciklama',
+              label: 'Açıklama',
               maxLines: 3,
             ),
             const SizedBox(height: 12),
@@ -461,7 +461,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
             const SizedBox(height: 12),
             _buildFormField(
               controller: _passingScoreController,
-              label: 'Gecme Puani (%)',
+              label: 'Geçme Puanı (%)',
               keyboardType: TextInputType.number,
             ),
             SizedBox(height: 16),
@@ -478,7 +478,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
                 icon: _isSaving
                     ? SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: context.scada.bg))
                     : Icon(_isEditMode ? Icons.save : Icons.add),
-                label: Text(_isEditMode ? 'Quiz Guncelle' : 'Quiz Olustur'),
+                label: Text(_isEditMode ? 'Quiz Güncelle' : 'Quiz Oluştur'),
               ),
             ),
           ],
@@ -561,7 +561,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
                 Icon(Icons.quiz_outlined, color: ScadaColors.amber, size: 40),
                 SizedBox(height: 12),
                 Text(
-                  'Henuz soru eklenmedi',
+                  'Henüz soru eklenmedi',
                   style: TextStyle(color: ScadaColors.amber, fontSize: 13),
                 ),
               ],
@@ -690,7 +690,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
               IconButton(
                 icon: const Icon(Icons.edit, color: ScadaColors.cyan, size: 18),
                 onPressed: () => _showQuestionDialog(existing: question),
-                tooltip: 'Duzenle',
+                tooltip: 'Düzenle',
                 constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
                 padding: EdgeInsets.zero,
               ),

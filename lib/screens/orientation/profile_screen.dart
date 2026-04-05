@@ -64,7 +64,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       body: profileState.isLoading
           ? const Center(child: CircularProgressIndicator(color: ScadaColors.orange))
           : profile == null
-              ? Center(child: Text('Profil yuklenemedi', style: TextStyle(color: context.scada.textSecondary)))
+              ? Center(child: Text('Profil yüklenemedi', style: TextStyle(color: context.scada.textSecondary)))
               : ListView(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
                   children: [
@@ -104,7 +104,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     if (summary != null) ...[
                       const SizedBox(height: 12),
                       Row(children: [
-                        StatCard(label: 'Egitim', value: '${summary.completedTrainings}', color: ScadaColors.green, borderRadius: 8),
+                        StatCard(label: 'Eğitim', value: '${summary.completedTrainings}', color: ScadaColors.green, borderRadius: 8),
                         const SizedBox(width: 8),
                         StatCard(label: 'Belge', value: '${summary.documentCount}', color: ScadaColors.cyan, borderRadius: 8),
                         const SizedBox(width: 8),
@@ -141,7 +141,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       _buildInfoRow(Icons.bloodtype, 'Kan Grubu', profile.bloodType ?? '-'),
                       _buildInfoRow(Icons.credit_card, 'TC Kimlik', profile.nationalId ?? '-'),
                       _buildInfoRow(Icons.schedule, 'Vardiya', profile.shiftTypeText),
-                      _buildInfoRow(Icons.calendar_today, 'Ise Giris', profile.hireDate ?? '-'),
+                      _buildInfoRow(Icons.calendar_today, 'Ise Giriş', profile.hireDate ?? '-'),
                     ]),
 
                     // Skills
@@ -280,7 +280,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         title: Row(children: [
           const Icon(Icons.edit, color: ScadaColors.cyan, size: 18),
           const SizedBox(width: 8),
-          Text('Profil Duzenle', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
+          Text('Profil Düzenle', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
         ]),
         content: SizedBox(
           width: MediaQuery.of(context).size.width * 0.85,
@@ -352,7 +352,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               // Telefon validation
               if (_validatePhone(phoneCtrl.text) != null || _validatePhone(emergencyPhoneCtrl.text) != null) {
                 ScaffoldMessenger.of(ctx).showSnackBar(
-                  const SnackBar(content: Text('Lutfen gecerli telefon numaralari girin'), backgroundColor: ScadaColors.red),
+                  const SnackBar(content: Text('Lütfen gecerli telefon numaralari girin'), backgroundColor: ScadaColors.red),
                 );
                 return;
               }
@@ -369,14 +369,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
                 final ok = await ref.read(profileProvider.notifier).updateProfile(auth.user!.id, data);
                 if (ok) {
-                  // Profil verisini yeniden yukle
+                  // Profil verisini yeniden yükle
                   ref.read(profileProvider.notifier).loadProfile(auth.user!.id);
                 }
                 if (ctx.mounted) Navigator.pop(ctx);
                 if (mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(ok ? 'Profil guncellendi' : 'Guncelleme basarisiz'),
+                      content: Text(ok ? 'Profil güncellendi' : 'Güncelleme başarısız'),
                       backgroundColor: ok ? ScadaColors.green : ScadaColors.red,
                     ),
                   );

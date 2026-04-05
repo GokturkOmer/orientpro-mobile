@@ -78,9 +78,9 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: context.scada.surface,
-        title: Text('Dokumani Sil', style: TextStyle(color: context.scada.textPrimary, fontSize: 16)),
+        title: Text('Dokümani Sil', style: TextStyle(color: context.scada.textPrimary, fontSize: 16)),
         content: Text(
-          '"$docTitle" dokumanini silmek istediginize emin misiniz?\n\nBu islem geri alinamaz.',
+          '"$docTitle" dokümanini silmek istediginize emin misiniz?\n\nBu işlem geri alinamaz.',
           style: TextStyle(color: context.scada.textSecondary, fontSize: 13),
         ),
         actions: [
@@ -94,13 +94,13 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
               final success = await ref.read(adminProvider.notifier).deleteContent(docId);
               if (success && mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Dokuman silindi'), backgroundColor: ScadaColors.green),
+                  const SnackBar(content: Text('Doküman silindi'), backgroundColor: ScadaColors.green),
                 );
                 _loadDocuments();
               } else if (mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(ref.read(adminProvider).error ?? 'Dokuman silinemedi'),
+                    content: Text(ref.read(adminProvider).error ?? 'Doküman silinemedi'),
                     backgroundColor: ScadaColors.red,
                   ),
                 );
@@ -133,7 +133,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
               title: Row(children: [
                 const Icon(Icons.upload_file, color: ScadaColors.red, size: 22),
                 SizedBox(width: 8),
-                Text('PDF Yukle', style: TextStyle(color: context.scada.textPrimary, fontSize: 16)),
+                Text('PDF Yükle', style: TextStyle(color: context.scada.textPrimary, fontSize: 16)),
               ]),
               content: SingleChildScrollView(
                 child: SizedBox(
@@ -265,9 +265,9 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                           SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              'PDF yuklendiginde AI otomatik olarak:\n'
+                              'PDF yüklendiginde AI otomatik olarak:\n'
                               '- Departman ve zorluk siniflandirmasi yapar\n'
-                              '- Anahtar etiketler olusturur\n'
+                              '- Anahtar etiketler oluşturur\n'
                               '- Semantik arama icin indeksler',
                               style: TextStyle(color: context.scada.textSecondary, fontSize: 10, height: 1.4),
                             ),
@@ -285,7 +285,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          uploadProgress >= 1.0 ? 'AI siniflandirma yapiliyor...' : 'Yukleniyor... %${(uploadProgress * 100).toInt()}',
+                          uploadProgress >= 1.0 ? 'AI siniflandirma yapiliyor...' : 'Yükleniyor... %${(uploadProgress * 100).toInt()}',
                           style: TextStyle(
                             color: uploadProgress >= 1.0 ? ScadaColors.purple : ScadaColors.cyan,
                             fontSize: 11,
@@ -346,7 +346,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                                 if (ctx.mounted) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text(ref.read(adminProvider).error ?? 'PDF yuklenemedi'),
+                                      content: Text(ref.read(adminProvider).error ?? 'PDF yüklenemedi'),
                                       backgroundColor: ScadaColors.red,
                                     ),
                                   );
@@ -355,7 +355,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                             }
                           },
                     icon: const Icon(Icons.upload, size: 16),
-                    label: const Text('Yukle & Siniflandir'),
+                    label: const Text('Yükle & Siniflandir'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: ScadaColors.red,
                       foregroundColor: Colors.white,
@@ -385,7 +385,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
         Row(children: [
           const Icon(Icons.check_circle, color: ScadaColors.green, size: 18),
           const SizedBox(width: 8),
-          const Text('Basariyla Yuklendi!', style: TextStyle(color: ScadaColors.green, fontWeight: FontWeight.w600, fontSize: 13)),
+          const Text('Başarıyla Yüklendi!', style: TextStyle(color: ScadaColors.green, fontWeight: FontWeight.w600, fontSize: 13)),
         ]),
         const SizedBox(height: 10),
         _resultRow('Departman', _departmentLabel(classification['department'] ?? 'genel')),
@@ -473,7 +473,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
             child: const Icon(Icons.library_books, color: ScadaColors.red, size: 20),
           ),
           SizedBox(width: 8),
-          Text('Dokuman Havuzu', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+          Text('Doküman Havuzu', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
         actions: [
           IconButton(
@@ -486,7 +486,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
         onPressed: _showUploadDialog,
         backgroundColor: ScadaColors.red,
         icon: const Icon(Icons.upload_file, color: Colors.white),
-        label: const Text('PDF Yukle', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+        label: const Text('PDF Yükle', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
       ),
       body: Column(
         children: [
@@ -500,7 +500,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
                 controller: _searchController,
                 style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
                 decoration: InputDecoration(
-                  hintText: 'Semantik arama... (icerik bazli)',
+                  hintText: 'Semantik arama... (içerik bazli)',
                   hintStyle: TextStyle(color: context.scada.textDim, fontSize: 12),
                   prefixIcon: const Icon(Icons.auto_awesome, color: ScadaColors.purple, size: 18),
                   suffixIcon: _isSearching
@@ -536,7 +536,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(children: [
-                  _buildFilterChip(null, 'Tumu'),
+                  _buildFilterChip(null, 'Tümü'),
                   _buildFilterChip('teknik', 'Teknik'),
                   _buildFilterChip('hk', 'Kat Hizm.'),
                   _buildFilterChip('fb', 'F&B'),
@@ -590,9 +590,9 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
       child: Column(mainAxisSize: MainAxisSize.min, children: [
         Icon(Icons.folder_off, color: context.scada.textDim, size: 64),
         SizedBox(height: 16),
-        Text('Henuz dokuman yuklenmemis', style: TextStyle(color: context.scada.textSecondary, fontSize: 14)),
+        Text('Henuz doküman yüklenmemis', style: TextStyle(color: context.scada.textSecondary, fontSize: 14)),
         SizedBox(height: 8),
-        Text('PDF yuklemek icin asagidaki butonu kullanin', style: TextStyle(color: context.scada.textDim, fontSize: 12)),
+        Text('PDF yüklemek icin asagidaki butonu kullanin', style: TextStyle(color: context.scada.textDim, fontSize: 12)),
       ]),
     );
   }
@@ -705,7 +705,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
             child: IconButton(
               padding: EdgeInsets.zero,
               icon: const Icon(Icons.delete_outline, size: 18, color: ScadaColors.red),
-              tooltip: 'Dokumani sil',
+              tooltip: 'Dokümani sil',
               onPressed: () => _confirmDeleteDocument(doc),
             ),
           ),
@@ -782,7 +782,7 @@ class _DocumentPoolScreenState extends ConsumerState<DocumentPoolScreen> {
 
     if (_searchResults.isEmpty) {
       return Center(
-        child: Text('Sonuc bulunamadi', style: TextStyle(color: context.scada.textDim, fontSize: 13)),
+        child: Text('Sonuç bulunamadi', style: TextStyle(color: context.scada.textDim, fontSize: 13)),
       );
     }
 

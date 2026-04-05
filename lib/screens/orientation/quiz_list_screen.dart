@@ -131,7 +131,7 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
                     scrollDirection: Axis.horizontal,
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     children: [
-                      _buildFilterChip('Tumu', _selectedDeptFilter == null, () {
+                      _buildFilterChip('Tümü', _selectedDeptFilter == null, () {
                         setState(() => _selectedDeptFilter = null);
                       }),
                       ...deptSet.map((dept) => _buildFilterChip(
@@ -187,13 +187,13 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
         const SizedBox(height: 12),
         Text('Henuz quiz bulunmuyor', style: TextStyle(fontSize: 14, color: context.scada.textSecondary)),
         const SizedBox(height: 4),
-        Text('Egitim rotalarina quiz eklendikce burada gorunecek', style: TextStyle(fontSize: 11, color: context.scada.textDim)),
+        Text('Eğitim rotalarina quiz eklendikce burada gorunecek', style: TextStyle(fontSize: 11, color: context.scada.textDim)),
       ]),
     );
   }
 
   Widget _buildQuizCard(QuizListItem item, List<QuizResult> results) {
-    // Son sonucu bul
+    // Son sonuçu bul
     final quizResults = results.where((r) => r.quizId == item.id).toList();
     quizResults.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     final lastResult = quizResults.isNotEmpty ? quizResults.first : null;
@@ -416,7 +416,7 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
     });
 
     final admin = ref.read(adminProvider.notifier);
-    // Tum indexlenmis dokumanlari getir
+    // Tum indexlenmis dokümanlari getir
     final docs = await admin.loadAllIndexedDocuments();
 
     setState(() {
@@ -427,7 +427,7 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
 
   Future<void> _generateQuiz() async {
     if (_selectedDocIds.isEmpty) {
-      setState(() => _error = 'En az 1 dokuman secin');
+      setState(() => _error = 'En az 1 doküman secin');
       return;
     }
     if (_titleController.text.trim().isEmpty) {
@@ -461,12 +461,12 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
         widget.onCreated();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Quiz olusturuldu! ${result['question_count']} soru (${result['verified_count']} dogrulandi)'),
+            content: Text('Quiz oluşturuldu! ${result['question_count']} soru (${result['verified_count']} doğrulandı)'),
             backgroundColor: ScadaColors.green,
           ),
         );
       } else {
-        setState(() => _error = ref.read(adminProvider).error ?? 'Quiz olusturulamadi');
+        setState(() => _error = ref.read(adminProvider).error ?? 'Quiz oluşturulamadı');
       }
     }
   }
@@ -498,7 +498,7 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
             const Icon(Icons.auto_awesome, color: ScadaColors.cyan, size: 24),
             const SizedBox(width: 8),
             Expanded(
-              child: Text('AI ile Quiz Olustur', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+              child: Text('AI ile Quiz Oluştur', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
             ),
             IconButton(
               icon: Icon(Icons.close, color: context.scada.textDim, size: 20),
@@ -540,8 +540,8 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
           ),
           const SizedBox(height: 16),
 
-          // 2. Dokuman secimi
-          Text('Dokumanlar', style: TextStyle(fontSize: 12, color: context.scada.textSecondary, fontWeight: FontWeight.w600)),
+          // 2. Doküman secimi
+          Text('Dokümanlar', style: TextStyle(fontSize: 12, color: context.scada.textSecondary, fontWeight: FontWeight.w600)),
           const SizedBox(height: 6),
           if (_isLoading)
             const Center(child: Padding(
@@ -557,7 +557,7 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
                 border: Border.all(color: context.scada.border),
               ),
               child: Text(
-                'Indexlenmis dokuman bulunamadi. Once Dokuman Havuzu\'na PDF yukleyin.',
+                'Indexlenmis doküman bulunamadi. Once Doküman Havuzu\'na PDF yükleyin.',
                 style: TextStyle(fontSize: 11, color: context.scada.textDim),
               ),
             )
@@ -584,8 +584,8 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
                   ),
                   child: Text(
                     _selectedDept != null
-                        ? 'Bu departmanda indexlenmis dokuman yok'
-                        : 'Indexlenmis dokuman bulunamadi',
+                        ? 'Bu departmanda indexlenmis doküman yok'
+                        : 'Indexlenmis doküman bulunamadi',
                     style: TextStyle(fontSize: 11, color: context.scada.textDim),
                   ),
                 );
@@ -604,7 +604,7 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
                 itemBuilder: (ctx, i) {
                   final doc = filteredDocs[i];
                   final docId = _getDocId(doc);
-                  final title = doc['title'] ?? doc['file_name'] ?? 'Dokuman';
+                  final title = doc['title'] ?? doc['file_name'] ?? 'Doküman';
                   final isSelected = _selectedDocIds.contains(docId);
                   String dept = '';
                   if (doc['classification'] is Map) {
@@ -645,7 +645,7 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
           if (_selectedDocIds.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(top: 4),
-              child: Text('${_selectedDocIds.length} dokuman secildi', style: const TextStyle(fontSize: 10, color: ScadaColors.cyan)),
+              child: Text('${_selectedDocIds.length} doküman secildi', style: const TextStyle(fontSize: 10, color: ScadaColors.cyan)),
             ),
           const SizedBox(height: 16),
 
@@ -726,7 +726,7 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
               child: Text(_error!, style: const TextStyle(fontSize: 11, color: ScadaColors.red)),
             ),
 
-          // Olustur butonu
+          // Oluştur butonu
           SizedBox(
             width: double.infinity,
             child: ElevatedButton.icon(
@@ -741,7 +741,7 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
                   ? SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: context.scada.bg))
                   : const Icon(Icons.auto_awesome),
               label: Text(
-                _isGenerating ? 'Quiz olusturuluyor...' : 'Quiz Olustur',
+                _isGenerating ? 'Quiz oluşturuluyor...' : 'Quiz Oluştur',
                 style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
               ),
             ),
@@ -750,7 +750,7 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
             Padding(
               padding: const EdgeInsets.only(top: 8),
               child: Text(
-                'AI sorulari olusturuyor ve dogruluyor... Bu islem 30-60 saniye surebilir.',
+                'AI sorulari oluşturuyor ve dogruluyor... Bu işlem 30-60 saniye surebilir.',
                 style: TextStyle(fontSize: 10, color: context.scada.textDim),
                 textAlign: TextAlign.center,
               ),

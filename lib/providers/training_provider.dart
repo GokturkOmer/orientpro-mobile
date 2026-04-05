@@ -193,7 +193,7 @@ class TrainingNotifier extends Notifier<TrainingState> {
       final stats = TrainingStats.fromJson(response.data);
       state = state.copyWith(stats: stats);
     } catch (e) {
-      // Stats yuklenmezse sessizce devam et
+      // Stats yüklenmezse sessizce devam et
     }
   }
 
@@ -203,7 +203,7 @@ class TrainingNotifier extends Notifier<TrainingState> {
       final progress = (response.data as List).map((p) => UserProgress.fromJson(p)).toList();
       state = state.copyWith(progress: progress);
     } catch (e) {
-      // Progress yuklenmezse sessizce devam et
+      // Progress yüklenmezse sessizce devam et
     }
   }
 
@@ -298,7 +298,7 @@ class TrainingNotifier extends Notifier<TrainingState> {
         state = state.copyWith(isLoading: false);
       }
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: 'Ilerleme verisi yuklenemedi');
+      state = state.copyWith(isLoading: false, error: 'Ilerleme verisi yüklenemedi');
     }
   }
 
@@ -323,7 +323,7 @@ class TrainingNotifier extends Notifier<TrainingState> {
         isLoading: false,
       );
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: 'Veri yuklenemedi');
+      state = state.copyWith(isLoading: false, error: 'Veri yüklenemedi');
     }
   }
 

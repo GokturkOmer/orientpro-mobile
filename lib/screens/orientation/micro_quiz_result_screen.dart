@@ -19,7 +19,7 @@ class MicroQuizResultScreen extends ConsumerWidget {
           padding: const EdgeInsets.all(24),
           child: Column(children: [
             const Spacer(),
-            // Sonuc ikonu
+            // Sonuç ikonu
             Container(
               width: 80, height: 80,
               decoration: BoxDecoration(
@@ -63,7 +63,7 @@ class MicroQuizResultScreen extends ConsumerWidget {
               child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 _buildScoreStat(context, '${result.correctCount}/${result.totalQuestions}', 'Dogru'),
                 Container(width: 1, height: 40, color: context.scada.textDim.withValues(alpha: 0.2)),
-                _buildScoreStat(context, '%${result.percent.toInt()}', 'Basari'),
+                _buildScoreStat(context, '%${result.percent.toInt()}', 'Başarı'),
               ]),
             ),
             const SizedBox(height: 16),
@@ -99,7 +99,7 @@ class MicroQuizResultScreen extends ConsumerWidget {
                   const Text('➡️', style: TextStyle(fontSize: 20)),
                   const SizedBox(width: 10),
                   Expanded(
-                    child: Text('Siradaki konu: ${result.nextModuleTitle}${result.mode == "onboarding" ? "" : " (yoneticiniz atayacak)"}',
+                    child: Text('Siradaki konu: ${result.nextModuleTitle}${result.mode == "onboarding" ? "" : " (yöneticiniz atayacak)"}',
                       style: TextStyle(fontSize: 14, color: context.scada.textPrimary)),
                   ),
                 ]),

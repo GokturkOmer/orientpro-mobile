@@ -54,7 +54,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
       department: auth.user!.department,
       isSupervisor: _isSupervisor,
     );
-    // Tekrar gereken konulari yukle
+    // Tekrar gereken konulari yükle
     final reviews = await ref.read(trainingProvider.notifier).loadPendingReviews(auth.user!.id);
     if (mounted) setState(() => _pendingReviews = reviews);
   }
@@ -391,7 +391,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
           Row(children: [
             _buildMiniStat(Icons.check_circle, '${stats.completedModules}', 'Tamamlanan', ScadaColors.green),
             _buildMiniStat(Icons.play_circle, '${stats.inProgressModules}', 'Devam Eden', ScadaColors.amber),
-            _buildMiniStat(Icons.quiz, '${stats.quizzesPassed}', 'Quiz Basari', ScadaColors.cyan),
+            _buildMiniStat(Icons.quiz, '${stats.quizzesPassed}', 'Quiz Başarı', ScadaColors.cyan),
             _buildMiniStat(Icons.timer, '${stats.totalTimeMinutes}dk', 'Toplam Sure', ScadaColors.purple),
           ]),
         ],
@@ -557,7 +557,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
     final info = training.moduleMap[review.moduleId];
     final moduleName = info?.title ?? 'Modul';
     final weakCount = review.weakQuestionIds?.length ?? 0;
-    final reasonText = review.reason == 'quiz_fail' ? 'Quiz basarisiz' : 'Dusuk puan';
+    final reasonText = review.reason == 'quiz_fail' ? 'Quiz başarısız' : 'Dusuk puan';
     final intervalText = '${review.intervalDays} gun araliklarla tekrar';
 
     return Container(
@@ -623,7 +623,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
     final success = await ref.read(trainingProvider.notifier).completeReview(review.id);
     if (success && mounted) {
       Navigator.pushNamed(context, '/quiz', arguments: {'quizId': review.quizId});
-      // Listeyi guncelle
+      // Listeyi güncelle
       final auth = ref.read(authProvider);
       if (auth.user != null) {
         final reviews = await ref.read(trainingProvider.notifier).loadPendingReviews(auth.user!.id);
@@ -638,9 +638,9 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> with SingleTick
       child: Column(children: [
         Icon(Icons.school_outlined, size: 48, color: context.scada.textDim.withValues(alpha: 0.5)),
         const SizedBox(height: 12),
-        Text('Henuz bir egitim modulu baslatmadiniz', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
+        Text('Henuz bir eğitim modulu baslatmadiniz', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
         const SizedBox(height: 4),
-        Text('Egitim Rotalari\'ndan bir modul secin', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
+        Text('Eğitim Rotalari\'ndan bir modul secin', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
       ]),
     );
   }

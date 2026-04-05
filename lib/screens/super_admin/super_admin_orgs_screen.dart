@@ -154,7 +154,7 @@ class _OrgCard extends StatelessWidget {
         Row(children: [
           Expanded(child: _Stat('Kullanici', '$activeUsers / $maxUsers')),
           Expanded(child: _Stat('Son Aktivite', _formatDate(org['last_activity']))),
-          Expanded(child: _Stat('Kayit', _formatDate(org['created_at']))),
+          Expanded(child: _Stat('Kayıt', _formatDate(org['created_at']))),
         ]),
       ]),
     );

@@ -49,7 +49,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
             child: const Icon(Icons.auto_stories, color: ScadaColors.cyan, size: 20),
           ),
           const SizedBox(width: 8),
-          Text('Bugunku Egitim',
+          Text('Bugunku Eğitim',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
       ),
@@ -68,11 +68,11 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           Icon(Icons.school_outlined, size: 64, color: context.scada.textDim),
           const SizedBox(height: 16),
-          Text('Henuz bir egitim atanmamis',
+          Text('Henuz bir eğitim atanmamis',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: context.scada.textPrimary),
             textAlign: TextAlign.center),
           const SizedBox(height: 8),
-          Text('Yoneticiniz size bir egitim modulu atadiginda burada gorunecek.',
+          Text('Yöneticiniz size bir eğitim modulu atadiginda burada gorunecek.',
             style: TextStyle(fontSize: 14, color: context.scada.textDim),
             textAlign: TextAlign.center),
         ]),
@@ -153,7 +153,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
             borderRadius: BorderRadius.circular(4),
           ),
           child: Text(
-            assignment.isOnboarding ? 'Genel Oryantasyon' : 'Yonetici Atamasi',
+            assignment.isOnboarding ? 'Genel Oryantasyon' : 'Yönetici Atamasi',
             style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600,
               color: assignment.isOnboarding ? ScadaColors.green : ScadaColors.cyan),
           ),
@@ -163,7 +163,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
           Text(assignment.routeTitle!,
             style: TextStyle(fontSize: 12, color: context.scada.textDim)),
         const SizedBox(height: 4),
-        Text(assignment.moduleTitle ?? 'Egitim Modulu',
+        Text(assignment.moduleTitle ?? 'Eğitim Modulu',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         const SizedBox(height: 8),
         Row(children: [
@@ -323,7 +323,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
                         Navigator.pushNamed(context, '/quiz', arguments: {
                           'quizId': today.quizId,
                           'moduleId': today.assignment!.moduleId,
-                          'moduleTitle': today.assignment!.moduleTitle ?? 'Egitim',
+                          'moduleTitle': today.assignment!.moduleTitle ?? 'Eğitim',
                           'routeId': today.assignment!.routeId ?? '',
                           'assignmentId': today.assignment!.id,
                         });
@@ -376,10 +376,10 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
       child: Column(children: [
         const Icon(Icons.check_circle, color: ScadaColors.green, size: 40),
         const SizedBox(height: 8),
-        Text('Egitim Tamamlandi',
+        Text('Eğitim Tamamlandi',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.green)),
         const SizedBox(height: 4),
-        Text('Bu modulu basariyla tamamladin. Icerik kartlarini istedigin zaman tekrar okuyabilirsin.',
+        Text('Bu modulu başarıyla tamamladin. İçerik kartlarini istedigin zaman tekrar okuyabilirsin.',
           style: TextStyle(fontSize: 13, color: context.scada.textDim),
           textAlign: TextAlign.center),
       ]),

@@ -18,28 +18,28 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     _OnboardingPage(
       icon: Icons.school,
       title: 'OrientPro\'ya Hosgeldiniz',
-      description: 'Organizasyonunuzun egitim ve oryantasyon sureclerini\n'
+      description: 'Organizasyonunuzun eğitim ve oryantasyon süreçlerini\n'
           'tek bir platformdan yonetin.',
       color: ScadaColors.cyan,
     ),
     _OnboardingPage(
       icon: Icons.route,
-      title: 'Egitim Rotalari',
-      description: 'Departmaniniza ozel egitim rotalari ile\n'
-          'adim adim ogrenme surecini takip edin.',
+      title: 'Eğitim Rotalari',
+      description: 'Departmaniniza ozel eğitim rotalari ile\n'
+          'adim adim öğrenme sürecini takip edin.',
       color: ScadaColors.green,
     ),
     _OnboardingPage(
       icon: Icons.quiz,
       title: 'Quiz & Degerlendirme',
-      description: 'Ogrendiklerinizi quiz\'ler ile test edin.\n'
+      description: 'Öğrendiklerinizi quiz\'ler ile test edin.\n'
           'AI destekli sorularla bilginizi olcun.',
       color: ScadaColors.amber,
     ),
     _OnboardingPage(
       icon: Icons.emoji_events,
-      title: 'Rozetler & Basarilar',
-      description: 'Egitimlerinizi tamamladikca rozet kazanin.\n'
+      title: 'Rozetler & Başarılar',
+      description: 'Eğitimlerinizi tamamladikca rozet kazanin.\n'
           'Liderlik tablosunda yerinizi goruntuleyin.',
       color: ScadaColors.purple,
     ),

@@ -109,9 +109,9 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setDlgState) => AlertDialog(
           backgroundColor: context.scada.card,
-          title: Text('Drip Kartlari Olustur', style: TextStyle(color: context.scada.textPrimary, fontSize: 15)),
+          title: Text('Drip Kartlari Oluştur', style: TextStyle(color: context.scada.textPrimary, fontSize: 15)),
           content: Column(mainAxisSize: MainAxisSize.min, children: [
-            Text('"${doc['title']}" dokumanindan mikro-ogrenme kartlari olusturulacak.',
+            Text('"${doc['title']}" dokümanindan mikro-öğrenme kartlari oluşturulacak.',
                 style: TextStyle(color: context.scada.textSecondary, fontSize: 12)),
             const SizedBox(height: 16),
             Text('Gun Sayisi', style: TextStyle(color: context.scada.textDim, fontSize: 11)),
@@ -129,7 +129,7 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
             ElevatedButton(
               onPressed: () => Navigator.pop(ctx, true),
               style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.green),
-              child: const Text('Olustur', style: TextStyle(color: Colors.white)),
+              child: const Text('Oluştur', style: TextStyle(color: Colors.white)),
             ),
           ],
         ),
@@ -141,11 +141,11 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
     // Modul secimi gerekli — once rota/modul sec
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Oncelikle bir rota ve modul secin, ardindan kartlar bu module olusturulacak.'),
+        content: Text('Oncelikle bir rota ve modul secin, ardindan kartlar bu module oluşturulacak.'),
         backgroundColor: ScadaColors.cyan,
       ),
     );
-    // Not: Otomatik modul olusturma akisi V2'de planli
+    // Not: Otomatik modul oluşturma akisi V2'de planli
   }
 
   Widget _buildModuleSelection() {
@@ -154,7 +154,7 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        // Dokumandan Olustur butonu
+        // Dokümandan Oluştur butonu
         InkWell(
           onTap: _showGenerateFromDocumentFlow,
           borderRadius: BorderRadius.circular(10),
@@ -169,9 +169,9 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
               const Icon(Icons.auto_awesome, color: ScadaColors.green, size: 22),
               const SizedBox(width: 12),
               Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text('Dokumandan Olustur', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.green)),
+                Text('Dokümandan Oluştur', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.green)),
                 const SizedBox(height: 2),
-                Text('Havuzdaki bir PDF den otomatik drip kartlari + quiz olustur',
+                Text('Havuzdaki bir PDF den otomatik drip kartlari + quiz oluştur',
                     style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
               ])),
               const Icon(Icons.arrow_forward_ios, color: ScadaColors.green, size: 14),
@@ -183,7 +183,7 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
         const SizedBox(height: 12),
 
         // Rota filtresi
-        Text('Egitim Rotasi', style: TextStyle(fontSize: 12, color: context.scada.textDim)),
+        Text('Eğitim Rotasi', style: TextStyle(fontSize: 12, color: context.scada.textDim)),
         const SizedBox(height: 6),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -276,7 +276,7 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
           spacing: 6,
           children: [
             ChoiceChip(
-              label: Text('Tumu', style: TextStyle(fontSize: 12, color: _selectedDepartment == null ? Colors.white : context.scada.textPrimary)),
+              label: Text('Tümü', style: TextStyle(fontSize: 12, color: _selectedDepartment == null ? Colors.white : context.scada.textPrimary)),
               selected: _selectedDepartment == null,
               selectedColor: ScadaColors.cyan,
               backgroundColor: context.scada.surface,
@@ -294,7 +294,7 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
 
         const SizedBox(height: 12),
 
-        // Tumunu sec
+        // Tümünu sec
         CheckboxListTile(
           value: _selectAllUsers,
           onChanged: (v) {
@@ -307,7 +307,7 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
               }
             });
           },
-          title: Text('Tumunu Sec (${filtered.length} calisan)', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
+          title: Text('Tümünu Sec (${filtered.length} calisan)', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
           activeColor: ScadaColors.cyan,
           controlAffinity: ListTileControlAffinity.leading,
           dense: true,
@@ -493,7 +493,7 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
             ),
             child: micro.isLoading
                 ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                : Text(_step == 3 ? 'Mikro-Ogrenmeyi Baslat' : 'Devam', style: const TextStyle(fontWeight: FontWeight.w600)),
+                : Text(_step == 3 ? 'Mikro-Öğrenmeyi Baslat' : 'Devam', style: const TextStyle(fontWeight: FontWeight.w600)),
           ),
         ),
       ),
@@ -514,7 +514,7 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
       if (success && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Mikro-ogrenme atamasi basarili!'),
+            content: Text('Mikro-öğrenme atamasi başarılı!'),
             backgroundColor: ScadaColors.green,
           ),
         );

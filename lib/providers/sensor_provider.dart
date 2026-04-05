@@ -113,7 +113,7 @@ class ActiveAlarmsNotifier extends Notifier<AsyncValue<List<AlarmEvent>>> {
       await dio.put('/alarms/$alarmId/acknowledge', data: {'user_id': userId});
       fetch();
     } catch (_) {
-      // Alarm onaylama basarisiz — bir sonraki fetch'te tekrar gorunecek
+      // Alarm onaylama başarısız — bir sonraki fetch'te tekrar gorunecek
     }
   }
 }

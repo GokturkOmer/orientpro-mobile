@@ -65,7 +65,7 @@ class LeaderboardNotifier extends Notifier<LeaderboardState> {
     } on DioException catch (e) {
       state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: 'Siralama yuklenemedi');
+      state = state.copyWith(isLoading: false, error: 'Siralama yüklenemedi');
     }
   }
 }

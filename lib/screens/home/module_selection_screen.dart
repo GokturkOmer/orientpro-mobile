@@ -56,7 +56,7 @@ class ModuleSelectionScreen extends ConsumerWidget {
                         color: context.scada.textDim,
                       ),
                       onPressed: () => ref.read(themeProvider.notifier).toggleTheme(),
-                      tooltip: 'Tema Degistir',
+                      tooltip: 'Tema Değiştir',
                     ),
                     IconButton(
                       icon: Icon(Icons.logout, size: 20, color: context.scada.textDim),
@@ -88,8 +88,8 @@ class ModuleSelectionScreen extends ConsumerWidget {
                           width: double.infinity,
                           child: _ModuleCard(
                             title: 'Oryantasyon',
-                            subtitle: 'Egitim & Rehber',
-                            description: 'Personel oryantasyon surecleri,\negitim rotalari ve takip',
+                            subtitle: 'Eğitim & Rehber',
+                            description: 'Personel oryantasyon süreçleri,\neğitim rotalari ve takip',
                             icon: Icons.school,
                             color: ScadaColors.purple,
                             onTap: () => Navigator.pushNamed(context, '/orientation-dashboard'),
@@ -119,7 +119,7 @@ class ModuleSelectionScreen extends ConsumerWidget {
                             if (auth.user != null && RoleHelper.isAdmin(auth.user!.role)) ...[
                               Expanded(
                                 child: _SmallModuleCard(
-                                  title: 'Yonetim',
+                                  title: 'Yönetim',
                                   subtitle: 'Admin Paneli',
                                   icon: Icons.admin_panel_settings,
                                   color: ScadaColors.amber,
@@ -128,12 +128,12 @@ class ModuleSelectionScreen extends ConsumerWidget {
                               ),
                               const SizedBox(width: 16),
                             ],
-                            // Icerik Yonetimi - mudur/sef (admin haric, zaten admin panelinden ulasir)
+                            // İçerik Yönetimi - mudur/sef (admin haric, zaten admin panelinden ulasir)
                             if (auth.user != null && !RoleHelper.isAdmin(auth.user!.role) && RoleHelper.canEditContent(auth.user!.role)) ...[
                               Expanded(
                                 child: _SmallModuleCard(
-                                  title: 'Icerik',
-                                  subtitle: 'Icerik Yonetimi',
+                                  title: 'İçerik',
+                                  subtitle: 'İçerik Yönetimi',
                                   icon: Icons.edit_note,
                                   color: ScadaColors.amber,
                                   onTap: () => Navigator.pushNamed(context, '/admin/content'),
@@ -146,7 +146,7 @@ class ModuleSelectionScreen extends ConsumerWidget {
                               Expanded(
                                 child: _SmallModuleCard(
                                   title: 'Pro',
-                                  subtitle: 'Teknik Yonetim',
+                                  subtitle: 'Teknik Yönetim',
                                   icon: Icons.precision_manufacturing,
                                   color: ScadaColors.cyan,
                                   onTap: () => Navigator.pushNamed(context, '/dashboard'),

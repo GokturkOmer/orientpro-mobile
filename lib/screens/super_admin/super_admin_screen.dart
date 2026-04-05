@@ -42,7 +42,7 @@ class _SuperAdminScreenState extends ConsumerState<SuperAdminScreen> {
           ),
           const SizedBox(width: 8),
           Text(
-            'Platform Yonetimi',
+            'Platform Yönetimi',
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: context.scada.textPrimary),
           ),
         ]),
@@ -72,7 +72,7 @@ class _SuperAdminScreenState extends ConsumerState<SuperAdminScreen> {
           NavigationDestination(
             icon: Icon(Icons.dashboard_outlined),
             selectedIcon: Icon(Icons.dashboard, color: Color(0xFFE53935)),
-            label: 'Ozet',
+            label: 'Özet',
           ),
           NavigationDestination(
             icon: Icon(Icons.business_outlined),

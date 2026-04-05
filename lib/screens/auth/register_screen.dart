@@ -46,19 +46,19 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       return 'Gecerli bir e-posta adresi girin';
     }
     if (password.length < 8) {
-      return 'Sifre en az 8 karakter olmali';
+      return 'Şifre en az 8 karakter olmali';
     }
     if (!RegExp(r'[A-Z]').hasMatch(password)) {
-      return 'Sifre en az 1 buyuk harf icermeli';
+      return 'Şifre en az 1 buyuk harf icermeli';
     }
     if (!RegExp(r'[a-z]').hasMatch(password)) {
-      return 'Sifre en az 1 kucuk harf icermeli';
+      return 'Şifre en az 1 kucuk harf icermeli';
     }
     if (!RegExp(r'[0-9]').hasMatch(password)) {
-      return 'Sifre en az 1 rakam icermeli';
+      return 'Şifre en az 1 rakam icermeli';
     }
     if (password != confirm) {
-      return 'Sifreler eslesmiyor';
+      return 'Şifreler eslesmiyor';
     }
     return null;
   }
@@ -120,9 +120,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 child: const Icon(Icons.person_add, size: 32, color: ScadaColors.green),
               ),
               const SizedBox(height: 16),
-              Text('Hesap Olustur', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+              Text('Hesap Oluştur', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
               const SizedBox(height: 4),
-              Text('OrientPro platformuna kayit olun', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
+              Text('OrientPro platformuna kayıt olun', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
               const SizedBox(height: 32),
 
               // Form card
@@ -134,7 +134,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   border: Border.all(color: context.scada.border),
                 ),
                 child: Column(children: [
-                  // Kayit tipi toggle
+                  // Kayıt tipi toggle
                   Container(
                     decoration: BoxDecoration(
                       color: context.scada.surface,
@@ -185,15 +185,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   _buildField(_emailController, 'E-posta', Icons.email_outlined, TextInputType.emailAddress),
                   const SizedBox(height: 14),
 
-                  // Sifre
-                  _buildPasswordField(_passwordController, 'Sifre', _obscure, () => setState(() => _obscure = !_obscure)),
+                  // Şifre
+                  _buildPasswordField(_passwordController, 'Şifre', _obscure, () => setState(() => _obscure = !_obscure)),
                   const SizedBox(height: 14),
 
-                  // Sifre Tekrar
-                  _buildPasswordField(_confirmController, 'Sifre Tekrar', _obscureConfirm, () => setState(() => _obscureConfirm = !_obscureConfirm)),
+                  // Şifre Tekrar
+                  _buildPasswordField(_confirmController, 'Şifre Tekrar', _obscureConfirm, () => setState(() => _obscureConfirm = !_obscureConfirm)),
                   const SizedBox(height: 8),
 
-                  // Sifre kurallari
+                  // Şifre kurallari
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
@@ -201,7 +201,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text('Sifre kurallari:', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textDim)),
+                      Text('Şifre kurallari:', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: context.scada.textDim)),
                       const SizedBox(height: 4),
                       _buildRule('En az 8 karakter'),
                       _buildRule('En az 1 buyuk harf'),
@@ -228,7 +228,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ],
                   const SizedBox(height: 20),
 
-                  // Kayit butonu
+                  // Kayıt butonu
                   SizedBox(
                     width: double.infinity,
                     height: 48,
@@ -242,7 +242,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       ),
                       child: auth.isLoading
                         ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: ScadaColors.green))
-                        : const Text('Kayit Ol', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, letterSpacing: 1)),
+                        : const Text('Kayıt Ol', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, letterSpacing: 1)),
                     ),
                   ),
                 ]),
@@ -255,7 +255,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 Text('Zaten hesabiniz var mi?', style: TextStyle(fontSize: 12, color: context.scada.textDim)),
                 TextButton(
                   onPressed: () => Navigator.pushReplacementNamed(context, '/login'),
-                  child: const Text('Giris Yap', style: TextStyle(fontSize: 12, color: ScadaColors.cyan, fontWeight: FontWeight.w600)),
+                  child: const Text('Giriş Yap', style: TextStyle(fontSize: 12, color: ScadaColors.cyan, fontWeight: FontWeight.w600)),
                 ),
               ]),
             ],

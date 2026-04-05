@@ -96,12 +96,12 @@ class UserProfile {
 
   String get roleText {
     switch (role) {
-      case 'admin': return 'Yonetici';
+      case 'admin': return 'Yönetici';
       case 'facility_manager': return 'Tesis Muduru';
       case 'chief_technician': return 'Sef Teknisyen';
       case 'technician': return 'Teknisyen';
       case 'hk_supervisor': return 'HK Supervisor';
-      case 'housekeeper': return 'Kat Gorevlisi';
+      case 'housekeeper': return 'Kat Görevlisi';
       default: return role ?? '';
     }
   }

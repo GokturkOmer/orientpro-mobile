@@ -155,7 +155,7 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
                       ...module.quizzes!.map((quiz) => _buildQuizCard(quiz)),
                     ],
 
-                    // Egitim Onayi
+                    // Eğitim Onayi
                     const SizedBox(height: 24),
                     if (!_checkingAck) ...[
                       if (_acknowledgment != null)
@@ -209,7 +209,7 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
                     ),
                   ]),
                 ),
-                // Icerik
+                // İçerik
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 0, 8, 12),
                   child: ContentViewer(content: content),
@@ -244,7 +244,7 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
         const Icon(Icons.check_circle, color: ScadaColors.green, size: 24),
         const SizedBox(width: 12),
         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Text('Egitim Onaylandi', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.green)),
+          const Text('Eğitim Onaylandi', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.green)),
           Text('Onay tarihi: $formatted', style: TextStyle(fontSize: 10, color: context.scada.textSecondary)),
         ])),
       ]),
@@ -272,7 +272,7 @@ class _ModuleDetailScreenState extends ConsumerState<ModuleDetailScreen> {
           }
         },
         icon: const Icon(Icons.verified_user, size: 18),
-        label: const Text('Egitimi Onayla', style: TextStyle(fontWeight: FontWeight.w600)),
+        label: const Text('Eğitimi Onayla', style: TextStyle(fontWeight: FontWeight.w600)),
         style: ElevatedButton.styleFrom(
           backgroundColor: ScadaColors.green,
           foregroundColor: Colors.white,

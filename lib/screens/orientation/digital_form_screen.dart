@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/network/auth_dio.dart';
 import '../../core/theme/app_theme.dart';
 
-/// Indirilebilir form ve checklist dokumanlari (PDF/Excel)
+/// Indirilebilir form ve checklist dokümanlari (PDF/Excel)
 class DigitalFormScreen extends ConsumerStatefulWidget {
   const DigitalFormScreen({super.key});
 
@@ -38,7 +38,7 @@ class _DigitalFormScreenState extends ConsumerState<DigitalFormScreen> {
       final items = (resp.data as List).cast<Map<String, dynamic>>();
       if (mounted) setState(() { _documents = items; _isLoading = false; });
     } catch (e) {
-      if (mounted) setState(() { _isLoading = false; _error = 'Dokumanlar yuklenemedi. Tekrar deneyin.'; });
+      if (mounted) setState(() { _isLoading = false; _error = 'Dokümanlar yüklenemedi. Tekrar deneyin.'; });
     }
   }
 
@@ -93,7 +93,7 @@ class _DigitalFormScreenState extends ConsumerState<DigitalFormScreen> {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Row(children: [
-            _buildFilter('Tumu (${_documents.length})', 'all'),
+            _buildFilter('Tümü (${_documents.length})', 'all'),
             const SizedBox(width: 6),
             _buildFilter('Formlar ($formCount)', 'form'),
             const SizedBox(width: 6),
@@ -129,7 +129,7 @@ class _DigitalFormScreenState extends ConsumerState<DigitalFormScreen> {
                   ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
                       Icon(Icons.folder_open, size: 48, color: context.scada.textDim),
                       const SizedBox(height: 8),
-                      Text('Dokuman bulunamadi', style: TextStyle(color: context.scada.textSecondary, fontSize: 13)),
+                      Text('Doküman bulunamadi', style: TextStyle(color: context.scada.textSecondary, fontSize: 13)),
                     ]))
                   : RefreshIndicator(
                       onRefresh: _loadDocuments,

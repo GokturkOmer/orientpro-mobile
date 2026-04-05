@@ -251,7 +251,7 @@ class _SuperAdminGuard extends ConsumerWidget {
   }
 }
 
-/// Icerik yonetimi icin route guard (admin + mudur + sef)
+/// İçerik yönetimi icin route guard (admin + mudur + sef)
 class _ContentEditorGuard extends ConsumerWidget {
   final Widget child;
   const _ContentEditorGuard({required this.child});
@@ -264,7 +264,7 @@ class _ContentEditorGuard extends ConsumerWidget {
   }
 }
 
-/// Yetkisiz erisim ekrani
+/// Yetkisiz erişim ekrani
 class _AccessDeniedScreen extends StatelessWidget {
   const _AccessDeniedScreen();
 
@@ -290,9 +290,9 @@ class _AccessDeniedScreen extends StatelessWidget {
             child: const Icon(Icons.lock, size: 48, color: ScadaColors.red),
           ),
           const SizedBox(height: 20),
-          Text('Erisim Yetkiniz Yok', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+          Text('Erişim Yetkiniz Yok', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
           const SizedBox(height: 8),
-          Text('Bu sayfaya erisim icin yetkiniz bulunmamaktadir.', style: TextStyle(fontSize: 13, color: context.scada.textSecondary)),
+          Text('Bu sayfaya erişim icin yetkiniz bulunmamaktadir.', style: TextStyle(fontSize: 13, color: context.scada.textSecondary)),
           const SizedBox(height: 24),
           TextButton.icon(
             onPressed: () => Navigator.pushReplacementNamed(context, '/module-selection'),

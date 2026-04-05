@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Uygulama dil ayari provider'i
-/// Varsayilan: Turkce. Kullanici degistirebilir, SecureStorage ile kalici hale getirilebilir.
+/// Varsayilan: Turkce. Kullanici değiştirebilir, SecureStorage ile kalici hale getirilebilir.
 class LocaleNotifier extends Notifier<Locale> {
   @override
   Locale build() => const Locale('tr');

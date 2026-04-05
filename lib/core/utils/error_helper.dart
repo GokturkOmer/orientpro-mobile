@@ -17,15 +17,15 @@ class ErrorHelper {
         case 400:
           return 'Gecersiz istek';
         case 403:
-          return 'Bu islem icin yetkiniz yok';
+          return 'Bu işlem icin yetkiniz yok';
         case 404:
-          return 'Istenen kayit bulunamadi';
+          return 'Istenen kayıt bulunamadi';
         case 409:
-          return 'Bu kayit zaten mevcut';
+          return 'Bu kayıt zaten mevcut';
         case 422:
           return 'Girilen bilgiler hatali';
         case 500:
-          return 'Sunucu hatasi, lutfen tekrar deneyin';
+          return 'Sunucu hatasi, lütfen tekrar deneyin';
       }
 
       switch (error.type) {

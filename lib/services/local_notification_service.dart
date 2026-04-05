@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-/// Lokal bildirim servisi — mikro-ogrenme kartlari icin.
+/// Lokal bildirim servisi — mikro-öğrenme kartlari icin.
 /// Web'de calismaz, sadece mobil (Android/iOS) icin.
 /// FCM entegrasyonu sonraki fazda eklenecek.
 class LocalNotificationService {
@@ -16,7 +16,7 @@ class LocalNotificationService {
     // Mobil platform icin flutter_local_notifications
     // APK build'de aktif edilecek
     try {
-      // Dynamic import ile platform-specific kodu yukle
+      // Dynamic import ile platform-specific kodu yükle
       debugPrint('LocalNotificationService: mobil bildirim hazir');
       _initialized = true;
     } catch (e) {

@@ -233,7 +233,7 @@ class AppTheme {
   }
 }
 
-/// Tema-duyarli renk erisimleri.
+/// Tema-duyarli renk erişimleri.
 /// Kullanim: context.scada.bg, context.scada.textPrimary, vs.
 class ThemeAwareColors {
   final BuildContext _context;

@@ -5,7 +5,7 @@ import '../../core/network/auth_dio.dart';
 import '../../core/storage/secure_storage.dart';
 
 /// KVKK/GDPR onay ekrani.
-/// Kullanici ilk giriste veri isleme iznini onaylamadan devam edemez.
+/// Kullanici ilk girişte veri işleme iznini onaylamadan devam edemez.
 class ConsentScreen extends ConsumerStatefulWidget {
   const ConsentScreen({super.key});
   @override
@@ -30,7 +30,7 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
         'version': '1.0',
         'accepted': true,
       });
-      // Veri isleme onay
+      // Veri işleme onay
       await dio.post('/privacy/consents', data: {
         'consent_type': 'data_processing',
         'version': '1.0',
@@ -47,7 +47,7 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Onay kaydedilemedi, lutfen tekrar deneyin'),
+            content: Text('Onay kaydedilemedi, lütfen tekrar deneyin'),
             backgroundColor: ScadaColors.red,
           ),
         );
@@ -91,8 +91,8 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
                 _buildConsentCard(
                   icon: Icons.policy,
                   title: 'Gizlilik Politikasi',
-                  description: 'Kisisel verileriniz (ad, e-posta, departman, egitim ilerlemesi) '
-                      'yalnizca hizmet sunumu amaciyla islenir. Verileriniz 3. kisilerle '
+                  description: 'Kişisel verileriniz (ad, e-posta, departman, eğitim ilerlemesi) '
+                      'yalnizca hizmet sunumu amaciyla işlenir. Verileriniz 3. kisilerle '
                       'pazarlama amaciyla paylasilmaz. KVKK (6698 sayili kanun) kapsaminda '
                       'haklariniz saklitir.',
                   value: _privacyAccepted,
@@ -100,13 +100,13 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
                 ),
                 const SizedBox(height: 16),
 
-                // Veri Isleme Onay
+                // Veri İşleme Onay
                 _buildConsentCard(
                   icon: Icons.storage,
-                  title: 'Veri Isleme Izni',
-                  description: 'Egitim ilerlemeniz, quiz sonuclariniz ve etkinlik kayitlariniz '
+                  title: 'Veri İşleme Izni',
+                  description: 'Eğitim ilerlemeniz, quiz sonuçlariniz ve etkinlik kayıtlariniz '
                       'organizasyonunuzun yonetim panelinde goruntulenebilir. '
-                      'Bu veriler egitim surecinin takibi icin kullanilir.',
+                      'Bu veriler eğitim süreçinin takibi icin kullanilir.',
                   value: _dataProcessingAccepted,
                   onChanged: (v) => setState(() => _dataProcessingAccepted = v ?? false),
                 ),
@@ -126,7 +126,7 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
                     const SizedBox(width: 8),
                     Expanded(child: Text(
                       'Verilerinizi istediginiz zaman disa aktarabilir veya silme talebinde '
-                      'bulunabilirsiniz. Bu islemler Profil > Gizlilik boluumunden yapilabilir.',
+                      'bulunabilirsiniz. Bu işlemler Profil > Gizlilik boluumunden yapilabilir.',
                       style: TextStyle(fontSize: 12, color: context.scada.textDim),
                     )),
                   ]),

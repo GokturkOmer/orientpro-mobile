@@ -18,7 +18,7 @@ class _AiAssistantScreenState extends ConsumerState<AiAssistantScreen> {
   final ScrollController _scrollController = ScrollController();
 
   static const _quickActions = [
-    _QuickAction(icon: Icons.school, label: 'ISG nedir?', query: 'ISG temel egitimi hakkinda kisaca bilgi ver'),
+    _QuickAction(icon: Icons.school, label: 'ISG nedir?', query: 'ISG temel eğitimi hakkinda kisaca bilgi ver'),
     _QuickAction(icon: Icons.security, label: 'KVKK kurallari', query: 'Otel personeli icin KVKK kurallari nelerdir?'),
     _QuickAction(icon: Icons.local_fire_department, label: 'Yangin proseduru', query: 'Yanginda yapilmasi gerekenleri adim adim anlat'),
     _QuickAction(icon: Icons.healing, label: 'Ilk yardim', query: 'Otel ortaminda ilk yardim temel prensipleri ve CPR prosedurunu anlat'),
@@ -291,7 +291,7 @@ class _AiAssistantScreenState extends ConsumerState<AiAssistantScreen> {
           children: [
             const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: ScadaColors.purple)),
             const SizedBox(width: 8),
-            Text('Dokumanlar taraniyor...', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
+            Text('Dokümanlar taraniyor...', style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
           ],
         ),
       ),

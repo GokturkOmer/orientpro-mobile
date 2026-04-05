@@ -1,6 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-/// Sifrelenmis kalici depolama (JWT token, kullanici bilgileri)
+/// Şifrelenmis kalici depolama (JWT token, kullanici bilgileri)
 /// Android: EncryptedSharedPreferences
 /// iOS: Keychain
 class SecureStorage {
@@ -35,7 +35,7 @@ class SecureStorage {
     return await _storage.read(key: _keyRefreshToken);
   }
 
-  // --- User JSON (oturum geri yukleme icin) ---
+  // --- User JSON (oturum geri yükleme icin) ---
   static Future<void> saveUserJson(String json) async {
     await _storage.write(key: _keyUserJson, value: json);
   }

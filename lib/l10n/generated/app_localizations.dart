@@ -118,7 +118,7 @@ abstract class S {
   /// No description provided for @loginButton.
   ///
   /// In tr, this message translates to:
-  /// **'Giris Yap'**
+  /// **'Giriş Yap'**
   String get loginButton;
 
   /// No description provided for @loginEmail.
@@ -130,7 +130,7 @@ abstract class S {
   /// No description provided for @loginPassword.
   ///
   /// In tr, this message translates to:
-  /// **'Sifre'**
+  /// **'Şifre'**
   String get loginPassword;
 
   /// No description provided for @loginSubtitle.
@@ -154,13 +154,13 @@ abstract class S {
   /// No description provided for @validationPasswordRequired.
   ///
   /// In tr, this message translates to:
-  /// **'Sifre gerekli'**
+  /// **'Şifre gerekli'**
   String get validationPasswordRequired;
 
   /// No description provided for @validationPasswordTooShort.
   ///
   /// In tr, this message translates to:
-  /// **'Sifre en az 4 karakter olmali'**
+  /// **'Şifre en az 4 karakter olmali'**
   String get validationPasswordTooShort;
 
   /// No description provided for @rememberMe.
@@ -190,7 +190,7 @@ abstract class S {
   /// No description provided for @orgSelectOtherAccount.
   ///
   /// In tr, this message translates to:
-  /// **'Farkli Hesapla Giris Yap'**
+  /// **'Farkli Hesapla Giriş Yap'**
   String get orgSelectOtherAccount;
 
   /// No description provided for @orgSelectMember.
@@ -214,13 +214,13 @@ abstract class S {
   /// No description provided for @moduleOrientationSub.
   ///
   /// In tr, this message translates to:
-  /// **'Egitim & Rehber'**
+  /// **'Eğitim & Rehber'**
   String get moduleOrientationSub;
 
   /// No description provided for @moduleOrientationDesc.
   ///
   /// In tr, this message translates to:
-  /// **'Personel oryantasyon surecleri,\negitim rotalari ve takip'**
+  /// **'Personel oryantasyon süreçleri,\neğitim rotalari ve takip'**
   String get moduleOrientationDesc;
 
   /// No description provided for @moduleAdmin.
@@ -238,13 +238,13 @@ abstract class S {
   /// No description provided for @moduleContent.
   ///
   /// In tr, this message translates to:
-  /// **'Icerik'**
+  /// **'İçerik'**
   String get moduleContent;
 
   /// No description provided for @moduleContentSub.
   ///
   /// In tr, this message translates to:
-  /// **'Icerik Yonetimi'**
+  /// **'İçerik Yonetimi'**
   String get moduleContentSub;
 
   /// No description provided for @modulePro.
@@ -280,7 +280,7 @@ abstract class S {
   /// No description provided for @orientationSubtitle.
   ///
   /// In tr, this message translates to:
-  /// **'Oryantasyon ve egitim modulune hosgeldiniz'**
+  /// **'Oryantasyon ve eğitim modulune hosgeldiniz'**
   String get orientationSubtitle;
 
   /// No description provided for @orientationOverallProgress.
@@ -304,7 +304,7 @@ abstract class S {
   /// No description provided for @orientationQuizSuccess.
   ///
   /// In tr, this message translates to:
-  /// **'Quiz Basari'**
+  /// **'Quiz Başarı'**
   String get orientationQuizSuccess;
 
   /// No description provided for @orientationPendingTasks.
@@ -376,13 +376,13 @@ abstract class S {
   /// No description provided for @navTrainingRoutes.
   ///
   /// In tr, this message translates to:
-  /// **'Egitim Rotalari'**
+  /// **'Eğitim Rotalari'**
   String get navTrainingRoutes;
 
   /// No description provided for @navTrainingRoutesSub.
   ///
   /// In tr, this message translates to:
-  /// **'Departman bazli egitim rotalari ve icerikler'**
+  /// **'Departman bazli eğitim rotalari ve içerikler'**
   String get navTrainingRoutesSub;
 
   /// No description provided for @navQuizzes.
@@ -406,7 +406,7 @@ abstract class S {
   /// No description provided for @navProgressSub.
   ///
   /// In tr, this message translates to:
-  /// **'Egitim tamamlama durumu ve raporlar'**
+  /// **'Eğitim tamamlama durumu ve raporlar'**
   String get navProgressSub;
 
   /// No description provided for @navAiAssistant.
@@ -418,7 +418,7 @@ abstract class S {
   /// No description provided for @navAiAssistantSub.
   ///
   /// In tr, this message translates to:
-  /// **'Oryantasyon sureci icin yapay zeka destegi'**
+  /// **'Oryantasyon süreçi icin yapay zeka destegi'**
   String get navAiAssistantSub;
 
   /// No description provided for @navAnnouncements.
@@ -436,13 +436,13 @@ abstract class S {
   /// No description provided for @navLibrary.
   ///
   /// In tr, this message translates to:
-  /// **'Icerik Kutuphanesi'**
+  /// **'İçerik Kutuphanesi'**
   String get navLibrary;
 
   /// No description provided for @navLibrarySub.
   ///
   /// In tr, this message translates to:
-  /// **'Kisisel ve paylasilan belgeler'**
+  /// **'Kişisel ve paylaşılan belgeler'**
   String get navLibrarySub;
 
   /// No description provided for @navProfile.
@@ -454,43 +454,43 @@ abstract class S {
   /// No description provided for @navProfileSub.
   ///
   /// In tr, this message translates to:
-  /// **'Kisisel bilgiler, acil durum, sertifikalar'**
+  /// **'Kişisel bilgiler, acil durum, sertifikalar'**
   String get navProfileSub;
 
   /// No description provided for @navShifts.
   ///
   /// In tr, this message translates to:
-  /// **'Vardiya & Gorevler'**
+  /// **'Vardiya & Görevler'**
   String get navShifts;
 
   /// No description provided for @navShiftsSub.
   ///
   /// In tr, this message translates to:
-  /// **'Haftalik vardiya plani ve gorev takibi'**
+  /// **'Haftalik vardiya plani ve görev takibi'**
   String get navShiftsSub;
 
   /// No description provided for @viewAll.
   ///
   /// In tr, this message translates to:
-  /// **'Tumunu Gor'**
+  /// **'Tümünu Gor'**
   String get viewAll;
 
   /// No description provided for @libraryTitle.
   ///
   /// In tr, this message translates to:
-  /// **'Icerik Kutuphanesi'**
+  /// **'İçerik Kutuphanesi'**
   String get libraryTitle;
 
   /// No description provided for @libraryPersonalTab.
   ///
   /// In tr, this message translates to:
-  /// **'Kisisel ({count})'**
+  /// **'Kişisel ({count})'**
   String libraryPersonalTab(int count);
 
   /// No description provided for @librarySharedTab.
   ///
   /// In tr, this message translates to:
-  /// **'Paylasilan ({count})'**
+  /// **'Paylaşılan ({count})'**
   String librarySharedTab(int count);
 
   /// No description provided for @librarySearch.
@@ -502,7 +502,7 @@ abstract class S {
   /// No description provided for @libraryEmptyPersonal.
   ///
   /// In tr, this message translates to:
-  /// **'Henuz kisisel belgeniz yok'**
+  /// **'Henuz kişisel belgeniz yok'**
   String get libraryEmptyPersonal;
 
   /// No description provided for @libraryEmptyCategory.
@@ -514,7 +514,7 @@ abstract class S {
   /// No description provided for @libraryFilterAll.
   ///
   /// In tr, this message translates to:
-  /// **'Tumu'**
+  /// **'Tümü'**
   String get libraryFilterAll;
 
   /// No description provided for @libraryFilterSOP.
@@ -562,7 +562,7 @@ abstract class S {
   /// No description provided for @libraryUploadTitle.
   ///
   /// In tr, this message translates to:
-  /// **'Dosya Yukle'**
+  /// **'Dosya Yükle'**
   String get libraryUploadTitle;
 
   /// No description provided for @libraryDocTitle.
@@ -616,7 +616,7 @@ abstract class S {
   /// No description provided for @libraryDepartmentError.
   ///
   /// In tr, this message translates to:
-  /// **'Departmanlar yuklenemedi'**
+  /// **'Departmanlar yüklenemedi'**
   String get libraryDepartmentError;
 
   /// No description provided for @librarySelectFile.
@@ -634,19 +634,19 @@ abstract class S {
   /// No description provided for @libraryUploaded.
   ///
   /// In tr, this message translates to:
-  /// **'Dosya yuklendi'**
+  /// **'Dosya yüklendi'**
   String get libraryUploaded;
 
   /// No description provided for @libraryUploadFailed.
   ///
   /// In tr, this message translates to:
-  /// **'Yukleme basarisiz'**
+  /// **'Yükleme başarısız'**
   String get libraryUploadFailed;
 
   /// No description provided for @libraryUploadButton.
   ///
   /// In tr, this message translates to:
-  /// **'Yukle'**
+  /// **'Yükle'**
   String get libraryUploadButton;
 
   /// No description provided for @profileTitle.
@@ -736,7 +736,7 @@ abstract class S {
   /// No description provided for @profileStartDate.
   ///
   /// In tr, this message translates to:
-  /// **'Ise Giris'**
+  /// **'Ise Giriş'**
   String get profileStartDate;
 
   /// No description provided for @profileSectionSkills.
@@ -760,13 +760,13 @@ abstract class S {
   /// No description provided for @profileLoadError.
   ///
   /// In tr, this message translates to:
-  /// **'Profil yuklenemedi'**
+  /// **'Profil yüklenemedi'**
   String get profileLoadError;
 
   /// No description provided for @profileEditTitle.
   ///
   /// In tr, this message translates to:
-  /// **'Profil Duzenle'**
+  /// **'Profil Düzenle'**
   String get profileEditTitle;
 
   /// No description provided for @profileEditPhone.
@@ -838,19 +838,19 @@ abstract class S {
   /// No description provided for @profilePhoneInvalid.
   ///
   /// In tr, this message translates to:
-  /// **'Lutfen gecerli telefon numaralari girin'**
+  /// **'Lütfen gecerli telefon numaralari girin'**
   String get profilePhoneInvalid;
 
   /// No description provided for @profileUpdated.
   ///
   /// In tr, this message translates to:
-  /// **'Profil guncellendi'**
+  /// **'Profil güncellendi'**
   String get profileUpdated;
 
   /// No description provided for @profileUpdateFailed.
   ///
   /// In tr, this message translates to:
-  /// **'Guncelleme basarisiz'**
+  /// **'Güncelleme başarısız'**
   String get profileUpdateFailed;
 
   /// No description provided for @announcementTitle.
@@ -874,7 +874,7 @@ abstract class S {
   /// No description provided for @announcementNoResult.
   ///
   /// In tr, this message translates to:
-  /// **'Sonuc bulunamadi'**
+  /// **'Sonuç bulunamadi'**
   String get announcementNoResult;
 
   /// No description provided for @announcementDeleteTitle.
@@ -922,7 +922,7 @@ abstract class S {
   /// No description provided for @announcementDeleteFailed.
   ///
   /// In tr, this message translates to:
-  /// **'Silme basarisiz'**
+  /// **'Silme başarısız'**
   String get announcementDeleteFailed;
 
   /// No description provided for @announcementNew.
@@ -934,7 +934,7 @@ abstract class S {
   /// No description provided for @announcementEditTitle.
   ///
   /// In tr, this message translates to:
-  /// **'Duyuru Duzenle'**
+  /// **'Duyuru Düzenle'**
   String get announcementEditTitle;
 
   /// No description provided for @announcementFieldTitle.
@@ -946,7 +946,7 @@ abstract class S {
   /// No description provided for @announcementFieldContent.
   ///
   /// In tr, this message translates to:
-  /// **'Icerik'**
+  /// **'İçerik'**
   String get announcementFieldContent;
 
   /// No description provided for @announcementFieldPriority.
@@ -994,37 +994,37 @@ abstract class S {
   /// No description provided for @announcementValidation.
   ///
   /// In tr, this message translates to:
-  /// **'Baslik ve icerik zorunlu'**
+  /// **'Baslik ve içerik zorunlu'**
   String get announcementValidation;
 
   /// No description provided for @announcementUpdated.
   ///
   /// In tr, this message translates to:
-  /// **'Duyuru guncellendi'**
+  /// **'Duyuru güncellendi'**
   String get announcementUpdated;
 
   /// No description provided for @announcementCreated.
   ///
   /// In tr, this message translates to:
-  /// **'Duyuru olusturuldu'**
+  /// **'Duyuru oluşturuldu'**
   String get announcementCreated;
 
   /// No description provided for @announcementUpdateFailed.
   ///
   /// In tr, this message translates to:
-  /// **'Guncelleme basarisiz'**
+  /// **'Güncelleme başarısız'**
   String get announcementUpdateFailed;
 
   /// No description provided for @announcementCreateFailed.
   ///
   /// In tr, this message translates to:
-  /// **'Duyuru olusturulamadi'**
+  /// **'Duyuru oluşturulamadı'**
   String get announcementCreateFailed;
 
   /// No description provided for @announcementEdit.
   ///
   /// In tr, this message translates to:
-  /// **'Duzenle'**
+  /// **'Düzenle'**
   String get announcementEdit;
 
   /// No description provided for @announcementPublish.
@@ -1042,7 +1042,7 @@ abstract class S {
   /// No description provided for @tourLoading.
   ///
   /// In tr, this message translates to:
-  /// **'Yukleniyor...'**
+  /// **'Yükleniyor...'**
   String get tourLoading;
 
   /// No description provided for @tourRetry.
@@ -1143,7 +1143,7 @@ abstract class S {
   /// No description provided for @tourCancelWarning.
   ///
   /// In tr, this message translates to:
-  /// **'Bu islem geri alinamaz.'**
+  /// **'Bu işlem geri alinamaz.'**
   String get tourCancelWarning;
 
   /// No description provided for @notificationTitle.
@@ -1155,7 +1155,7 @@ abstract class S {
   /// No description provided for @notificationMarkAllRead.
   ///
   /// In tr, this message translates to:
-  /// **'Tumu Okundu'**
+  /// **'Tümü Okundu'**
   String get notificationMarkAllRead;
 
   /// No description provided for @notificationEmpty.
@@ -1215,7 +1215,7 @@ abstract class S {
   /// No description provided for @quizEditTitle.
   ///
   /// In tr, this message translates to:
-  /// **'Soru Duzenle'**
+  /// **'Soru Düzenle'**
   String get quizEditTitle;
 
   /// No description provided for @quizNewTitle.
@@ -1233,19 +1233,19 @@ abstract class S {
   /// No description provided for @quizLoadError.
   ///
   /// In tr, this message translates to:
-  /// **'Quiz yuklenemedi: {error}'**
+  /// **'Quiz yüklenemedi: {error}'**
   String quizLoadError(String error);
 
   /// No description provided for @quizUpdated.
   ///
   /// In tr, this message translates to:
-  /// **'Quiz guncellendi'**
+  /// **'Quiz güncellendi'**
   String get quizUpdated;
 
   /// No description provided for @quizCreated.
   ///
   /// In tr, this message translates to:
-  /// **'Quiz olusturuldu'**
+  /// **'Quiz oluşturuldu'**
   String get quizCreated;
 
   /// No description provided for @progressTitle.
@@ -1269,7 +1269,7 @@ abstract class S {
   /// No description provided for @contentManagerTitle.
   ///
   /// In tr, this message translates to:
-  /// **'Icerik Yonetimi'**
+  /// **'İçerik Yonetimi'**
   String get contentManagerTitle;
 
   /// No description provided for @contentManagerSearch.
@@ -1287,37 +1287,37 @@ abstract class S {
   /// No description provided for @contentManagerTree.
   ///
   /// In tr, this message translates to:
-  /// **'Icerik Agaci'**
+  /// **'İçerik Agaci'**
   String get contentManagerTree;
 
   /// No description provided for @routeEditorEdit.
   ///
   /// In tr, this message translates to:
-  /// **'Rotayi Duzenle'**
+  /// **'Rotayi Düzenle'**
   String get routeEditorEdit;
 
   /// No description provided for @routeEditorNew.
   ///
   /// In tr, this message translates to:
-  /// **'Yeni Egitim Rotasi'**
+  /// **'Yeni Eğitim Rotasi'**
   String get routeEditorNew;
 
   /// No description provided for @routeEditorSelectDept.
   ///
   /// In tr, this message translates to:
-  /// **'Lutfen departman secin'**
+  /// **'Lütfen departman secin'**
   String get routeEditorSelectDept;
 
   /// No description provided for @routeEditorUpdated.
   ///
   /// In tr, this message translates to:
-  /// **'Rota basariyla guncellendi'**
+  /// **'Rota başarıyla güncellendi'**
   String get routeEditorUpdated;
 
   /// No description provided for @routeEditorCreated.
   ///
   /// In tr, this message translates to:
-  /// **'Rota basariyla olusturuldu'**
+  /// **'Rota başarıyla oluşturuldu'**
   String get routeEditorCreated;
 
   /// No description provided for @routeEditorDeleteModule.
@@ -1335,7 +1335,7 @@ abstract class S {
   /// No description provided for @ackTitle.
   ///
   /// In tr, this message translates to:
-  /// **'Egitim Onayi'**
+  /// **'Eğitim Onayi'**
   String get ackTitle;
 
   /// No description provided for @ackText.
@@ -1347,7 +1347,7 @@ abstract class S {
   /// No description provided for @ackStatement.
   ///
   /// In tr, this message translates to:
-  /// **'Bu egitimi okudum, anladim ve uygulamayi taahhut ediyorum.'**
+  /// **'Bu eğitimi okudum, anladim ve uygulamayi taahhut ediyorum.'**
   String get ackStatement;
 
   /// No description provided for @ackCheckbox.
@@ -1407,7 +1407,7 @@ abstract class S {
   /// No description provided for @scadaLoadError.
   ///
   /// In tr, this message translates to:
-  /// **'Veri yuklenemedi: {error}'**
+  /// **'Veri yüklenemedi: {error}'**
   String scadaLoadError(String error);
 
   /// No description provided for @commonCancel.
@@ -1473,7 +1473,7 @@ abstract class S {
   /// No description provided for @featureGateContactAdmin.
   ///
   /// In tr, this message translates to:
-  /// **'Yukseltme icin tesis yoneticinize basvurun'**
+  /// **'Yukseltme icin tesis yöneticinize basvurun'**
   String get featureGateContactAdmin;
 
   /// No description provided for @featureGateCurrentPlan.
@@ -1485,13 +1485,13 @@ abstract class S {
   /// No description provided for @accessDeniedTitle.
   ///
   /// In tr, this message translates to:
-  /// **'Erisim Yetkiniz Yok'**
+  /// **'Erişim Yetkiniz Yok'**
   String get accessDeniedTitle;
 
   /// No description provided for @accessDeniedMessage.
   ///
   /// In tr, this message translates to:
-  /// **'Bu sayfaya erisim icin yetkiniz bulunmamaktadir.'**
+  /// **'Bu sayfaya erişim icin yetkiniz bulunmamaktadir.'**
   String get accessDeniedMessage;
 
   /// No description provided for @accessDeniedHome.
@@ -1527,7 +1527,7 @@ abstract class S {
   /// No description provided for @certificateCompleted.
   ///
   /// In tr, this message translates to:
-  /// **'asagidaki egitim rotasini basariyla tamamlamistir'**
+  /// **'asagidaki eğitim rotasini başarıyla tamamlamistir'**
   String get certificateCompleted;
 
   /// No description provided for @certificateDate.
@@ -1587,7 +1587,7 @@ abstract class S {
   /// No description provided for @badgeFirstStepDesc.
   ///
   /// In tr, this message translates to:
-  /// **'Ilk egitim modulunu tamamla'**
+  /// **'Ilk eğitim modulunu tamamla'**
   String get badgeFirstStepDesc;
 
   /// No description provided for @badgeQuizMaster.
@@ -1599,13 +1599,13 @@ abstract class S {
   /// No description provided for @badgeQuizMasterDesc.
   ///
   /// In tr, this message translates to:
-  /// **'5 quizi basariyla gec'**
+  /// **'5 quizi başarıyla gec'**
   String get badgeQuizMasterDesc;
 
   /// No description provided for @badgeFastLearner.
   ///
   /// In tr, this message translates to:
-  /// **'Hizli Ogrenci'**
+  /// **'Hizli Öğrenci'**
   String get badgeFastLearner;
 
   /// No description provided for @badgeFastLearnerDesc.
@@ -1647,7 +1647,7 @@ abstract class S {
   /// No description provided for @badgeBookwormDesc.
   ///
   /// In tr, this message translates to:
-  /// **'10 kutuphane dokumanini oku'**
+  /// **'10 kutuphane dokümanini oku'**
   String get badgeBookwormDesc;
 
   /// No description provided for @leaderboardTitle.
@@ -1677,13 +1677,13 @@ abstract class S {
   /// No description provided for @approvalTitle.
   ///
   /// In tr, this message translates to:
-  /// **'Icerik Onaylari'**
+  /// **'İçerik Onaylari'**
   String get approvalTitle;
 
   /// No description provided for @approvalEmpty.
   ///
   /// In tr, this message translates to:
-  /// **'Onay bekleyen icerik yok'**
+  /// **'Onay bekleyen içerik yok'**
   String get approvalEmpty;
 
   /// No description provided for @approvalApprove.
@@ -1713,19 +1713,19 @@ abstract class S {
   /// No description provided for @approvalApproved.
   ///
   /// In tr, this message translates to:
-  /// **'Icerik onaylandi'**
+  /// **'İçerik onaylandi'**
   String get approvalApproved;
 
   /// No description provided for @approvalRejected.
   ///
   /// In tr, this message translates to:
-  /// **'Icerik reddedildi'**
+  /// **'İçerik reddedildi'**
   String get approvalRejected;
 
   /// No description provided for @themeToggle.
   ///
   /// In tr, this message translates to:
-  /// **'Tema Degistir'**
+  /// **'Tema Değiştir'**
   String get themeToggle;
 
   /// No description provided for @themeDark.
@@ -1767,7 +1767,7 @@ abstract class S {
   /// No description provided for @commonLoading.
   ///
   /// In tr, this message translates to:
-  /// **'Yukleniyor...'**
+  /// **'Yükleniyor...'**
   String get commonLoading;
 
   /// No description provided for @commonNoData.
@@ -1809,7 +1809,7 @@ abstract class S {
   /// No description provided for @commonLogout.
   ///
   /// In tr, this message translates to:
-  /// **'Cikis Yap'**
+  /// **'Çıkış Yap'**
   String get commonLogout;
 
   /// No description provided for @commonYes.
@@ -1833,13 +1833,13 @@ abstract class S {
   /// No description provided for @commonSuccess.
   ///
   /// In tr, this message translates to:
-  /// **'Basarili'**
+  /// **'Başarılı'**
   String get commonSuccess;
 
   /// No description provided for @commonFailed.
   ///
   /// In tr, this message translates to:
-  /// **'Basarisiz'**
+  /// **'Başarısız'**
   String get commonFailed;
 }
 

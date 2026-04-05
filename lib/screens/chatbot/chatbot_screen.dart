@@ -37,7 +37,7 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
     if (result == null || result.files.isEmpty) return;
     final pickedFile = result.files.first;
     if (!pickedFile.name.endsWith('.pdf')) {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text('Sadece PDF yuklenebilir'), backgroundColor: ScadaColors.red));
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text('Sadece PDF yüklenebilir'), backgroundColor: ScadaColors.red));
       return;
     }
     setState(() => _isUploading = true);
@@ -51,10 +51,10 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
       final response = await dio.post('/chatbot/upload-document', data: formData);
       final data = response.data;
       if (data['success'] == true && mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${pickedFile.name} yuklendi! (${data["chunks_indexed"]} parca)'), backgroundColor: ScadaColors.green));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${pickedFile.name} yüklendi! (${data["chunks_indexed"]} parca)'), backgroundColor: ScadaColors.green));
       }
     } catch (e) {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Yukleme hatasi: $e'), backgroundColor: ScadaColors.red));
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Yükleme hatasi: $e'), backgroundColor: ScadaColors.red));
     } finally {
       if (mounted) setState(() => _isUploading = false);
     }
@@ -84,7 +84,7 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
         showBackButton: true,
         actions: [
           if (_isUploading) Padding(padding: const EdgeInsets.all(12), child: SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: ScadaColors.cyan))),
-          IconButton(icon: const Icon(Icons.upload_file, color: ScadaColors.cyan), onPressed: _isUploading ? null : _uploadPdf, tooltip: 'PDF Yukle'),
+          IconButton(icon: const Icon(Icons.upload_file, color: ScadaColors.cyan), onPressed: _isUploading ? null : _uploadPdf, tooltip: 'PDF Yükle'),
           IconButton(icon: Icon(Icons.delete_outline, color: context.scada.textDim), onPressed: () => ref.read(chatProvider.notifier).clearChat(), tooltip: 'Sohbeti Temizle'),
         ],
       ),
@@ -122,7 +122,7 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
             const SizedBox(height: 20),
             Text('OrientPro AI Asistan', style: TextStyle(color: context.scada.textPrimary, fontSize: 22, fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
-            Text('Oryantasyon ve egitim hakkinda\nsorularinizi sorun', textAlign: TextAlign.center, style: TextStyle(color: context.scada.textSecondary, fontSize: 13)),
+            Text('Oryantasyon ve eğitim hakkinda\nsorularinizi sorun', textAlign: TextAlign.center, style: TextStyle(color: context.scada.textSecondary, fontSize: 13)),
             const SizedBox(height: 32),
             Wrap(spacing: 8, runSpacing: 8, alignment: WrapAlignment.center, children: [
               _buildQuickAction(Icons.health_and_safety, 'ISG nedir?'),
@@ -138,7 +138,7 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
             TextButton.icon(
               onPressed: _uploadPdf,
               icon: const Icon(Icons.upload_file, color: ScadaColors.cyan, size: 18),
-              label: const Text('PDF Dokuman Yukle', style: TextStyle(color: ScadaColors.cyan, fontSize: 13)),
+              label: const Text('PDF Doküman Yükle', style: TextStyle(color: ScadaColors.cyan, fontSize: 13)),
             ),
           ],
         ),
@@ -203,7 +203,7 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
             const SizedBox(height: 10),
             Divider(color: context.scada.border, height: 1),
             const SizedBox(height: 8),
-            // Dogrulama gostergesi
+            // Doğrulama gostergesi
             if (message.verified != null)
               Padding(
                 padding: const EdgeInsets.only(bottom: 6),
@@ -215,7 +215,7 @@ class _ChatbotScreenState extends ConsumerState<ChatbotScreen> {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    message.verified! ? 'Dogrulandi' : 'Dogrulanamadi — yetkiliye danisin',
+                    message.verified! ? 'Doğrulandı' : 'Doğrulanamadı — yetkiliye danisin',
                     style: TextStyle(fontSize: 10, color: message.verified! ? ScadaColors.green : ScadaColors.amber),
                   ),
                 ]),

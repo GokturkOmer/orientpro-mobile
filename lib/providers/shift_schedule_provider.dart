@@ -106,7 +106,7 @@ class ShiftScheduleNotifier extends Notifier<ShiftScheduleState> {
     try {
       await _dio.put('/shift-schedules/$id', data: data);
       await loadShifts();
-      state = state.copyWith(clearSaving: true, successMessage: 'Vardiya guncellendi');
+      state = state.copyWith(clearSaving: true, successMessage: 'Vardiya güncellendi');
       return true;
     } on DioException catch (e) {
       state = state.copyWith(clearSaving: true, error: ErrorHelper.getMessage(e));

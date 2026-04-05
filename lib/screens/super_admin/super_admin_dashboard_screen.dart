@@ -54,8 +54,8 @@ class _SuperAdminDashboardScreenState extends ConsumerState<SuperAdminDashboardS
       child: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          // Ozet kartlari
-          _SectionTitle('Platform Ozeti'),
+          // Özet kartlari
+          _SectionTitle('Platform Özeti'),
           const SizedBox(height: 12),
           Row(children: [
             Expanded(child: _MetricCard('Toplam Musteri', '${summary['total_organizations'] ?? 0}', Icons.business, ScadaColors.red)),
@@ -74,7 +74,7 @@ class _SuperAdminDashboardScreenState extends ConsumerState<SuperAdminDashboardS
           // Churn riski
           if (churnRisk.isNotEmpty) ...[
             const SizedBox(height: 24),
-            _SectionTitle('Churn Riski (30+ gun giris yok)'),
+            _SectionTitle('Churn Riski (30+ gun giriş yok)'),
             const SizedBox(height: 12),
             ...churnRisk.map((org) => _ChurnCard(org)),
           ],
@@ -145,7 +145,7 @@ class _ChurnCard extends StatelessWidget {
         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(org['name'] ?? '', style: TextStyle(fontWeight: FontWeight.w600, color: context.scada.textPrimary, fontSize: 13)),
           Text(
-            days != null ? '$days gundur giris yok • ${org['plan_type']}' : 'Hic giris yapilmadi • ${org['plan_type']}',
+            days != null ? '$days gundur giriş yok • ${org['plan_type']}' : 'Hic giriş yapilmadi • ${org['plan_type']}',
             style: TextStyle(fontSize: 11, color: context.scada.textSecondary),
           ),
         ])),

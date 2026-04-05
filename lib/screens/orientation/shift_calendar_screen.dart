@@ -26,7 +26,7 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
     Future.microtask(() {
       final auth = ref.read(authProvider);
       if (auth.user != null) {
-        // Bu haftanin vardiyalarini yukle
+        // Bu haftanin vardiyalarini yükle
         final now = DateTime.now();
         final weekStart = now.subtract(Duration(days: now.weekday - 1));
         final weekEnd = weekStart.add(const Duration(days: 6));
@@ -68,7 +68,7 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
             child: const Icon(Icons.calendar_month, color: ScadaColors.amber, size: 20),
           ),
           const SizedBox(width: 8),
-          Text('Vardiya & Gorevler', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+          Text('Vardiya & Görevler', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         ]),
         bottom: TabBar(
           controller: _tabCtrl,
@@ -78,7 +78,7 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
           labelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
           tabs: [
             Tab(text: 'Vardiyalar (${shiftState.shifts.length})'),
-            Tab(text: 'Gorevler (${shiftState.tasks.length})'),
+            Tab(text: 'Görevler (${shiftState.tasks.length})'),
           ],
         ),
       ),
@@ -96,7 +96,7 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
         onPressed: () {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Vardiya/gorev olusturma yaklasimda'),
+              content: Text('Vardiya/görev oluşturma yaklasimda'),
               backgroundColor: ScadaColors.amber,
             ),
           );
@@ -237,7 +237,7 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
         child: TextField(
           decoration: InputDecoration(
-            hintText: 'Gorev ara...',
+            hintText: 'Görev ara...',
             hintStyle: TextStyle(color: context.scada.textDim, fontSize: 13),
             prefixIcon: Icon(Icons.search, color: context.scada.textDim, size: 20),
             filled: true,
@@ -257,7 +257,7 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              _buildTaskFilter('Tumu', 'all'),
+              _buildTaskFilter('Tümü', 'all'),
               _buildTaskFilter('Bekliyor', 'pending'),
               _buildTaskFilter('Devam', 'in_progress'),
               _buildTaskFilter('Tamam', 'completed'),
@@ -279,7 +279,7 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
               child: Column(mainAxisSize: MainAxisSize.min, children: [
                 Icon(Icons.task_alt, size: 48, color: context.scada.textDim),
                 const SizedBox(height: 8),
-                Text('Gorev bulunamadi', style: TextStyle(color: context.scada.textSecondary, fontSize: 13)),
+                Text('Görev bulunamadi', style: TextStyle(color: context.scada.textSecondary, fontSize: 13)),
               ]),
             );
           }
@@ -400,8 +400,8 @@ class _ShiftCalendarScreenState extends ConsumerState<ShiftCalendarScreen> with 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(ok
-              ? (status == 'completed' ? 'Gorev tamamlandi' : status == 'in_progress' ? 'Gorev basladi' : 'Gorev iptal edildi')
-              : 'Islem basarisiz'),
+              ? (status == 'completed' ? 'Görev tamamlandi' : status == 'in_progress' ? 'Görev basladi' : 'Görev iptal edildi')
+              : 'İşlem başarısız'),
           backgroundColor: ok ? ScadaColors.green : ScadaColors.red,
         ),
       );

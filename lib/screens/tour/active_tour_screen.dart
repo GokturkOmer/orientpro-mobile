@@ -50,7 +50,7 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
     if (_session == null) {
       return Scaffold(
         backgroundColor: context.scada.bg,
-        appBar: AppBar(backgroundColor: context.scada.surface, title: Text('Yukleniyor...')),
+        appBar: AppBar(backgroundColor: context.scada.surface, title: Text('Yükleniyor...')),
         body: const Center(child: CircularProgressIndicator(color: ScadaColors.cyan)),
       );
     }
@@ -165,7 +165,7 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
       final result = await ref.read(tourServiceProvider).scanCheckpoint(widget.sessionId, qrCode);
       if (result == null) {
         setState(() => _isProcessing = false);
-        if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Tarama basarisiz'), backgroundColor: ScadaColors.red));
+        if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Tarama başarısız'), backgroundColor: ScadaColors.red));
         return;
       }
       setState(() { _lastScanResult = result; _isProcessing = false; });
@@ -309,7 +309,7 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
     final confirmed = await showDialog<bool>(context: context, builder: (ctx) => AlertDialog(
       backgroundColor: context.scada.surface,
       title: Text('Turu iptal et?', style: TextStyle(color: context.scada.textPrimary)),
-      content: Text('Bu islem geri alinamaz.', style: TextStyle(color: context.scada.textSecondary)),
+      content: Text('Bu işlem geri alinamaz.', style: TextStyle(color: context.scada.textSecondary)),
       actions: [
         TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text('Vazgec', style: TextStyle(color: context.scada.textDim))),
         ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.red.withValues(alpha: 0.15), foregroundColor: ScadaColors.red),

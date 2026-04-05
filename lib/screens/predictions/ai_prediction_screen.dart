@@ -88,7 +88,7 @@ class AIPredictionScreen extends ConsumerWidget {
                     const SizedBox(height: 8),
                     const Text('Tum Sistemler Normal', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.green)),
                     const SizedBox(height: 4),
-                    Text('AI analizi sonucunda anomali veya ariza riski tespit edilmedi.', textAlign: TextAlign.center, style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
+                    Text('AI analizi sonuçunda anomali veya ariza riski tespit edilmedi.', textAlign: TextAlign.center, style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
                   ]),
                 ),
 

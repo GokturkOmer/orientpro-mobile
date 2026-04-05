@@ -49,7 +49,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
         _isLoading = false;
       });
     } catch (e) {
-      setState(() { _error = 'Abonelik bilgisi yuklenemedi'; _isLoading = false; });
+      setState(() { _error = 'Abonelik bilgisi yüklenemedi'; _isLoading = false; });
     }
   }
 
@@ -154,7 +154,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
         ],
         if (periodEnd != null && !isTrial) ...[
           const SizedBox(height: 12),
-          Text('Donem sonu: ${_formatDate(periodEnd)}',
+          Text('Dönem sonu: ${_formatDate(periodEnd)}',
             style: TextStyle(fontSize: 13, color: context.scada.textDim)),
         ],
       ]),
@@ -416,7 +416,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
           await launchUrl(uri, mode: LaunchMode.externalApplication);
         }
       } else {
-        setState(() { _isLoading = false; _error = 'Odeme formu olusturulamadi'; });
+        setState(() { _isLoading = false; _error = 'Odeme formu oluşturulamadı'; });
       }
     } on DioException catch (e) {
       setState(() { _isLoading = false; _error = ErrorHelper.getMessage(e); });

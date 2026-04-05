@@ -35,7 +35,7 @@ void showPdfUploadDialog({
               borderRadius: BorderRadius.circular(16),
               side: BorderSide(color: context.scada.borderBright),
             ),
-            title: Text('PDF Dokuman Yukle',
+            title: Text('PDF Doküman Yükle',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
             content: SizedBox(
               width: 400,
@@ -178,11 +178,11 @@ void showPdfUploadDialog({
                             ? null
                             : (v) => setDialogState(() => enrichExistingContents = v ?? false),
                         title: Text(
-                          'Mevcut icerikleri PDF ile zenginlestir',
+                          'Mevcut içerikleri PDF ile zenginlestir',
                           style: TextStyle(color: context.scada.textPrimary, fontSize: 12, fontWeight: FontWeight.w500),
                         ),
                         subtitle: Text(
-                          'AI, modulun ders iceriklerini PDF bilgileriyle guncelleyecek',
+                          'AI, modulun ders içeriklerini PDF bilgileriyle güncelleyecek',
                           style: TextStyle(color: context.scada.textDim, fontSize: 10),
                         ),
                         secondary: const Icon(Icons.auto_fix_high, color: ScadaColors.purple, size: 20),
@@ -222,7 +222,7 @@ void showPdfUploadDialog({
                     SizedBox(height: 8),
                     Text(
                         enrichExistingContents && selectedModuleId != null
-                            ? 'AI siniflandirma + icerik zenginlestirme yapiliyor...'
+                            ? 'AI siniflandirma + içerik zenginlestirme yapiliyor...'
                             : 'AI siniflandirma yapiliyor...',
                         style: TextStyle(fontSize: 11, color: context.scada.textSecondary)),
                   ],
@@ -243,7 +243,7 @@ void showPdfUploadDialog({
                         if (pdfFileBytes == null || pdfFileName == null) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                                content: Text('Lutfen bir PDF dosya secin'),
+                                content: Text('Lütfen bir PDF dosya secin'),
                                 backgroundColor: ScadaColors.red),
                           );
                           return;
@@ -265,11 +265,11 @@ void showPdfUploadDialog({
                           Navigator.pop(ctx);
                           final enrichment = result['enrichment'] as List?;
                           final enrichMsg = enrichment != null && enrichment.isNotEmpty
-                              ? ' | ${enrichment.length} icerik zenginlestirildi'
+                              ? ' | ${enrichment.length} içerik zenginlestirildi'
                               : '';
                           messenger.showSnackBar(
                             SnackBar(
-                              content: Text('PDF yuklendi ve AI tarafindan siniflandirildi$enrichMsg'),
+                              content: Text('PDF yüklendi ve AI tarafindan siniflandirildi$enrichMsg'),
                               backgroundColor: ScadaColors.green,
                               duration: const Duration(seconds: 4),
                             ),
@@ -283,7 +283,7 @@ void showPdfUploadDialog({
                           final error = ref.read(adminProvider).error;
                           messenger.showSnackBar(
                             SnackBar(
-                              content: Text(error ?? 'PDF yuklenemedi'),
+                              content: Text(error ?? 'PDF yüklenemedi'),
                               backgroundColor: ScadaColors.red,
                             ),
                           );
@@ -293,7 +293,7 @@ void showPdfUploadDialog({
                   backgroundColor: ScadaColors.cyan.withValues(alpha: 0.15),
                   foregroundColor: ScadaColors.cyan,
                 ),
-                child: const Text('Yukle & Siniflandir', style: TextStyle(fontSize: 12)),
+                child: const Text('Yükle & Siniflandir', style: TextStyle(fontSize: 12)),
               ),
             ],
           );

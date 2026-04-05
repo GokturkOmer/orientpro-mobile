@@ -1,11 +1,11 @@
-// Modul Editor — egitim modulu olusturma/duzenleme ekrani
+// Modul Editor — eğitim modulu oluşturma/düzenleme ekrani
 //
 // Yapi:
-//   1. State & Form Logic       (satir ~20-1165)   — form controllers, API islemleri
+//   1. State & Form Logic       (satir ~20-1165)   — form controllers, API işlemleri
 //   2. build() & Layout         (satir ~1166-1235)  — ana scaffold, tab yapisi
 //   3. _buildModuleForm()       (satir ~1236-1303)  — modul bilgi formu
-//   4. _buildContentSection()   (satir ~1304-1789)  — icerik yonetimi
-//   5. _buildContentCard()      (satir ~1790-2236)  — tekil icerik karti + PDF detay dialog
+//   4. _buildContentSection()   (satir ~1304-1789)  — içerik yonetimi
+//   5. _buildContentCard()      (satir ~1790-2236)  — tekil içerik karti + PDF detay dialog
 //   6. RAG Tab Widget'lari      (satir ~2237-2413)  — classification, fulltext, chunks
 //   7. Quiz Section             (satir ~2414-2537)  — quiz listesi ve quiz karti
 //
@@ -96,8 +96,8 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
         SnackBar(
           content: Text(
             _isEditMode
-                ? 'Modul basariyla guncellendi'
-                : 'Modul basariyla olusturuldu',
+                ? 'Modul başarıyla güncellendi'
+                : 'Modul başarıyla oluşturuldu',
           ),
           backgroundColor: ScadaColors.green,
         ),
@@ -123,7 +123,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
     String? pdfMimeType;
     bool isUploading = false;
     double uploadProgress = 0;
-    bool enrichExistingContents = true; // AI ile mevcut icerikleri zenginlestir
+    bool enrichExistingContents = true; // AI ile mevcut içerikleri zenginlestir
 
     showDialog(
       context: context,
@@ -134,7 +134,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
             return AlertDialog(
               backgroundColor: context.scada.card,
               title: Text(
-                'Icerik Ekle',
+                'İçerik Ekle',
                 style: TextStyle(color: context.scada.textPrimary),
               ),
               content: SingleChildScrollView(
@@ -147,7 +147,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                         initialValue: contentType,
                         dropdownColor: context.scada.card,
                         style: TextStyle(color: context.scada.textPrimary),
-                        decoration: _inputDecoration('Icerik Tipi'),
+                        decoration: _inputDecoration('İçerik Tipi'),
                         items: const [
                           DropdownMenuItem(value: 'text', child: Text('Metin')),
                           DropdownMenuItem(
@@ -155,7 +155,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                           DropdownMenuItem(
                               value: 'video', child: Text('Video')),
                           DropdownMenuItem(
-                              value: 'pdf', child: Text('PDF Dokuman')),
+                              value: 'pdf', child: Text('PDF Doküman')),
                         ],
                         onChanged: isUploading
                             ? null
@@ -226,7 +226,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                           TextField(
                             controller: contentBodyCtrl,
                             style: TextStyle(color: context.scada.textPrimary),
-                            decoration: _inputDecoration('Icerik Metni (Markdown destekli)'),
+                            decoration: _inputDecoration('İçerik Metni (Markdown destekli)'),
                             maxLines: 6,
                             onChanged: (_) {
                               // Trigger rebuild for preview if needed
@@ -345,11 +345,11 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                                   ? null
                                   : (v) => setDialogState(() => enrichExistingContents = v ?? false),
                               title: Text(
-                                'Mevcut icerikleri PDF ile zenginlestir',
+                                'Mevcut içerikleri PDF ile zenginlestir',
                                 style: TextStyle(color: context.scada.textPrimary, fontSize: 12, fontWeight: FontWeight.w500),
                               ),
                               subtitle: Text(
-                                'AI, modulun mevcut ders iceriklerini PDF\'deki bilgilerle analiz edip guncelleyecek',
+                                'AI, modulun mevcut ders içeriklerini PDF\'deki bilgilerle analiz edip güncelleyecek',
                                 style: TextStyle(color: context.scada.textDim, fontSize: 10),
                               ),
                               secondary: const Icon(Icons.auto_awesome, color: ScadaColors.purple, size: 20),
@@ -371,7 +371,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                               SizedBox(width: 8),
                               Expanded(
                                 child: Text(
-                                  'PDF yuklendiginde AI otomatik olarak departman, zorluk ve etiket siniflandirmasi yapacak.',
+                                  'PDF yüklendiginde AI otomatik olarak departman, zorluk ve etiket siniflandirmasi yapacak.',
                                   style: TextStyle(
                                     color: ScadaColors.cyan,
                                     fontSize: 11,
@@ -401,9 +401,9 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                               Text(
                                 uploadProgress > 0.99
                                     ? (enrichExistingContents
-                                        ? 'AI siniflandirma + icerik zenginlestirme yapiliyor...'
+                                        ? 'AI siniflandirma + içerik zenginlestirme yapiliyor...'
                                         : 'AI siniflandirma yapiliyor...')
-                                    : 'Yukleniyor... %${(uploadProgress * 100).toInt()}',
+                                    : 'Yükleniyor... %${(uploadProgress * 100).toInt()}',
                                 style: TextStyle(
                                   color: context.scada.textSecondary,
                                   fontSize: 12,
@@ -444,7 +444,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                             if (pdfFileBytes == null || pdfFileName == null) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text('Lutfen bir PDF dosya secin'),
+                                  content: Text('Lütfen bir PDF dosya secin'),
                                   backgroundColor: ScadaColors.red,
                                 ),
                               );
@@ -486,7 +486,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                               ScaffoldMessenger.of(ctx).showSnackBar(
                                 SnackBar(
                                   content: Text(
-                                    error ?? 'PDF yukleme basarisiz',
+                                    error ?? 'PDF yükleme başarısız',
                                   ),
                                   backgroundColor: ScadaColors.red,
                                 ),
@@ -518,7 +518,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                           }
                         },
                   child: Text(
-                    contentType == 'pdf' ? 'Yukle & Siniflandir' : 'Kaydet',
+                    contentType == 'pdf' ? 'Yükle & Siniflandir' : 'Kaydet',
                     style: TextStyle(color: context.scada.bg),
                   ),
                 ),
@@ -545,7 +545,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
             return AlertDialog(
               backgroundColor: context.scada.card,
               title: Text(
-                'Icerigi Duzenle',
+                'Icerigi Düzenle',
                 style: TextStyle(color: context.scada.textPrimary),
               ),
               content: SingleChildScrollView(
@@ -556,13 +556,13 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                       initialValue: contentType,
                       dropdownColor: context.scada.card,
                       style: TextStyle(color: context.scada.textPrimary),
-                      decoration: _inputDecoration('Icerik Tipi'),
+                      decoration: _inputDecoration('İçerik Tipi'),
                       items: const [
                         DropdownMenuItem(value: 'text', child: Text('Metin')),
                         DropdownMenuItem(value: 'image', child: Text('Gorsel')),
                         DropdownMenuItem(value: 'video', child: Text('Video')),
                         DropdownMenuItem(
-                            value: 'pdf', child: Text('PDF Dokuman')),
+                            value: 'pdf', child: Text('PDF Doküman')),
                       ],
                       onChanged: (v) {
                         if (v != null) setDialogState(() => contentType = v);
@@ -621,7 +621,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                         TextField(
                           controller: contentBodyCtrl,
                           style: TextStyle(color: context.scada.textPrimary),
-                          decoration: _inputDecoration('Icerik Metni (Markdown destekli)'),
+                          decoration: _inputDecoration('İçerik Metni (Markdown destekli)'),
                           maxLines: 6,
                         ),
                     ],
@@ -647,7 +647,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                             SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                'PDF dosyasi degistirilemez. Sadece baslik duzenlenebilir.',
+                                'PDF dosyasi değiştirilemez. Sadece baslik düzenlenebilir.',
                                 style: TextStyle(
                                   color: context.scada.textSecondary,
                                   fontSize: 12,
@@ -758,7 +758,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                   SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'AI Siniflandirma Sonucu',
+                      'AI Siniflandirma Sonuçu',
                       style: TextStyle(
                           color: context.scada.textPrimary, fontSize: 18),
                     ),
@@ -950,7 +950,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                       TextField(
                         controller: summaryCtrl,
                         style: TextStyle(color: context.scada.textPrimary),
-                        decoration: _inputDecoration('AI Ozet'),
+                        decoration: _inputDecoration('AI Özet'),
                         maxLines: 3,
                       ),
 
@@ -971,7 +971,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                               const Row(children: [
                                 Icon(Icons.auto_fix_high, color: ScadaColors.purple, size: 16),
                                 SizedBox(width: 6),
-                                Text('Zenginlestirilen Icerikler',
+                                Text('Zenginlestirilen İçerikler',
                                     style: TextStyle(color: ScadaColors.purple, fontSize: 12, fontWeight: FontWeight.w600)),
                               ]),
                               SizedBox(height: 8),
@@ -1165,7 +1165,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
       appBar: AppBar(
         backgroundColor: context.scada.surface,
         title: Text(
-          _isEditMode ? 'Modulu Duzenle' : 'Yeni Modul',
+          _isEditMode ? 'Modulu Düzenle' : 'Yeni Modul',
           style: TextStyle(color: context.scada.textPrimary),
         ),
         iconTheme: IconThemeData(color: context.scada.textPrimary),
@@ -1216,7 +1216,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                               ),
                             )
                           : Text(
-                              _isEditMode ? 'Guncelle' : 'Olustur',
+                              _isEditMode ? 'Güncelle' : 'Oluştur',
                               style: TextStyle(
                                 color: context.scada.bg,
                                 fontSize: 16,
@@ -1282,7 +1282,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
             TextField(
               controller: _descriptionController,
               style: TextStyle(color: context.scada.textPrimary),
-              decoration: _inputDecoration('Aciklama'),
+              decoration: _inputDecoration('Açıklama'),
               maxLines: 3,
             ),
             SizedBox(height: 12),
@@ -1334,7 +1334,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Icerik Bolumleri',
+                'İçerik Bolumleri',
                 style: TextStyle(
                   color: context.scada.textPrimary,
                   fontSize: 18,
@@ -1344,7 +1344,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
               IconButton(
                 icon: const Icon(Icons.add_circle, color: ScadaColors.cyan),
                 onPressed: _showAddContentDialog,
-                tooltip: 'Icerik Ekle',
+                tooltip: 'İçerik Ekle',
               ),
             ],
           ),
@@ -1354,7 +1354,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
               padding: const EdgeInsets.all(24),
               alignment: Alignment.center,
               child: Text(
-                'Henuz icerik eklenmedi',
+                'Henuz içerik eklenmedi',
                 style: TextStyle(color: context.scada.textSecondary),
               ),
             )
@@ -1373,7 +1373,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                     ),
                   ),
                   icon: const Icon(Icons.add, size: 18),
-                  label: const Text('Icerik Ekle'),
+                  label: const Text('İçerik Ekle'),
                   onPressed: _showAddContentDialog,
                 ),
               ),
@@ -1388,7 +1388,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                     ),
                   ),
                   icon: const Icon(Icons.auto_awesome, size: 18),
-                  label: const Text('PDF\'den Olustur'),
+                  label: const Text('PDF\'den Oluştur'),
                   onPressed: _showGenerateFromPdfDialog,
                 ),
               ),
@@ -1423,9 +1423,9 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: context.scada.card,
-        title: Text('Dokumandan Icerik Olustur', style: TextStyle(color: context.scada.textPrimary, fontSize: 15)),
+        title: Text('Dokümandan İçerik Oluştur', style: TextStyle(color: context.scada.textPrimary, fontSize: 15)),
         content: Text(
-          '"${doc['title']}" dokumanindan bu module icerik oluturulsun mu?\n\nMevcut metin icerikleri silinecek, yerine AI uretimi gelecek (taslak olarak).',
+          '"${doc['title']}" dokümanindan bu module içerik oluturulsun mu?\n\nMevcut metin içerikleri silinecek, yerine AI uretimi gelecek (taslak olarak).',
           style: TextStyle(color: context.scada.textSecondary, fontSize: 12),
         ),
         actions: [
@@ -1433,7 +1433,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
           ElevatedButton(
             onPressed: () => Navigator.pop(ctx, true),
             style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.green),
-            child: const Text('Olustur', style: TextStyle(color: Colors.white)),
+            child: const Text('Oluştur', style: TextStyle(color: Colors.white)),
           ),
         ],
       ),
@@ -1450,12 +1450,12 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
     if (mounted) {
       if (result != null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${result['generated_count']} bolum olusturuldu (taslak)'), backgroundColor: ScadaColors.green),
+          SnackBar(content: Text('${result['generated_count']} bolum oluşturuldu (taslak)'), backgroundColor: ScadaColors.green),
         );
         ref.read(adminProvider.notifier).loadModuleDetail(widget.moduleId!);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(ref.read(adminProvider).error ?? 'Icerik olusturulamadi'), backgroundColor: ScadaColors.red),
+          SnackBar(content: Text(ref.read(adminProvider).error ?? 'İçerik oluşturulamadı'), backgroundColor: ScadaColors.red),
         );
       }
     }
@@ -1496,9 +1496,9 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Icerik Olusturuldu!',
+                          Text('İçerik Oluşturuldu!',
                               style: TextStyle(color: context.scada.textPrimary, fontSize: 16, fontWeight: FontWeight.bold)),
-                          Text('${contents.length} bolum basariyla olusturuldu',
+                          Text('${contents.length} bolum başarıyla oluşturuldu',
                               style: TextStyle(color: context.scada.textDim, fontSize: 12)),
                         ],
                       ),
@@ -1612,7 +1612,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                   SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'PDF\'den Icerik Olustur',
+                      'PDF\'den İçerik Oluştur',
                       style: TextStyle(color: context.scada.textPrimary, fontSize: 16),
                     ),
                   ),
@@ -1640,16 +1640,16 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                               children: [
                                 Icon(Icons.info_outline, size: 16, color: ScadaColors.purple),
                                 SizedBox(width: 8),
-                                Text('AI Icerik Olusturma',
+                                Text('AI İçerik Oluşturma',
                                     style: TextStyle(color: ScadaColors.purple, fontSize: 12, fontWeight: FontWeight.w600)),
                               ],
                             ),
                             SizedBox(height: 6),
                             Text(
-                              'PDF dosyasini yukleyin, AI dokumani analiz edecek ve modulunuz icin yapilandirilmis ders icerikleri olusturacak.\n\n'
+                              'PDF dosyasini yükleyin, AI dokümani analiz edecek ve modulunuz icin yapilandirilmis ders içerikleri oluşturacak.\n\n'
                               '• PDF metin icerigi cikarilir\n'
                               '• AI icerigi analiz eder ve bolumlendirir\n'
-                              '• Her bolum icin baslik ve Markdown icerik uretilir\n'
+                              '• Her bolum icin baslik ve Markdown içerik uretilir\n'
                               '• RAG indeksleme yapilir (arama icin)',
                               style: TextStyle(color: context.scada.textSecondary, fontSize: 11, height: 1.5),
                             ),
@@ -1735,11 +1735,11 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                               ? null
                               : (v) => setDialogState(() => clearExisting = v ?? false),
                           title: Text(
-                            'Mevcut metin iceriklerini temizle',
+                            'Mevcut metin içeriklerini temizle',
                             style: TextStyle(color: context.scada.textPrimary, fontSize: 12, fontWeight: FontWeight.w500),
                           ),
                           subtitle: Text(
-                            'Modulun mevcut metin iceriklerini silerek yenileriyle degistirir',
+                            'Modulun mevcut metin içeriklerini silerek yenileriyle değiştirir',
                             style: TextStyle(color: context.scada.textDim, fontSize: 10),
                           ),
                           secondary: const Icon(Icons.cleaning_services, color: ScadaColors.amber, size: 20),
@@ -1759,8 +1759,8 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                             SizedBox(height: 8),
                             Text(
                               uploadProgress > 0.99
-                                  ? 'AI icerik olusuruyor... Bu islem 1-2 dakika surebilir'
-                                  : 'Yukleniyor... %${(uploadProgress * 100).toInt()}',
+                                  ? 'AI içerik olusuruyor... Bu işlem 1-2 dakika surebilir'
+                                  : 'Yükleniyor... %${(uploadProgress * 100).toInt()}',
                               style: TextStyle(color: context.scada.textSecondary, fontSize: 12),
                             ),
                             if (uploadProgress > 0.99) ...[
@@ -1770,7 +1770,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                                 children: [
                                   SizedBox(width: 16, height: 16, child: CircularProgressIndicator(color: ScadaColors.purple, strokeWidth: 2)),
                                   SizedBox(width: 8),
-                                  Text('PDF analiz + RAG indeksleme + Icerik olusturma...',
+                                  Text('PDF analiz + RAG indeksleme + İçerik oluşturma...',
                                       style: TextStyle(color: ScadaColors.purple, fontSize: 11)),
                                 ],
                               ),
@@ -1832,7 +1832,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                             if (mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text(error ?? 'Icerik olusturma basarisiz'),
+                                  content: Text(error ?? 'İçerik oluşturma başarısız'),
                                   backgroundColor: ScadaColors.red,
                                 ),
                               );
@@ -1841,7 +1841,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                         },
                   icon: const Icon(Icons.auto_awesome, size: 16),
                   label: Text(
-                    isGenerating ? 'Olusturuluyor...' : 'Olustur',
+                    isGenerating ? 'Oluşturuluyor...' : 'Oluştur',
                     style: const TextStyle(color: Colors.white),
                   ),
                 ),
@@ -1979,7 +1979,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                   color: ScadaColors.amber,
                 ),
                 onPressed: () => _showEditContentDialog(content),
-                tooltip: 'Duzenle',
+                tooltip: 'Düzenle',
                 constraints: const BoxConstraints(),
                 padding: const EdgeInsets.all(4),
               ),
@@ -2144,7 +2144,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
       'beginner': 'Baslangic', 'intermediate': 'Orta', 'advanced': 'Ileri',
     };
 
-    // RAG icerik state
+    // RAG içerik state
     int selectedTab = 0; // 0=siniflandirma, 1=tam metin, 2=chunk'lar
     String? fullText;
     List<dynamic>? chunks;
@@ -2272,7 +2272,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
                     });
                   },
                   icon: const Icon(Icons.edit, size: 16),
-                  label: const Text('Siniflandirmayi Duzenle'),
+                  label: const Text('Siniflandirmayi Düzenle'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: ScadaColors.purple,
                     foregroundColor: Colors.white,
@@ -2371,7 +2371,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
 
         // Summary
         if (summary.isNotEmpty) ...[
-          Text('AI Ozet', style: TextStyle(color: context.scada.textDim, fontSize: 11)),
+          Text('AI Özet', style: TextStyle(color: context.scada.textDim, fontSize: 11)),
           SizedBox(height: 6),
           Container(
             width: double.infinity,
@@ -2402,11 +2402,11 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
       return Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
         CircularProgressIndicator(color: ScadaColors.cyan),
         SizedBox(height: 12),
-        Text('RAG icerigi yukleniyor...', style: TextStyle(color: context.scada.textDim, fontSize: 12)),
+        Text('RAG icerigi yükleniyor...', style: TextStyle(color: context.scada.textDim, fontSize: 12)),
       ]));
     }
     if (fullText == null || fullText.isEmpty) {
-      return Center(child: Text('Icerik bulunamadi', style: TextStyle(color: context.scada.textDim)));
+      return Center(child: Text('İçerik bulunamadi', style: TextStyle(color: context.scada.textDim)));
     }
     return SingleChildScrollView(
       child: Container(
@@ -2429,7 +2429,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
       return Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
         CircularProgressIndicator(color: ScadaColors.cyan),
         SizedBox(height: 12),
-        Text('Chunk\'lar yukleniyor...', style: TextStyle(color: context.scada.textDim, fontSize: 12)),
+        Text('Chunk\'lar yükleniyor...', style: TextStyle(color: context.scada.textDim, fontSize: 12)),
       ]));
     }
     if (chunks == null || chunks.isEmpty) {
@@ -2604,7 +2604,7 @@ class _ModuleEditorScreenState extends ConsumerState<ModuleEditorScreen> {
               );
             },
             child: Text(
-              'Duzenle',
+              'Düzenle',
               style: TextStyle(color: context.scada.bg, fontSize: 13),
             ),
           ),

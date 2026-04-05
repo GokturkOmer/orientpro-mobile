@@ -11,7 +11,7 @@ class RoleHelper {
     return role == 'admin';
   }
 
-  /// Pro erisim: admin + tum teknik ekip
+  /// Pro erişim: admin + tum teknik ekip
   static const _proRoles = {
     'admin', 'teknik_mudur',
     'elektrik_sefi', 'mekanik_sefi', 'tesisat_sefi',
@@ -34,7 +34,7 @@ class RoleHelper {
     return _supervisorRoles.contains(role);
   }
 
-  /// Icerik duzenleme: DB permissions varsa content:edit kontrol eder
+  /// İçerik düzenleme: DB permissions varsa content:edit kontrol eder
   static const _contentEditorRoles = {
     'admin', 'teknik_mudur',
     'resepsiyon_mudur', 'hk_mudur', 'guvenlik_mudur', 'mutfak_mudur',
@@ -119,8 +119,8 @@ class RoleHelper {
 
   // ===== ICERIK DUZENLEME DEPARTMAN/TAG =====
 
-  /// Duzenlenebilir departmanlar. null = hepsi + GEN (admin).
-  /// Bos set = duzenleme yok (staff).
+  /// Düzenlenebilir departmanlar. null = hepsi + GEN (admin).
+  /// Bos set = düzenleme yok (staff).
   static Set<String>? editableDepartments(String? role) {
     if (role == 'admin') return null;
     const map = <String, Set<String>>{
@@ -138,7 +138,7 @@ class RoleHelper {
     return map[role] ?? const {};
   }
 
-  /// Duzenlenebilir teknik tag'ler. null = hepsi (teknik_mudur / admin).
+  /// Düzenlenebilir teknik tag'ler. null = hepsi (teknik_mudur / admin).
   static Set<String>? editableTeknikTags(String? role) {
     if (role == 'admin') return null;
     const map = <String, Set<String>?>{

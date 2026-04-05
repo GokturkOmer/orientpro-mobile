@@ -30,13 +30,13 @@ class NotificationNotifier extends Notifier<NotificationState> {
 
   @override
   NotificationState build() {
-    // Auto-refresh: her 60 saniyede unread count guncelle
+    // Auto-refresh: her 60 saniyede unread count güncelle
     _refreshTimer?.cancel();
     _refreshTimer = Timer.periodic(const Duration(seconds: 60), (_) => refreshUnreadCount());
 
     ref.onDispose(() => _refreshTimer?.cancel());
 
-    // Ilk yukleme
+    // Ilk yükleme
     Future.microtask(() => refreshUnreadCount());
     return const NotificationState();
   }
@@ -65,7 +65,7 @@ class NotificationNotifier extends Notifier<NotificationState> {
     try {
       final dio = ref.read(authDioProvider);
       await dio.put('/notifications/$id/read');
-      // Lokal guncelle
+      // Lokal güncelle
       final updated = state.notifications.map((n) {
         if (n.id == id && !n.isRead) {
           return AppNotification(

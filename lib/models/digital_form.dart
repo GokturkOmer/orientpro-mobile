@@ -77,7 +77,7 @@ class FormTemplate {
 
   String get categoryText {
     switch (category) {
-      case 'onboarding': return 'Ise Giris';
+      case 'onboarding': return 'Ise Giriş';
       case 'health': return 'Saglik';
       case 'asset': return 'Zimmet';
       case 'evaluation': return 'Degerlendirme';

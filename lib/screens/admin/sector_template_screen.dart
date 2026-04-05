@@ -45,7 +45,7 @@ class _SectorTemplateScreenState extends ConsumerState<SectorTemplateScreen> {
         backgroundColor: context.scada.surface,
         title: Text('Sablonu Uygula', style: TextStyle(color: context.scada.textPrimary)),
         content: Text(
-          '$name sablonunu uygulamak istediginize emin misiniz?\n\nDepartmanlar ve ornek egitim rotalari olusturulacak.',
+          '$name sablonunu uygulamak istediginize emin misiniz?\n\nDepartmanlar ve ornek eğitim rotalari oluşturulacak.',
           style: TextStyle(color: context.scada.textSecondary, fontSize: 13),
         ),
         actions: [
@@ -67,7 +67,7 @@ class _SectorTemplateScreenState extends ConsumerState<SectorTemplateScreen> {
       final result = response.data as Map<String, dynamic>;
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('${result['created_departments']} departman, ${result['created_routes']} rota olusturuldu'),
+          content: Text('${result['created_departments']} departman, ${result['created_routes']} rota oluşturuldu'),
           backgroundColor: ScadaColors.green,
         ));
       }
@@ -139,7 +139,7 @@ class _SectorTemplateScreenState extends ConsumerState<SectorTemplateScreen> {
                         Icon(Icons.info_outline, size: 18, color: context.scada.textDim),
                         const SizedBox(width: 10),
                         Expanded(child: Text(
-                          'Sektorunuze uygun sablonu secin. Departmanlar ve ornek egitim rotalari otomatik olusturulacak.',
+                          'Sektorunuze uygun sablonu secin. Departmanlar ve ornek eğitim rotalari otomatik oluşturulacak.',
                           style: TextStyle(fontSize: 12, color: context.scada.textSecondary),
                         )),
                       ]),

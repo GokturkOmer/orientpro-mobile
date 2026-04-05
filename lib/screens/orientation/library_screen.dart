@@ -34,7 +34,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
         ref.read(libraryProvider.notifier).loadSharedDocs(
           department: isAdmin ? null : auth.user!.department,
         );
-        // Departman listesini yukle (upload dialog icin)
+        // Departman listesini yükle (upload dialog icin)
         final training = ref.read(trainingProvider);
         if (training.departments.isEmpty) {
           ref.read(trainingProvider.notifier).loadDepartments();
@@ -71,7 +71,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
             child: const Icon(Icons.folder_open, color: ScadaColors.purple, size: 18),
           ),
           const SizedBox(width: 8),
-          const Text('Icerik Kutuphanesi', style: TextStyle(color: ScadaColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w600)),
+          const Text('İçerik Kutuphanesi', style: TextStyle(color: ScadaColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w600)),
         ]),
         bottom: TabBar(
           controller: _tabController,
@@ -79,8 +79,8 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
           labelColor: ScadaColors.cyan,
           unselectedLabelColor: ScadaColors.textSecondary,
           tabs: [
-            Tab(text: 'Kisisel (${library.personalDocs.length})'),
-            Tab(text: 'Paylasilan (${library.sharedDocs.length})'),
+            Tab(text: 'Kişisel (${library.personalDocs.length})'),
+            Tab(text: 'Paylaşılan (${library.sharedDocs.length})'),
           ],
         ),
       ),
@@ -120,7 +120,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showUploadDialog(context),
         icon: const Icon(Icons.upload_file),
-        label: const Text('Yukle'),
+        label: const Text('Yükle'),
       ),
     );
   }
@@ -142,7 +142,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
           const Icon(Icons.folder_off, size: 48, color: ScadaColors.textDim),
           const SizedBox(height: 12),
           Text(
-            isPersonal ? 'Henuz kisisel belgeniz yok' : 'Bu kategoride belge yok',
+            isPersonal ? 'Henuz kişisel belgeniz yok' : 'Bu kategoride belge yok',
             style: const TextStyle(color: ScadaColors.textSecondary),
           ),
         ]),
@@ -162,7 +162,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Row(children: [
-          _filterChip('Tumu', null),
+          _filterChip('Tümü', null),
           _filterChip('SOP', 'sop'),
           _filterChip('Acil Durum', 'emergency_plan'),
           _filterChip('Sertifika', 'certificate'),
@@ -315,7 +315,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
     List<int>? selectedFileBytes;
     String? selectedMimeType;
 
-    // Departmanlarin yuklendiginden emin ol
+    // Departmanlarin yüklendiginden emin ol
     final isAdmin = RoleHelper.isAdmin(auth.user?.role);
     var depts = ref.read(trainingProvider).departments;
     if (depts.isEmpty) {
@@ -336,7 +336,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
           title: const Row(children: [
             Icon(Icons.upload_file, color: ScadaColors.cyan, size: 18),
             SizedBox(width: 8),
-            Text('Dosya Yukle', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
+            Text('Dosya Yükle', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: ScadaColors.textPrimary)),
           ]),
           content: SingleChildScrollView(
             child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -359,7 +359,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                 ],
                 onChanged: (v) => setDialogState(() => docType = v!),
               ),
-              // Sadece admin departman secebilir (paylasilan sekmesinde)
+              // Sadece admin departman secebilir (paylaşılan sekmesinde)
               if (isAdmin && category == 'shared') ...[
                 const SizedBox(height: 12),
                 if (departments.isNotEmpty)
@@ -376,7 +376,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                 else
                   const Padding(
                     padding: EdgeInsets.all(8),
-                    child: Text('Departmanlar yuklenemedi', style: TextStyle(color: ScadaColors.amber, fontSize: 12)),
+                    child: Text('Departmanlar yüklenemedi', style: TextStyle(color: ScadaColors.amber, fontSize: 12)),
                   ),
               ],
               const SizedBox(height: 12),
@@ -426,13 +426,13 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(ok ? 'Dosya yuklendi' : 'Yukleme basarisiz'),
+                      content: Text(ok ? 'Dosya yüklendi' : 'Yükleme başarısız'),
                       backgroundColor: ok ? ScadaColors.green : ScadaColors.red,
                     ),
                   );
                 }
               },
-              child: const Text('Yukle'),
+              child: const Text('Yükle'),
             ),
           ],
         ),

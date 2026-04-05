@@ -131,7 +131,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
           ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
               const CircularProgressIndicator(color: ScadaColors.purple),
               const SizedBox(height: 16),
-              Text('Analitik verileri yukleniyor...', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
+              Text('Analitik verileri yükleniyor...', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
             ]))
           : _error != null
               ? _buildErrorView()
@@ -217,7 +217,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
             ]),
           ),
           const SizedBox(height: 12),
-          Text('Son 30 gunde $_recentLogins giris', style: TextStyle(fontSize: 11, color: context.scada.textDim)),
+          Text('Son 30 gunde $_recentLogins giriş', style: TextStyle(fontSize: 11, color: context.scada.textDim)),
         ]),
       ),
 
@@ -241,7 +241,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
       const SectionHeader(icon: Icons.school, title: 'EGITIM ISTATISTIKLERI'),
       const SizedBox(height: 12),
 
-      // Tamamlanma ve basari kartlari
+      // Tamamlanma ve başarı kartlari
       Row(children: [
         Expanded(child: _progressCard(
           'Tamamlanma',
@@ -251,7 +251,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
         )),
         const SizedBox(width: 8),
         Expanded(child: _progressCard(
-          'Quiz Basari',
+          'Quiz Başarı',
           _passRate,
           '$_quizzesPassed / $_quizzesTaken',
           ScadaColors.cyan,
@@ -297,7 +297,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
       const SectionHeader(icon: Icons.bar_chart, title: 'GRAFIKLER'),
       const SizedBox(height: 12),
 
-      // Egitim ozet bar chart
+      // Eğitim ozet bar chart
       Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
@@ -306,7 +306,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
           border: Border.all(color: context.scada.border),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('Egitim Ozeti', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
+          Text('Eğitim Özeti', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
           const SizedBox(height: 16),
           SizedBox(height: 200, child: _buildSummaryBarChart()),
         ]),
@@ -316,10 +316,10 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
 
   Widget _buildSummaryBarChart() {
     final data = [
-      _BarItem('Kayit', _totalEnrollments.toDouble(), ScadaColors.cyan),
+      _BarItem('Kayıt', _totalEnrollments.toDouble(), ScadaColors.cyan),
       _BarItem('Tamamla.', _completed.toDouble(), ScadaColors.green),
       _BarItem('Quiz', _quizzesTaken.toDouble(), ScadaColors.amber),
-      _BarItem('Basarili', _quizzesPassed.toDouble(), ScadaColors.purple),
+      _BarItem('Başarılı', _quizzesPassed.toDouble(), ScadaColors.purple),
     ];
     final maxVal = data.fold<double>(1, (max, item) => item.value > max ? item.value : max);
 
@@ -457,7 +457,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
         options: Options(responseType: ResponseType.bytes),
       );
       final bytes = response.data as List<int>;
-      final fileName = 'orientpro_egitim_raporu_${DateTime.now().toIso8601String().split('T').first}.xlsx';
+      final fileName = 'orientpro_eğitim_raporu_${DateTime.now().toIso8601String().split('T').first}.xlsx';
 
       if (kIsWeb) {
         await file_saver.saveFileWeb(bytes, fileName);

@@ -109,7 +109,7 @@ class _MaintenanceScreenState extends ConsumerState<MaintenanceScreen> {
           ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
               const CircularProgressIndicator(color: ScadaColors.green),
               const SizedBox(height: 16),
-              Text('Sistem bilgileri yukleniyor...', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
+              Text('Sistem bilgileri yükleniyor...', style: TextStyle(fontSize: 10, color: context.scada.textDim)),
             ]))
           : _error != null
               ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -283,7 +283,7 @@ class _MaintenanceScreenState extends ConsumerState<MaintenanceScreen> {
         const SizedBox(width: 8),
         Expanded(child: _actionButton(
           icon: Icons.play_arrow,
-          label: 'Zamanlanmis\nGorevler',
+          label: 'Zamanlanmis\nGörevler',
           color: ScadaColors.cyan,
           onTap: _runScheduledTasks,
         )),
@@ -354,7 +354,7 @@ class _MaintenanceScreenState extends ConsumerState<MaintenanceScreen> {
       final result = response.data is Map ? Map<String, dynamic>.from(response.data as Map) : <String, dynamic>{};
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Gorevler tamamlandi: ${result.keys.join(", ")}'),
+          content: Text('Görevler tamamlandi: ${result.keys.join(", ")}'),
           backgroundColor: ScadaColors.green,
         ));
       }
@@ -444,10 +444,10 @@ class _MaintenanceScreenState extends ConsumerState<MaintenanceScreen> {
       'departments': 'Departmanlar',
       'routes': 'Rotalar',
       'modules': 'Moduller',
-      'contents': 'Icerikler',
+      'contents': 'İçerikler',
       'quizzes': 'Quizler',
-      'progress_records': 'Ilerleme Kayitlari',
-      'quiz_results': 'Quiz Sonuclari',
+      'progress_records': 'Ilerleme Kayıtlari',
+      'quiz_results': 'Quiz Sonuçlari',
     };
     return labels[key] ?? key;
   }

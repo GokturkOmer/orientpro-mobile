@@ -65,7 +65,7 @@ class _MicroLearningResultsScreenState extends ConsumerState<MicroLearningResult
           icon: const Icon(Icons.arrow_back, color: ScadaColors.cyan, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text('Mikro-Ogrenme Sonuclari',
+        title: Text('Mikro-Öğrenme Sonuçlari',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
         actions: [
           IconButton(
@@ -121,7 +121,7 @@ class _MicroLearningResultsScreenState extends ConsumerState<MicroLearningResult
                 dropdownColor: context.scada.surface,
                 items: [
                   DropdownMenuItem<String?>(value: null,
-                    child: Text('Tumu', style: TextStyle(color: context.scada.textPrimary, fontSize: 13))),
+                    child: Text('Tümü', style: TextStyle(color: context.scada.textPrimary, fontSize: 13))),
                   ..._departments.map((d) => DropdownMenuItem(value: d,
                     child: Text(d, style: TextStyle(color: context.scada.textPrimary, fontSize: 13)))),
                 ],
@@ -148,7 +148,7 @@ class _MicroLearningResultsScreenState extends ConsumerState<MicroLearningResult
                 dropdownColor: context.scada.surface,
                 items: [
                   DropdownMenuItem<String?>(value: null,
-                    child: Text('Tumu', style: TextStyle(color: context.scada.textPrimary, fontSize: 13))),
+                    child: Text('Tümü', style: TextStyle(color: context.scada.textPrimary, fontSize: 13))),
                   DropdownMenuItem(value: 'active',
                     child: Text('Aktif', style: TextStyle(color: ScadaColors.cyan, fontSize: 13))),
                   DropdownMenuItem(value: 'completed',
@@ -256,7 +256,7 @@ class _MicroLearningResultsScreenState extends ConsumerState<MicroLearningResult
               if (acks.isEmpty)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: Text('Henuz egitim onayi yok', style: TextStyle(color: context.scada.textDim)),
+                  child: Text('Henuz eğitim onayi yok', style: TextStyle(color: context.scada.textDim)),
                 )
               else
                 ...acks.map((ack) => Container(
@@ -300,7 +300,7 @@ class _MicroLearningResultsScreenState extends ConsumerState<MicroLearningResult
     } on DioException catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Onaylar yuklenemedi: ${ErrorHelper.getMessage(e)}'), backgroundColor: ScadaColors.red),
+          SnackBar(content: Text('Onaylar yüklenemedi: ${ErrorHelper.getMessage(e)}'), backgroundColor: ScadaColors.red),
         );
       }
     }

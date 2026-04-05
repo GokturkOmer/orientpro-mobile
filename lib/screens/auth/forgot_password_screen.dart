@@ -45,17 +45,17 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
     } on DioException catch (e) {
       setState(() { _isLoading = false; _error = ErrorHelper.getMessage(e); });
     } catch (e) {
-      setState(() { _isLoading = false; _error = 'Bir hata olustu'; });
+      setState(() { _isLoading = false; _error = 'Bir hata oluştu'; });
     }
   }
 
   Future<void> _resetPassword() async {
     if (_codeController.text.trim().length != 6) {
-      setState(() => _error = '6 haneli dogrulama kodunu girin');
+      setState(() => _error = '6 haneli doğrulama kodunu girin');
       return;
     }
     if (_newPasswordController.text.length < 8) {
-      setState(() => _error = 'Yeni sifre en az 8 karakter olmali');
+      setState(() => _error = 'Yeni şifre en az 8 karakter olmali');
       return;
     }
     setState(() { _isLoading = true; _error = null; });
@@ -71,7 +71,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
     } on DioException catch (e) {
       setState(() { _isLoading = false; _error = ErrorHelper.getMessage(e); });
     } catch (e) {
-      setState(() { _isLoading = false; _error = 'Bir hata olustu'; });
+      setState(() { _isLoading = false; _error = 'Bir hata oluştu'; });
     }
   }
 
@@ -79,7 +79,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.scada.bg,
-      appBar: AppBar(backgroundColor: context.scada.surface, title: Text('Sifremi Sifirla', style: TextStyle(fontSize: 16))),
+      appBar: AppBar(backgroundColor: context.scada.surface, title: Text('Şifremi Sifirla', style: TextStyle(fontSize: 16))),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(32),
@@ -95,7 +95,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
               const Icon(Icons.lock_reset, size: 48, color: ScadaColors.cyan),
               const SizedBox(height: 16),
               Text(
-                _codeSent ? 'Kodu girin ve yeni sifrenizi belirleyin' : 'E-posta adresinizi girin',
+                _codeSent ? 'Kodu girin ve yeni şifrenizi belirleyin' : 'E-posta adresinizi girin',
                 style: TextStyle(color: context.scada.textSecondary, fontSize: 13),
                 textAlign: TextAlign.center,
               ),
@@ -140,7 +140,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                   obscureText: _obscure,
                   style: TextStyle(color: context.scada.textPrimary, fontSize: 14),
                   decoration: InputDecoration(
-                    labelText: 'Yeni Sifre',
+                    labelText: 'Yeni Şifre',
                     labelStyle: TextStyle(color: context.scada.textDim, fontSize: 13),
                     prefixIcon: Icon(Icons.lock_outline, size: 18, color: context.scada.textDim),
                     suffixIcon: IconButton(
@@ -193,7 +193,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                   ),
                   child: _isLoading
                     ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: ScadaColors.cyan))
-                    : Text(_codeSent ? 'Sifreyi Sifirla' : 'Kod Gonder', style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
+                    : Text(_codeSent ? 'Şifreyi Sifirla' : 'Kod Gonder', style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
                 ),
               ),
             ]),

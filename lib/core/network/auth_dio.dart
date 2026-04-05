@@ -7,7 +7,7 @@ import 'certificate_pinning.dart';
 /// Merkezi authenticated Dio provider.
 /// Tum provider'lar bu instance'i kullanarak otomatik olarak
 /// Authorization header gonderir ve 401 durumunda once token
-/// yenilemeyi dener, basarisiz olursa logout yapar.
+/// yenilemeyi dener, başarısız olursa logout yapar.
 final authDioProvider = Provider<Dio>((ref) {
   final dio = Dio(BaseOptions(
     baseUrl: ApiConfig.webUrl,
@@ -53,7 +53,7 @@ final authDioProvider = Provider<Dio>((ref) {
           }
         }
 
-        // Refresh basarisiz — logout
+        // Refresh başarısız — logout
         ref.read(authProvider.notifier).logout();
       }
       handler.next(error);

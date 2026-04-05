@@ -71,7 +71,7 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
     if (!_formKey.currentState!.validate()) return;
     if (_selectedDepartmentId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Lutfen departman secin'), backgroundColor: ScadaColors.red),
+        const SnackBar(content: Text('Lütfen departman seçin'), backgroundColor: ScadaColors.red),
       );
       return;
     }
@@ -98,7 +98,7 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
     if (success && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(_isEditMode ? 'Rota basariyla guncellendi' : 'Rota basariyla olusturuldu'),
+          content: Text(_isEditMode ? 'Rota başarıyla güncellendi' : 'Rota başarıyla oluşturuldu'),
           backgroundColor: ScadaColors.green,
         ),
       );
@@ -111,9 +111,9 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: context.scada.surface,
-        title: Text('Modulu Sil', style: TextStyle(color: context.scada.textPrimary, fontSize: 16)),
+        title: Text('Modülü Sil', style: TextStyle(color: context.scada.textPrimary, fontSize: 16)),
         content: Text(
-          '"$moduleTitle" modulunu silmek istediginize emin misiniz?',
+          '"$moduleTitle" modülünü silmek istediğinize emin misiniz?',
           style: TextStyle(color: context.scada.textSecondary, fontSize: 13),
         ),
         actions: [
@@ -169,7 +169,7 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          _isEditMode ? 'Rotayi Duzenle' : 'Yeni Egitim Rotasi',
+          _isEditMode ? 'Rotayı Düzenle' : 'Yeni Eğitim Rotası',
           style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: context.scada.textPrimary),
         ),
       ),
@@ -194,24 +194,24 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // Baslik
-                          _buildLabel('Baslik'),
+                          _buildLabel('Başlık'),
                           SizedBox(height: 6),
                           TextFormField(
                             controller: _titleController,
                             style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
-                            decoration: _inputDecoration('Egitim rotasi basligi'),
-                            validator: (v) => (v == null || v.trim().isEmpty) ? 'Baslik zorunludur' : null,
+                            decoration: _inputDecoration('Eğitim rotası başlığı'),
+                            validator: (v) => (v == null || v.trim().isEmpty) ? 'Başlık zorunludur' : null,
                           ),
                           const SizedBox(height: 16),
 
                           // Aciklama
-                          _buildLabel('Aciklama'),
+                          _buildLabel('Açıklama'),
                           SizedBox(height: 6),
                           TextFormField(
                             controller: _descriptionController,
                             style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
                             maxLines: 3,
-                            decoration: _inputDecoration('Rota hakkinda kisa aciklama'),
+                            decoration: _inputDecoration('Rota hakkında kısa açıklama'),
                           ),
                           const SizedBox(height: 16),
 
@@ -222,7 +222,7 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
                             initialValue: _selectedDepartmentId,
                             dropdownColor: context.scada.surface,
                             style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
-                            decoration: _inputDecoration('Departman secin'),
+                            decoration: _inputDecoration('Departman seçin'),
                             items: admin.departments.map((d) {
                               return DropdownMenuItem(value: d.id, child: Text(d.name));
                             }).toList(),
@@ -239,9 +239,9 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
                             style: TextStyle(color: context.scada.textPrimary, fontSize: 13),
                             decoration: _inputDecoration('Zorluk seviyesi'),
                             items: const [
-                              DropdownMenuItem(value: 'beginner', child: Text('Baslangic')),
+                              DropdownMenuItem(value: 'beginner', child: Text('Başlangıç')),
                               DropdownMenuItem(value: 'intermediate', child: Text('Orta')),
-                              DropdownMenuItem(value: 'advanced', child: Text('Ileri')),
+                              DropdownMenuItem(value: 'advanced', child: Text('İleri')),
                             ],
                             onChanged: (val) {
                               if (val != null) setState(() => _selectedDifficulty = val);
@@ -287,11 +287,11 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
                           ),
                           const SizedBox(height: 16),
 
-                          // Zorunlu Egitim
+                          // Zorunlu Eğitim
                           SwitchListTile(
                             contentPadding: EdgeInsets.zero,
-                            title: Text('Zorunlu Egitim', style: TextStyle(color: context.scada.textPrimary, fontSize: 13)),
-                            subtitle: Text('Bu rota zorunlu olarak atansin', style: TextStyle(color: context.scada.textSecondary, fontSize: 11)),
+                            title: Text('Zorunlu Eğitim', style: TextStyle(color: context.scada.textPrimary, fontSize: 13)),
+                            subtitle: Text('Bu rota zorunlu olarak atansın', style: TextStyle(color: context.scada.textSecondary, fontSize: 11)),
                             value: _isMandatory,
                             activeThumbColor: ScadaColors.cyan,
                             onChanged: (val) => setState(() => _isMandatory = val),
@@ -301,7 +301,7 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
                           SwitchListTile(
                             contentPadding: EdgeInsets.zero,
                             title: Text('Sertifika Verilsin', style: TextStyle(color: context.scada.textPrimary, fontSize: 13)),
-                            subtitle: Text('Tamamlayanlara sertifika olusturulsun', style: TextStyle(color: context.scada.textSecondary, fontSize: 11)),
+                            subtitle: Text('Tamamlayanlara sertifika oluşturulsun', style: TextStyle(color: context.scada.textSecondary, fontSize: 11)),
                             value: _certificateEnabled,
                             activeThumbColor: ScadaColors.cyan,
                             onChanged: (val) => setState(() => _certificateEnabled = val),
@@ -334,7 +334,7 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
                       child: admin.isSaving
                           ? SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: context.scada.bg))
                           : Text(
-                              _isEditMode ? 'Rotayi Guncelle' : 'Rotayi Olustur',
+                              _isEditMode ? 'Rotayı Güncelle' : 'Rotayı Oluştur',
                               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
                             ),
                     ),
@@ -392,7 +392,7 @@ class _RouteEditorScreenState extends ConsumerState<RouteEditorScreen> {
                 children: [
                   Icon(Icons.menu_book, size: 36, color: context.scada.textDim),
                   SizedBox(height: 8),
-                  Text('Henuz modul eklenmemis', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
+                  Text('Henüz modül eklenmemiş', style: TextStyle(fontSize: 12, color: context.scada.textSecondary)),
                 ],
               ),
             ),

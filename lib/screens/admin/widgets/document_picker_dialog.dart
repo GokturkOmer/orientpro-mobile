@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/network/auth_dio.dart';
 
-/// Dokuman Havuzu'ndan dokuman secme dialog'u.
-/// Tek secim (icerik olusturma) veya coklu secim (quiz) destekler.
+/// Doküman Havuzu'ndan doküman secme dialog'u.
+/// Tek secim (içerik oluşturma) veya coklu secim (quiz) destekler.
 class DocumentPickerDialog extends ConsumerStatefulWidget {
   final bool multiSelect;
   final String? initialDepartment;
@@ -15,9 +15,9 @@ class DocumentPickerDialog extends ConsumerStatefulWidget {
     this.initialDepartment,
   });
 
-  /// Dialog'u acar ve secilen dokuman(lar)i dondurur.
-  /// Tek secim: `Map<String, dynamic>?` — secilen dokuman
-  /// Coklu secim: `List<Map<String, dynamic>>?` — secilen dokumanlar
+  /// Dialog'u acar ve secilen doküman(lar)i dondurur.
+  /// Tek secim: `Map<String, dynamic>?` — secilen doküman
+  /// Coklu secim: `List<Map<String, dynamic>>?` — secilen dokümanlar
   static Future<dynamic> show(
     BuildContext context, {
     bool multiSelect = false,
@@ -46,7 +46,7 @@ class _DocumentPickerDialogState extends ConsumerState<DocumentPickerDialog> {
   final Set<String> _selectedIds = {};
 
   static const _departments = [
-    (null, 'Tumu'),
+    (null, 'Tümü'),
     ('teknik', 'Teknik'),
     ('hk', 'Kat Hizm.'),
     ('fb', 'F&B'),
@@ -77,7 +77,7 @@ class _DocumentPickerDialogState extends ConsumerState<DocumentPickerDialog> {
     } catch (e) {
       setState(() {
         _loading = false;
-        _error = 'Dokumanlar yuklenemedi';
+        _error = 'Dokümanlar yüklenemedi';
       });
     }
   }
@@ -130,7 +130,7 @@ class _DocumentPickerDialogState extends ConsumerState<DocumentPickerDialog> {
             const Icon(Icons.folder_open, color: ScadaColors.purple, size: 20),
             const SizedBox(width: 8),
             Expanded(child: Text(
-              widget.multiSelect ? 'Dokumanlar Secin' : 'Dokuman Secin',
+              widget.multiSelect ? 'Dokümanlar Secin' : 'Doküman Secin',
               style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: context.scada.textPrimary),
             )),
             if (widget.multiSelect && _selectedIds.isNotEmpty)
@@ -180,7 +180,7 @@ class _DocumentPickerDialogState extends ConsumerState<DocumentPickerDialog> {
               : _error != null
                   ? Center(child: Text(_error!, style: TextStyle(color: ScadaColors.red, fontSize: 13)))
                   : _docs.isEmpty
-                      ? Center(child: Text('Bu kategoride dokuman yok', style: TextStyle(color: context.scada.textSecondary)))
+                      ? Center(child: Text('Bu kategoride doküman yok', style: TextStyle(color: context.scada.textSecondary)))
                       : ListView.builder(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       itemCount: _docs.length,

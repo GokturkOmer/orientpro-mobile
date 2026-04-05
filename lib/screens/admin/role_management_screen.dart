@@ -19,8 +19,8 @@ class _RoleManagementScreenState extends ConsumerState<RoleManagementScreen> {
   static const _resources = ['training', 'content', 'users', 'reports', 'settings', 'work_orders'];
   static const _actions = ['view', 'create', 'edit', 'delete', 'approve'];
   static const _resourceLabels = {
-    'training': 'Egitim',
-    'content': 'Icerik',
+    'training': 'Eğitim',
+    'content': 'İçerik',
     'users': 'Kullanicilar',
     'reports': 'Raporlar',
     'settings': 'Ayarlar',
@@ -62,14 +62,14 @@ class _RoleManagementScreenState extends ConsumerState<RoleManagementScreen> {
           const SizedBox(height: 8),
           TextField(controller: codeCtrl, decoration: const InputDecoration(labelText: 'Kod (orn: chef)')),
           const SizedBox(height: 8),
-          TextField(controller: descCtrl, decoration: const InputDecoration(labelText: 'Aciklama')),
+          TextField(controller: descCtrl, decoration: const InputDecoration(labelText: 'Açıklama')),
         ]),
         actions: [
           TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text('Iptal', style: TextStyle(color: context.scada.textDim))),
           ElevatedButton(
             onPressed: () => Navigator.pop(ctx, true),
             style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.cyan),
-            child: const Text('Olustur'),
+            child: const Text('Oluştur'),
           ),
         ],
       ),
@@ -91,7 +91,7 @@ class _RoleManagementScreenState extends ConsumerState<RoleManagementScreen> {
       });
       await _loadRoles();
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Rol olusturuldu'), backgroundColor: ScadaColors.green));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Rol oluşturuldu'), backgroundColor: ScadaColors.green));
       }
     } catch (e) {
       if (mounted) {
@@ -257,8 +257,8 @@ class _RoleManagementScreenState extends ConsumerState<RoleManagementScreen> {
   String _actionLabel(String action) {
     switch (action) {
       case 'view': return 'Goruntule';
-      case 'create': return 'Olustur';
-      case 'edit': return 'Duzenle';
+      case 'create': return 'Oluştur';
+      case 'edit': return 'Düzenle';
       case 'delete': return 'Sil';
       case 'approve': return 'Onayla';
       default: return action;
@@ -350,7 +350,7 @@ class _RoleManagementScreenState extends ConsumerState<RoleManagementScreen> {
                             ElevatedButton.icon(
                               onPressed: _seedDefaults,
                               icon: const Icon(Icons.auto_fix_high, size: 16),
-                              label: const Text('Varsayilan Rolleri Olustur'),
+                              label: const Text('Varsayilan Rolleri Oluştur'),
                               style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.amber),
                             ),
                           ]),
@@ -370,7 +370,7 @@ class _RoleManagementScreenState extends ConsumerState<RoleManagementScreen> {
       await dio.post('/roles/seed-defaults');
       await _loadRoles();
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Varsayilan roller olusturuldu'), backgroundColor: ScadaColors.green));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Varsayilan roller oluşturuldu'), backgroundColor: ScadaColors.green));
       }
     } catch (e) {
       if (mounted) {

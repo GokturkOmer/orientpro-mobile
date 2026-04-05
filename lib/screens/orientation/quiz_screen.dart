@@ -17,7 +17,7 @@ class QuizScreen extends ConsumerStatefulWidget {
 class _QuizScreenState extends ConsumerState<QuizScreen> {
   bool _loaded = false;
   String? _quizId;
-  // Mikro-ogrenme'den gelirse module + assignment bilgisi tasir
+  // Mikro-öğrenme'den gelirse module + assignment bilgisi tasir
   String? _microModuleId;
   String? _microModuleTitle;
   String? _microRouteId;
@@ -36,7 +36,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
         // Eski kullanim: sadece quizId
         _quizId = args;
       } else if (args is Map) {
-        // Mikro-ogrenme: quizId + module bilgisi
+        // Mikro-öğrenme: quizId + module bilgisi
         _quizId = args['quizId'] as String?;
         _microModuleId = args['moduleId'] as String?;
         _microModuleTitle = args['moduleTitle'] as String?;
@@ -84,7 +84,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
     if (auth.user == null || _quizId == null) return;
 
     if (_microAssignmentId != null) {
-      // Mikro-ogrenme quiz akisi — microLearningProvider kullan
+      // Mikro-öğrenme quiz akisi — microLearningProvider kullan
       final result = await ref.read(microLearningProvider.notifier).submitQuiz(
         _microAssignmentId!, answers.map((k, v) => MapEntry(k, v.toString())),
       );
@@ -94,7 +94,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
         setState(() { _submitted = true; _passed = false; _score = totalScore; });
       }
     } else {
-      // Standart egitim quiz akisi — trainingProvider kullan
+      // Standart eğitim quiz akisi — trainingProvider kullan
       final passed = await ref.read(trainingProvider.notifier).submitQuiz(
         _quizId!, auth.user!.id, totalScore, maxScore, answers,
       );
@@ -130,7 +130,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
       body: training.isLoading
           ? const Center(child: CircularProgressIndicator(color: ScadaColors.green))
           : questions.isEmpty
-              ? Center(child: Text('Soru bulunamadi', style: TextStyle(color: context.scada.textSecondary)))
+              ? Center(child: Text('Soru bulunamadı', style: TextStyle(color: context.scada.textSecondary)))
               : _submitted
                   ? _buildResult(questions)
                   : _buildQuiz(questions),
@@ -147,7 +147,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
                 child: Text(
-                  _selectedAnswers.length == questions.length ? 'Quizi Tamamla' : 'Tum sorulari yanitlayin',
+                  _selectedAnswers.length == questions.length ? 'Quizi Tamamla' : 'Tüm soruları yanıtlayın',
                   style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white),
                 ),
               ),
@@ -253,7 +253,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
           ),
           const SizedBox(height: 16),
           Text(
-            _passed == true ? 'Tebrikler!' : 'Basarisiz',
+            _passed == true ? 'Tebrikler!' : 'Başarısız',
             style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: _passed == true ? ScadaColors.green : ScadaColors.red),
           ),
           const SizedBox(height: 8),
@@ -263,7 +263,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            _passed == true ? 'Quiz basariyla tamamlandi!' : 'Gecme puanina ulasilamadi. Tekrar deneyin.',
+            _passed == true ? 'Quiz başarıyla tamamlandi!' : 'Gecme puanina ulasilamadi. Tekrar deneyin.',
             style: TextStyle(fontSize: 12, color: context.scada.textSecondary),
             textAlign: TextAlign.center,
           ),
@@ -320,7 +320,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: () async {
-                  // Module bilgisi: mikro-ogrenme'den veya training state'den
+                  // Module bilgisi: mikro-öğrenme'den veya training state'den
                   String? moduleId = _microModuleId;
                   String? routeId = _microRouteId;
                   String? moduleTitle = _microModuleTitle;
@@ -338,7 +338,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                     context,
                     moduleId: moduleId,
                     routeId: routeId ?? '',
-                    moduleTitle: moduleTitle ?? 'Egitim',
+                    moduleTitle: moduleTitle ?? 'Eğitim',
                   );
                   if (result != true) return;
                   if (!context.mounted) return;
@@ -346,7 +346,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                   Navigator.pushNamedAndRemoveUntil(context, '/orientation-dashboard', (route) => route.isFirst);
                 },
                 icon: const Icon(Icons.verified_user, size: 18),
-                label: const Text('Egitimi Onayla', style: TextStyle(fontWeight: FontWeight.w600)),
+                label: const Text('Eğitimi Onayla', style: TextStyle(fontWeight: FontWeight.w600)),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ScadaColors.green,
                   foregroundColor: Colors.white,

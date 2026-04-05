@@ -42,7 +42,7 @@ class EquipmentDetailScreen extends StatelessWidget {
           if (equipment.zone != null) _row(context, 'Bolge', equipment.zone!),
         ]))),
         const SizedBox(height: 16),
-        SizedBox(width: double.infinity, height: 50, child: ElevatedButton.icon(onPressed: () => Navigator.pushNamed(context, '/create-work-order', arguments: equipment), icon: const Icon(Icons.assignment_add), label: const Text('Is Emri Olustur', style: TextStyle(fontSize: 16)), style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.amber, foregroundColor: Colors.white))),
+        SizedBox(width: double.infinity, height: 50, child: ElevatedButton.icon(onPressed: () => Navigator.pushNamed(context, '/create-work-order', arguments: equipment), icon: const Icon(Icons.assignment_add), label: const Text('Is Emri Oluştur', style: TextStyle(fontSize: 16)), style: ElevatedButton.styleFrom(backgroundColor: ScadaColors.amber, foregroundColor: Colors.white))),
       ]),
     );
   }

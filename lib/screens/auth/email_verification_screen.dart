@@ -29,7 +29,7 @@ class _EmailVerificationScreenState extends ConsumerState<EmailVerificationScree
 
   Future<void> _verify() async {
     if (_codeController.text.trim().length != 6) {
-      setState(() => _error = '6 haneli dogrulama kodunu girin');
+      setState(() => _error = '6 haneli doğrulama kodunu girin');
       return;
     }
     setState(() { _isLoading = true; _error = null; });
@@ -38,13 +38,13 @@ class _EmailVerificationScreenState extends ConsumerState<EmailVerificationScree
         'email': widget.email,
         'code': _codeController.text.trim(),
       });
-      setState(() { _isLoading = false; _success = 'E-posta dogrulandi! Giris yapabilirsiniz.'; });
+      setState(() { _isLoading = false; _success = 'E-posta doğrulandi! Giriş yapabilirsiniz.'; });
       await Future.delayed(const Duration(seconds: 2));
       if (mounted) Navigator.pushReplacementNamed(context, '/login');
     } on DioException catch (e) {
       setState(() { _isLoading = false; _error = ErrorHelper.getMessage(e); });
     } catch (e) {
-      setState(() { _isLoading = false; _error = 'Bir hata olustu'; });
+      setState(() { _isLoading = false; _error = 'Bir hata oluştu'; });
     }
   }
 
@@ -52,11 +52,11 @@ class _EmailVerificationScreenState extends ConsumerState<EmailVerificationScree
     setState(() { _resending = true; _error = null; });
     try {
       await _dio.post('/auth/resend-verification', data: {'email': widget.email});
-      setState(() { _resending = false; _success = 'Yeni kod gonderildi'; });
+      setState(() { _resending = false; _success = 'Yeni kod gönderildi'; });
     } on DioException catch (e) {
       setState(() { _resending = false; _error = ErrorHelper.getMessage(e); });
     } catch (e) {
-      setState(() { _resending = false; _error = 'Bir hata olustu'; });
+      setState(() { _resending = false; _error = 'Bir hata oluştu'; });
     }
   }
 
@@ -64,7 +64,7 @@ class _EmailVerificationScreenState extends ConsumerState<EmailVerificationScree
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.scada.bg,
-      appBar: AppBar(backgroundColor: context.scada.surface, title: Text('E-posta Dogrulama', style: TextStyle(fontSize: 16))),
+      appBar: AppBar(backgroundColor: context.scada.surface, title: Text('E-posta Doğrulama', style: TextStyle(fontSize: 16))),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(32),
@@ -79,10 +79,10 @@ class _EmailVerificationScreenState extends ConsumerState<EmailVerificationScree
             child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
               const Icon(Icons.mark_email_read, size: 48, color: ScadaColors.green),
               const SizedBox(height: 16),
-              Text('E-posta Dogrulama', style: TextStyle(color: context.scada.textPrimary, fontSize: 18, fontWeight: FontWeight.w600), textAlign: TextAlign.center),
+              Text('E-posta Doğrulama', style: TextStyle(color: context.scada.textPrimary, fontSize: 18, fontWeight: FontWeight.w600), textAlign: TextAlign.center),
               const SizedBox(height: 8),
               Text(
-                '${widget.email} adresine 6 haneli bir dogrulama kodu gonderdik.',
+                '${widget.email} adresine 6 haneli bir doğrulama kodu gönderdik.',
                 style: TextStyle(color: context.scada.textSecondary, fontSize: 13),
                 textAlign: TextAlign.center,
               ),
@@ -92,7 +92,7 @@ class _EmailVerificationScreenState extends ConsumerState<EmailVerificationScree
                 controller: _codeController,
                 style: TextStyle(color: context.scada.textPrimary, fontSize: 24, letterSpacing: 8),
                 decoration: InputDecoration(
-                  labelText: 'Dogrulama Kodu',
+                  labelText: 'Doğrulama Kodu',
                   labelStyle: TextStyle(color: context.scada.textDim, fontSize: 13),
                   prefixIcon: Icon(Icons.pin, size: 18, color: context.scada.textDim),
                   filled: true, fillColor: context.scada.surface,
@@ -143,7 +143,7 @@ class _EmailVerificationScreenState extends ConsumerState<EmailVerificationScree
                   ),
                   child: _isLoading
                     ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: ScadaColors.green))
-                    : const Text('Dogrula', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
+                    : const Text('Doğrula', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
                 ),
               ),
               const SizedBox(height: 12),
@@ -151,7 +151,7 @@ class _EmailVerificationScreenState extends ConsumerState<EmailVerificationScree
                 onPressed: _resending ? null : _resendCode,
                 child: _resending
                   ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: ScadaColors.cyan))
-                  : const Text('Kodu tekrar gonder', style: TextStyle(fontSize: 13, color: ScadaColors.cyan)),
+                  : const Text('Kodu tekrar gönder', style: TextStyle(fontSize: 13, color: ScadaColors.cyan)),
               ),
             ]),
           ),

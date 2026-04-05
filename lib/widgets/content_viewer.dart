@@ -5,8 +5,8 @@ import '../models/training.dart';
 import '../core/config/api_config.dart';
 import '../core/theme/app_theme.dart';
 
-/// Egitim icerigi goruntuleyici.
-/// Metin icerikleri dogrudan gosterir, dosya icerikleri icin
+/// Eğitim icerigi goruntuleyici.
+/// Metin içerikleri dogrudan gosterir, dosya içerikleri icin
 /// dosya adi + boyut + indirme butonu gosterir.
 class ContentViewer extends StatelessWidget {
   final ModuleContent content;
@@ -51,7 +51,7 @@ class ContentViewer extends StatelessWidget {
     }
 
     return const Text(
-      'Icerik bulunamadi',
+      'İçerik bulunamadi',
       style: TextStyle(fontSize: 12, color: ScadaColors.textDim, fontStyle: FontStyle.italic),
     );
   }

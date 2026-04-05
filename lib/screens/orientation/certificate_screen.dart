@@ -16,7 +16,7 @@ class CertificateScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     final routeId = args?['routeId'] as String? ?? '';
-    final routeName = args?['routeName'] as String? ?? 'Egitim Rotasi';
+    final routeName = args?['routeName'] as String? ?? 'Eğitim Rotasi';
     final userName = args?['userName'] as String? ?? ref.read(authProvider).user?.fullName ?? '';
     final completedAt = args?['completedAt'] as String? ?? DateTime.now().toIso8601String();
 
@@ -93,7 +93,7 @@ class CertificateScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'asagidaki egitim rotasini basariyla tamamlamistir',
+                    'asagidaki eğitim rotasini başarıyla tamamlamistir',
                     style: TextStyle(fontSize: 11, color: context.scada.textSecondary),
                     textAlign: TextAlign.center,
                   ),

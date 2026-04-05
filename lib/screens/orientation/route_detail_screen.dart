@@ -134,12 +134,12 @@ class _RouteDetailScreenState extends ConsumerState<RouteDetailScreen> {
   }
 
   Widget _buildTimelineItem(int index, dynamic module, bool isLast, {bool isLocked = false}) {
-    // Modul durumunu belirle: tamamlanan icerikleri kontrol et
+    // Modul durumunu belirle: tamamlanan içerikleri kontrol et
     final contents = module.contents as List? ?? [];
     final quizzes = module.quizzes as List? ?? [];
     final totalItems = contents.length + quizzes.length;
 
-    // Basit durum tahmini: icerik ve quiz varsa
+    // Basit durum tahmini: içerik ve quiz varsa
     // Gercek tamamlanma durumu backend'den gelmeli, simdilik index bazli gosterim
     _ModuleStatus status = _ModuleStatus.notStarted;
     if (totalItems == 0) {

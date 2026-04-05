@@ -37,7 +37,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
           TextButton.icon(
             onPressed: () => ref.read(notificationProvider.notifier).markAllRead(),
             icon: const Icon(Icons.done_all, size: 16, color: ScadaColors.cyan),
-            label: const Text('Tumu Okundu', style: TextStyle(fontSize: 11, color: ScadaColors.cyan)),
+            label: const Text('Tümü Okundu', style: TextStyle(fontSize: 11, color: ScadaColors.cyan)),
           ),
         ],
       ),
@@ -236,7 +236,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
         action = () { Navigator.pop(ctx); Navigator.pushNamed(ctx, '/scada'); };
         break;
       case 'training':
-        label = 'Egitime Git';
+        label = 'Eğitime Git';
         icon = Icons.school;
         action = () { Navigator.pop(ctx); Navigator.pushNamed(ctx, '/orientation-dashboard'); };
         break;

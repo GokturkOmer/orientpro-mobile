@@ -58,7 +58,7 @@ class _TeamProgressScreenState extends ConsumerState<TeamProgressScreen> {
             child: const Icon(Icons.group, color: ScadaColors.red, size: 20),
           ),
           const SizedBox(width: 8),
-          const Text('Ekip Egitim Takibi', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+          const Text('Ekip Eğitim Takibi', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
         ]),
       ),
       body: _loading
@@ -67,7 +67,7 @@ class _TeamProgressScreenState extends ConsumerState<TeamProgressScreen> {
               ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
                   const Icon(Icons.lock, size: 48, color: ScadaColors.textDim),
                   const SizedBox(height: 12),
-                  const Text('Bu sayfaya erisim yetkiniz yok', style: TextStyle(color: ScadaColors.textSecondary, fontSize: 13)),
+                  const Text('Bu sayfaya erişim yetkiniz yok', style: TextStyle(color: ScadaColors.textSecondary, fontSize: 13)),
                   const SizedBox(height: 4),
                   const Text('Sadece mudur ve sef roller ekip takibini gorebilir', style: TextStyle(color: ScadaColors.textDim, fontSize: 11)),
                 ]))

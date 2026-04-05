@@ -4,8 +4,8 @@ import '../core/theme/app_theme.dart';
 import '../providers/auth_provider.dart';
 import '../providers/training_provider.dart';
 
-/// Egitim onay dialog'u - calisan modulu tamamladiktan sonra
-/// "Bu egitimi okudum, anladim ve uygulamayi taahhut ediyorum" diye onaylar.
+/// Eğitim onay dialog'u - calisan modulu tamamladiktan sonra
+/// "Bu eğitimi okudum, anladim ve uygulamayi taahhut ediyorum" diye onaylar.
 class AcknowledgmentDialog extends ConsumerStatefulWidget {
   final String moduleId;
   final String routeId;
@@ -44,7 +44,7 @@ class _AcknowledgmentDialogState extends ConsumerState<AcknowledgmentDialog> {
   bool _submitting = false;
 
   static const String _acknowledgmentText =
-      'Bu egitimi okudum, anladim ve uygulamayi taahhut ediyorum.';
+      'Bu eğitimi okudum, anladim ve uygulamayi taahhut ediyorum.';
 
   Future<void> _submit() async {
     final auth = ref.read(authProvider);
@@ -111,7 +111,7 @@ class _AcknowledgmentDialogState extends ConsumerState<AcknowledgmentDialog> {
               ),
               const SizedBox(width: 12),
               Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                const Text('Egitim Onayi', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
+                const Text('Eğitim Onayi', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: ScadaColors.textPrimary)),
                 Text(widget.moduleTitle, style: const TextStyle(fontSize: 12, color: ScadaColors.textSecondary), maxLines: 1, overflow: TextOverflow.ellipsis),
               ])),
             ]),

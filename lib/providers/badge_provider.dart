@@ -59,7 +59,7 @@ class BadgeNotifier extends Notifier<BadgeState> {
     } on DioException catch (e) {
       state = state.copyWith(isLoading: false, error: ErrorHelper.getMessage(e));
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: 'Rozet verisi yuklenemedi');
+      state = state.copyWith(isLoading: false, error: 'Rozet verisi yüklenemedi');
     }
   }
 
@@ -70,7 +70,7 @@ class BadgeNotifier extends Notifier<BadgeState> {
 
       if (result.newlyAwarded.isNotEmpty) {
         state = state.copyWith(newlyAwarded: result.newlyAwarded);
-        // Yeniden yukle — yeni rozetler DB'ye kaydedildi
+        // Yeniden yükle — yeni rozetler DB'ye kaydedildi
         await loadBadges();
       }
 

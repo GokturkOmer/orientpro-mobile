@@ -1,4 +1,4 @@
-// OrientPro — Mikro-Ogrenme Modelleri
+// OrientPro — Mikro-Öğrenme Modelleri
 // DripCard, MicroAssignment, MicroProgress
 
 class DripCard {

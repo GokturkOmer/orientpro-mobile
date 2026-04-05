@@ -158,7 +158,7 @@ class _SelectOrganizationScreenState extends ConsumerState<SelectOrganizationScr
                     Navigator.pushReplacementNamed(context, '/login');
                   },
                   icon: const Icon(Icons.arrow_back, size: 18),
-                  label: const Text('Farkli hesapla giris yap'),
+                  label: const Text('Farkli hesapla giriş yap'),
                   style: TextButton.styleFrom(foregroundColor: context.scada.textDim),
                 ),
               ],
@@ -171,8 +171,8 @@ class _SelectOrganizationScreenState extends ConsumerState<SelectOrganizationScr
 
   String _roleText(String role) {
     const map = {
-      'admin': 'Yonetici',
-      'facility_manager': 'Tesis Yoneticisi',
+      'admin': 'Yönetici',
+      'facility_manager': 'Tesis Yöneticisi',
       'chief_technician': 'Bas Teknisyen',
       'staff': 'Personel',
     };

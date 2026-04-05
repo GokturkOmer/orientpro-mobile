@@ -161,7 +161,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
         ),
         content: Text(
           willDeactivate
-              ? '"${user.fullName}" hesabi pasife alinacak. Kullanici giris yapamayacak. Devam etmek istiyor musunuz?'
+              ? '"${user.fullName}" hesabi pasife alinacak. Kullanici giriş yapamayacak. Devam etmek istiyor musunuz?'
               : '"${user.fullName}" hesabi tekrar aktif edilecek. Devam etmek istiyor musunuz?',
           style: TextStyle(fontSize: 13, color: context.scada.textSecondary),
         ),
@@ -210,9 +210,9 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
             Text('${user.roleText} - ${user.departmentText}', style: TextStyle(fontSize: 12, color: context.scada.textDim)),
             Divider(color: context.scada.border, height: 24),
 
-            Text('Paylasilan Icerik Limiti', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
+            Text('Paylaşılan İçerik Limiti', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: context.scada.textPrimary)),
             SizedBox(height: 4),
-            Text('Bu kullanicinin paylasilan kutuphanede yukleyebilecegi maksimum icerik sayisi.', style: TextStyle(fontSize: 11, color: context.scada.textDim)),
+            Text('Bu kullanicinin paylaşılan kutuphanede yükleyebilecegi maksimum içerik sayisi.', style: TextStyle(fontSize: 11, color: context.scada.textDim)),
             SizedBox(height: 10),
             Row(children: [
               SizedBox(
@@ -249,13 +249,13 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                       Navigator.pop(ctx);
                       messenger.showSnackBar(
                         SnackBar(
-                          content: Text(success ? 'Limit guncellendi: $newLimit' : 'Hata olustu'),
+                          content: Text(success ? 'Limit güncellendi: $newLimit' : 'Hata olustu'),
                           backgroundColor: success ? ScadaColors.green : ScadaColors.red,
                         ),
                       );
                     }
                   },
-                  child: const Text('Limiti Guncelle', style: TextStyle(fontWeight: FontWeight.w600)),
+                  child: const Text('Limiti Güncelle', style: TextStyle(fontWeight: FontWeight.w600)),
                 ),
               ),
             ]),
@@ -348,7 +348,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                       child: const Icon(Icons.person_add, color: ScadaColors.cyan, size: 20),
                     ),
                     SizedBox(width: 12),
-                    Text('Yeni Uyelik Olustur', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
+                    Text('Yeni Uyelik Oluştur', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: context.scada.textPrimary)),
                   ]),
                   const SizedBox(height: 20),
 
@@ -376,10 +376,10 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                   ),
                   const SizedBox(height: 12),
 
-                  // Sifre
+                  // Şifre
                   _buildFormField(
                     controller: passwordCtrl,
-                    label: 'Sifre',
+                    label: 'Şifre',
                     icon: Icons.lock,
                     obscure: true,
                     validator: (v) {
@@ -449,7 +449,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                                   Navigator.pop(ctx);
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                      content: Text('Kullanici basariyla olusturuldu'),
+                                      content: Text('Kullanici başarıyla oluşturuldu'),
                                       backgroundColor: ScadaColors.green,
                                     ),
                                   );
@@ -465,7 +465,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                               },
                         child: isSaving
                             ? SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: context.scada.bg))
-                            : const Text('Olustur', style: TextStyle(fontWeight: FontWeight.w600)),
+                            : const Text('Oluştur', style: TextStyle(fontWeight: FontWeight.w600)),
                       );
                     }),
                   ),

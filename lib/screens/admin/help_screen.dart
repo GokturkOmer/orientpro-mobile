@@ -26,23 +26,23 @@ class HelpScreen extends ConsumerWidget {
 
   static const _faqs = [
     _FaqItem(
-      question: 'Nasil yeni bir egitim rotasi olusturabilirim?',
-      answer: 'Admin paneli > Icerik Yonetimi > Yeni Rota butonuna tiklayin. Departman, zorluk seviyesi ve modulleri ekleyerek rotanizi olusturabilirsiniz.',
+      question: 'Nasil yeni bir eğitim rotasi oluşturabilirim?',
+      answer: 'Admin paneli > İçerik Yonetimi > Yeni Rota butonuna tiklayin. Departman, zorluk seviyesi ve modulleri ekleyerek rotanizi oluşturabilirsiniz.',
       icon: Icons.route,
     ),
     _FaqItem(
       question: 'Kullanici nasil eklenir?',
-      answer: 'Admin paneli > Kullanici Yonetimi > Yeni Kullanici butonuyla ekleyebilirsiniz. Kullanici e-postasina dogrulama kodu gonderilir.',
+      answer: 'Admin paneli > Kullanici Yonetimi > Yeni Kullanici butonuyla ekleyebilirsiniz. Kullanici e-postasina doğrulama kodu gonderilir.',
       icon: Icons.person_add,
     ),
     _FaqItem(
-      question: 'AI Chatbot hangi dokumanlari kullanir?',
-      answer: 'Chatbot, Icerik Yonetimi uzerinden yuklenen PDF dokumanlarindan ogrenilen bilgileri kullanir. Yeni dokuman yukledikce chatbot bilgi tabanini gunceller.',
+      question: 'AI Chatbot hangi dokümanlari kullanir?',
+      answer: 'Chatbot, İçerik Yonetimi uzerinden yüklenen PDF dokümanlarindan ogrenilen bilgileri kullanir. Yeni doküman yükledikce chatbot bilgi tabanini günceller.',
       icon: Icons.smart_toy,
     ),
     _FaqItem(
-      question: 'Quiz nasil olusturulur?',
-      answer: 'Icerik Yonetimi > Quiz Olustur ile manuel quiz olusturabilir veya AI ile Dokumandan Soru Uret butonuyla otomatik quiz uretebilirsiniz.',
+      question: 'Quiz nasil oluşturulur?',
+      answer: 'İçerik Yonetimi > Quiz Oluştur ile manuel quiz oluşturabilir veya AI ile Dokümandan Soru Uret butonuyla otomatik quiz uretebilirsiniz.',
       icon: Icons.quiz,
     ),
     _FaqItem(
@@ -51,13 +51,13 @@ class HelpScreen extends ConsumerWidget {
       icon: Icons.analytics,
     ),
     _FaqItem(
-      question: 'Icerik onay akisi nasil calisir?',
-      answer: 'Icerik editorleri taslak olusturur, admin Icerik Onaylari ekranindan onaylar veya reddeder. Onaylanan icerikler calisanlara gorunur hale gelir.',
+      question: 'İçerik onay akisi nasil calisir?',
+      answer: 'İçerik editorleri taslak oluşturur, admin İçerik Onaylari ekranindan onaylar veya reddeder. Onaylanan içerikler calisanlara gorunur hale gelir.',
       icon: Icons.fact_check,
     ),
     _FaqItem(
       question: 'Sertifika nasil verilir?',
-      answer: 'Egitim rotasinda sertifika secenegi aciksa, calisan tum modulleri ve quizleri basariyla tamamladiginda otomatik olarak sertifika kazanir ve PDF olarak indirebilir.',
+      answer: 'Eğitim rotasinda sertifika secenegi aciksa, calisan tum modulleri ve quizleri başarıyla tamamladiginda otomatik olarak sertifika kazanir ve PDF olarak indirebilir.',
       icon: Icons.workspace_premium,
     ),
     _FaqItem(
@@ -69,20 +69,20 @@ class HelpScreen extends ConsumerWidget {
 
   static const _quickGuide = [
     _GuideStep(
-      title: '1. Departmanlari Olusturun',
-      description: 'Sektor sablonlari ile otomatik departman olusturabilir veya manuel ekleyebilirsiniz.',
+      title: '1. Departmanlari Oluşturun',
+      description: 'Sektor sablonlari ile otomatik departman oluşturabilir veya manuel ekleyebilirsiniz.',
       icon: Icons.business,
       color: ScadaColors.cyan,
     ),
     _GuideStep(
-      title: '2. Egitim Icerigi Yukleyin',
-      description: 'PDF dokumanlari yukleyin, moduller olusturun ve egitim rotalarini tanimlayin.',
+      title: '2. Eğitim Icerigi Yükleyin',
+      description: 'PDF dokümanlari yükleyin, moduller oluşturun ve eğitim rotalarini tanimlayin.',
       icon: Icons.upload_file,
       color: ScadaColors.green,
     ),
     _GuideStep(
       title: '3. Quizler Ekleyin',
-      description: 'Her modul icin quiz olusturun. AI ile dokumanlardan otomatik soru uretebilirsiniz.',
+      description: 'Her modul icin quiz oluşturun. AI ile dokümanlardan otomatik soru uretebilirsiniz.',
       icon: Icons.quiz,
       color: ScadaColors.amber,
     ),
@@ -94,7 +94,7 @@ class HelpScreen extends ConsumerWidget {
     ),
     _GuideStep(
       title: '5. Ilerlemeleri Takip Edin',
-      description: 'Analitik ekraniyla tamamlanma oranlarini, quiz sonuclarini ve departman performansini izleyin.',
+      description: 'Analitik ekraniyla tamamlanma oranlarini, quiz sonuçlarini ve departman performansini izleyin.',
       icon: Icons.trending_up,
       color: ScadaColors.purple,
     ),
