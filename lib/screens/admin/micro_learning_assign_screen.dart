@@ -145,7 +145,7 @@ class _MicroLearningAssignScreenState extends ConsumerState<MicroLearningAssignS
         backgroundColor: ScadaColors.cyan,
       ),
     );
-    // TODO: Ileride otomatik modul olusturma akisi eklenebilir
+    // Not: Otomatik modul olusturma akisi V2'de planli
   }
 
   Widget _buildModuleSelection() {

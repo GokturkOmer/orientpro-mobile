@@ -300,5 +300,5 @@ void showPdfUploadDialog({
         },
       );
     },
-  );
+  ).then((_) => titleCtrl.dispose());
 }

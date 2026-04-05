@@ -157,8 +157,8 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
           ? FloatingActionButton.extended(
               onPressed: () => _showCreateQuizDialog(),
               backgroundColor: ScadaColors.cyan,
-              icon: const Icon(Icons.auto_awesome, color: Colors.black),
-              label: const Text('AI Quiz', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
+              icon: Icon(Icons.auto_awesome, color: context.scada.bg),
+              label: Text('AI Quiz', style: TextStyle(color: context.scada.bg, fontWeight: FontWeight.w700)),
             )
           : null,
     );
@@ -168,7 +168,7 @@ class _QuizListScreenState extends ConsumerState<QuizListScreen> {
     return Padding(
       padding: const EdgeInsets.only(right: 8),
       child: ChoiceChip(
-        label: Text(label, style: TextStyle(fontSize: 11, color: selected ? Colors.black : context.scada.textSecondary)),
+        label: Text(label, style: TextStyle(fontSize: 11, color: selected ? context.scada.bg : context.scada.textSecondary)),
         selected: selected,
         selectedColor: ScadaColors.cyan,
         backgroundColor: context.scada.card,
@@ -633,7 +633,7 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
                     ),
                     dense: true,
                     activeColor: ScadaColors.cyan,
-                    checkColor: Colors.black,
+                    checkColor: context.scada.bg,
                     controlAffinity: ListTileControlAffinity.leading,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 8),
                   );
@@ -732,12 +732,12 @@ class _CreateQuizSheetState extends ConsumerState<_CreateQuizSheet> {
               onPressed: _isGenerating ? null : _generateQuiz,
               style: ElevatedButton.styleFrom(
                 backgroundColor: ScadaColors.cyan,
-                foregroundColor: Colors.black,
+                foregroundColor: context.scada.bg,
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               ),
               icon: _isGenerating
-                  ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.black))
+                  ? SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: context.scada.bg))
                   : const Icon(Icons.auto_awesome),
               label: Text(
                 _isGenerating ? 'Quiz olusturuluyor...' : 'Quiz Olustur',

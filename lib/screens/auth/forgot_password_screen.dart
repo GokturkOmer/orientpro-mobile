@@ -17,6 +17,15 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   final _newPasswordController = TextEditingController();
   final _dio = Dio(BaseOptions(baseUrl: ApiConfig.webUrl));
 
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _codeController.dispose();
+    _newPasswordController.dispose();
+    _dio.close();
+    super.dispose();
+  }
+
   bool _isLoading = false;
   bool _codeSent = false;
   bool _obscure = true;

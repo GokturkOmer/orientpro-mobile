@@ -48,7 +48,7 @@ class _SuperAdminCreateOrgScreenState extends ConsumerState<SuperAdminCreateOrgS
       setState(() => _isLoading = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Hata: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text('Hata: $e'), backgroundColor: ScadaColors.red),
         );
       }
     }
@@ -102,8 +102,8 @@ class _SuperAdminCreateOrgScreenState extends ConsumerState<SuperAdminCreateOrgS
                     else { _modules.remove(m); }
                   });
                 },
-                selectedColor: const Color(0xFFE53935).withValues(alpha: 0.15),
-                checkmarkColor: const Color(0xFFE53935),
+                selectedColor: ScadaColors.red.withValues(alpha: 0.15),
+                checkmarkColor: ScadaColors.red,
               );
             }).toList(),
           ),
@@ -135,7 +135,7 @@ class _SuperAdminCreateOrgScreenState extends ConsumerState<SuperAdminCreateOrgS
                 : const Icon(Icons.add_business),
               label: Text(_isLoading ? 'Olusturuluyor...' : 'Musteri Olustur'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFE53935),
+                backgroundColor: ScadaColors.red,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -226,9 +226,9 @@ class _SuccessView extends StatelessWidget {
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-          const Icon(Icons.check_circle, color: Colors.green, size: 64),
+          const Icon(Icons.check_circle, color: ScadaColors.green, size: 64),
           const SizedBox(height: 16),
-          const Text('Musteri Olusturuldu!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.green)),
+          const Text('Musteri Olusturuldu!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: ScadaColors.green)),
           const SizedBox(height: 24),
           Container(
             width: double.infinity,
@@ -249,15 +249,15 @@ class _SuccessView extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.orange.withValues(alpha: 0.1),
+                  color: ScadaColors.amber.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.orange.withValues(alpha: 0.3)),
+                  border: Border.all(color: ScadaColors.amber.withValues(alpha: 0.3)),
                 ),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   const Row(children: [
-                    Icon(Icons.warning_amber_rounded, color: Colors.orange, size: 16),
+                    Icon(Icons.warning_amber_rounded, color: ScadaColors.amber, size: 16),
                     SizedBox(width: 6),
-                    Text('Gecici Sifre — Sadece Bir Kez Gosterilir', style: TextStyle(fontSize: 11, color: Colors.orange, fontWeight: FontWeight.w600)),
+                    Text('Gecici Sifre — Sadece Bir Kez Gosterilir', style: TextStyle(fontSize: 11, color: ScadaColors.amber, fontWeight: FontWeight.w600)),
                   ]),
                   const SizedBox(height: 8),
                   SelectableText(
@@ -276,7 +276,7 @@ class _SuccessView extends StatelessWidget {
               icon: const Icon(Icons.add_business),
               label: const Text('Yeni Musteri Ekle'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFE53935),
+                backgroundColor: ScadaColors.red,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

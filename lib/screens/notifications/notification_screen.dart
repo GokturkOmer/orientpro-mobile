@@ -43,9 +43,9 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, '/chatbot'),
-        backgroundColor: Colors.cyanAccent,
+        backgroundColor: ScadaColors.cyan,
         tooltip: 'AI Asistan',
-        child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
+        child: Icon(Icons.smart_toy, color: context.scada.bg),
       ),
       body: state.isLoading
           ? const Center(child: CircularProgressIndicator(color: ScadaColors.cyan))
@@ -264,11 +264,11 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Row(children: [
-        Icon(icon, size: 14, color: ScadaColors.textDim),
+        Icon(icon, size: 14, color: context.scada.textDim),
         const SizedBox(width: 8),
-        Text('$label:', style: const TextStyle(fontSize: 11, color: ScadaColors.textDim)),
+        Text('$label:', style: TextStyle(fontSize: 11, color: context.scada.textDim)),
         const SizedBox(width: 8),
-        Text(value, style: const TextStyle(fontSize: 11, color: ScadaColors.textSecondary, fontWeight: FontWeight.w500)),
+        Text(value, style: TextStyle(fontSize: 11, color: context.scada.textSecondary, fontWeight: FontWeight.w500)),
       ]),
     );
   }

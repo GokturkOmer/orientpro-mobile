@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/sensor.dart';
 import '../../providers/sensor_provider.dart';
+import '../../core/theme/app_theme.dart';
 
 class DigitalTwinScreen extends ConsumerWidget {
   const DigitalTwinScreen({super.key});
@@ -12,33 +13,33 @@ class DigitalTwinScreen extends ConsumerWidget {
     final defsAsync = ref.watch(sensorListProvider);
 
     return Scaffold(
-      backgroundColor: const Color(0xFF1a1a2e),
+      backgroundColor: context.scada.bg,
       appBar: AppBar(
         title: const Text('Dijital Ikiz'),
-        backgroundColor: const Color(0xFF16213e),
+        backgroundColor: context.scada.surface,
         actions: [
           Container(
             margin: const EdgeInsets.only(right: 12),
             child: Row(mainAxisSize: MainAxisSize.min, children: [
-              _PulsingDot(color: Colors.greenAccent),
+              _PulsingDot(color: ScadaColors.green),
               const SizedBox(width: 6),
-              const Text('CANLI', style: TextStyle(fontSize: 11, color: Colors.greenAccent, fontWeight: FontWeight.w600)),
+              const Text('CANLI', style: TextStyle(fontSize: 11, color: ScadaColors.green, fontWeight: FontWeight.w600)),
             ]),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, '/chatbot'),
-        backgroundColor: Colors.cyanAccent,
+        backgroundColor: ScadaColors.cyan,
         tooltip: 'AI Asistan',
-        child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
+        child: Icon(Icons.smart_toy, color: context.scada.bg),
       ),
       body: latestAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator(color: Colors.greenAccent)),
+        loading: () => const Center(child: CircularProgressIndicator(color: ScadaColors.cyan)),
         error: (e, _) => Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Icon(Icons.error, size: 48, color: Colors.red.shade300),
+          const Icon(Icons.error, size: 48, color: ScadaColors.red),
           const SizedBox(height: 8),
-          Text('Baglanti hatasi', style: TextStyle(color: Colors.red.shade300)),
+          const Text('Baglanti hatasi', style: TextStyle(color: ScadaColors.red)),
           const SizedBox(height: 16),
           ElevatedButton(onPressed: () => ref.invalidate(sensorLatestProvider), child: const Text('Tekrar Dene')),
         ])),
@@ -69,18 +70,18 @@ class DigitalTwinScreen extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFF16213e),
+        color: ScadaColors.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+        border: Border.all(color: ScadaColors.border),
       ),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-        _statusBadge('Normal', normal, Colors.greenAccent),
-        Container(width: 1, height: 30, color: Colors.white12),
-        _statusBadge('Uyari', warning, Colors.orangeAccent),
-        Container(width: 1, height: 30, color: Colors.white12),
-        _statusBadge('Alarm', alarm, Colors.redAccent),
-        Container(width: 1, height: 30, color: Colors.white12),
-        _statusBadge('Toplam', sensors.length, Colors.blueAccent),
+        _statusBadge('Normal', normal, ScadaColors.green),
+        Container(width: 1, height: 30, color: ScadaColors.border),
+        _statusBadge('Uyari', warning, ScadaColors.amber),
+        Container(width: 1, height: 30, color: ScadaColors.border),
+        _statusBadge('Alarm', alarm, ScadaColors.red),
+        Container(width: 1, height: 30, color: ScadaColors.border),
+        _statusBadge('Toplam', sensors.length, ScadaColors.cyan),
       ]),
     );
   }
@@ -88,7 +89,7 @@ class DigitalTwinScreen extends ConsumerWidget {
   Widget _statusBadge(String label, int count, Color color) {
     return Column(children: [
       Text('$count', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: color)),
-      Text(label, style: TextStyle(fontSize: 10, color: Colors.white.withValues(alpha: 0.6))),
+      Text(label, style: const TextStyle(fontSize: 10, color: ScadaColors.textSecondary)),
     ]);
   }
 
@@ -101,18 +102,18 @@ class DigitalTwinScreen extends ConsumerWidget {
     }
 
     final zones = [
-      _ZoneConfig(1, 'KAZAN DAIRESI', Icons.local_fire_department, const Color(0xFFe74c3c), 'B Blok - Zemin Kat'),
-      _ZoneConfig(2, 'CHILLER', Icons.ac_unit, const Color(0xFF3498db), 'A Blok - Bodrum'),
-      _ZoneConfig(3, 'AHU SISTEMI', Icons.air, const Color(0xFF2ecc71), 'A Blok - Cati'),
+      _ZoneConfig(1, 'KAZAN DAIRESI', Icons.local_fire_department, ScadaColors.red, 'B Blok - Zemin Kat'),
+      _ZoneConfig(2, 'CHILLER', Icons.ac_unit, ScadaColors.cyan, 'A Blok - Bodrum'),
+      _ZoneConfig(3, 'AHU SISTEMI', Icons.air, ScadaColors.green, 'A Blok - Cati'),
       _ZoneConfig(4, 'POMPA GRUBU', Icons.water_drop, const Color(0xFF9b59b6), 'B Blok - Bodrum'),
-      _ZoneConfig(5, 'ENERJI ANALIZORU', Icons.bolt, const Color(0xFFf39c12), 'Ana Pano'),
+      _ZoneConfig(5, 'ENERJI ANALIZORU', Icons.bolt, ScadaColors.amber, 'Ana Pano'),
     ];
 
     return Column(children: [
       Row(children: [
-        Icon(Icons.apartment, color: Colors.white.withValues(alpha: 0.5), size: 18),
+        const Icon(Icons.apartment, color: ScadaColors.textSecondary, size: 18),
         const SizedBox(width: 8),
-        Text('TESIS PLANI', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.white.withValues(alpha: 0.5), letterSpacing: 2)),
+        const Text('TESIS PLANI', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: ScadaColors.textSecondary, letterSpacing: 2)),
       ]),
       const SizedBox(height: 12),
       Row(children: [
@@ -121,11 +122,11 @@ class DigitalTwinScreen extends ConsumerWidget {
         Expanded(child: _buildZone(context, zones[1], grouped[2] ?? [])),
       ]),
       const SizedBox(height: 10),
-      _buildPipeConnection('Sicak Su', 'Soguk Su', Colors.redAccent, Colors.blueAccent),
+      _buildPipeConnection('Sicak Su', 'Soguk Su', ScadaColors.red, ScadaColors.cyan),
       const SizedBox(height: 10),
       _buildZone(context, zones[2], grouped[3] ?? []),
       const SizedBox(height: 10),
-      _buildPipeConnection('Hava', 'Elektrik', Colors.greenAccent, Colors.orangeAccent),
+      _buildPipeConnection('Hava', 'Elektrik', ScadaColors.green, ScadaColors.amber),
       const SizedBox(height: 10),
       Row(children: [
         Expanded(child: _buildZone(context, zones[3], grouped[4] ?? [])),
@@ -136,16 +137,16 @@ class DigitalTwinScreen extends ConsumerWidget {
       Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.03),
+          color: ScadaColors.surface,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+          border: Border.all(color: ScadaColors.border),
         ),
         child: Row(children: [
-          Icon(Icons.info_outline, size: 14, color: Colors.white.withValues(alpha: 0.3)),
+          const Icon(Icons.info_outline, size: 14, color: ScadaColors.textDim),
           const SizedBox(width: 8),
           Expanded(child: Text(
             'Sensore dokunarak detay ve trend grafigine ulasabilirsiniz',
-            style: TextStyle(fontSize: 11, color: Colors.white.withValues(alpha: 0.3)),
+            style: const TextStyle(fontSize: 11, color: ScadaColors.textDim),
           )),
         ]),
       ),
@@ -175,15 +176,15 @@ class DigitalTwinScreen extends ConsumerWidget {
   Widget _buildZone(BuildContext context, _ZoneConfig zone, List<_SensorWithDef> sensors) {
     final hasAlarm = sensors.any((s) => s.sensor.alarmStatus == 'alarm');
     final hasWarning = sensors.any((s) => s.sensor.alarmStatus == 'warning');
-    final borderColor = hasAlarm ? Colors.redAccent : hasWarning ? Colors.orangeAccent : zone.color.withValues(alpha: 0.4);
+    final borderColor = hasAlarm ? ScadaColors.red : hasWarning ? ScadaColors.amber : zone.color.withValues(alpha: 0.4);
 
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: const Color(0xFF16213e),
+        color: ScadaColors.surface,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: borderColor, width: hasAlarm ? 2 : 1),
-        boxShadow: hasAlarm ? [BoxShadow(color: Colors.redAccent.withValues(alpha: 0.2), blurRadius: 12)] : null,
+        boxShadow: hasAlarm ? [BoxShadow(color: ScadaColors.red.withValues(alpha: 0.2), blurRadius: 12)] : null,
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(children: [
@@ -195,10 +196,10 @@ class DigitalTwinScreen extends ConsumerWidget {
           const SizedBox(width: 8),
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(zone.name, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: zone.color, letterSpacing: 1)),
-            Text(zone.location, style: TextStyle(fontSize: 9, color: Colors.white.withValues(alpha: 0.3))),
+            Text(zone.location, style: const TextStyle(fontSize: 9, color: ScadaColors.textDim)),
           ])),
-          if (hasAlarm) _PulsingDot(color: Colors.redAccent, size: 8),
-          if (hasWarning && !hasAlarm) _PulsingDot(color: Colors.orangeAccent, size: 8),
+          if (hasAlarm) _PulsingDot(color: ScadaColors.red, size: 8),
+          if (hasWarning && !hasAlarm) _PulsingDot(color: ScadaColors.amber, size: 8),
         ]),
         const SizedBox(height: 10),
         Wrap(
@@ -214,9 +215,9 @@ class DigitalTwinScreen extends ConsumerWidget {
     final sensor = sw.sensor;
     Color statusColor;
     switch (sensor.alarmStatus) {
-      case 'alarm': statusColor = Colors.redAccent; break;
-      case 'warning': statusColor = Colors.orangeAccent; break;
-      default: statusColor = Colors.greenAccent;
+      case 'alarm': statusColor = ScadaColors.red; break;
+      case 'warning': statusColor = ScadaColors.amber; break;
+      default: statusColor = ScadaColors.green;
     }
 
     final shortName = sensor.sensorName
@@ -248,12 +249,12 @@ class DigitalTwinScreen extends ConsumerWidget {
           ),
           const SizedBox(width: 5),
           Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
-            Text(shortName, style: TextStyle(fontSize: 8, color: Colors.white.withValues(alpha: 0.5))),
+            Text(shortName, style: const TextStyle(fontSize: 8, color: ScadaColors.textSecondary)),
             Row(mainAxisSize: MainAxisSize.min, children: [
               Text(valueText, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: statusColor)),
               if (!isDurum) ...[
                 const SizedBox(width: 2),
-                Text(sensor.unit, style: TextStyle(fontSize: 8, color: Colors.white.withValues(alpha: 0.4))),
+                Text(sensor.unit, style: const TextStyle(fontSize: 8, color: ScadaColors.textDim)),
               ],
             ]),
           ]),

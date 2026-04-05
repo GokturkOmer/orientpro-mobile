@@ -272,7 +272,7 @@ class _ActiveTourScreenState extends ConsumerState<ActiveTourScreen> {
           }, child: const Text('Atla')),
         ],
       ),
-    );
+    ).then((_) => controller.dispose());
   }
 
   void _showCompletionDialog() {

@@ -386,6 +386,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           ),
         ],
       ),
-    );
+    ).then((_) {
+      phoneCtrl.dispose();
+      emergencyNameCtrl.dispose();
+      emergencyPhoneCtrl.dispose();
+      addressCtrl.dispose();
+      bioCtrl.dispose();
+    });
   }
 }

@@ -25,9 +25,9 @@ class AIPredictionScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, '/chatbot'),
-        backgroundColor: Colors.cyanAccent,
+        backgroundColor: ScadaColors.cyan,
         tooltip: 'AI Asistan',
-        child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
+        child: Icon(Icons.smart_toy, color: context.scada.bg),
       ),
       body: dataAsync.when(
         loading: () => Center(child: Column(mainAxisSize: MainAxisSize.min, children: [

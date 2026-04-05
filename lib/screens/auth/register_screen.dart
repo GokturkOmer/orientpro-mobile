@@ -20,6 +20,16 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   bool _isOrgRegistration = false;
   String? _localError;
 
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmController.dispose();
+    _orgNameController.dispose();
+    super.dispose();
+  }
+
   String? _validateInputs() {
     final name = _nameController.text.trim();
     final email = _emailController.text.trim();

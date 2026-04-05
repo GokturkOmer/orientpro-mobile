@@ -134,7 +134,7 @@ class _ContentApprovalScreenState extends ConsumerState<ContentApprovalScreen> {
           ),
         ],
       ),
-    );
+    ).then((_) => notesController.dispose());
   }
 
   String _formatDate(String isoDate) {

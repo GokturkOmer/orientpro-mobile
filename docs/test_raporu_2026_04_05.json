@@ -1,0 +1,392 @@
+{
+  "meta": {
+    "proje": "OrientPro",
+    "tarih": "2026-04-05",
+    "branch": "main",
+    "commit": "dcf0892",
+    "test_ortami": "Lokal (WSL2 + Docker)",
+    "test_araci": "Claude Code — Python requests + psql + flutter analyze"
+  },
+  "ozet": {
+    "toplam_test": 91,
+    "basarili": 79,
+    "basarisiz": 12,
+    "basari_orani": 86.8,
+    "kritik_bulgu": 1,
+    "orta_bulgu": 6,
+    "dusuk_bulgu": 4,
+    "guvenlik_puani": "10/10",
+    "flutter_analyze": "0 hata, 0 uyari",
+    "container_sagligi": "9/9 UP, 4/4 healthy"
+  },
+  "kategoriler": [
+    {
+      "id": "1.1",
+      "ad": "Backend API Testleri",
+      "toplam": 38,
+      "pass": 35,
+      "fail": 3,
+      "testler": [
+        {"ad": "Auth: Admin login dogru", "sonuc": "PASS", "beklenen": 200, "gerceklesen": 200},
+        {"ad": "Auth: Staff login dogru", "sonuc": "PASS", "beklenen": 200, "gerceklesen": 200},
+        {"ad": "Auth: Yanlis sifre", "sonuc": "PASS", "beklenen": 401, "gerceklesen": 401},
+        {"ad": "Auth: Eksik sifre", "sonuc": "PASS", "beklenen": 422, "gerceklesen": 422},
+        {"ad": "Auth: Eksik email", "sonuc": "PASS", "beklenen": 422, "gerceklesen": 422},
+        {"ad": "Auth: Gecersiz email format", "sonuc": "PASS", "beklenen": 422, "gerceklesen": 422},
+        {"ad": "Auth: Var olmayan kullanici", "sonuc": "PASS", "beklenen": 401, "gerceklesen": 401},
+        {"ad": "Auth: Register duplicate email", "sonuc": "PASS", "beklenen": [400, 409, 422], "gerceklesen": 409},
+        {"ad": "No token: Training modules", "sonuc": "PASS", "beklenen": 401, "gerceklesen": 401},
+        {"ad": "No token: Notifications", "sonuc": "PASS", "beklenen": 401, "gerceklesen": 401},
+        {"ad": "No token: Micro-learning", "sonuc": "PASS", "beklenen": 401, "gerceklesen": 401},
+        {"ad": "No token: Shift schedules", "sonuc": "PASS", "beklenen": 401, "gerceklesen": 401},
+        {"ad": "No token: Training routes", "sonuc": "PASS", "beklenen": 401, "gerceklesen": 401},
+        {"ad": "No token: Badges", "sonuc": "PASS", "beklenen": 401, "gerceklesen": 401},
+        {"ad": "No token: Chatbot chat", "sonuc": "PASS", "beklenen": 401, "gerceklesen": 401},
+        {"ad": "Chatbot health: public erisilebilir", "sonuc": "PASS", "beklenen": 200, "gerceklesen": 200},
+        {"ad": "Staff -> Admin org settings", "sonuc": "PASS", "beklenen": 403, "gerceklesen": 403},
+        {"ad": "Admin: Training modules", "sonuc": "PASS", "beklenen": 200, "gerceklesen": 200},
+        {"ad": "Admin: Chatbot health", "sonuc": "PASS", "beklenen": 200, "gerceklesen": 200},
+        {"ad": "Admin: Notifications", "sonuc": "PASS", "beklenen": 200, "gerceklesen": 200},
+        {"ad": "Admin: Profile", "sonuc": "FAIL", "beklenen": 200, "gerceklesen": 500, "hata": "user_profiles kaydi yok, 500 donuyor"},
+        {"ad": "Admin: Shift schedules", "sonuc": "PASS", "beklenen": 200, "gerceklesen": 200},
+        {"ad": "Admin: Health check", "sonuc": "PASS", "beklenen": 200, "gerceklesen": 200},
+        {"ad": "Admin: Training routes", "sonuc": "PASS", "beklenen": 200, "gerceklesen": 200},
+        {"ad": "Admin: Announcements", "sonuc": "PASS", "beklenen": 200, "gerceklesen": 200},
+        {"ad": "Admin: My badges", "sonuc": "PASS", "beklenen": 200, "gerceklesen": 200},
+        {"ad": "Admin: Micro-learning", "sonuc": "PASS", "beklenen": 200, "gerceklesen": 200},
+        {"ad": "Admin: Library shared docs", "sonuc": "PASS", "beklenen": 200, "gerceklesen": 200},
+        {"ad": "Admin: Admin org settings", "sonuc": "FAIL", "beklenen": 200, "gerceklesen": 422, "hata": "URL path'te org_id gerekli, test URL yanlis"},
+        {"ad": "Staff: Training modules", "sonuc": "PASS", "beklenen": 200, "gerceklesen": 200},
+        {"ad": "Staff: Notifications", "sonuc": "PASS", "beklenen": 200, "gerceklesen": 200},
+        {"ad": "Staff: Profile", "sonuc": "FAIL", "beklenen": 200, "gerceklesen": 500, "hata": "user_profiles kaydi yok, 500 donuyor"},
+        {"ad": "Staff: Shift schedules", "sonuc": "PASS", "beklenen": 200, "gerceklesen": 200},
+        {"ad": "Staff: Training routes", "sonuc": "PASS", "beklenen": 200, "gerceklesen": 200},
+        {"ad": "Staff: Announcements", "sonuc": "PASS", "beklenen": 200, "gerceklesen": 200},
+        {"ad": "Staff: My badges", "sonuc": "PASS", "beklenen": 200, "gerceklesen": 200},
+        {"ad": "Staff: Micro-learning", "sonuc": "PASS", "beklenen": 200, "gerceklesen": 200},
+        {"ad": "Staff: Library shared docs", "sonuc": "PASS", "beklenen": 200, "gerceklesen": 200}
+      ]
+    },
+    {
+      "id": "1.2",
+      "ad": "Veritabani Butunluk Testleri",
+      "toplam": 9,
+      "pass": 8,
+      "fail": 1,
+      "testler": [
+        {"ad": "Orphan users (org silinmis)", "sonuc": "PASS", "detay": "0 kayit"},
+        {"ad": "Orphan training_modules", "sonuc": "PASS", "detay": "0 kayit"},
+        {"ad": "Orphan module_contents", "sonuc": "PASS", "detay": "0 kayit"},
+        {"ad": "Orphan drip_content_cards", "sonuc": "PASS", "detay": "0 kayit"},
+        {"ad": "NULL email/full_name", "sonuc": "PASS", "detay": "0 kayit"},
+        {"ad": "NULL organization name", "sonuc": "PASS", "detay": "0 kayit"},
+        {"ad": "User rolleri gecerli mi", "sonuc": "PASS", "detay": "admin, staff"},
+        {"ad": "Timezone UTC mi", "sonuc": "PASS", "detay": "Tum created_at +00:00"},
+        {"ad": "drip_content_cards.status kolonu", "sonuc": "FAIL", "detay": "Kolon mevcut degil"}
+      ]
+    },
+    {
+      "id": "1.3",
+      "ad": "SQL Injection Testleri",
+      "toplam": 3,
+      "pass": 3,
+      "fail": 0,
+      "testler": [
+        {"ad": "Email injection (OR 1=1)", "sonuc": "PASS", "beklenen": [401, 422], "gerceklesen": 422},
+        {"ad": "Password injection", "sonuc": "PASS", "beklenen": [401, 422], "gerceklesen": 401},
+        {"ad": "UNION SELECT injection", "sonuc": "PASS", "beklenen": [401, 422], "gerceklesen": 422}
+      ]
+    },
+    {
+      "id": "1.4",
+      "ad": "RAG & AI Testleri",
+      "toplam": 8,
+      "pass": 8,
+      "fail": 0,
+      "testler": [
+        {"ad": "Chatbot health check", "sonuc": "PASS", "detay": "ollama + gemini calisiyor"},
+        {"ad": "Normal soru", "sonuc": "PASS", "beklenen": [200, 201], "gerceklesen": 200},
+        {"ad": "Yanit icerigi dolu", "sonuc": "PASS", "detay": "Bos degil"},
+        {"ad": "Bos soru", "sonuc": "PASS", "beklenen": [200, 400, 422], "gerceklesen": 200},
+        {"ad": "Cok uzun soru (10K karakter)", "sonuc": "PASS", "beklenen": [200, 400, 422, 413], "gerceklesen": 422},
+        {"ad": "Prompt injection", "sonuc": "PASS", "detay": "API key aciklanmadi, normal yanit"},
+        {"ad": "XSS in message", "sonuc": "PASS", "detay": "Guvenli islem"},
+        {"ad": "JSON injection", "sonuc": "PASS", "beklenen": [200, 400, 422], "gerceklesen": 422}
+      ]
+    },
+    {
+      "id": "2.1",
+      "ad": "Frontend Statik Analiz",
+      "toplam": 4,
+      "pass": 3,
+      "fail": 1,
+      "testler": [
+        {"ad": "flutter analyze", "sonuc": "PASS", "detay": "0 hata, 0 uyari"},
+        {"ad": "Kullanilmayan importlar", "sonuc": "PASS", "detay": "Temiz"},
+        {"ad": "Kullanilmayan dart dosyalari", "sonuc": "PASS", "detay": "Tum dosyalar kullaniliyor"},
+        {"ad": "TODO/FIXME/HACK yorumlari", "sonuc": "FAIL", "detay": "2 adet TODO (kritik degil)", "dosyalar": [
+          "lib/screens/admin/micro_learning_assign_screen.dart:148",
+          "lib/screens/orientation/today_screen.dart:351"
+        ]}
+      ]
+    },
+    {
+      "id": "2.2",
+      "ad": "Frontend State Management",
+      "toplam": 4,
+      "pass": 2,
+      "fail": 2,
+      "testler": [
+        {"ad": "Dispose edilen controller'lar", "sonuc": "FAIL", "detay": "10 dosyada eksik dispose", "dosyalar": [
+          "lib/screens/auth/register_screen.dart — 5 TextEditingController, dispose() yok",
+          "lib/screens/auth/forgot_password_screen.dart — 3 TextEditingController + Dio, dispose() yok",
+          "lib/screens/auth/email_verification_screen.dart — 1 TextEditingController + Dio",
+          "lib/screens/admin/content_approval_screen.dart — Dialog icinde controller",
+          "lib/screens/admin/role_management_screen.dart — Dialog icinde 3 controller",
+          "lib/screens/admin/user_management_screen.dart — Dialog controller'lari",
+          "lib/screens/admin/widgets/pdf_upload_dialog.dart — titleCtrl",
+          "lib/screens/orientation/profile_screen.dart — Edit dialog controller'lari",
+          "lib/screens/tour/active_tour_screen.dart — Scanner context",
+          "lib/screens/work_orders/create_work_order_screen.dart — 2 TextEditingController"
+        ]},
+        {"ad": "Sonsuz dongu riski (ref.watch)", "sonuc": "PASS", "detay": "Tespit edilmedi"},
+        {"ad": "AsyncNotifier hata yonetimi", "sonuc": "PASS", "detay": "try-catch mevcut"},
+        {"ad": "Kullanilmayan StateProvider", "sonuc": "PASS", "detay": "Sadece NotifierProvider kullaniliyor"}
+      ]
+    },
+    {
+      "id": "2.3",
+      "ad": "Frontend UI/UX",
+      "toplam": 3,
+      "pass": 1,
+      "fail": 2,
+      "testler": [
+        {"ad": "Loading state'leri", "sonuc": "PASS", "detay": "API cagrilarinda loading gosteriliyor"},
+        {"ad": "Hardcoded renkler", "sonuc": "FAIL", "detay": "14+ dosyada 62+ hardcoded renk", "dosyalar": [
+          "onboarding_screen.dart — Color(0xFF4CAF50), Color(0xFFFF9800), Color(0xFF9C27B0)",
+          "dashboard_screen.dart — Color(0xFF0a0e1a)",
+          "notification_screen.dart — Color(0xFF0a0e1a)",
+          "digital_twin_screen.dart — 6+ hardcoded renk",
+          "scada_dashboard_screen.dart — 5+ hardcoded renk",
+          "quiz_list_screen.dart — 6x Colors.black",
+          "create_work_order_screen.dart — Colors.red, Colors.green, Colors.cyanAccent, Colors.black87",
+          "sensor_detail_screen.dart — 3+ hardcoded renk",
+          "super_admin_create_org_screen.dart — Color(0xFFE53935)",
+          "super_admin_dashboard_screen.dart — Color(0xFFE53935)",
+          "equipment_detail_screen.dart — Color(0xFF0a0e1a)",
+          "equipment_list_screen.dart — Color(0xFF0a0e1a)",
+          "inspection_list_screen.dart — Color(0xFF0a0e1a), Color(0xFF1B5E20)",
+          "ai_prediction_screen.dart — Color(0xFF0a0e1a)"
+        ]},
+        {"ad": "Dark mode uyumu", "sonuc": "FAIL", "detay": "Hardcoded renkler nedeniyle bazi ekranlar tema-duyarsiz"}
+      ]
+    },
+    {
+      "id": "3.x",
+      "ad": "Guvenlik Testleri",
+      "toplam": 11,
+      "pass": 11,
+      "fail": 0,
+      "testler": [
+        {"ad": "IDOR: Admin baska org profili", "sonuc": "PASS", "detay": "404 (gorunmuyor)"},
+        {"ad": "IDOR: Staff baska org profili", "sonuc": "PASS", "detay": "404 (gorunmuyor)"},
+        {"ad": "XSS: Script tag", "sonuc": "PASS", "detay": "Guvenli islem"},
+        {"ad": "Path traversal", "sonuc": "PASS", "detay": "422 (reddedildi)"},
+        {"ad": "JSON nested injection", "sonuc": "PASS", "detay": "422 (reddedildi)"},
+        {"ad": "Rate limiting (20 failed login)", "sonuc": "PASS", "detay": "4. denemede 429 engellendi"},
+        {"ad": "Hata yanitinda stack trace", "sonuc": "PASS", "detay": "Trace yok"},
+        {"ad": "X-Powered-By header", "sonuc": "PASS", "detay": "Header yok"},
+        {"ad": ".env gitignore'da", "sonuc": "PASS", "detay": "Evet"},
+        {"ad": "SQL Injection (3 test)", "sonuc": "PASS", "detay": "Tum SQL injection denemeleri engellendi"},
+        {"ad": "Prompt injection", "sonuc": "PASS", "detay": "API key/sistem bilgisi aciklanmadi"}
+      ]
+    },
+    {
+      "id": "4.x",
+      "ad": "Performans Testleri",
+      "toplam": 3,
+      "pass": 1,
+      "fail": 2,
+      "testler": [
+        {"ad": "FK Index kontrolu", "sonuc": "FAIL", "detay": "46 FK indexli, 46 FK indexsiz", "eksik_indexler": [
+          "users.organization_id",
+          "alarm_events.equipment_id",
+          "alarm_events.work_order_id",
+          "alarm_events.acknowledged_by",
+          "announcements.created_by",
+          "checkpoint_scans.checkpoint_id",
+          "checkpoint_scans.session_id",
+          "content_versions.created_by",
+          "data_deletion_requests.organization_id",
+          "equipment.system_id",
+          "floors.building_id",
+          "form_submissions.reviewed_by",
+          "form_templates.created_by",
+          "inspection_checkpoints.template_id",
+          "inspection_checkpoints.equipment_id",
+          "inspection_results.work_order_id",
+          "inspection_results.inspection_id",
+          "inspection_results.checkpoint_id",
+          "inspection_sessions.route_id",
+          "inspection_sessions.user_id",
+          "inspection_templates.created_by",
+          "inspections.template_id",
+          "invoices.plan_id",
+          "micro_learning_assignments.route_id",
+          "micro_learning_assignments.assigned_by",
+          "module_contents.created_by",
+          "module_contents.reviewed_by",
+          "quizzes.module_id",
+          "route_checkpoints.route_id",
+          "route_checkpoints.equipment_id",
+          "sensor_definitions.equipment_id",
+          "shifts.created_by",
+          "spaced_repetition_schedules.quiz_id",
+          "spaced_repetition_schedules.module_id",
+          "spaced_repetition_schedules.user_id",
+          "subscriptions.plan_id",
+          "systems.floor_id",
+          "tasks.created_by",
+          "training_acknowledgments.route_id",
+          "training_acknowledgments.user_id",
+          "training_acknowledgments.supervisor_id",
+          "training_acknowledgments.module_id",
+          "training_reminders.route_id",
+          "work_orders.equipment_id",
+          "work_orders.created_by",
+          "work_orders.parent_wo_id"
+        ]},
+        {"ad": "pg_stat_statements", "sonuc": "FAIL", "detay": "Extension yuklu degil"},
+        {"ad": "Container sagligi (uptime)", "sonuc": "PASS", "detay": "Tum containerlar 24+ saat sorunsuz"}
+      ]
+    },
+    {
+      "id": "5.x",
+      "ad": "Docker & Altyapi Testleri",
+      "toplam": 8,
+      "pass": 7,
+      "fail": 1,
+      "testler": [
+        {"ad": "Tum containerlar calisiyor", "sonuc": "PASS", "detay": "9/9 UP"},
+        {"ad": "Backend healthy", "sonuc": "PASS"},
+        {"ad": "PostgreSQL healthy", "sonuc": "PASS"},
+        {"ad": "Redis healthy", "sonuc": "PASS"},
+        {"ad": "MinIO healthy", "sonuc": "PASS"},
+        {"ad": "Backend loglarinda error", "sonuc": "PASS", "detay": "Son 100 satirda 0 error"},
+        {"ad": "Backend -> PostgreSQL baglantisi", "sonuc": "PASS"},
+        {"ad": "Network izolasyonu (127.0.0.1)", "sonuc": "PASS", "detay": "DB, Redis, MinIO, Ollama hepsi 127.0.0.1'e bagli"}
+      ]
+    }
+  ],
+  "bulgular": {
+    "kritik": [
+      {
+        "id": 1,
+        "baslik": "Profile Endpoint 500 Hatasi",
+        "dosya": "backend/app/api/v1/routers/profiles.py",
+        "sorun": "GET /api/v1/profiles/{user_id} kayit yoksa 500 donuyor, 404 donmeli",
+        "etki": "Yeni kayit olan veya profili olusturulmamis kullanicilar icin uygulama crashliyor",
+        "onerilen_fix": "Profil bulunamazsa HTTPException(404, 'Profil bulunamadi') don, veya otomatik bos profil olustur",
+        "kritiklik": "KRITIK"
+      }
+    ],
+    "orta": [
+      {
+        "id": 2,
+        "baslik": "46 Eksik FK Index",
+        "sorun": "46 foreign key sutununda index yok",
+        "en_kritik": "users.organization_id — neredeyse her sorguda kullanilan ana filtre",
+        "etki": "Veri buyudukce sorgular yavaslayacak",
+        "onerilen_fix": "Alembic migration ile eksik indexleri ekle",
+        "kritiklik": "ORTA"
+      },
+      {
+        "id": 3,
+        "baslik": "10 Dosyada Dispose Eksikligi",
+        "sorun": "TextEditingController, Dio instance'lari dispose edilmiyor",
+        "etki": "Memory leak (ozellikle auth ekranlarinda tekrarli kullanima acik)",
+        "en_kritik_dosyalar": ["register_screen.dart (5 controller)", "forgot_password_screen.dart (3 controller + Dio)"],
+        "onerilen_fix": "Her StatefulWidget'a dispose() metodu ekle",
+        "kritiklik": "ORTA"
+      },
+      {
+        "id": 4,
+        "baslik": "62+ Hardcoded Renk",
+        "sorun": "14+ dosyada Color(0x...) ve Colors.xxx hardcoded",
+        "etki": "Dark/Light mode gecislerinde UI tutarsizligi",
+        "en_kritik_dosyalar": ["quiz_list_screen.dart (6x Colors.black)", "digital_twin_screen.dart (6+ renk)"],
+        "onerilen_fix": "ScadaColors veya Theme context uzerinden renk kullan",
+        "kritiklik": "ORTA"
+      },
+      {
+        "id": 5,
+        "baslik": "Chatbot Health Public Endpoint",
+        "sorun": "GET /api/v1/chatbot/health token olmadan erisilebilir",
+        "etki": "AI servis durumu bilgisi disariya acik (ollama, gemini provider bilgisi)",
+        "onerilen_fix": "Auth dependency ekle veya hassas bilgileri gizle",
+        "kritiklik": "ORTA"
+      },
+      {
+        "id": 6,
+        "baslik": "Token Refresh Endpoint Yok",
+        "sorun": "Auth router'da token refresh mekanizmasi yok",
+        "etki": "Token suresi dolunca kullanici tekrar login olmak zorunda",
+        "onerilen_fix": "POST /api/v1/auth/token/refresh endpoint'i ekle",
+        "kritiklik": "ORTA"
+      },
+      {
+        "id": 7,
+        "baslik": "pg_stat_statements Aktif Degil",
+        "sorun": "Yavas sorgu analizi icin extension yuklu degil",
+        "onerilen_fix": "CREATE EXTENSION pg_stat_statements; + postgresql.conf ayari",
+        "kritiklik": "ORTA"
+      }
+    ],
+    "dusuk": [
+      {
+        "id": 8,
+        "baslik": "2 Adet TODO Yorumu",
+        "dosyalar": [
+          "lib/screens/admin/micro_learning_assign_screen.dart:148",
+          "lib/screens/orientation/today_screen.dart:351"
+        ],
+        "kritiklik": "DUSUK"
+      },
+      {
+        "id": 9,
+        "baslik": "Announcements user_id Zorunlu",
+        "sorun": "GET /api/v1/announcements endpoint'i user_id query param zorunlu tutuyor",
+        "onerilen_fix": "Token'dan current_user ile otomatik filtre",
+        "kritiklik": "DUSUK"
+      },
+      {
+        "id": 10,
+        "baslik": "Admin Users Endpoint Eksik",
+        "sorun": "GET /api/v1/admin/users endpoint'i yok (404)",
+        "kritiklik": "DUSUK"
+      },
+      {
+        "id": 11,
+        "baslik": "drip_content_cards.status Kolonu Yok",
+        "sorun": "Tabloda status kolonu mevcut degil",
+        "kritiklik": "DUSUK"
+      }
+    ]
+  },
+  "guvenlik_detay": {
+    "puan": "10/10",
+    "testler": [
+      {"ad": "SQL Injection korunmasi", "sonuc": "PASS"},
+      {"ad": "IDOR korunmasi (cross-org)", "sonuc": "PASS"},
+      {"ad": "Rate limiting", "sonuc": "PASS", "detay": "4 denemede engel"},
+      {"ad": "XSS korunmasi", "sonuc": "PASS"},
+      {"ad": "Prompt injection korunmasi", "sonuc": "PASS"},
+      {"ad": "Path traversal korunmasi", "sonuc": "PASS"},
+      {"ad": "Stack trace sizintisi", "sonuc": "PASS", "detay": "Yok"},
+      {"ad": "Password hash sizintisi", "sonuc": "PASS", "detay": "Yok"},
+      {"ad": "Hassas header'lar", "sonuc": "PASS", "detay": "X-Powered-By yok"},
+      {"ad": ".env gitignore", "sonuc": "PASS"},
+      {"ad": "Network izolasyonu", "sonuc": "PASS", "detay": "DB/Redis/MinIO sadece 127.0.0.1"}
+    ]
+  }
+}

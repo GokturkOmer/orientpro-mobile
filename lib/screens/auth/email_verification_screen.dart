@@ -15,6 +15,13 @@ class EmailVerificationScreen extends ConsumerStatefulWidget {
 class _EmailVerificationScreenState extends ConsumerState<EmailVerificationScreen> {
   final _codeController = TextEditingController();
   final _dio = Dio(BaseOptions(baseUrl: ApiConfig.webUrl));
+  @override
+  void dispose() {
+    _codeController.dispose();
+    _dio.close();
+    super.dispose();
+  }
+
   bool _isLoading = false;
   bool _resending = false;
   String? _error;

@@ -27,21 +27,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       title: 'Egitim Rotalari',
       description: 'Departmaniniza ozel egitim rotalari ile\n'
           'adim adim ogrenme surecini takip edin.',
-      color: Color(0xFF4CAF50),
+      color: ScadaColors.green,
     ),
     _OnboardingPage(
       icon: Icons.quiz,
       title: 'Quiz & Degerlendirme',
       description: 'Ogrendiklerinizi quiz\'ler ile test edin.\n'
           'AI destekli sorularla bilginizi olcun.',
-      color: Color(0xFFFF9800),
+      color: ScadaColors.amber,
     ),
     _OnboardingPage(
       icon: Icons.emoji_events,
       title: 'Rozetler & Basarilar',
       description: 'Egitimlerinizi tamamladikca rozet kazanin.\n'
           'Liderlik tablosunda yerinizi goruntuleyin.',
-      color: Color(0xFF9C27B0),
+      color: ScadaColors.purple,
     ),
   ];
 

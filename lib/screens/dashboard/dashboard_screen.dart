@@ -175,9 +175,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, '/chatbot'),
-        backgroundColor: Colors.cyanAccent,
+        backgroundColor: ScadaColors.cyan,
         tooltip: 'AI Asistan',
-        child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
+        child: Icon(Icons.smart_toy, color: context.scada.bg),
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(

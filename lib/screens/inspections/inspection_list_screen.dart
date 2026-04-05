@@ -1,6 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/network/auth_dio.dart';
+import '../../core/theme/app_theme.dart';
 
 class InspectionListScreen extends ConsumerStatefulWidget {
   const InspectionListScreen({super.key});
@@ -69,9 +70,9 @@ class _InspectionListScreenState extends ConsumerState<InspectionListScreen> wit
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, '/chatbot'),
-        backgroundColor: Colors.cyanAccent,
+        backgroundColor: ScadaColors.cyan,
         tooltip: 'AI Asistan',
-        child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
+        child: Icon(Icons.smart_toy, color: context.scada.bg),
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -86,20 +87,20 @@ class _InspectionListScreenState extends ConsumerState<InspectionListScreen> wit
                     return Card(
                       child: ListTile(
                         leading: CircleAvatar(
-                          backgroundColor: const Color(0xFF1B5E20).withValues(alpha: 0.1),
-                          child: Icon(_freqIcon(t['frequency']), color: const Color(0xFF1B5E20)),
+                          backgroundColor: ScadaColors.green.withValues(alpha: 0.1),
+                          child: Icon(_freqIcon(t['frequency']), color: ScadaColors.green),
                         ),
                         title: Text(t['name'], style: const TextStyle(fontWeight: FontWeight.w600)),
                         subtitle: Row(children: [
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                            decoration: BoxDecoration(color: Colors.blue.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
-                            child: Text(_freqText(t['frequency']), style: const TextStyle(fontSize: 11, color: Colors.blue)),
+                            decoration: BoxDecoration(color: ScadaColors.cyan.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
+                            child: Text(_freqText(t['frequency']), style: const TextStyle(fontSize: 11, color: ScadaColors.cyan)),
                           ),
                           const SizedBox(width: 6),
-                          Text(t['target_system'] ?? t['target_zone'] ?? '', style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                          Text(t['target_system'] ?? t['target_zone'] ?? '', style: TextStyle(fontSize: 12, color: context.scada.textDim)),
                         ]),
-                        trailing: const Icon(Icons.play_circle, color: Color(0xFF1B5E20), size: 32),
+                        trailing: const Icon(Icons.play_circle, color: ScadaColors.green, size: 32),
                       ),
                     );
                   },
@@ -118,7 +119,7 @@ class _InspectionListScreenState extends ConsumerState<InspectionListScreen> wit
                             child: ListTile(
                               leading: Icon(
                                 ins['status'] == 'completed' ? Icons.check_circle : Icons.pending,
-                                color: ins['status'] == 'completed' ? Colors.green : Colors.orange,
+                                color: ins['status'] == 'completed' ? ScadaColors.green : ScadaColors.amber,
                                 size: 32,
                               ),
                               title: Text('Kontrol #'),

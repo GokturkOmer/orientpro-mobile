@@ -75,7 +75,12 @@ class _RoleManagementScreenState extends ConsumerState<RoleManagementScreen> {
       ),
     );
 
-    if (confirmed != true || nameCtrl.text.isEmpty || codeCtrl.text.isEmpty) return;
+    if (confirmed != true || nameCtrl.text.isEmpty || codeCtrl.text.isEmpty) {
+      nameCtrl.dispose();
+      codeCtrl.dispose();
+      descCtrl.dispose();
+      return;
+    }
 
     try {
       final dio = ref.read(authDioProvider);
@@ -92,6 +97,10 @@ class _RoleManagementScreenState extends ConsumerState<RoleManagementScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(ErrorHelper.getMessage(e)), backgroundColor: ScadaColors.red));
       }
+    } finally {
+      nameCtrl.dispose();
+      codeCtrl.dispose();
+      descCtrl.dispose();
     }
   }
 

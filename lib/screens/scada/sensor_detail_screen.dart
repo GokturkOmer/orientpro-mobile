@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../models/sensor.dart';
 import '../../providers/sensor_provider.dart';
+import '../../core/theme/app_theme.dart';
 
 class SensorDetailScreen extends ConsumerWidget {
   final int sensorId;
@@ -27,9 +28,9 @@ class SensorDetailScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, '/chatbot'),
-        backgroundColor: Colors.cyanAccent,
+        backgroundColor: ScadaColors.cyan,
         tooltip: 'AI Asistan',
-        child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
+        child: Icon(Icons.smart_toy, color: context.scada.bg),
       ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
@@ -76,15 +77,15 @@ class SensorDetailScreen extends ConsumerWidget {
     String statusText;
     switch (sensor.alarmStatus) {
       case 'alarm':
-        statusColor = Colors.red;
+        statusColor = ScadaColors.red;
         statusText = '🚨 ALARM';
         break;
       case 'warning':
-        statusColor = Colors.orange;
+        statusColor = ScadaColors.amber;
         statusText = '⚠️ UYARI';
         break;
       default:
-        statusColor = const Color(0xFF4CAF50);
+        statusColor = ScadaColors.green;
         statusText = '✅ Normal';
     }
 
@@ -97,7 +98,7 @@ class SensorDetailScreen extends ConsumerWidget {
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(children: [
-          Text(sensor.sensorName, style: const TextStyle(fontSize: 14, color: Colors.grey)),
+          Text(sensor.sensorName, style: const TextStyle(fontSize: 14, color: ScadaColors.textSecondary)),
           const SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -109,7 +110,7 @@ class SensorDetailScreen extends ConsumerWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8),
-                child: Text(' ${sensor.unit}', style: const TextStyle(fontSize: 20, color: Colors.grey)),
+                child: Text(' ${sensor.unit}', style: const TextStyle(fontSize: 20, color: ScadaColors.textSecondary)),
               ),
             ],
           ),
@@ -125,7 +126,7 @@ class SensorDetailScreen extends ConsumerWidget {
           const SizedBox(height: 8),
           Text(
             'Son güncelleme: ${_formatTime(sensor.timestamp)}',
-            style: const TextStyle(fontSize: 11, color: Colors.grey),
+            style: const TextStyle(fontSize: 11, color: ScadaColors.textDim),
           ),
         ]),
       ),
@@ -142,13 +143,13 @@ class SensorDetailScreen extends ConsumerWidget {
             const Text('Eşik Değerleri', style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 12),
             Row(children: [
-              if (def.alarmMin != null) _thresholdChip('Alt Alarm', def.alarmMin!, Colors.red),
-              if (def.warningMin != null) _thresholdChip('Alt Uyarı', def.warningMin!, Colors.orange),
-              if (def.warningMax != null) _thresholdChip('Üst Uyarı', def.warningMax!, Colors.orange),
-              if (def.alarmMax != null) _thresholdChip('Üst Alarm', def.alarmMax!, Colors.red),
+              if (def.alarmMin != null) _thresholdChip('Alt Alarm', def.alarmMin!, ScadaColors.red),
+              if (def.warningMin != null) _thresholdChip('Alt Uyarı', def.warningMin!, ScadaColors.amber),
+              if (def.warningMax != null) _thresholdChip('Üst Uyarı', def.warningMax!, ScadaColors.amber),
+              if (def.alarmMax != null) _thresholdChip('Üst Alarm', def.alarmMax!, ScadaColors.red),
             ]),
             if (def.alarmMin == null && def.warningMin == null && def.warningMax == null && def.alarmMax == null)
-              const Text('Eşik tanımlanmamış', style: TextStyle(color: Colors.grey, fontSize: 12)),
+              const Text('Eşik tanımlanmamış', style: TextStyle(color: ScadaColors.textDim, fontSize: 12)),
           ],
         ),
       ),
@@ -192,16 +193,16 @@ class SensorDetailScreen extends ConsumerWidget {
     // Threshold lines
     final extraLines = <HorizontalLine>[];
     if (def?.alarmMax != null) {
-      extraLines.add(HorizontalLine(y: def!.alarmMax!, color: Colors.red.withValues(alpha: 0.5), strokeWidth: 1, dashArray: [5, 5]));
+      extraLines.add(HorizontalLine(y: def!.alarmMax!, color: ScadaColors.red.withValues(alpha: 0.5), strokeWidth: 1, dashArray: [5, 5]));
     }
     if (def?.warningMax != null) {
-      extraLines.add(HorizontalLine(y: def!.warningMax!, color: Colors.orange.withValues(alpha: 0.5), strokeWidth: 1, dashArray: [5, 5]));
+      extraLines.add(HorizontalLine(y: def!.warningMax!, color: ScadaColors.amber.withValues(alpha: 0.5), strokeWidth: 1, dashArray: [5, 5]));
     }
     if (def?.alarmMin != null) {
-      extraLines.add(HorizontalLine(y: def!.alarmMin!, color: Colors.red.withValues(alpha: 0.5), strokeWidth: 1, dashArray: [5, 5]));
+      extraLines.add(HorizontalLine(y: def!.alarmMin!, color: ScadaColors.red.withValues(alpha: 0.5), strokeWidth: 1, dashArray: [5, 5]));
     }
     if (def?.warningMin != null) {
-      extraLines.add(HorizontalLine(y: def!.warningMin!, color: Colors.orange.withValues(alpha: 0.5), strokeWidth: 1, dashArray: [5, 5]));
+      extraLines.add(HorizontalLine(y: def!.warningMin!, color: ScadaColors.amber.withValues(alpha: 0.5), strokeWidth: 1, dashArray: [5, 5]));
     }
 
     return LineChart(
@@ -212,7 +213,7 @@ class SensorDetailScreen extends ConsumerWidget {
           show: true,
           drawVerticalLine: false,
           horizontalInterval: (maxY - minY) / 4,
-          getDrawingHorizontalLine: (v) => FlLine(color: Colors.grey.shade200, strokeWidth: 0.5),
+          getDrawingHorizontalLine: (v) => FlLine(color: ScadaColors.border, strokeWidth: 0.5),
         ),
         titlesData: FlTitlesData(
           rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
@@ -221,7 +222,7 @@ class SensorDetailScreen extends ConsumerWidget {
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 50,
-              getTitlesWidget: (v, meta) => Text(v.toStringAsFixed(1), style: const TextStyle(fontSize: 10, color: Colors.grey)),
+              getTitlesWidget: (v, meta) => Text(v.toStringAsFixed(1), style: const TextStyle(fontSize: 10, color: ScadaColors.textDim)),
             ),
           ),
           bottomTitles: AxisTitles(
@@ -230,7 +231,7 @@ class SensorDetailScreen extends ConsumerWidget {
               interval: spots.last.x / 4,
               getTitlesWidget: (v, meta) {
                 final time = startTime.add(Duration(seconds: v.toInt()));
-                return Text('${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}', style: const TextStyle(fontSize: 9, color: Colors.grey));
+                return Text('${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}', style: const TextStyle(fontSize: 9, color: ScadaColors.textDim));
               },
             ),
           ),
@@ -242,13 +243,13 @@ class SensorDetailScreen extends ConsumerWidget {
             spots: spots,
             isCurved: true,
             curveSmoothness: 0.2,
-            color: const Color(0xFF1B5E20),
+            color: ScadaColors.green,
             barWidth: 2,
             isStrokeCapRound: true,
             dotData: const FlDotData(show: false),
             belowBarData: BarAreaData(
               show: true,
-              color: const Color(0xFF1B5E20).withValues(alpha: 0.08),
+              color: ScadaColors.green.withValues(alpha: 0.08),
             ),
           ),
         ],
@@ -259,7 +260,7 @@ class SensorDetailScreen extends ConsumerWidget {
                 final time = startTime.add(Duration(seconds: spot.x.toInt()));
                 return LineTooltipItem(
                   '${spot.y.toStringAsFixed(2)}\n${time.hour}:${time.minute.toString().padLeft(2, '0')}:${time.second.toString().padLeft(2, '0')}',
-                  const TextStyle(color: Colors.white, fontSize: 12),
+                  const TextStyle(color: ScadaColors.textPrimary, fontSize: 12),
                 );
               }).toList();
             },

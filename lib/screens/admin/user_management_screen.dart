@@ -261,7 +261,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
           ]),
         );
       },
-    );
+    ).then((_) => limitCtrl.dispose());
   }
 
   Color _getRoleColor(String role) {
@@ -473,7 +473,12 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
           );
         });
       },
-    );
+    ).then((_) {
+      nameCtrl.dispose();
+      emailCtrl.dispose();
+      passwordCtrl.dispose();
+      phoneCtrl.dispose();
+    });
   }
 
   Widget _buildFormField({

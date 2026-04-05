@@ -34,12 +34,12 @@ class _SuperAdminDashboardScreenState extends ConsumerState<SuperAdminDashboardS
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) { return const Center(child: CircularProgressIndicator(color: Color(0xFFE53935))); }
+    if (_isLoading) { return const Center(child: CircularProgressIndicator(color: ScadaColors.red)); }
     if (_error != null) {
       return Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-        const Icon(Icons.error_outline, color: Colors.red, size: 48),
+        const Icon(Icons.error_outline, color: ScadaColors.red, size: 48),
         const SizedBox(height: 12),
-        Text(_error!, style: const TextStyle(color: Colors.red)),
+        Text(_error!, style: const TextStyle(color: ScadaColors.red)),
         const SizedBox(height: 12),
         ElevatedButton(onPressed: _load, child: const Text('Tekrar Dene')),
       ]));
@@ -49,7 +49,7 @@ class _SuperAdminDashboardScreenState extends ConsumerState<SuperAdminDashboardS
     final churnRisk = (_data?['churn_risk'] as List?) ?? [];
 
     return RefreshIndicator(
-      color: const Color(0xFFE53935),
+      color: ScadaColors.red,
       onRefresh: _load,
       child: ListView(
         padding: const EdgeInsets.all(16),
@@ -58,18 +58,18 @@ class _SuperAdminDashboardScreenState extends ConsumerState<SuperAdminDashboardS
           _SectionTitle('Platform Ozeti'),
           const SizedBox(height: 12),
           Row(children: [
-            Expanded(child: _MetricCard('Toplam Musteri', '${summary['total_organizations'] ?? 0}', Icons.business, const Color(0xFFE53935))),
+            Expanded(child: _MetricCard('Toplam Musteri', '${summary['total_organizations'] ?? 0}', Icons.business, ScadaColors.red)),
             const SizedBox(width: 10),
-            Expanded(child: _MetricCard('Aktif', '${summary['active_organizations'] ?? 0}', Icons.check_circle_outline, Colors.green)),
+            Expanded(child: _MetricCard('Aktif', '${summary['active_organizations'] ?? 0}', Icons.check_circle_outline, ScadaColors.green)),
           ]),
           const SizedBox(height: 10),
           Row(children: [
-            Expanded(child: _MetricCard('Trial', '${summary['trial_organizations'] ?? 0}', Icons.access_time, Colors.orange)),
+            Expanded(child: _MetricCard('Trial', '${summary['trial_organizations'] ?? 0}', Icons.access_time, ScadaColors.amber)),
             const SizedBox(width: 10),
-            Expanded(child: _MetricCard('Toplam Kullanici', '${summary['total_users'] ?? 0}', Icons.people_outline, Colors.blue)),
+            Expanded(child: _MetricCard('Toplam Kullanici', '${summary['total_users'] ?? 0}', Icons.people_outline, ScadaColors.cyan)),
           ]),
           const SizedBox(height: 10),
-          _MetricCard('Bu Ay Yeni Musteri', '${summary['new_organizations_30d'] ?? 0}', Icons.trending_up, Colors.purple),
+          _MetricCard('Bu Ay Yeni Musteri', '${summary['new_organizations_30d'] ?? 0}', Icons.trending_up, ScadaColors.purple),
 
           // Churn riski
           if (churnRisk.isNotEmpty) ...[
@@ -137,10 +137,10 @@ class _ChurnCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: context.scada.surface,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.red.withValues(alpha: 0.3)),
+        border: Border.all(color: ScadaColors.red.withValues(alpha: 0.3)),
       ),
       child: Row(children: [
-        const Icon(Icons.warning_amber_rounded, color: Colors.red, size: 20),
+        const Icon(Icons.warning_amber_rounded, color: ScadaColors.red, size: 20),
         const SizedBox(width: 10),
         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(org['name'] ?? '', style: TextStyle(fontWeight: FontWeight.w600, color: context.scada.textPrimary, fontSize: 13)),

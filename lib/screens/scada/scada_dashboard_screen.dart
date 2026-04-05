@@ -8,11 +8,11 @@ class ScadaDashboardScreen extends ConsumerWidget {
   const ScadaDashboardScreen({super.key});
 
   static const Map<int, UnitInfo> unitInfo = {
-    1: UnitInfo('KAZAN DAIRESI', Icons.local_fire_department, Color(0xFFe74c3c)),
-    2: UnitInfo('CHILLER', Icons.ac_unit, Color(0xFF3498db)),
-    3: UnitInfo('AHU SISTEMI', Icons.air, Color(0xFF2ecc71)),
-    4: UnitInfo('POMPA GRUBU', Icons.water_drop, Color(0xFF9b59b6)),
-    5: UnitInfo('ENERJI ANALIZORU', Icons.bolt, Color(0xFFf39c12)),
+    1: UnitInfo('KAZAN DAIRESI', Icons.local_fire_department, ScadaColors.red),
+    2: UnitInfo('CHILLER', Icons.ac_unit, ScadaColors.cyan),
+    3: UnitInfo('AHU SISTEMI', Icons.air, ScadaColors.green),
+    4: UnitInfo('POMPA GRUBU', Icons.water_drop, ScadaColors.purple),
+    5: UnitInfo('ENERJI ANALIZORU', Icons.bolt, ScadaColors.amber),
   };
 
   @override
@@ -58,9 +58,9 @@ class ScadaDashboardScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, '/chatbot'),
-        backgroundColor: Colors.cyanAccent,
+        backgroundColor: ScadaColors.cyan,
         tooltip: 'AI Asistan',
-        child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
+        child: Icon(Icons.smart_toy, color: context.scada.bg),
       ),
       body: RefreshIndicator(
         color: ScadaColors.cyan,

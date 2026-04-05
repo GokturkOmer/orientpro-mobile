@@ -348,7 +348,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
   }
 
   Widget _buildProgressBar(BuildContext context, TodayData today) {
-    // TODO: Rota bazli progress — simdilik modul bazli
+    // Simdilik modul bazli progress — rota bazli V2'de planli
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(

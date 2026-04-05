@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/sensor.dart';
 import '../../providers/sensor_provider.dart';
+import '../../core/theme/app_theme.dart';
 
 class AlarmListScreen extends ConsumerWidget {
   const AlarmListScreen({super.key});
@@ -26,9 +27,9 @@ class AlarmListScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, '/chatbot'),
-        backgroundColor: Colors.cyanAccent,
+        backgroundColor: ScadaColors.cyan,
         tooltip: 'AI Asistan',
-        child: const Icon(Icons.smart_toy, color: Color(0xFF0a0e1a)),
+        child: Icon(Icons.smart_toy, color: context.scada.bg),
       ),
       body: Column(
         children: [
@@ -38,13 +39,13 @@ class AlarmListScreen extends ConsumerWidget {
             error: (_, _) => const SizedBox.shrink(),
             data: (stats) => Container(
               padding: const EdgeInsets.all(16),
-              color: Colors.grey.shade50,
+              color: context.scada.surface,
               child: Row(children: [
-                _statBadge('Aktif', stats.totalActive, Colors.red),
+                _statBadge('Aktif', stats.totalActive, ScadaColors.red),
                 const SizedBox(width: 8),
-                _statBadge('Onaylanmış', stats.totalAcknowledged, Colors.orange),
+                _statBadge('Onaylanmış', stats.totalAcknowledged, ScadaColors.amber),
                 const SizedBox(width: 8),
-                _statBadge('Bugün Temizlenen', stats.totalClearedToday, Colors.green),
+                _statBadge('Bugün Temizlenen', stats.totalClearedToday, ScadaColors.green),
               ]),
             ),
           ),
@@ -60,10 +61,10 @@ class AlarmListScreen extends ConsumerWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.check_circle_outline, size: 64, color: Colors.green.shade300),
+                        const Icon(Icons.check_circle_outline, size: 64, color: ScadaColors.green),
                         const SizedBox(height: 12),
-                        const Text('Aktif alarm yok', style: TextStyle(fontSize: 16, color: Colors.grey)),
-                        const Text('Tüm sistemler normal çalışıyor', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                        Text('Aktif alarm yok', style: TextStyle(fontSize: 16, color: context.scada.textDim)),
+                        Text('Tüm sistemler normal çalışıyor', style: TextStyle(fontSize: 12, color: context.scada.textDim)),
                       ],
                     ),
                   );
@@ -104,31 +105,31 @@ class AlarmListScreen extends ConsumerWidget {
     IconData severityIcon;
     switch (alarm.severity) {
       case 'critical':
-        severityColor = Colors.red;
+        severityColor = ScadaColors.red;
         severityIcon = Icons.error;
         break;
       case 'warning':
-        severityColor = Colors.orange;
+        severityColor = ScadaColors.amber;
         severityIcon = Icons.warning;
         break;
       default:
-        severityColor = Colors.blue;
+        severityColor = ScadaColors.cyan;
         severityIcon = Icons.info;
     }
 
     Color statusColor;
     switch (alarm.status) {
       case 'active':
-        statusColor = Colors.red;
+        statusColor = ScadaColors.red;
         break;
       case 'acknowledged':
-        statusColor = Colors.orange;
+        statusColor = ScadaColors.amber;
         break;
       case 'cleared':
-        statusColor = Colors.green;
+        statusColor = ScadaColors.green;
         break;
       default:
-        statusColor = Colors.grey;
+        statusColor = ScadaColors.textDim;
     }
 
     return Card(
@@ -175,14 +176,14 @@ class AlarmListScreen extends ConsumerWidget {
                         child: Text(alarm.severity.toUpperCase(), style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: severityColor)),
                       ),
                       const Spacer(),
-                      Text(_timeAgo(alarm.triggeredAt), style: const TextStyle(fontSize: 10, color: Colors.grey)),
+                      Text(_timeAgo(alarm.triggeredAt), style: TextStyle(fontSize: 10, color: context.scada.textDim)),
                     ]),
                   ],
                 ),
               ),
               if (alarm.status == 'active')
                 IconButton(
-                  icon: const Icon(Icons.check_circle_outline, color: Colors.green),
+                  icon: const Icon(Icons.check_circle_outline, color: ScadaColors.green),
                   tooltip: 'Onayla',
                   onPressed: () {
                     ref.read(activeAlarmsProvider.notifier).acknowledge(alarm.id, 'system');

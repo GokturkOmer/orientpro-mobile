@@ -105,7 +105,7 @@ class ModuleSelectionScreen extends ConsumerWidget {
                               title: 'Platform',
                               subtitle: 'Super Admin',
                               icon: Icons.shield_outlined,
-                              color: const Color(0xFFE53935),
+                              color: ScadaColors.red,
                               onTap: () => Navigator.pushNamed(context, '/super-admin'),
                             ),
                           ),
